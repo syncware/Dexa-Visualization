@@ -1,0 +1,75 @@
+#pragma once
+
+#include <napi.h>
+#include <thread>
+#include <iostream>
+#include <fstream>
+#include <stdio.h>
+#include <string>
+#include <vector>
+#include <iomanip>
+#include <time.h>
+#include <functional>
+#include <tuple>
+#include "../../MathematicsLibrary/MainSimplex.h"
+#include "../../MathematicsLibrary/Integration.h"
+#include "../ProductionForecast/Inputdeck.h"
+#include "../ProductionForecast/Forecast.h"
+#include "../ProductionForecast/DateCreation.h"
+#include "../ProductionForecast/CalculateDeckVariables.h"
+#include "../ProductionForecast/dataPivoting.h"
+#include "../../MathematicsLibrary/Interception.h"
+#include "../ProductionForecast/ExternalForecast.h"
+#include "../JsonMapping/deck.h"
+
+using namespace std;
+using namespace std::placeholders;
+
+class RunForecastAsyncWorker : public Napi::AsyncWorker 
+{
+    Inputdeck deckobj;
+
+    //Napi::Array wellDeckList; 
+
+    public:
+        RunForecastAsyncWorker(Napi::Object& wrappedInstance, Napi::Function callback)
+            : AsyncWorker(callback)
+        {
+           
+           Receiver().Set("wrappedInstance", wrappedInstance);
+           
+        }
+
+    protected:
+        void Execute() override {
+
+            
+        }
+
+    private:
+        void OnOK() override {
+            string msg = "runForecastAsync returning after 'working' ";
+            Napi::Env env = Env();
+            Napi::HandleScope scope(env);
+            Napi::Value value = Receiver().Get("wrappedInstance");
+            Napi::Object wrappedInstance = value.As<Napi::Object>();
+            
+            std::cout << msg << "\n";
+
+            Napi::Array wrappedDecks = (wrappedInstance.Get(Napi::String::New(env, "decks"))).As<Napi::Array>();
+            Napi::Number nWrappedDecks = (wrappedInstance.Get(Napi::String::New(env, "nDecks"))).As<Napi::Number>();
+            std::cout << "nWrappedDecks: " << (int)nWrappedDecks << "\n";
+
+            Napi::Object wrappedTypeOfPrioritization = (wrappedInstance.Get(Napi::String::New(env, "prioritization"))).As<Napi::Object>();
+            Napi::Array wrappedProdPrioritization = (wrappedInstance.Get(Napi::String::New(env, "productionPrioritization"))).As<Napi::Array>();
+            Napi::Number nWrappedProdPrioritization = (wrappedInstance.Get(Napi::String::New(env, "nProductionPrioritization"))).As<Napi::Number>();
+            std::cout << "nWrappedProdPrioritization: " << (int)nWrappedProdPrioritization << "\n";
+
+            deckobj.inputdecks = from_napi(wrappedDecks,
+            wrappedProdPrioritization, (int)nWrappedDecks, (int)nWrappedProdPrioritization, env);
+            
+                Callback().MakeCallback(Receiver().Value(), std::initializer_list<napi_value>{
+                    env.Null(), wrappedDecks
+                });
+        }
+};
