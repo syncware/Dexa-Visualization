@@ -28268,39 +28268,16 @@
       "startMonth": 1,
       "startYear": 2024
     },
-    "productionPrioritization": [
-      {
-        "optimizationWeight": "normal"
-      }
-    ],
+    "productionPrioritization": [],
     "prioritization": {
       "typeOfPrioritization": "noPrioritization",
       "methodOfPrioritization": "sequential",
       "targetFluid": "oil",
-      "parameterNamesWeights": [
-        {
-          "parameterName": "Param A",
-          "parameterWeight": 0
-        }
-      ],
+      "parameterNamesWeights": [],
       "nParameterNamesWeights": 0,
       "typeOfStream": "None"
     },
-    "nodalPriotizations": [
-      {
-        "productionEquipment": "Equipment A",
-        "typeOfPrioritization": "oil",
-        "methodOfPrioritization": "Method 1",
-        "targetFluid": "oil",
-        "parameterNamesWeights": [
-          {
-            "parameterName": "Param A",
-            "parameterWeight": 0
-          }
-        ],
-        "nParameterNamesWeights": 0
-      }
-    ],
+    "nodalPriotizations": [],
     "nNodalPriotizations": 0,
     "forecastProfiles": [],
     "isForecastProfiles": "internal",
@@ -41832,17 +41809,11 @@
     ],
     "nFlaredGases": 84,
     "forecastSolutionSpaces": [
-      "potential",
-      "deliverability",
-      "availability",
-      "offtake"
+      "potential"
     ],
     "nForecastSolutionSpaces": 4,
     "forecastSolutionSpacesIsDURConstrained": [
-      false,
-      false,
-      false,
-      true
+      false
     ],
     "nForecastSolutionSpacesIsDURConstrained": 4
   }

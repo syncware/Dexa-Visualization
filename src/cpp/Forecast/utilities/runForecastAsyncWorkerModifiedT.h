@@ -208,13 +208,11 @@ json RunForecastAsyncWorkerModifiedTest::RunForecast(const json& jsonData){
             for(i = 1;  i < scenarios; i++){
                 scenario = i;
                 vector<string> Facilities = deckobj.GetFacilities(deckobj.inputdecks, ndecks, dateCreation.dateTimes, scenario);
-                std::cout << "GetFacilities completed\n";
         
                 vector<vector<vector<InputDeckStruct>>> FacilitiesObj = 
                 deckobj.GetModulesByFacility(Facilities, deckobj.inputdecks, ndecks,
                 deckobj.wellRerouteDecks, dateCreation.dateTimes, scenario,
                 wellSchedules, priotizations);
-                std::cout << "GetModulesByFacility completed\n";
 
                 vector<vector<Priotization>> priotizationsFacilities = deckobj.priotizationsFacilities;
 

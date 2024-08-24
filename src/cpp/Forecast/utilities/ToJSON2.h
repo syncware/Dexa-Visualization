@@ -97,11 +97,7 @@ class ReportJSON2
 		vector<vector<FacilityWellsIndicies>>& facilityWellsIndicies, 
 		vector<Date>& dateTimes, int& facilityIndex, int& wellIndex,
 		string& wellName, string& facilityName);
-        string ReportJSON2::GetForecastOutput(int& scenario,
-        vector<vector<FacilityWellsIndicies>>& facilityWellsIndicies, 
-        vector<Date>& dateTimes, int& facilityIndex, int& wellIndex,
-        string& wellName, string& facilityName);
-        map<string, map<string, map<string, string>>> ReportJSON2::GetForecastOutputAllFacilities(int& scenario,
+        map<string, map<string, map<string, string>>> GetForecastOutputAllFacilities(int& scenario,
         vector<vector<FacilityWellsIndicies>>& facilityWellsIndicies, 
         vector<Date>& dateTimes);
 
@@ -707,27 +703,6 @@ FacilityStructExternal ReportJSON2::GetSelectedEquipmentCapacityByDate(vector<Fa
 			return selectedCapacities;
 		}
 
-	}
-
-	return selectedCapacities;
-}
-
-FacilityStructExternal ReportJSON2::GetMinimumSelectedEquipmentsCapacityByDate(vector<FacilityStructExternal> &equipmentCapacities, vector<string> &selectedEquipments, Date date)
-{
-	int i = 0, n = selectedEquipments.size();
-	FacilityStructExternal selectedCapacities;
-	double zero = 0.0000001;
-
-	for (i = 0; i < n; i++)
-	{
-		selectedCapacities = GetSelectedEquipmentCapacityByDate(equipmentCapacities, selectedEquipments[i], date);
-		if (selectedCapacities.Gas_Capacity1P > zero ||
-			selectedCapacities.Liquid_Capacity1P > zero ||
-			selectedCapacities.AG_Capacity1P > zero ||
-			selectedCapacities.NAG_Capacity1P > zero)
-		{
-			break;
-		}
 	}
 
 	return selectedCapacities;
