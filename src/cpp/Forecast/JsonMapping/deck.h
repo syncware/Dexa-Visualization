@@ -35,69 +35,81 @@ struct MyStruct {
 
 void from_json(const json& j, InputDeckStruct& deck) {
    
-    j.at("forecastVersion").get_to(deck.Version_Name);
-    j.at("asset").get_to(deck.Asset_Team);
-    j.at("field").get_to(deck.Field);  
-    j.at("reservoir").get_to(deck.Reservoir);
-    j.at("drainagePoint").get_to(deck.Drainage_Point);
-    j.at("string").get_to(deck.Production_String);
-    j.at("module").get_to(deck.Module);
-    j.at("projectCode").get_to(deck.PEEP_Project);
-    j.at("projectName").get_to(deck.Activity_Entity);
-    j.at("facilities").get_to(deck.Flow_station);
-    j.at("hydrocarbonStream").get_to(deck.Hydrocarbon_Stream);
-    inputdeck.ToLower(deck.Hydrocarbon_Stream);
-    j.at("hydrocarbonType").get_to(deck.hydrocarbonType);
-    inputdeck.ToLower(deck.hydrocarbonType);
-    j.at("terminal").get_to(deck.terminal);
-	inputdeck.ToLower(deck.terminal);
-    j.at("resourceClass").get_to(deck.Resource_Class);
-    inputdeck.ToLower(deck.Resource_Class);
-    j.at("oilUR1P1C").get_to(deck.URo_1P_1C);
-    j.at("oilUR2P2C").get_to(deck.URo_2P_2C);
-    j.at("oilUR3P3C").get_to(deck.URo_3P_3C);
-    j.at("Np").get_to(deck.Np);
-    j.at("gasUR1P1C").get_to(deck.URg_1P_1C);
-    j.at("gasUR2P2C").get_to(deck.URg_2P_2C);
-    j.at("gasUR3P3C").get_to(deck.URg_3P_3C);
-    j.at("Gp").get_to(deck.Gp);
-    j.at("initOilGasRate1P1C").get_to(deck.Init_Liquid_Gas_Rate_1P_1C);
-    j.at("initOilGasRate2P2C").get_to(deck.Init_Liquid_Gas_Rate_2P_2C);
-    j.at("initOilGasRate3P3C").get_to(deck.Init_Liquid_Gas_Rate_3P_3C);
-    j.at("abandOilGasRate1P1C").get_to(deck.Aband_Liquid_Gas_Rate_1P_1C);
-    j.at("abandOilGasRate2P2C").get_to(deck.Aband_Liquid_Gas_Rate_2P_2C);
-    j.at("abandOilGasRate3P3C").get_to(deck.Aband_Liquid_Gas_Rate_3P_3C);
-    j.at("initBSWWGR").get_to(deck.Init_BSW_WGR);
+    if (j.contains("forecastVersion")) j.at("forecastVersion").get_to(deck.Version_Name);
+    if (j.contains("asset")) j.at("asset").get_to(deck.Asset_Team);
+    if (j.contains("field")) j.at("field").get_to(deck.Field);  
+    if (j.contains("reservoir")) j.at("reservoir").get_to(deck.Reservoir);
+    if (j.contains("drainagePoint")) j.at("drainagePoint").get_to(deck.Drainage_Point);
+    if (j.contains("string")) j.at("string").get_to(deck.Production_String);
+    if (j.contains("module")) j.at("module").get_to(deck.Module);
+    if (j.contains("projectCode")) j.at("projectCode").get_to(deck.PEEP_Project);
+    if (j.contains("projectName")) j.at("projectName").get_to(deck.Activity_Entity);
+    if (j.contains("facilities")) j.at("facilities").get_to(deck.Flow_station);
+    if (j.contains("hydrocarbonStream")) {
+		j.at("hydrocarbonStream").get_to(deck.Hydrocarbon_Stream);
+		inputdeck.ToLower(deck.Hydrocarbon_Stream);
+	}
+    
+    if (j.contains("hydrocarbonType")) {
+		j.at("hydrocarbonType").get_to(deck.hydrocarbonType);
+		inputdeck.ToLower(deck.hydrocarbonType);
+	}
+    
+    if (j.contains("terminal")) {
+		j.at("terminal").get_to(deck.terminal);
+		inputdeck.ToLower(deck.terminal);
+	}
+	
+    if (j.contains("resourceClass")) {
+		j.at("resourceClass").get_to(deck.Resource_Class);
+		inputdeck.ToLower(deck.Resource_Class);
+	}
+    
+    if (j.contains("oilUR1P1C")) j.at("oilUR1P1C").get_to(deck.URo_1P_1C);
+    if (j.contains("oilUR2P2C")) j.at("oilUR2P2C").get_to(deck.URo_2P_2C);
+    if (j.contains("oilUR3P3C")) j.at("oilUR3P3C").get_to(deck.URo_3P_3C);
+    if (j.contains("Np")) j.at("Np").get_to(deck.Np);
+    if (j.contains("gasUR1P1C")) j.at("gasUR1P1C").get_to(deck.URg_1P_1C);
+    if (j.contains("gasUR2P2C")) j.at("gasUR2P2C").get_to(deck.URg_2P_2C);
+    if (j.contains("gasUR3P3C")) j.at("gasUR3P3C").get_to(deck.URg_3P_3C);
+    if (j.contains("Gp")) j.at("Gp").get_to(deck.Gp);
+    if (j.contains("initOilGasRate1P1C")) j.at("initOilGasRate1P1C").get_to(deck.Init_Liquid_Gas_Rate_1P_1C);
+    if (j.contains("initOilGasRate2P2C")) j.at("initOilGasRate2P2C").get_to(deck.Init_Liquid_Gas_Rate_2P_2C);
+    if (j.contains("initOilGasRate3P3C")) j.at("initOilGasRate3P3C").get_to(deck.Init_Liquid_Gas_Rate_3P_3C);
+    if (j.contains("abandOilGasRate1P1C")) j.at("abandOilGasRate1P1C").get_to(deck.Aband_Liquid_Gas_Rate_1P_1C);
+    if (j.contains("abandOilGasRate2P2C")) j.at("abandOilGasRate2P2C").get_to(deck.Aband_Liquid_Gas_Rate_2P_2C);
+    if (j.contains("abandOilGasRate3P3C")) j.at("abandOilGasRate3P3C").get_to(deck.Aband_Liquid_Gas_Rate_3P_3C);
+    if (j.contains("initBSWWGR")) j.at("initBSWWGR").get_to(deck.Init_BSW_WGR);
 	if (deck.Init_BSW_WGR == 0) deck.Init_BSW_WGR = 0.00000001;
-    j.at("abandBSWWGR1P1C").get_to(deck.Aband_BSW_WGR_1P_1C);
-    j.at("abandBSWWGR2P2C").get_to(deck.Aband_BSW_WGR_2P_2C);
-    j.at("abandBSWWGR3P3C").get_to(deck.Aband_BSW_WGR_3P_3C);
-    j.at("initGORCGR").get_to(deck.Init_GOR_CGR);
+    if (j.contains("abandBSWWGR1P1C")) j.at("abandBSWWGR1P1C").get_to(deck.Aband_BSW_WGR_1P_1C);
+    if (j.contains("abandBSWWGR2P2C")) j.at("abandBSWWGR2P2C").get_to(deck.Aband_BSW_WGR_2P_2C);
+    if (j.contains("abandBSWWGR3P3C")) j.at("abandBSWWGR3P3C").get_to(deck.Aband_BSW_WGR_3P_3C);
+    if (j.contains("initGORCGR")) j.at("initGORCGR").get_to(deck.Init_GOR_CGR);
     if (deck.Init_GOR_CGR == 0) deck.Init_GOR_CGR = 0.00000001;
-    j.at("abandGORCGR1P1C").get_to(deck.Aband_GOR_CGR_1P_1C);
-    j.at("abandGORCGR2P2C").get_to(deck.Aband_GOR_CGR_2P_2C);
-    j.at("abandGORCGR3P3C").get_to(deck.Aband_GOR_CGR_3P_3C);
-    j.at("plateauPeriod").get_to(deck.Plateau_Oil_Gas);
+    if (j.contains("abandGORCGR1P1C")) j.at("abandGORCGR1P1C").get_to(deck.Aband_GOR_CGR_1P_1C);
+    if (j.contains("abandGORCGR2P2C")) j.at("abandGORCGR2P2C").get_to(deck.Aband_GOR_CGR_2P_2C);
+    if (j.contains("abandGORCGR3P3C")) j.at("abandGORCGR3P3C").get_to(deck.Aband_GOR_CGR_3P_3C);
+    if (j.contains("plateauPeriod")) j.at("plateauPeriod").get_to(deck.Plateau_Oil_Gas);
     deck.optimizationWeight2 = "normal";
-    j.at("onStreamDate1P1C").get_to(deck.On_stream_Date_1P_1C);
-    j.at("onStreamDate2P2C").get_to(deck.On_stream_Date_2P_2C);
-    j.at("onStreamDate3P3C").get_to(deck.On_stream_Date_3P_3C);
-    j.at("remarks").get_to(deck.Remarks);
-    j.at("developmentTranche").get_to(deck.TRANCHE);
-    j.at("rateofChangeRate1P1C").get_to(deck.Rate_of_Change_Rate_1P_1C);
-    j.at("rateofChangeRate2P2C").get_to(deck.Rate_of_Change_Rate_2P_2C);
-    j.at("rateofChangeRate3P3C").get_to(deck.Rate_of_Change_Rate_3P_3C);
-    j.at("declineExponent1P1C").get_to(deck.DeclineExponent_1P_1C);
-    j.at("declineExponent2P2C").get_to(deck.DeclineExponent_2P_2C);
-    j.at("declineExponent3P3C").get_to(deck.DeclineExponent_3P_3C);
-    j.at("rateOfChangeGORCGR1P1C").get_to(deck.Rate_Of_Rate_GOR_CGR_1P1C);
-    j.at("rateOfChangeGORCGR2P2C").get_to(deck.Rate_Of_Rate_GOR_CGR_2P2C);
-    j.at("rateOfChangeGORCGR3P3C").get_to(deck.Rate_Of_Rate_GOR_CGR_3P3C);
-    j.at("rateOfChangeBSWWGR1P1C").get_to(deck.Rate_Of_Rate_BSW_WGR_1P1C);
-    j.at("rateOfChangeBSWWGR2P2C").get_to(deck.Rate_Of_Rate_BSW_WGR_2P2C);
-    j.at("rateOfChangeBSWWGR3P3C").get_to(deck.Rate_Of_Rate_BSW_WGR_3P3C);
+    if (j.contains("onStreamDate1P1C")) j.at("onStreamDate1P1C").get_to(deck.On_stream_Date_1P_1C);
+    if (j.contains("onStreamDate2P2C")) j.at("onStreamDate2P2C").get_to(deck.On_stream_Date_2P_2C);
+    if (j.contains("onStreamDate3P3C")) j.at("onStreamDate3P3C").get_to(deck.On_stream_Date_3P_3C);
+    if (j.contains("remarks")) j.at("remarks").get_to(deck.Remarks);
+    if (j.contains("developmentTranche")) j.at("developmentTranche").get_to(deck.TRANCHE);
+    if (j.contains("rateofChangeRate1P1C")) j.at("rateofChangeRate1P1C").get_to(deck.Rate_of_Change_Rate_1P_1C);
+    if (j.contains("rateofChangeRate2P2C")) j.at("rateofChangeRate2P2C").get_to(deck.Rate_of_Change_Rate_2P_2C);
+    if (j.contains("rateofChangeRate3P3C")) j.at("rateofChangeRate3P3C").get_to(deck.Rate_of_Change_Rate_3P_3C);
+    if (j.contains("declineExponent1P1C")) j.at("declineExponent1P1C").get_to(deck.DeclineExponent_1P_1C);
+    if (j.contains("declineExponent2P2C")) j.at("declineExponent2P2C").get_to(deck.DeclineExponent_2P_2C);
+    if (j.contains("declineExponent3P3C")) j.at("declineExponent3P3C").get_to(deck.DeclineExponent_3P_3C);
+    if (j.contains("rateOfChangeGORCGR1P1C")) j.at("rateOfChangeGORCGR1P1C").get_to(deck.Rate_Of_Rate_GOR_CGR_1P1C);
+    if (j.contains("rateOfChangeGORCGR2P2C")) j.at("rateOfChangeGORCGR2P2C").get_to(deck.Rate_Of_Rate_GOR_CGR_2P2C);
+    if (j.contains("rateOfChangeGORCGR3P3C")) j.at("rateOfChangeGORCGR3P3C").get_to(deck.Rate_Of_Rate_GOR_CGR_3P3C);
+    if (j.contains("rateOfChangeBSWWGR1P1C")) j.at("rateOfChangeBSWWGR1P1C").get_to(deck.Rate_Of_Rate_BSW_WGR_1P1C);
+    if (j.contains("rateOfChangeBSWWGR2P2C")) j.at("rateOfChangeBSWWGR2P2C").get_to(deck.Rate_Of_Rate_BSW_WGR_2P2C);
+    if (j.contains("rateOfChangeBSWWGR3P3C")) j.at("rateOfChangeBSWWGR3P3C").get_to(deck.Rate_Of_Rate_BSW_WGR_3P3C);
     string DeclineMethod;
-    j.at("declineMethod").get_to(DeclineMethod);
+    if (j.contains("declineMethod")) j.at("declineMethod").get_to(DeclineMethod);
     inputdeck.ToLower(DeclineMethod);
 
 		if(DeclineMethod == "exponential")
@@ -113,18 +125,18 @@ void from_json(const json& j, InputDeckStruct& deck) {
 			deck.DeclineMethod = 3;
 		}
 
-    j.at("day1P1C").get_to(deck.day_1P_1C);
-    j.at("day2P2C").get_to(deck.day_2P_2C);
-    j.at("day3P3C").get_to(deck.day_3P_3C);
-    j.at("month1P1C").get_to(deck.month_1P_1C);
-    j.at("month2P2C").get_to(deck.month_2P_2C);
-    j.at("month3P3C").get_to(deck.month_3P_3C);
-    j.at("year1P1C").get_to(deck.year_1P_1C);
-    j.at("year2P2C").get_to(deck.year_2P_2C);
-    j.at("year3P3C").get_to(deck.year_3P_3C);
-    j.at("plateauUR1P1C").get_to(deck.PlateauUR_1P_1C);
-    j.at("plateauUR2P2C").get_to(deck.PlateauUR_2P_2C);
-    j.at("plateauUR3P3C").get_to(deck.PlateauUR_3P_3C);
+    if (j.contains("day1P1C")) j.at("day1P1C").get_to(deck.day_1P_1C);
+    if (j.contains("day2P2C")) j.at("day2P2C").get_to(deck.day_2P_2C);
+    if (j.contains("day3P3C")) j.at("day3P3C").get_to(deck.day_3P_3C);
+    if (j.contains("month1P1C")) j.at("month1P1C").get_to(deck.month_1P_1C);
+    if (j.contains("month2P2C")) j.at("month2P2C").get_to(deck.month_2P_2C);
+    if (j.contains("month3P3C")) j.at("month3P3C").get_to(deck.month_3P_3C);
+    if (j.contains("year1P1C")) j.at("year1P1C").get_to(deck.year_1P_1C);
+    if (j.contains("year2P2C")) j.at("year2P2C").get_to(deck.year_2P_2C);
+    if (j.contains("year3P3C")) j.at("year3P3C").get_to(deck.year_3P_3C);
+    if (j.contains("plateauUR1P1C")) j.at("plateauUR1P1C").get_to(deck.PlateauUR_1P_1C);
+    if (j.contains("plateauUR2P2C")) j.at("plateauUR2P2C").get_to(deck.PlateauUR_2P_2C);
+    if (j.contains("plateauUR3P3C")) j.at("plateauUR3P3C").get_to(deck.PlateauUR_3P_3C);
 
     deck.Date_1P_1C.day = deck.day_1P_1C;
     deck.Date_1P_1C.month = deck.month_1P_1C; 
@@ -135,14 +147,9 @@ void from_json(const json& j, InputDeckStruct& deck) {
     deck.Date_3P_3C.day = deck.day_3P_3C; 
     deck.Date_3P_3C.month = deck.month_3P_3C; 
     deck.Date_3P_3C.year = deck.year_3P_3C;
-    j.at("description").get_to(deck.Description);
+    if (j.contains("description")) j.at("description").get_to(deck.Description);
 
-    /* To be considered soon
-    if (deck.Description == "no error")
-    {
-        InputDecks.push_back(deck);
-    
-    } */
+	if (j.contains("optimizationWeight")) j.at("optimizationWeight").get_to(deck.optimizationWeight2);
 }
 
 

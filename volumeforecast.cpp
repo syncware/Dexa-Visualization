@@ -6,6 +6,7 @@
 void getDays();
 json ReadJsonFile(string jsonFileName);
 void runForecast();
+void export_to_file(const json& j, const string& filename);
 
 DateCreation dateCreation;
 
@@ -23,17 +24,11 @@ void getDays(){
 }
 
 json ReadJsonFile(string jsonFileName) {
-    // Open the JSON file
-    //std::ifstream file(jsonFileName);
     std::ifstream file(jsonFileName);
-    //std::ifstream file("/c/Users/Gabriel.Achumba/Documents/Softwares/Newwayconsults/PetDigest/pet_app/output.json");
-    //std::ifstream file("C:\\Users\\Gabriel.Achumba\\Documents\\Softwares\\Newwayconsults\\PetDigest\\pet_app\\output.json");
-
     if (!file.is_open()) {
         throw std::runtime_error("Failed to open JSON file");
     }
 
-    // Parse the file using nlohmann::json
     json jsonData;
     file >> jsonData;
     file.close();
@@ -44,16 +39,24 @@ json ReadJsonFile(string jsonFileName) {
 void runForecast() {
     json jsonData = ReadJsonFile("C:/Users/Gabriel.Achumba/Documents/Softwares/Newwayconsults/PetDigest/pet_app/inputdata.json");
     RunForecastAsyncWorkerModifiedTest runForecastAsyncWorkerModifiedTest;
-    //Payload payload = ConvertJsonToPayload(jsonData);
-    //Payload payload = jsonData.at("payload").get<Payload>();
-    //Person person = jsonData.at("person").get<Person>();
-    //Person person = ConvertJsonToPerson(jsonData);
-    runForecastAsyncWorkerModifiedTest.RunForecast(jsonData);
-    //DateCreation dateCreation;
-    //int mth = 2;
-    //int days = dateCreation.DaysInMonth(mth);
-    int cc = 0;
+    json responseJsonData = runForecastAsyncWorkerModifiedTest.RunForecast(jsonData);
+    export_to_file(responseJsonData, 
+    "C:/Users/Gabriel.Achumba/Documents/Softwares/Newwayconsults/PetDigest/pet_app/response.json");
 }
+
+
+
+void export_to_file(const json& j, const string& filename) {
+    ofstream file(filename);
+    if (file.is_open()) {
+        file << j.dump(4); // Pretty print with 4 spaces
+        file.close();
+        cout << "JSON saved to " << filename << endl;
+    } else {
+        cerr << "Unable to open file: " << filename << endl;
+    }
+}
+
 
 /* Napi::Value runForecastAsync(const Napi::CallbackInfo& info) {
      Napi::Env env = info.Env();

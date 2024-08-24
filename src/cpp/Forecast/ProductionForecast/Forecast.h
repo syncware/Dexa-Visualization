@@ -878,22 +878,39 @@ typedef struct _Payload {
     int nForecastProfiles;
     int nDecks;
     string isForecastProfiles;
-    /* "nodalPriotizations": [],
-    "nNodalPriotizations": 0,
-    "nProductionPrioritization": 0,
-   
-    "isForecastProfiles": "internal",
-    "": 398,
-    
-    "nFacilities": 25,
-    "": 0, */
     vector<WellReroute> wellRerouteDecks;
     int nWellRerouteDecks;
     vector<WellRampUp> wellRampUpDecks;
     int nWellRampUpDecks;
     vector<ShutInOpenUp> wellShutInOpenUpDecks;
     int nWellShutInOpenUpDecks;
+    RunParameter runparameters;
+    Priotization prioritization;
+    vector<Priotization> nodalPriotizations;
+    int nNodalPriotizations;
+    vector<InputDeckStruct> productionPrioritization;
+    int nProductionPrioritization;
 }Payload;
+
+/* typedef struct _ResponseData4 {
+    map<string, string> wells;
+}ResponseData4;
+
+typedef struct _ResponseData3 {
+    map<string, map<string, string>> facilities;
+}ResponseData2;
+
+typedef struct _ResponseData3 {
+    map<string, map<string, map<string, string>>> scenarios;
+}ResponseData2;
+
+typedef struct _ResponseData1 {
+    map<string, map<string, map<string, map<string, string>>>> solutionSpaces;
+}ResponseData1; */
+
+typedef struct _ResponseData {
+    map<string, map<string, map<string, map<string, map<string, map<string, string>>>>>> monthlyReport;
+}ResponseData;
 
 
 
