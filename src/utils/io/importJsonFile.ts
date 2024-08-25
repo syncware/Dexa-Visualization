@@ -4,7 +4,9 @@ import * as path from 'path';
 export const importJsonFile = async (fileName:string) => {
 
     // Define the path to your JSON file
-    const jsonFilePath = path.join(__dirname, fileName);
+
+    const projectRoot = process.cwd();
+    const jsonFilePath = path.join(projectRoot, fileName);
 
     // Read the file asynchronously
     const jsonData = await fs.readFile(jsonFilePath, 'utf-8');

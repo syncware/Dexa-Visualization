@@ -37,11 +37,11 @@ json ReadJsonFile(string jsonFileName) {
 }
 
 void runForecast() {
-    json jsonData = ReadJsonFile("C:/Users/Gabriel.Achumba/Documents/Softwares/Newwayconsults/PetDigest/pet_app/inputdata.json");
+    json jsonData = ReadJsonFile("C:/Users/Gabriel.Achumba/Documents/Softwares/Newwayconsults/PetDigest/pet_app/forecast_input_data");
     RunForecastAsyncWorkerModifiedTest runForecastAsyncWorkerModifiedTest;
     json responseJsonData = runForecastAsyncWorkerModifiedTest.RunForecast(jsonData);
     export_to_file(responseJsonData, 
-    "C:/Users/Gabriel.Achumba/Documents/Softwares/Newwayconsults/PetDigest/pet_app/response.json");
+    "C:/Users/Gabriel.Achumba/Documents/Softwares/Newwayconsults/PetDigest/pet_app/forecast_output_data");
 }
 
 

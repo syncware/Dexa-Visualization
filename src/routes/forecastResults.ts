@@ -131,6 +131,7 @@ let globalForecastResultsById = {} as Record<string, any>;
 
 // Store forecast results payload after forecast results is generated
 let globalForecastResultsPayload = {} as Record<string, any>;
+let forecastOutputDataFileName = "forecast_output_data.json";
 
 forecastResultsRouter.get(
   '/forecast-result-headers',
@@ -641,7 +642,7 @@ forecastResultsRouter.get(
           forecastSolutionSpacesIsDURConstrained.length
       }
 
-      exportToJsonFile(inputData, "run_forecast_input_data.json");
+      exportToJsonFile(inputData, forecastOutputDataFileName);
 
       // Run Forecast
       const _runForecastResults = await new Promise((resolve, reject) => {
@@ -805,7 +806,7 @@ forecastResultsRouter.post(
     const forecastResultsModel = ForecastResults.build(forecastResultsPayload);
 
     // Compute Forecast Results Tree
-    const monthlyForecastResults = await importJsonFile("run_forecast_output_data.json");
+    const monthlyForecastResults = await importJsonFile(forecastOutputDataFileName);
     const treeModel = GetForecastTreeview(monthlyForecastResults);
     forecastResultsModel.treeResult = {
       treeModel,
