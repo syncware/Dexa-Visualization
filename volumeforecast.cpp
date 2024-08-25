@@ -1,7 +1,7 @@
-/* #include <napi.h> */
+#include <napi.h>
 #include "src/cpp/Forecast/ProductionForecast/DateCreation.h"
 #include "src/cpp/Forecast/utilities/runForecastAsyncWorkerModifiedT.h"
-//#include "src/cpp/Forecast/utilities/runForecastAsyncWorker.h"
+#include "src/cpp/Forecast/utilities/runForecastAsyncWorker.h"
 
 void getDays();
 json ReadJsonFile(string jsonFileName);
@@ -58,7 +58,7 @@ void export_to_file(const json& j, const string& filename) {
 }
 
 
-/* Napi::Value runForecastAsync(const Napi::CallbackInfo& info) {
+Napi::Value runForecastAsync(const Napi::CallbackInfo& info) {
      Napi::Env env = info.Env();
     Napi::HandleScope scope(env);
 
@@ -86,4 +86,4 @@ Napi::Object Init(Napi::Env env, Napi::Object exports){
 	return exports;
 }
 
-NODE_API_MODULE(volumeforecast, Init) */
+NODE_API_MODULE(volumeforecast, Init)

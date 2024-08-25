@@ -909,8 +909,16 @@ typedef struct _ResponseData1 {
 }ResponseData1; */
 
 typedef struct _ResponseData {
-    map<string, map<string, map<string, map<string, map<string, map<string, string>>>>>> monthlyReport;
+    map<string, map<string, map<string, map<string, map<string, string>>>>> monthlyReport;
 }ResponseData;
+
+typedef struct _MonthlyReport{
+
+}MonthlyReport;
+
+typedef struct _StoredForecastResult {
+    MonthlyReport monthlyReport;
+}StoredForecastResult;
 
 
 

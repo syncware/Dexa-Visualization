@@ -159,7 +159,8 @@ json RunForecastAsyncWorkerModifiedTest::RunForecast(const json& jsonData){
 
     int nth =  dateCreation.dateTimes.size();
     
-        int i = 0;
+    int i = 0;
+    map<string, map<string, map<string, map<string, map<string, string>>>>> forecastSolutionSpacesResults;
     if(nth > 0)
     {
 
@@ -200,7 +201,7 @@ json RunForecastAsyncWorkerModifiedTest::RunForecast(const json& jsonData){
             dateCreation.dateTimes[0], StopDate, priotization, nodalPriotizations);
         }
         vector<Priotization> priotizations = updatesNodes[0].priotizations;
-        map<string, map<string, map<string, map<string, map<string, string>>>>> forecastSolutionSpacesResults;
+       
         for(fSSIndex = 0; fSSIndex < nForecastSolutionSpaces; fSSIndex++)
         {
             calculateDeckVariables.dURConstrained = forecastSolutionSpacesIsDURConstrained[fSSIndex];
@@ -274,10 +275,9 @@ json RunForecastAsyncWorkerModifiedTest::RunForecast(const json& jsonData){
             forecastSolutionSpacesResults[forecastSolutionSpaces[fSSIndex]] = scenariosResult;
 
         }
-        monthlyReport["monthlyReport"] = forecastSolutionSpacesResults;
     }
 
-    responseData.monthlyReport = monthlyReport;
+    responseData.monthlyReport = forecastSolutionSpacesResults;
 
     json jsonResponseData = to_json(responseData);
 

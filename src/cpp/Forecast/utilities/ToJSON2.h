@@ -100,6 +100,9 @@ class ReportJSON2
         map<string, map<string, map<string, string>>> GetForecastOutputAllFacilities(int& scenario,
         vector<vector<FacilityWellsIndicies>>& facilityWellsIndicies, 
         vector<Date>& dateTimes);
+        void GetForecastResultsByScenario(
+            ResponseData responseData,
+            string scenarioName, string SolutionSpace, vector<string> facilityNames);
 
 
 		vector<vector<vector<ForecastResult>>> results;
@@ -114,6 +117,34 @@ ReportJSON2::ReportJSON2(){
 }
 
 ReportJSON2::~ReportJSON2(){
+
+}
+
+void ReportJSON2::GetForecastResultsByScenario(ResponseData responseData,
+string scenarioName, string SolutionSpace, vector<string> facilityNames){
+
+
+  for (const auto& outer1 : responseData.monthlyReport) {
+    const string& solutionSpace = outer1.first;
+    if(solutionSpace == SolutionSpace){
+        for (const auto& outer2 : outer1.second) {
+            const string& scenario = outer2.first;
+            if(scenarioName == scenario) {
+                for(const auto& facilityName : facilityNames){
+                    for (const auto& outer3 : outer2.second) {
+                        const string& facility = outer3.first;
+                        if(facilityName == facility){
+
+                            break;
+                        }
+                    }      
+                }
+                break;
+            }
+        }
+        break;
+    }
+  }
 
 }
 
