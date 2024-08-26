@@ -853,6 +853,17 @@ typedef struct _FacilityThreadParams {
     vector<Node> updatesNodes;
 }FacilityThreadParams;
 
+typedef struct _Well {
+    vector<ForecastResult> resultWells;
+}Well;
+
+typedef struct _ChatPayload {
+    vector<Well> wells;
+    bool isByYear;
+    bool isForChart;
+    int nWells;
+}ChatPayload;
+
 typedef struct _Payload {
     vector<InputDeckStruct> decks;
     vector<InternalExternalEquipmentName> internalExternalFacilitiesNames;
@@ -911,6 +922,10 @@ typedef struct _ResponseData1 {
 typedef struct _ResponseData {
     map<string, map<string, map<string, map<string, map<string, string>>>>> monthlyReport;
 }ResponseData;
+
+typedef struct _ResponseChatData {
+    map<string, map<string, string>> response;
+}ResponseChatData;
 
 typedef struct _MonthlyReport{
 

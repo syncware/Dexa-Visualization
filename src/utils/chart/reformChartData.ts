@@ -8,8 +8,12 @@ import { getForecastResult } from '../forecast/reformForecastResult';
 import { 
   forecastResultsVariableUnits
  } from "../../utils/constants/wellsDeckBaseUnits";
+import { exportToJsonFile } from '../io/exportToJsonFile';
+import { importJsonFile, importJsonFile2 } from '../io/importJsonFile';
 
 const delimeter = '@#$%';
+const forecastChatInputDataFileName = "forecast_chat_data_input.json";
+const forecastOutputDataFileName = "forecast_chat_data_output.json";
 
 function GetScenarioNames(selectedModulePaths: string[]): string[] {
   const scenarioNames: string[] = [];
@@ -108,7 +112,9 @@ export async function chartDataByModulesOrAggregate(
       nWells: lstWells.length,
     };
 
-    const result_Output = await new Promise((resolve, reject) => {
+    //await exportToJsonFile(inputOjbect, forecastChatInputDataFileName);
+
+    /* const result_Output = await new Promise((resolve, reject) => {
       volumeforecastModule.GetYearlyForcastResultModulesNewAsync(
         inputOjbect,
         ModuleYearlyResult
@@ -120,9 +126,17 @@ export async function chartDataByModulesOrAggregate(
           resolve(aggregatedResult);
         }
       }
+    }); 
+    const results_Output: any[] = result_Output as [];
+    */
+
+    //======================For Debugging=====================//
+
+    const result_Output = await importJsonFile(forecastOutputDataFileName);
+    const results_Output = Object.keys(result_Output["response"]).map((chatRowKey:any) => {
+      return {...result_Output["response"][chatRowKey]}
     });
 
-    const results_Output: any[] = result_Output as [];
     results_OutputObject[lstWellsObjectKeys[index]] = results_Output;
   }
 

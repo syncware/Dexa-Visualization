@@ -131,6 +131,8 @@ let globalForecastResultsById = {} as Record<string, any>;
 
 // Store forecast results payload after forecast results is generated
 let globalForecastResultsPayload = {} as Record<string, any>;
+//
+let forecastInputDataFileName = "forecast_input_data.json";
 let forecastOutputDataFileName = "forecast_output_data.json";
 
 forecastResultsRouter.get(
@@ -642,7 +644,7 @@ forecastResultsRouter.get(
           forecastSolutionSpacesIsDURConstrained.length
       }
 
-      exportToJsonFile(inputData, forecastOutputDataFileName);
+      await exportToJsonFile(inputData, forecastInputDataFileName);
 
       // Run Forecast
       const _runForecastResults = await new Promise((resolve, reject) => {
@@ -806,7 +808,8 @@ forecastResultsRouter.post(
     const forecastResultsModel = ForecastResults.build(forecastResultsPayload);
 
     // Compute Forecast Results Tree
-    const monthlyForecastResults = await importJsonFile(forecastOutputDataFileName);
+    const localforecastResults = await importJsonFile(forecastOutputDataFileName);
+    const monthlyForecastResults = localforecastResults.monthlyReport;
     const treeModel = GetForecastTreeview(monthlyForecastResults);
     forecastResultsModel.treeResult = {
       treeModel,
@@ -819,7 +822,7 @@ forecastResultsRouter.post(
     // Results can be returned monthly to ui or aggregated
     // by year. Also save to memory using forecastResultsId as a key
     if (!!forecastResponse) {
-      const forecastResultsId = (forecastResponse as any)._id;
+      const forecastResultsId = (forecastResponse as any)._id.toString();
       const forecastResultsByModule =
         await SaveForecastResultsByModuleMonthlyData(
           forecastResultsId,

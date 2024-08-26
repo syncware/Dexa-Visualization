@@ -2,18 +2,21 @@
 #include "src/cpp/Forecast/ProductionForecast/DateCreation.h"
 #include "src/cpp/Forecast/utilities/runForecastAsyncWorkerModifiedT.h"
 #include "src/cpp/Forecast/utilities/runForecastAsyncWorker.h"
+#include "src/cpp/Forecast/utilities/AllWellsYearlyResultNewAsyncT.h"
 
 void getDays();
 json ReadJsonFile(string jsonFileName);
 void runForecast();
 void export_to_file(const json& j, const string& filename);
+void plotChat();
 
 DateCreation dateCreation;
 
 
 int main(){
     //getDays();
-    runForecast();
+    //runForecast();
+    plotChat();
     return 0;
 }
 
@@ -37,11 +40,19 @@ json ReadJsonFile(string jsonFileName) {
 }
 
 void runForecast() {
-    json jsonData = ReadJsonFile("C:/Users/Gabriel.Achumba/Documents/Softwares/Newwayconsults/PetDigest/pet_app/forecast_input_data");
+    json jsonData = ReadJsonFile("C:/Users/Gabriel.Achumba/Documents/Softwares/Newwayconsults/PetDigest/pet_app/forecast_input_data.json");
     RunForecastAsyncWorkerModifiedTest runForecastAsyncWorkerModifiedTest;
     json responseJsonData = runForecastAsyncWorkerModifiedTest.RunForecast(jsonData);
     export_to_file(responseJsonData, 
-    "C:/Users/Gabriel.Achumba/Documents/Softwares/Newwayconsults/PetDigest/pet_app/forecast_output_data");
+    "C:/Users/Gabriel.Achumba/Documents/Softwares/Newwayconsults/PetDigest/pet_app/forecast_output_data.json");
+}
+
+void plotChat() {
+    json jsonData = ReadJsonFile("C:/Users/Gabriel.Achumba/Documents/Softwares/Newwayconsults/PetDigest/pet_app/forecast_chat_data_input.json");
+    AllWellsYearlyResultNewAsyncT allWellsYearlyResultNewAsyncT;
+    json responseJsonData = allWellsYearlyResultNewAsyncT.Plot(jsonData);
+    export_to_file(responseJsonData, 
+    "C:/Users/Gabriel.Achumba/Documents/Softwares/Newwayconsults/PetDigest/pet_app/forecast_chat_data_output.json");
 }
 
 

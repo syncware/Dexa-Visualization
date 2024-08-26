@@ -101,8 +101,10 @@ class ReportJSON2
         vector<vector<FacilityWellsIndicies>>& facilityWellsIndicies, 
         vector<Date>& dateTimes);
         void GetForecastResultsByScenario(
-            ResponseData responseData,
-            string scenarioName, string SolutionSpace, vector<string> facilityNames);
+        ResponseData responseData,
+        string scenarioName, string SolutionSpace, vector<string> facilityNames);
+		map<string, string> GetForecastOutputAsJson(vector<ForecastResult>& results);
+		map<string, map<string, string>> GetForecastOutputAsJson(vector<vector<ForecastResult>>& results);
 
 
 		vector<vector<vector<ForecastResult>>> results;
@@ -118,6 +120,48 @@ ReportJSON2::ReportJSON2(){
 
 ReportJSON2::~ReportJSON2(){
 
+}
+
+
+map<string, string> ReportJSON2::GetForecastOutputAsJson(vector<ForecastResult>& results)
+{
+
+	int nResults = results.size();
+
+	map<string, string> moduleResult;
+	string table = "";
+	int i = 1;
+	bool isLastRow = false;
+	for (int ii = 0; ii < nResults; ii++) {
+
+		ForecastResult r = results[ii];
+
+		if(ii == nResults-1){
+			isLastRow = true;
+		}
+
+		table = table + GetRow(r, i, ii, isLastRow);
+
+	}
+
+	moduleResult["resultWells"] = table;
+
+	return moduleResult;
+			
+}
+
+map<string, map<string, string>> ReportJSON2::GetForecastOutputAsJson(vector<vector<ForecastResult>>& results)
+{
+	int nWells = results.size();
+
+	map<string, map<string, string>> decksPerFacility;
+	int i = 0;
+	for(i = 0; i < nWells; i++){
+		map<string, string> deckObject = GetForecastOutputAsJson(results[i]);
+		string wellNo = std::to_string(i);
+		decksPerFacility[wellNo] = deckObject;
+	}
+	return decksPerFacility;
 }
 
 void ReportJSON2::GetForecastResultsByScenario(ResponseData responseData,

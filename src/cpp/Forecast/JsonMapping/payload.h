@@ -27,7 +27,7 @@
 #include "wellRoutes.h"
 #include "wellRampUp.h"
 #include "wellShutInOpenUp.h"
-#include "forecastProfile.h"
+#include "forecastResult.h"
 #include "runparameters.h"
 #include "nodalPriotizations.h"
 

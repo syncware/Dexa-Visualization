@@ -410,15 +410,28 @@ vector<ForecastResult> dataPivoting::GetYearlyForcastResultModuleLevel(vector<Fo
             }  
         }
 
-        results[i].Oil_rate =  dNp/ProdaysPerYear;
-        results[i].Condensate_Rate =  dNpc/ProdaysPerYear;
-        results[i].Gas_Rate =   dGp/ProdaysPerYear;
-        results[i].Water_Rate =  dWp/ProdaysPerYear;
+        results[i].Oil_rate =  0;
+        results[i].Condensate_Rate =  0;
+        results[i].Gas_Rate =   0;
+        results[i].Water_Rate =  0;
+        results[i].Liquid_Rate =  0;
+        results[i].Gas_Own_Use =  0;
+        results[i].Gas_Demand =  0;
+        results[i].Gas_Flared =  0;
+        results[i].Crude_Oil_Lossess =  0;
+
+        if(ProdaysPerYear > 0) {
+            results[i].Oil_rate =  dNp/ProdaysPerYear;
+            results[i].Condensate_Rate =  dNpc/ProdaysPerYear;
+            results[i].Gas_Rate =   dGp/ProdaysPerYear;
+            results[i].Water_Rate =  dWp/ProdaysPerYear;
+            results[i].Gas_Own_Use =  dGpOwnUse/ProdaysPerYear;
+            results[i].Gas_Demand =  dGpDemand/ProdaysPerYear;
+            results[i].Gas_Flared =  dGpFlared/ProdaysPerYear;
+            results[i].Crude_Oil_Lossess =  dCrudeOilLoss/ProdaysPerYear;
+        }
+
         results[i].Liquid_Rate =  results[i].Oil_rate +  results[i].Water_Rate;
-        results[i].Gas_Own_Use =  dGpOwnUse/ProdaysPerYear;
-        results[i].Gas_Demand =  dGpDemand/ProdaysPerYear;
-        results[i].Gas_Flared =  dGpFlared/ProdaysPerYear;
-        results[i].Crude_Oil_Lossess =  dCrudeOilLoss/ProdaysPerYear;
         if(results[i].Gas_Rate < 0.000000000){
             results[i].Gas_Own_Use = 0;
             results[i].Gas_Demand = 0;
