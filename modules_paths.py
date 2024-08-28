@@ -1,25 +1,52 @@
 import json
 import matplotlib.pyplot as plt
+from data import selected_facilities
+from json_data_io import readJsonData
+from json_data_io import writeJsonData
 
-# Load the JSON data from a file
-with open('forecast_result.json', 'r') as file:
-    json_data = json.load(file)
+facilities = selected_facilities
+file_path = 'files/forecast_result.json'
+output_file_path = 'files/module_paths.json'
 
-# Access the data
-nodules_data = json_data['treeResult']['treeModel'][0]['children'][0]['children']
+def getModulePathsPerFacility(facilityName, json_data):
+    # Load the JSON data from a file
 
-# Loop through the 'nodules_data' list and plot each series
-module_paths = []
-for entry in nodules_data:
-    module_path = entry['path']
-    module_paths.append(module_path)
+    # Access the data
+    facilityIndex = facilities[facilityName]
+    nodules_data = json_data['treeResult']['treeModel'][0]['children'][facilityIndex]['children']
+
+    # Loop through the 'nodules_data' list and plot each series
+    module_paths = []
+    for entry in nodules_data:
+        module_path = entry['path']
+        module_paths.append(module_path)
+
+    return module_paths
 
 
-# Specify the file name
-file_name = 'module_paths.json'
+def getModulePathsPerSelectedFacilities(facilityNames, json_data):
+    modulePaths = []
+    for facilityName in facilityNames:
+        module_paths_per_facility = getModulePathsPerFacility(facilityName, json_data)
+        for module_path in module_paths_per_facility:
+            modulePaths.append(module_path)
 
-# Writing the list to a JSON file
-with open(file_name, 'w') as json_file:
-    json.dump(module_paths, json_file, indent=4)
+    return modulePaths
 
-print(f"Module paths has been written to {file_name}")
+facilityNames = [
+    "ABU_FS1",
+    # "ABU_FS2",
+    # "ABU_FS3",
+    # "ABU_FS4",
+    # "ABU_FS5",
+    # "ABU_FS6",
+    # "ABU_FS7",
+    # "REO_GP1",
+    # "REO_GP2",
+    # "REO_GP3",
+    # "REO_GP4",
+    # "REO_GP5"
+]
+json_data = readJsonData(file_path)
+modulePaths = getModulePathsPerSelectedFacilities(facilityNames, json_data)
+writeJsonData(output_file_path, modulePaths)

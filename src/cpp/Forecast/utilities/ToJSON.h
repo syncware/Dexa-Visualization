@@ -24,6 +24,7 @@
 #include "../ProductionForecast/Inputdeck.h"
 #include "../ProductionForecast/dataPivoting.h"
 #include "ToJSON2.h"
+#include "AllWellsYearlyResultNewAsyncT.h"
 
 using namespace std;
 using namespace std::placeholders;
@@ -48,6 +49,7 @@ class ReportJSON
 		Interpolation interpolation2;
 		int nValidatedDecks2;
         ReportJSON2 reportJSON2;
+		AllWellsYearlyResultNewAsyncT allWellsYearlyResultNewAsyncT;
 
 		vector<InputDeckStruct> getDecks(Napi::Array& wrappedDecks,
 		Napi::Array wrappedProdPrioritization, 
@@ -130,7 +132,19 @@ class ReportJSON
         vector<FacilityStructExternal> GetCrudeEquipmentCapacitiesSheetData(Napi::Array& wrappedDecks,
 	    int nEquipmentCapacities, Napi::Env& env);
         json NapiObjectToJson(const Napi::Object& obj);
-
+		Napi::Array ConvertVectorToNapiArray(Napi::Env env, const vector<double>& vec);
+		Napi::Array ConvertVectorToNapiArray(Napi::Env env, const vector<string>& vec);
+		Napi::Object ConvertYObjToNapiObject(Napi::Env env, const YObj& yObj);
+		Napi::Object ConvertMapToNapiObject(Napi::Env env, const map<string, 
+		map<string, map<string, YObj>>>& nestedMap);
+		Napi::Object PlotChartAsync(Napi::Env env, 
+		const json& forecastResultsJsonData, 
+		const json& chatInputJsonData);
+		Napi::Array ConvertYObjVectorToNapiArray(Napi::Env env, const vector<YObj>& yObjVec);
+		Napi::Object ConvertMapToNapiObject(Napi::Env env, 
+		const map<string, map<string, map<std::string, vector<YObj>>>>& nestedMap);
+		json NapiValueToJson(const Napi::Value& value);
+		json ConvertNapiArrayToJsonString(const Napi::Array& array);
 
 		vector<vector<vector<ForecastResult>>> results;
 
@@ -145,6 +159,200 @@ ReportJSON::ReportJSON(){
 
 ReportJSON::~ReportJSON(){
 
+}
+
+
+// Helper function to convert a vector of doubles to Napi::Array
+Napi::Array ReportJSON::ConvertVectorToNapiArray(Napi::Env env, const vector<double>& vec) {
+    Napi::Array result = Napi::Array::New(env, vec.size());
+    for (size_t i = 0; i < vec.size(); ++i) {
+        result.Set(i, Napi::Number::New(env, vec[i]));
+    }
+    return result;
+}
+
+// Helper function to convert a vector of strings to Napi::Array
+Napi::Array ReportJSON::ConvertVectorToNapiArray(Napi::Env env, const vector<string>& vec) {
+    Napi::Array result = Napi::Array::New(env, vec.size());
+    for (size_t i = 0; i < vec.size(); ++i) {
+        result.Set(i, Napi::String::New(env, vec[i]));
+    }
+    return result;
+}
+
+// Function to convert YObj to Napi::Object
+Napi::Object ReportJSON::ConvertYObjToNapiObject(Napi::Env env, const YObj& yObj) {
+    Napi::Object obj = Napi::Object::New(env);
+    obj.Set("forecastResultId", Napi::String::New(env, yObj.forecastResultId));
+    obj.Set("id", Napi::String::New(env, yObj.id));
+    obj.Set("name", Napi::String::New(env, yObj.name));
+    obj.Set("title", Napi::String::New(env, yObj.title));
+    obj.Set("path", Napi::String::New(env, yObj.path));
+    obj.Set("y", ConvertVectorToNapiArray(env, yObj.y));
+    obj.Set("x", ConvertVectorToNapiArray(env, yObj.x));
+    return obj;
+}
+
+// Recursive function to convert nested map to Napi::Object
+Napi::Object ReportJSON::ConvertMapToNapiObject(Napi::Env env, const map<string, 
+map<string, map<string, YObj>>>& nestedMap) {
+    Napi::Object result = Napi::Object::New(env);
+
+    for (const auto& [key1, map2] : nestedMap) {
+        Napi::Object map2Obj = Napi::Object::New(env);
+
+        for (const auto& [key2, map3] : map2) {
+            Napi::Object map3Obj = Napi::Object::New(env);
+
+            for (const auto& [key3, yObj] : map3) {
+                map3Obj.Set(key3, ConvertYObjToNapiObject(env, yObj));
+            }
+
+            map2Obj.Set(key2, map3Obj);
+        }
+
+        result.Set(key1, map2Obj);
+    }
+
+    return result;
+}
+
+// Function to convert a vector of YObj to Napi::Array
+Napi::Array ReportJSON::ConvertYObjVectorToNapiArray(Napi::Env env, const vector<YObj>& yObjVec) {
+    Napi::Array arr = Napi::Array::New(env, yObjVec.size());
+    for (size_t i = 0; i < yObjVec.size(); ++i) {
+        arr.Set(i, ConvertYObjToNapiObject(env, yObjVec[i]));
+    }
+    return arr;
+}
+
+// Recursive function to convert nested map to Napi::Object
+Napi::Object ReportJSON::ConvertMapToNapiObject(Napi::Env env, 
+const map<string, map<string, map<std::string, vector<YObj>>>>& nestedMap) {
+    Napi::Object result = Napi::Object::New(env);
+
+    for (const auto& [key1, map2] : nestedMap) {
+        Napi::Object map2Obj = Napi::Object::New(env);
+
+        for (const auto& [key2, map3] : map2) {
+            Napi::Object map3Obj = Napi::Object::New(env);
+
+            for (const auto& [key3, yObjVec] : map3) {
+                map3Obj.Set(key3, ConvertYObjVectorToNapiArray(env, yObjVec));
+            }
+
+            map2Obj.Set(key2, map3Obj);
+        }
+
+        result.Set(key1, map2Obj);
+    }
+
+    return result;
+}
+
+Napi::Object ReportJSON::PlotChartAsync(Napi::Env env, 
+const json& forecastResultsJsonData, 
+const json& chatInputJsonData) {
+    
+	std::cout << "chatInputPayload read befroe " << std::endl;
+    ChatInputPayload chatInputPayload = chatInputPayload_to_json(chatInputJsonData);
+	std::cout << "chatInputPayload read after " << std::endl;
+	vector<ForecastResultsByModule> forecastResultsByModule = 
+    parseForecastResults(forecastResultsJsonData);
+	std::cout << "forecastResultsByModule read " << std::endl;
+
+
+    vector<string> selectedModulePaths = chatInputPayload.selectedModulePaths;
+    vector<string> selectedVariables = chatInputPayload.selectedVariables;
+    bool isMonthly = false;
+    vector<string> forecastSolutionSpaceNames = chatInputPayload.forecastSolutionSpaces;
+    string forecastResultsId = chatInputPayload.forecastResultsIds[0];
+    bool shouldAggregate = chatInputPayload.shouldAggregate;
+
+    map<string, map<string,  map<string, vector<YObj>>>> _scenarioObjects;
+
+    json jsonChatDataOutput;
+	Napi::Object napiObject = Napi::Object::New(env);
+
+    if(chatInputPayload.shouldAggregate == false){
+        _scenarioObjects = 
+        allWellsYearlyResultNewAsyncT.chartDataByModulesOrAggregate(
+            selectedModulePaths,
+            selectedVariables,
+            isMonthly,
+            forecastSolutionSpaceNames,
+            forecastResultsByModule,
+            forecastResultsId,
+            shouldAggregate);
+
+        napiObject = ConvertMapToNapiObject(env, _scenarioObjects);
+    }else{
+        _scenarioObjects = 
+        allWellsYearlyResultNewAsyncT.chartDataByModulesOrAggregate(
+            selectedModulePaths,
+            selectedVariables,
+            isMonthly,
+            forecastSolutionSpaceNames,
+            forecastResultsByModule,
+            forecastResultsId,
+            shouldAggregate);
+
+        map<string, map<string,  map<string, YObj>>> aggregatedScenarioObjects = 
+		allWellsYearlyResultNewAsyncT.chartDataByModulesOrAggregate2(
+            forecastResultsId,
+            _scenarioObjects
+        );
+
+		napiObject = ConvertMapToNapiObject(env, aggregatedScenarioObjects);
+
+    }
+
+    return napiObject;
+}
+
+json ReportJSON::NapiValueToJson(const Napi::Value& value) {
+    if (value.IsArray()) {
+        Napi::Array array = value.As<Napi::Array>();
+        json jsonArray = json::array();
+
+        for (size_t i = 0; i < array.Length(); ++i) {
+			//std::cout << i << " before "<< std::endl;
+            jsonArray.push_back(NapiValueToJson(array[i]));
+			//std::cout << i << " after "<< std::endl;
+        }
+        return jsonArray;
+
+    } else if (value.IsObject()) {
+        Napi::Object object = value.As<Napi::Object>();
+        json jsonObject;
+
+        Napi::Array propertyNames = object.GetPropertyNames();
+        for (size_t i = 0; i < propertyNames.Length(); ++i) {
+            string key = propertyNames.Get(i).As<Napi::String>();
+            jsonObject[key] = NapiValueToJson(object.Get(key));
+        }
+        return jsonObject;
+
+    } else if (value.IsString()) {
+        return value.As<Napi::String>().Utf8Value();
+
+    } else if (value.IsNumber()) {
+        return value.As<Napi::Number>().DoubleValue();
+
+    } else if (value.IsBoolean()) {
+        return value.As<Napi::Boolean>().Value();
+
+    } else if (value.IsNull() || value.IsUndefined()) {
+        return nullptr;
+
+    } else {
+        throw runtime_error("Unsupported Napi::Value type");
+    }
+}
+
+json ReportJSON::ConvertNapiArrayToJsonString(const Napi::Array& array) {
+    json jsonArray = NapiValueToJson(array);
+    return jsonArray;
 }
 
 json ReportJSON::NapiObjectToJson(const Napi::Object& obj) {

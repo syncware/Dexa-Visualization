@@ -2063,10 +2063,10 @@ row = uniqueId +  columnDelimeter
 		+  std::to_string(r.AllWellsGasCapacity) +  columnDelimeter
 		+ r.resourceClass +  columnDelimeter
 		+ std::to_string(condensateRate) +  columnDelimeter
+		+ r.reasonForTermination +  columnDelimeter
 		+ lastrow;
 
 		return row;
-
 
 }
 

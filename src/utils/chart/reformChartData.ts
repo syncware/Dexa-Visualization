@@ -1,4 +1,5 @@
 import { set, sum, zip } from 'lodash';
+const JSONStreamStringify = require('json-stream-stringify');
 import { volumeforecastModule } from '../../productionforecast/optimizer';
 import {
   GetForecastResultsByScenario,
@@ -8,7 +9,7 @@ import { getForecastResult } from '../forecast/reformForecastResult';
 import { 
   forecastResultsVariableUnits
  } from "../../utils/constants/wellsDeckBaseUnits";
-import { exportToJsonFile } from '../io/exportToJsonFile';
+import { exportToJsonFile, streamToJsonFile, streamToJsonFile2 } from '../io/exportToJsonFile';
 import { importJsonFile, importJsonFile2 } from '../io/importJsonFile';
 
 const delimeter = '@#$%';
@@ -112,9 +113,14 @@ export async function chartDataByModulesOrAggregate(
       nWells: lstWells.length,
     };
 
-    //await exportToJsonFile(inputOjbect, forecastChatInputDataFileName);
+    /* var chatPayload = {
+      "chatPayload": inputOjbect
+    } */
 
-    /* const result_Output = await new Promise((resolve, reject) => {
+  //const jsonStream = new (JSONStreamStringify as any).default(chatPayload);
+  //await exportToJsonFile(inputOjbect, forecastChatInputDataFileName);
+
+    const result_Output = await new Promise((resolve, reject) => {
       volumeforecastModule.GetYearlyForcastResultModulesNewAsync(
         inputOjbect,
         ModuleYearlyResult
@@ -127,15 +133,17 @@ export async function chartDataByModulesOrAggregate(
         }
       }
     }); 
+
+    //const result_Output = GetYearlyForcastResultModulesNewAsync(inputOjbect);
     const results_Output: any[] = result_Output as [];
-    */
+   
 
     //======================For Debugging=====================//
 
-    const result_Output = await importJsonFile(forecastOutputDataFileName);
+    /* const result_Output = await importJsonFile(forecastOutputDataFileName);
     const results_Output = Object.keys(result_Output["response"]).map((chatRowKey:any) => {
       return {...result_Output["response"][chatRowKey]}
-    });
+    }); */
 
     results_OutputObject[lstWellsObjectKeys[index]] = results_Output;
   }

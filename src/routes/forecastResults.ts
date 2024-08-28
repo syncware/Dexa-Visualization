@@ -132,8 +132,8 @@ let globalForecastResultsById = {} as Record<string, any>;
 // Store forecast results payload after forecast results is generated
 let globalForecastResultsPayload = {} as Record<string, any>;
 //
-let forecastInputDataFileName = "forecast_input_data.json";
-let forecastOutputDataFileName = "forecast_output_data.json";
+let forecastInputDataFileName = "files/forecast_input_data.json";
+let forecastOutputDataFileName = "files/forecast_output_data.json";
 
 forecastResultsRouter.get(
   '/forecast-result-headers',
@@ -644,7 +644,11 @@ forecastResultsRouter.get(
           forecastSolutionSpacesIsDURConstrained.length
       }
 
-      await exportToJsonFile(inputData, forecastInputDataFileName);
+      var payload = {
+        "payload" : inputData
+      }
+
+      await exportToJsonFile(payload, forecastInputDataFileName);
 
       // Run Forecast
       const _runForecastResults = await new Promise((resolve, reject) => {
@@ -886,26 +890,47 @@ forecastResultsRouter.post(
         if (!forecastResultsByModule) {
           const forecastResults = await ForecastResultsByModule.find({
             forecastResultsId,
-          });
+          }).lean();
           globalForecastResultsById[forecastResultsId] = forecastResults;
           forecastResultsByModule = forecastResults;
-        }
+        } 
 
         // Get chart data
         // TODO: Gabriel also return an object with variable as key and unit as value
         // like this: {oilRate: bbl/d, condensateRate: bbl/d, gasRate: MMscf/d, etc}
-        const result = await chartDataByModulesOrAggregate(
-          selectedModulePaths,
-          selectedVariables,
-          isMonthly,
-          forecastSolutionSpaces,
-          forecastResultsByModule,
-          forecastResultsId,
-          shouldAggregate
-        );
+
+
+        const inputData = {
+          forecastResults: forecastResultsByModule,
+          chatInputData: {
+            selectedModulePaths,
+            selectedVariables,
+            isMonthly,
+            forecastSolutionSpaces,
+            forecastResultsIds,
+            shouldAggregate
+          }
+        }  
+
+        const result = await new Promise((resolve, reject) => {
+          volumeforecastModule.plotChartAsync(
+            inputData,
+            plotChartAsynccWorkerCompletion
+          );
+          async function plotChartAsynccWorkerCompletion(
+            err1: any,
+            plotChatResult: any
+          ) {
+            if (err1) {
+              return reject(err1);
+            } else {
+              resolve(plotChatResult);
+            }
+          }
+        }); 
 
         // Reset forecastResultsByModule to free memory
-        forecastResultsByModule = {};
+        forecastResultsByModule = {} 
 
         // Add result to resultMap
         resultMap[String(i)] = result;

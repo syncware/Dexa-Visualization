@@ -167,6 +167,15 @@ typedef struct _ForecastResult
     double prodDays;
     string reasonForTermination;
 
+    double getVariableByName(const std::string& variableName) const {
+        if (variableName == "oilRate") return Oil_rate;
+        if (variableName == "gasRate") return Gas_Rate;
+        if (variableName == "waterRate") return Water_Rate;
+        // Add more variables as needed...
+
+        throw std::invalid_argument("Invalid variable name");
+    }
+
     void InitailizeData()
     {
         reasonForTermination = "";
@@ -934,6 +943,51 @@ typedef struct _MonthlyReport{
 typedef struct _StoredForecastResult {
     MonthlyReport monthlyReport;
 }StoredForecastResult;
+
+typedef struct _ModuleResultMonthly {
+    vector<ForecastResult> resultWells;
+}ModuleResultMonthly;
+
+typedef struct _InputObject {
+    vector<ModuleResultMonthly> wells;
+    bool isByYear;
+    bool isForChart;
+    int nWells;
+}InputObject;
+
+typedef struct _YObj {
+    string forecastResultId;
+    string id;
+    string name;
+    string title;
+    string path;
+    vector<double> y;  // Assuming `y` is a vector of doubles
+    vector<string> x;  // Assuming `x` is a vector of strings
+}YObj;
+
+typedef struct _ForecastResultsByModule {
+    string forecastResultsId;
+    string ModuleName;
+    string FacilityName;
+    string ScenarioName;
+    string ModuleKey;
+    string SolutionSpace;
+    string forecastResults;
+    string forecastInputId;
+}ForecastResultsByModule;
+
+
+typedef struct _ForecastResultsPayload {
+    vector<ForecastResultsByModule> moduleResults;
+}ForecastResultsPayload;
+
+typedef struct _ChatInputPayload {
+    vector<string> forecastResultsIds;
+    vector<string> selectedModulePaths;
+    vector<string> selectedVariables;
+    bool shouldAggregate;
+    vector<string> forecastSolutionSpaces;
+}ChatInputPayload;
 
 
 

@@ -3,12 +3,15 @@
 #include "src/cpp/Forecast/utilities/runForecastAsyncWorkerModifiedT.h"
 #include "src/cpp/Forecast/utilities/runForecastAsyncWorker.h"
 #include "src/cpp/Forecast/utilities/AllWellsYearlyResultNewAsyncT.h"
+#include "src/cpp/Forecast/utilities/PlotChartAsyncWorker.h"
+
 
 void getDays();
 json ReadJsonFile(string jsonFileName);
 void runForecast();
 void export_to_file(const json& j, const string& filename);
 void plotChat();
+void plotChat2();
 
 DateCreation dateCreation;
 
@@ -16,7 +19,7 @@ DateCreation dateCreation;
 int main(){
     //getDays();
     //runForecast();
-    plotChat();
+    plotChat2();
     return 0;
 }
 
@@ -40,11 +43,11 @@ json ReadJsonFile(string jsonFileName) {
 }
 
 void runForecast() {
-    json jsonData = ReadJsonFile("C:/Users/Gabriel.Achumba/Documents/Softwares/Newwayconsults/PetDigest/pet_app/forecast_input_data.json");
+    json jsonData = ReadJsonFile("C:/Users/Gabriel.Achumba/Documents/Softwares/Newwayconsults/PetDigest/pet_app/files/forecast_input_data.json");
     RunForecastAsyncWorkerModifiedTest runForecastAsyncWorkerModifiedTest;
     json responseJsonData = runForecastAsyncWorkerModifiedTest.RunForecast(jsonData);
     export_to_file(responseJsonData, 
-    "C:/Users/Gabriel.Achumba/Documents/Softwares/Newwayconsults/PetDigest/pet_app/forecast_output_data.json");
+    "C:/Users/Gabriel.Achumba/Documents/Softwares/Newwayconsults/PetDigest/pet_app/files/forecast_output_data.json");
 }
 
 void plotChat() {
@@ -53,6 +56,16 @@ void plotChat() {
     json responseJsonData = allWellsYearlyResultNewAsyncT.Plot(jsonData);
     export_to_file(responseJsonData, 
     "C:/Users/Gabriel.Achumba/Documents/Softwares/Newwayconsults/PetDigest/pet_app/forecast_chat_data_output.json");
+}
+
+void plotChat2() {
+    json forecastResultsJsonData = ReadJsonFile("C:/Users/Gabriel.Achumba/Documents/Softwares/Newwayconsults/PetDigest/pet_app/files/apex-FG.forecast_forecastresultsbymodules.json");
+    AllWellsYearlyResultNewAsyncT allWellsYearlyResultNewAsyncT;
+    json chatInputJsonData = ReadJsonFile("C:/Users/Gabriel.Achumba/Documents/Softwares/Newwayconsults/PetDigest/pet_app/files/forecast_chat_data_input.json");
+    json responseJsonData = 
+    allWellsYearlyResultNewAsyncT.PlotChart(forecastResultsJsonData, chatInputJsonData);
+    export_to_file(responseJsonData, 
+    "C:/Users/Gabriel.Achumba/Documents/Softwares/Newwayconsults/PetDigest/pet_app/files/forecast_chat_data_output.json");
 }
 
 
@@ -85,12 +98,33 @@ Napi::Value runForecastAsync(const Napi::CallbackInfo& info) {
 
 }
 
+Napi::Value plotChartAsync(const Napi::CallbackInfo& info) {
+     Napi::Env env = info.Env();
+    Napi::HandleScope scope(env);
+
+    Napi::Object wrappedInstance = info[0].As<Napi::Object>();
+    Napi::Function callback = info[1].As<Napi::Function>();
+
+    PlotChartAsyncWorker* asyncWorker = new PlotChartAsyncWorker(wrappedInstance, callback);
+    asyncWorker->Queue();
+
+    string msg = "plotChartAsync running...";
+
+    return Napi::String::New(info.Env(), msg.c_str());
+
+}
+
 
 Napi::Object Init(Napi::Env env, Napi::Object exports){
 
     exports.Set(
 		Napi::String::New(env, "runForecastAsync"), // property name => "runForecastAsync"
 		Napi::Function::New(env, runForecastAsync)  //property value => 'runForecastAsync' function
+	);
+
+    exports.Set(
+		Napi::String::New(env, "plotChartAsync"), // property name => "runForecastAsync"
+		Napi::Function::New(env, plotChartAsync)  //property value => 'runForecastAsync' function
 	);
 
 	//return 'exports' object (always)
