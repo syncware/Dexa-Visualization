@@ -20,10 +20,10 @@ private:
 public:
 	DateCreation();
 	void GetDateList(vector<InputDeckStruct>& decks, Date& StopDate, 
-	vector<Date>& equipmentsScheduleDates);
+	vector<Date>& equipmentsScheduleDates, bool isMonthly);
 	bool Compare(const Date& d1, const Date& d2);
 	bool EqualTo(const Date& d1, const Date& d2);
-	bool EqualTo2(const Date& d1, const Date& d2);
+	bool EqualTo2(const Date& d1, const Date& d2, const bool& isMonthly);
 	Date GetMinimumDate(const Date& d1, const Date& d2);
 	Date GetMaximumDate(const Date& d1, const Date& d2);
 	bool IsMinimumDate(Date& d1, Date& d2);
@@ -36,6 +36,7 @@ public:
 	int DaysInMonth(int& month);
 	int DateDiff_TotalDays(Date& d1, Date& d2);
 	void GetDaysList(Date& StartDate);
+	Date DateIncrementByYears(Date& d1);
 	~DateCreation();
 
 	vector<Date> dateTimes;
@@ -83,12 +84,19 @@ bool DateCreation::EqualTo(const Date& d1, const Date& d2)
 	return false;
 }
 
-bool DateCreation::EqualTo2(const Date& d1, const Date& d2)
+bool DateCreation::EqualTo2(const Date& d1, const Date& d2, const bool& isMonthly)
 {
 	//&& d1.day == d2.day
-	if (d1.year == d2.year && d1.month == d2.month)
-	{
-		return true;
+	if(isMonthly){
+		if (d1.year == d2.year && d1.month == d2.month)
+		{
+			return true;
+		}
+	}else{
+		if (d1.year == d2.year)
+		{
+			return true;
+		}
 	}
 
 	return false;
@@ -298,6 +306,16 @@ Date DateCreation::DateIncrementByYears(Date& d1, int& numberOfYears)
 
 }
 
+Date DateCreation::DateIncrementByYears(Date& d1)
+{
+	Date d2;
+	d2.day = 1;
+	d2.month = 1;
+	d2.year = d1.year + 1;
+	return d2;
+
+}
+
 
 void DateCreation::SortDate(vector<Date>& dates)
 {
@@ -319,7 +337,7 @@ void DateCreation::SortDate(vector<Date>& dates)
 
 
 void DateCreation::GetDateList(vector<InputDeckStruct>& decks,
-Date& StopDate, vector<Date>& equipmentsScheduleDates)
+Date& StopDate, vector<Date>& equipmentsScheduleDates, bool isMonthly)
 {
 
 	int size = decks.size();
@@ -370,14 +388,20 @@ Date& StopDate, vector<Date>& equipmentsScheduleDates)
 
 	dateTimes.clear();
 
+	int yearIncrement = 1;
+
 	while (IsMinimumDate(d, StopDate) == true) {
 
-		if (IsContains(dateTimes, d) == false)
+		if (IsContains(dateTimes, d) == false){
 			dateTimes.push_back(d);
+		}
 
-		d = DateIncrementByMonth(d);
+		if(isMonthly){
+			d = DateIncrementByMonth(d);
+		}else{
+			d = DateIncrementByYears(d);
+		}
 
-			//std::cout << d.day << "/" << d.month << "/" << d.year << std::endl;
 	}
 
 	/* dateTimesTempsize = dateTimesTemp.size();

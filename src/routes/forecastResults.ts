@@ -910,7 +910,7 @@ forecastResultsRouter.post(
             forecastResultsIds,
             shouldAggregate
           }
-        }  
+        }
 
         const result = await new Promise((resolve, reject) => {
           volumeforecastModule.plotChartAsync(

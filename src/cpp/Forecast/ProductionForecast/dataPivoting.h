@@ -39,7 +39,7 @@ public:
     vector<Date> GetListOfYears(vector<vector<vector<ForecastResult>>>& allWellForecastResults,
     bool& isByYear);
     vector<ForecastResult> GetYearlyForcastResultModuleLevel(vector<ForecastResult>& forecastResults,
-                                        vector<Date>& dates, bool& isForChart);
+                                        vector<Date>& dates, bool& isForChart, bool& isByYear);
     vector<ForecastResult>GetYearlyForcastResultModuleLevelMonthly(vector<ForecastResult>& forecastResults,
                                  vector<Date>& dates);
 
@@ -303,7 +303,7 @@ bool& isByYear)
 
 
 vector<ForecastResult> dataPivoting::GetYearlyForcastResultModuleLevel(vector<ForecastResult>& forecastResults,
-                                 vector<Date>& dates, bool& isForChart)
+                                 vector<Date>& dates, bool& isForChart, bool& isByYear)
 {
 
     int i = 0, j = 0, lent = dates.size();
@@ -368,11 +368,23 @@ vector<ForecastResult> dataPivoting::GetYearlyForcastResultModuleLevel(vector<Fo
                 if(results[i].Year == forecastResults[j].Year){
                     if(forecastResults[j].HyrocarbonStream == "oil"){
                         if(forecastResults[j].Oil_rate > 0){
-                            ProdaysPerYear = ProdaysPerYear + dt30;
+                            if(isByYear){
+                               ProdaysPerYear = 365; 
+                               dt30 = 365;
+                            }else{
+                                ProdaysPerYear = ProdaysPerYear + dt30;
+                                dt30 = 30;
+                            } 
                         }
                     }else{
                         if(forecastResults[j].Gas_Rate > 0){
-                            ProdaysPerYear = ProdaysPerYear + dt30;
+                            if(isByYear){
+                               ProdaysPerYear = 365; 
+                               dt30 = 365;
+                            }else{
+                                ProdaysPerYear = ProdaysPerYear + dt30;
+                                dt30 = 30;
+                            } 
                         }
                     }
                     dNp = dNp + (forecastResults[j].Oil_rate * dt30);
@@ -420,9 +432,20 @@ vector<ForecastResult> dataPivoting::GetYearlyForcastResultModuleLevel(vector<Fo
         results[i].Gas_Flared =  0;
         results[i].Crude_Oil_Lossess =  0;
 
+        //ProdaysPerYear = 365.0;
+
         if(ProdaysPerYear > 0) {
             results[i].Oil_rate =  dNp/ProdaysPerYear;
             results[i].Condensate_Rate =  dNpc/ProdaysPerYear;
+
+            // //=======To be removed=======================
+            // if(results[i].HyrocarbonStream == "oil"){
+            //     results[i].Condensate_Rate = results[i].Oil_rate;
+            // }else{
+            //     results[i].Oil_rate = results[i].Condensate_Rate;
+            // }
+            // //==================================================
+
             results[i].Gas_Rate =   dGp/ProdaysPerYear;
             results[i].Water_Rate =  dWp/ProdaysPerYear;
             results[i].Gas_Own_Use =  dGpOwnUse/ProdaysPerYear;
@@ -431,7 +454,11 @@ vector<ForecastResult> dataPivoting::GetYearlyForcastResultModuleLevel(vector<Fo
             results[i].Crude_Oil_Lossess =  dCrudeOilLoss/ProdaysPerYear;
         }
 
-        results[i].Liquid_Rate =  results[i].Oil_rate +  results[i].Water_Rate;
+            if(results[i].HyrocarbonStream == "oil"){
+                results[i].Liquid_Rate =  results[i].Oil_rate +  results[i].Water_Rate;
+            }else{
+                results[i].Liquid_Rate =  results[i].Condensate_Rate +  results[i].Water_Rate;
+            }
         if(results[i].Gas_Rate < 0.000000000){
             results[i].Gas_Own_Use = 0;
             results[i].Gas_Demand = 0;
@@ -672,7 +699,8 @@ vector<vector<ForecastResult>> dataPivoting::GetYearlyForcastResultModulesLevel(
     int i = 0, lent = forecastResults.size();
     for(i = 0; i < lent; i++){
         if(isByYear == true){
-            results.push_back(GetYearlyForcastResultModuleLevel(forecastResults[i], dates, isForChart));
+            results.push_back(GetYearlyForcastResultModuleLevel(forecastResults[i], 
+            dates, isForChart, isByYear));
         }else{
             results.push_back(GetYearlyForcastResultModuleLevelMonthly(forecastResults[i],dates));
         }
@@ -735,7 +763,8 @@ vector<ForecastResult> dataPivoting::GetYearlyForcastResultFacilityLevel(vector<
 
         if(isByYear == true){
            forecastResultsNew 
-                =  GetYearlyForcastResultModuleLevel(forecastResults[k], dates, isForChart);
+                =  GetYearlyForcastResultModuleLevel(forecastResults[k], 
+                dates, isForChart, isByYear);
         }else{
             forecastResultsNew 
                 =  GetYearlyForcastResultModuleLevelMonthly(forecastResults[k], dates);

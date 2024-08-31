@@ -738,6 +738,14 @@ void Inputdeck::InitilizeModule(InputDeckStruct &extendedInputDeck)
 	if (extendedInputDeck.Hydrocarbon_Stream == "oil")
 	{
 
+		double oilRate = extendedInputDeck.Init_Liquid_Gas_Rate_1P_1C;
+		double one_minus_bsw = (1 - extendedInputDeck.Init_BSW_WGR);
+		double liqRate = oilRate / one_minus_bsw;
+		extendedInputDeck.Init_Liquid_Gas_Rate_1P_1C = liqRate;
+		double declineRate = extendedInputDeck.Rate_of_Change_Rate_1P_1C * 0.001;
+		extendedInputDeck.Rate_of_Change_Rate_1P_1C = declineRate;
+
+
 		extendedInputDeck.Cum_Water_Prod = extendedInputDeck.Np * extendedInputDeck.Init_BSW_WGR /
 									(1 - extendedInputDeck.Init_BSW_WGR);
 		extendedInputDeck.Gp = extendedInputDeck.Np * extendedInputDeck.Init_GOR_CGR;

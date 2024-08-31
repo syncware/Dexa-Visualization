@@ -16,7 +16,7 @@
 #include "../ProductionForecast/Inputdeck.h"
 #include "../ProductionForecast/Forecast.h"
 #include "../ProductionForecast/DateCreation.h"
-#include "../ProductionForecast/CalculateDeckVariables.h"
+#include "../ProductionForecast/CalculateDeckVariables2.h"
 #include "../ProductionForecast/dataPivoting.h"
 #include "../../MathematicsLibrary/Interception.h"
 #include "../ProductionForecast/ExternalForecast.h"
@@ -114,6 +114,16 @@ json RunForecastAsyncWorkerModifiedTest::RunForecast(const json& jsonData){
     vector<bool> forecastSolutionSpacesIsDURConstrained = payload.forecastSolutionSpacesIsDURConstrained;
     int nForecastSolutionSpacesIsDURConstrained = payload.nForecastSolutionSpacesIsDURConstrained;
 
+    DateCreation dateCreation;
+
+    Date StopDate;
+
+    bool isMonthly = deckobj.runParameter.isMonthly;
+    StopDate.year = deckobj.runParameter.StopYear;
+    StopDate.month = deckobj.runParameter.StopMonth;
+    StopDate.day = deckobj.runParameter.StopDay;
+    reportJSON2.isMonthly = isMonthly;
+
 
     vector<Node> nodes =
     reportJSON2.GetNodes(internalExternalFacilitiesNames, equipmentConnections);
@@ -141,21 +151,13 @@ json RunForecastAsyncWorkerModifiedTest::RunForecast(const json& jsonData){
             
     int ndecks = deckobj.inputdecks.size();
 
-    DateCreation dateCreation;
-
-    Date StopDate;
-
-    StopDate.year = deckobj.runParameter.StopYear;
-    StopDate.month = deckobj.runParameter.StopMonth;
-    StopDate.day = deckobj.runParameter.StopDay;
-
     
-    dateCreation.GetDateList(deckobj.inputdecks,  StopDate, equipmentsScheduleDates);
+    dateCreation.GetDateList(deckobj.inputdecks,  StopDate, equipmentsScheduleDates, isMonthly);
 
     dateCreation.GetDaysList(dateCreation.dateTimes[0]);
 
     int scenario = 1;
-    CalculateDeckVariables calculateDeckVariables;
+    CalculateDeckVariables2 calculateDeckVariables;
 
     int nth =  dateCreation.dateTimes.size();
     
@@ -184,7 +186,7 @@ json RunForecastAsyncWorkerModifiedTest::RunForecast(const json& jsonData){
 
         int fSSIndex = 0;
         int nForecastSolutionSpaces = forecastSolutionSpaces.size();
-        int scenarios = 4; 
+        int scenarios = 2; 
         vector<WellSchedule> wellSchedules = reportJSON2.GetWellSchedulesSheetData(deckobj.wellRerouteDecks,
                         deckobj.wellRampUpDecks, deckobj.wellShutInOpenUpDecks, StopDate);
 
@@ -218,8 +220,6 @@ json RunForecastAsyncWorkerModifiedTest::RunForecast(const json& jsonData){
                 vector<vector<Priotization>> priotizationsFacilities = deckobj.priotizationsFacilities;
 
 
-
-                CalculateDeckVariables calculateDeckVariables;
                 calculateDeckVariables.UseExternalForecastprofile = isForecastProfiles;
                 if( calculateDeckVariables.UseExternalForecastprofile == "external"){
                     calculateDeckVariables.WellActivities = wellActivities;
@@ -260,7 +260,7 @@ json RunForecastAsyncWorkerModifiedTest::RunForecast(const json& jsonData){
                 
                 calculateDeckVariables.GetDeckVariables(FacilitiesObj, dateCreation.daysList, scenario,
                 deckobj.FacilityTable_Actual, Facilities, dateCreation, deckobj.wellRerouteDecks,
-                deckobj.runParameter.forecastCase, priotizationsFacilities, updatesNodes);
+                deckobj.runParameter.forecastCase, priotizationsFacilities, updatesNodes, isMonthly);
 
                 reportJSON2.results = calculateDeckVariables.results;
 

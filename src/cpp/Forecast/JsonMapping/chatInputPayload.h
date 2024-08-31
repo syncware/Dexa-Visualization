@@ -27,17 +27,11 @@ using json = nlohmann::json;
 
 ChatInputPayload chatInputPayload_to_json(const json& j) {
     ChatInputPayload payload;
-    std::cout << "payload.forecastResultsIds before " << std::endl;
     payload.forecastResultsIds = j.at("forecastResultsIds").get<vector<string>>();
-    std::cout << "payload.forecastResultsIds after " << std::endl;
-    std::cout << "payload.forecastResultsIds count: " << payload.forecastResultsIds.size() << std::endl;
     payload.selectedModulePaths = j.at("selectedModulePaths").get<vector<string>>();
-    std::cout << "payload.selectedModulePaths: " << payload.selectedModulePaths[0] << std::endl;
     payload.selectedVariables = j.at("selectedVariables").get<vector<string>>();
-    std::cout << "payload.selectedVariables: " << payload.selectedVariables[0] << std::endl;
     payload.shouldAggregate = j.at("shouldAggregate").get<bool>();
-    std::cout << "payload.shouldAggregate: " << payload.shouldAggregate << std::endl;
     payload.forecastSolutionSpaces = j.at("forecastSolutionSpaces").get<vector<string>>();
-    std::cout << "payload.forecastSolutionSpaces: " << payload.forecastSolutionSpaces[0] << std::endl;
+    payload.isMonthly = j.at("isMonthly").get<bool>();
     return payload;
 }

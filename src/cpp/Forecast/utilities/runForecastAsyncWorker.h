@@ -103,6 +103,17 @@ class RunForecastAsyncWorker : public Napi::AsyncWorker
 
             vector<Priotization> nodalPriotizations = payload.nodalPriotizations;
 
+            DateCreation dateCreation;
+
+            Date StopDate;
+
+            StopDate.year = deckobj.runParameter.StopYear;
+            StopDate.month = deckobj.runParameter.StopMonth;
+            StopDate.day = deckobj.runParameter.StopDay;
+            bool isMonthly = deckobj.runParameter.isMonthly;
+            reportJSON2.isMonthly = isMonthly;
+
+
             deckobj.inputdecks = payload.decks;;
             deckobj.InitilizeModules();
 
@@ -158,16 +169,9 @@ class RunForecastAsyncWorker : public Napi::AsyncWorker
 
             std::cout << "Get_InputDeckStructList done completely" << std::endl;
 
-            DateCreation dateCreation;
-
-            Date StopDate;
-
-            StopDate.year = deckobj.runParameter.StopYear;
-            StopDate.month = deckobj.runParameter.StopMonth;
-            StopDate.day = deckobj.runParameter.StopDay;
-
             
-            dateCreation.GetDateList(deckobj.inputdecks,  StopDate, equipmentsScheduleDates);
+            
+            dateCreation.GetDateList(deckobj.inputdecks,  StopDate, equipmentsScheduleDates, isMonthly);
             std::cout << "GetDateList done completely\n";
 
             dateCreation.GetDaysList(dateCreation.dateTimes[0]);
@@ -282,9 +286,10 @@ class RunForecastAsyncWorker : public Napi::AsyncWorker
 
                         calculateDeckVariables.startFrom = nth * (i-1);
                         
+                       
                         calculateDeckVariables.GetDeckVariables(FacilitiesObj, dateCreation.daysList, scenario,
                         deckobj.FacilityTable_Actual, Facilities, dateCreation, deckobj.wellRerouteDecks,
-                        deckobj.runParameter.forecastCase, priotizationsFacilities, updatesNodes);
+                        deckobj.runParameter.forecastCase, priotizationsFacilities, updatesNodes, isMonthly);
 
 
 

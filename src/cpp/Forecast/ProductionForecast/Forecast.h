@@ -171,7 +171,13 @@ typedef struct _ForecastResult
         if (variableName == "oilRate") return Oil_rate;
         if (variableName == "gasRate") return Gas_Rate;
         if (variableName == "waterRate") return Water_Rate;
-        // Add more variables as needed...
+        if (variableName == "liquidRate") return Liquid_Rate;
+        if (variableName == "condensateRate") return Condensate_Rate;
+        if (variableName == "ownUseGas") return Gas_Own_Use;
+        if (variableName == "gasDemand") return Gas_Demand;
+        if (variableName == "flareGas") return Gas_Flared;
+        if (variableName == "crudeOilLossess") return Crude_Oil_Lossess;
+     
 
         throw std::invalid_argument("Invalid variable name");
     }
@@ -473,6 +479,7 @@ typedef struct _RunParameter
     string TargetFluid;
     int isDefered;
     string forecastCase;
+    bool isMonthly;
 } RunParameter;
 
 typedef struct _FacilityStructExternal
@@ -987,6 +994,7 @@ typedef struct _ChatInputPayload {
     vector<string> selectedVariables;
     bool shouldAggregate;
     vector<string> forecastSolutionSpaces;
+    bool isMonthly;
 }ChatInputPayload;
 
 

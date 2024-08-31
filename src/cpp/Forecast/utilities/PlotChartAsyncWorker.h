@@ -66,12 +66,12 @@ class PlotChartAsyncWorker : public Napi::AsyncWorker
             Napi::Array wrappedForecastResults = (wrappedInstance.Get(Napi::String::New(env, "forecastResults"))).As<Napi::Array>();
             Napi::Object wrappedChatInputData = (wrappedInstance.Get(Napi::String::New(env, "chatInputData"))).As<Napi::Object>();
             
-            json chatInputJsonData = reportJSON.NapiObjectToJson(wrappedChatInputData);
-            json forecastResultsJsonData = reportJSON.ConvertNapiArrayToJsonString(wrappedForecastResults);
+            //json chatInputJsonData = reportJSON.NapiObjectToJson(wrappedChatInputData);
+           // json forecastResultsJsonData = reportJSON.ConvertNapiArrayToJsonString(wrappedForecastResults);
             
 
             Napi::Object responseNapiObject =
-            reportJSON.PlotChartAsync(env, forecastResultsJsonData, chatInputJsonData);
+            reportJSON.PlotChartAsync(env, wrappedForecastResults, wrappedChatInputData);
             std::cout << "responseNapiObject read " << std::endl;
             
             Callback().MakeCallback(Receiver().Value(), std::initializer_list<napi_value>{

@@ -43,7 +43,7 @@ def plotDataPerFacility(file_name, solution_space,
     plt.show(block=True)
 
 file_name = "files/forecast_chat_data_output.json"
-solution_space = "potential"
+solution_space = "POTENTIAL1P_1C"
 scenario = "1P_1C" 
 forecastResultIndex = "1"
 variable = "oilRate"

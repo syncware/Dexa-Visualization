@@ -53,6 +53,8 @@ private:
 	double allWellsLiquidCapacity;
 	double allWellsGasCapacity = 0;
 	bool isGasFlow = false;
+	vector<double> wellsOilRates;
+	double avgOilWellsRate;
 	
 
 public:
@@ -65,7 +67,7 @@ public:
 						  vector<string> &FacilitiesNames, DateCreation &dateCreationX,
 						  vector<WellReroute> &routedWells, string &forecastCase,
 						  vector<vector<Priotization>> &priotizationsFacilities,
-						  vector<Node> &updatesNodes);
+						  vector<Node> &updatesNodes, bool isMonthly);
 	void GetDeckVariables(vector<InputDeckStruct> &facility, vector<int> &daysList,
 						  int &scenario, int &facilityCounter, FacilityStruct &facilityStruct,
 						  int &dateIndex, int &numberOfFacilities,
@@ -217,6 +219,7 @@ public:
 	string facilitiesTimeStepsReport = "";
 	string checker = "";
 	bool dURConstrained = false;
+	bool isMonthly = true;;
 	//ReportJSON reportJSON;
 };
 
@@ -481,7 +484,7 @@ void CalculateDeckVariables::GetFacilityFlowRates(vector<Node> &updatesNodes)
 		int idx = singleNodeDataIndicies[ikk];
 		//CurrentDate.day == updatesNodes[0].equipmentDataInEquipementConnections[idx].FacilityDate1P.day &&
 		if (dateCreation.IsMaximumDate(CurrentDate, updatesNodes[0].equipmentDataInEquipementConnections[idx].FacilityDate1P) ||
-		dateCreation.EqualTo2(CurrentDate, updatesNodes[0].equipmentDataInEquipementConnections[idx].FacilityDate1P))
+		dateCreation.EqualTo2(CurrentDate, updatesNodes[0].equipmentDataInEquipementConnections[idx].FacilityDate1P, isMonthly))
 		{
 			//Set the sum of fluxes from wells to its corresponding facility provided
 			//the current time step date is greater or equal to the facility OSD
@@ -535,7 +538,7 @@ void CalculateDeckVariables::GetDownStreamNodesFlux(vector<Node> &updatesNodes, 
 					//CurrentDate.day == updatesNodes[kk - 1].equipmentDataInEquipementConnections[u].FacilityDate1P.day &&
 					//check if the previous node that is connected to the current node has a flow at the current time step date
 					if (dateCreation.IsMaximumDate(CurrentDate, updatesNodes[kk - 1].equipmentDataInEquipementConnections[u].FacilityDate1P) ||
-					dateCreation.EqualTo2(CurrentDate, updatesNodes[kk - 1].equipmentDataInEquipementConnections[u].FacilityDate1P))
+					dateCreation.EqualTo2(CurrentDate, updatesNodes[kk - 1].equipmentDataInEquipementConnections[u].FacilityDate1P, isMonthly))
 					{
 
 						Date minimumNodeOnstreamDate, minimumNodeOnstreamDate2;
@@ -672,7 +675,7 @@ void CalculateDeckVariables::GetDownStreamNodesFlux(vector<Node> &updatesNodes, 
 				{
 					//CurrentDate.day == updatesNodes[kk].equipmentDataInEquipementConnections[u].FacilityDate1P.day &&
 					if (dateCreation.IsMaximumDate(CurrentDate, updatesNodes[kk].equipmentDataInEquipementConnections[u].FacilityDate1P) ||
-					dateCreation.EqualTo2(CurrentDate, updatesNodes[kk].equipmentDataInEquipementConnections[u].FacilityDate1P))
+					dateCreation.EqualTo2(CurrentDate, updatesNodes[kk].equipmentDataInEquipementConnections[u].FacilityDate1P, isMonthly))
 					{
 						Liquid_Capacity = updatesNodes[kk].equipmentDataInEquipementConnections[u].Liquid_Capacity1P * 1000;
 						AG_Capacity = updatesNodes[kk].equipmentDataInEquipementConnections[u].AG_Capacity1P * 1000000;
@@ -742,7 +745,7 @@ void CalculateDeckVariables::AdjustWellsFlowRates(vector<Node> &updatesNodes,
 				// equipmentDataInEquipementConnections do something
 				//CurrentDate.day == updatesNodes[0].equipmentDataInEquipementConnections[u].FacilityDate1P.day &&
 				if (dateCreation.IsMaximumDate(CurrentDate, updatesNodes[0].equipmentDataInEquipementConnections[u].FacilityDate1P) ||
-				dateCreation.EqualTo2(CurrentDate, updatesNodes[0].equipmentDataInEquipementConnections[u].FacilityDate1P))
+				dateCreation.EqualTo2(CurrentDate, updatesNodes[0].equipmentDataInEquipementConnections[u].FacilityDate1P, isMonthly))
 				{
 					liquidCutBack = liquidCutBack * updatesNodes[0].equipmentDataInEquipementConnections[u].cutBack;
 					gasCutBack = gasCutBack * updatesNodes[0].equipmentDataInEquipementConnections[u].cutBack;
@@ -797,7 +800,7 @@ void CalculateDeckVariables::AdjustWellsFlowRates(vector<Node> &updatesNodes,
 						{
 							//CurrentDate.day == updatesNodes[kk].equipmentDataInEquipementConnections[ij].FacilityDate1P.day &&
 							if (dateCreation.IsMaximumDate(CurrentDate, updatesNodes[kk].equipmentDataInEquipementConnections[ij].FacilityDate1P) ||
-								dateCreation.EqualTo2(CurrentDate, updatesNodes[kk].equipmentDataInEquipementConnections[ij].FacilityDate1P))
+								dateCreation.EqualTo2(CurrentDate, updatesNodes[kk].equipmentDataInEquipementConnections[ij].FacilityDate1P, isMonthly))
 							{
 								if (updatesNodes[kk].equipmentDataInEquipementConnections[ij].isGasFlow == false)
 								{
@@ -884,7 +887,7 @@ void CalculateDeckVariables::GetDeckVariables(vector<vector<vector<InputDeckStru
 											  vector<string> &FaclitiesNames, DateCreation &dateCreationX,
 											  vector<WellReroute> &routedWells, string &forecastCase,
 											  vector<vector<Priotization>> &priotizationsFacilities,
-											  vector<Node> &updatesNodes)
+											  vector<Node> &updatesNodes, bool isMonthly)
 {
 
 	double MM = 1000000.0;
@@ -958,11 +961,13 @@ void CalculateDeckVariables::GetDeckVariables(vector<vector<vector<InputDeckStru
 				switch (scenario)
 				{
 				case 1:
-					if (dateCreation.EqualTo2(dates[i], deck.Date_1P_1C)) // Assign Initial Values
+					if (dateCreation.EqualTo2(dates[i], deck.Date_1P_1C, isMonthly)) // Assign Initial Values
 					{
 
 						if (deck.Hydrocarbon_Stream == oil)
 						{
+							//deck.Rate_of_Change_Rate_1P_1C = deck.Rate_of_Change_Rate_1P_1C * 0.00001;
+							//Faclities[i][j][k].Rate_of_Change_Rate_1P_1C = Faclities[i][j][k].Rate_of_Change_Rate_1P_1C * 0.00001;
 							result.HyrocarbonStream = deck.Hydrocarbon_Stream;
 							result.hydrocarbonType = deck.hydrocarbonType;
 							result.terminal = deck.terminal;
@@ -1067,7 +1072,7 @@ void CalculateDeckVariables::GetDeckVariables(vector<vector<vector<InputDeckStru
 					break;
 
 				case 2:
-					if (dateCreation.EqualTo2(dates[i], deck.Date_2P_2C)) // Assign Initial Values
+					if (dateCreation.EqualTo2(dates[i], deck.Date_2P_2C, isMonthly)) // Assign Initial Values
 					{
 
 						if (deck.Hydrocarbon_Stream == oil)
@@ -1177,7 +1182,7 @@ void CalculateDeckVariables::GetDeckVariables(vector<vector<vector<InputDeckStru
 					break;
 
 				case 3:
-					if (dateCreation.EqualTo2(dates[i], deck.Date_3P_3C))// Assign Initial Values
+					if (dateCreation.EqualTo2(dates[i], deck.Date_3P_3C, isMonthly))// Assign Initial Values
 					{
 						if (deck.Hydrocarbon_Stream == oil)
 						{
@@ -1320,7 +1325,7 @@ void CalculateDeckVariables::GetDeckVariables(vector<vector<vector<InputDeckStru
 			CurrentDate = dates[i];
 			//WellFacilityDataList.clear();
 			int kk = 0;
-			int nUpdatesNodes = updatesNodes.size(); //nUpdatesNodes = 1; To be removed
+			int nUpdatesNodes = 1; //updatesNodes.size(); //nUpdatesNodes = 1; To be removed
 			if (forecastCase == potential)
 			{
 				nUpdatesNodes = 1;
@@ -1399,6 +1404,15 @@ void CalculateDeckVariables::GetDeckVariables(vector<vector<vector<InputDeckStru
 		std::cout << e.what() << std::endl;
 	} */
 
+	avgOilWellsRate = 0;
+	double n = 365.0;
+	for(i = 0; i < wellsOilRates.size(); i++){
+		avgOilWellsRate = avgOilWellsRate + wellsOilRates[i];;
+	}
+	
+	avgOilWellsRate = avgOilWellsRate / n;
+	
+
 	InputDecks.clear();
 	InputDecks.shrink_to_fit();
 	FacilityList.clear();
@@ -1457,7 +1471,7 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 				if (results[dateIndex][facilityCounter].size() > results[dateIndex - 1][facilityCounter].size() &&
 					j >= results[dateIndex - 1][facilityCounter].size())
 				{
-					tuple<bool, int> checkIndex = CalculateDeckVariables::CheckWellFacilityAndGetIndex(WellFacilityDataList, deck.Module);
+					tuple<bool, int> checkIndex = CheckWellFacilityAndGetIndex(WellFacilityDataList, deck.Module);
 					int Idx = get<1>(checkIndex);
 					if (get<0>(checkIndex) == true)
 					{
@@ -1504,7 +1518,11 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 			switch (scenario)
 			{
 			case 1:
-				if (dateCreation.IsMaximumDate(dates[dateIndex], deck.Date_1P_1C) || dateCreation.EqualTo2(dates[dateIndex], deck.Date_1P_1C)) // Start Forecast for the well
+				/* if(dates[dateIndex].month == 7 && dates[dateIndex].year == 2024 &&
+				deck.Module == "FO26016T_FO26 F40X_P09"){
+					double hgs = 0;
+				} */
+				if (dateCreation.IsMaximumDate(dates[dateIndex], deck.Date_1P_1C) || dateCreation.EqualTo2(dates[dateIndex], deck.Date_1P_1C, isMonthly)) // Start Forecast for the well
 				{
 					forecastResult.ModuleName = deck.Module;
 					forecastResult.HyrocarbonStream = deck.Hydrocarbon_Stream;
@@ -1588,7 +1606,7 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 												if (results[dateIndex][i][ij].ModuleName == forecastResult.ModuleName)
 												{
 													if (dateCreation.IsMaximumDate(dates[dateIndex], decks_i[ij].Date_1P_1C) ||
-														dateCreation.EqualTo2(dates[dateIndex], decks_i[ij].Date_1P_1C))
+														dateCreation.EqualTo2(dates[dateIndex], decks_i[ij].Date_1P_1C, isMonthly))
 													{
 														if (results[dateIndex][i][ij].Liquid_Rate > 0)
 														{
@@ -1668,7 +1686,7 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 												if (results[dateIndex][i][ij].ModuleName == forecastResult.ModuleName)
 												{
 													if (dateCreation.IsMaximumDate(dates[dateIndex], decks_i[ij].Date_1P_1C) ||
-														dateCreation.EqualTo2(dates[dateIndex], decks_i[ij].Date_1P_1C))
+														dateCreation.EqualTo2(dates[dateIndex], decks_i[ij].Date_1P_1C, isMonthly))
 													{
 														if (results[dateIndex][i][ij].Gas_Rate > 0)
 														{
@@ -1720,7 +1738,7 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 				}
 				break;
 			case 2:
-				if (dateCreation.IsMaximumDate(dates[dateIndex], deck.Date_2P_2C) || dateCreation.EqualTo2(dates[dateIndex], deck.Date_2P_2C)) // Start Forecast for the well
+				if (dateCreation.IsMaximumDate(dates[dateIndex], deck.Date_2P_2C) || dateCreation.EqualTo2(dates[dateIndex], deck.Date_2P_2C, isMonthly)) // Start Forecast for the well
 				{
 					forecastResult.ModuleName = deck.Module;
 					forecastResult.HyrocarbonStream = deck.Hydrocarbon_Stream;
@@ -1801,7 +1819,7 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 												if (results[dateIndex][i][ij].ModuleName == forecastResult.ModuleName)
 												{
 													if (dateCreation.IsMaximumDate(dates[dateIndex], decks_i[ij].Date_2P_2C) ||
-														dateCreation.EqualTo2(dates[dateIndex], decks_i[ij].Date_2P_2C))
+														dateCreation.EqualTo2(dates[dateIndex], decks_i[ij].Date_2P_2C, isMonthly))
 													{
 														if (results[dateIndex][i][ij].Liquid_Rate > 0)
 														{
@@ -1878,7 +1896,7 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 												if (results[dateIndex][i][ij].ModuleName == forecastResult.ModuleName)
 												{
 													if (dateCreation.IsMaximumDate(dates[dateIndex], decks_i[ij].Date_2P_2C) ||
-														dateCreation.EqualTo2(dates[dateIndex], decks_i[ij].Date_2P_2C))
+														dateCreation.EqualTo2(dates[dateIndex], decks_i[ij].Date_2P_2C, isMonthly))
 													{
 														if (results[dateIndex][i][ij].Gas_Rate > 0)
 														{
@@ -1929,7 +1947,7 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 				}
 				break;
 			case 3:
-				if (dateCreation.IsMaximumDate(dates[dateIndex], deck.Date_3P_3C) || dateCreation.EqualTo2(dates[dateIndex], deck.Date_3P_3C)) // Start Forecast for the well
+				if (dateCreation.IsMaximumDate(dates[dateIndex], deck.Date_3P_3C) || dateCreation.EqualTo2(dates[dateIndex], deck.Date_3P_3C, isMonthly)) // Start Forecast for the well
 				{
 					forecastResult.ModuleName = deck.Module;
 					forecastResult.HyrocarbonStream = deck.Hydrocarbon_Stream;
@@ -2005,7 +2023,7 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 												if (results[dateIndex][i][ij].ModuleName == forecastResult.ModuleName)
 												{
 													if (dateCreation.IsMaximumDate(dates[dateIndex], decks_i[ij].Date_3P_3C) ||
-														dateCreation.EqualTo2(dates[dateIndex], decks_i[ij].Date_3P_3C))
+														dateCreation.EqualTo2(dates[dateIndex], decks_i[ij].Date_3P_3C, isMonthly))
 													{
 														if (results[dateIndex][i][ij].Liquid_Rate > 0)
 														{
@@ -2082,7 +2100,7 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 												if (results[dateIndex][i][ij].ModuleName == forecastResult.ModuleName)
 												{
 													if (dateCreation.IsMaximumDate(dates[dateIndex], decks_i[ij].Date_3P_3C) ||
-														dateCreation.EqualTo2(dates[dateIndex], decks_i[ij].Date_3P_3C))
+														dateCreation.EqualTo2(dates[dateIndex], decks_i[ij].Date_3P_3C, isMonthly))
 													{
 														if (results[dateIndex][i][ij].Gas_Rate > 0)
 														{
@@ -2144,9 +2162,9 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 
 		int nth = OptimizedWells.size();
 
-		if(priotizationFacility.FacilityName == "REO_GP2"){
+		/* if(priotizationFacility.FacilityName == "REO_GP2"){
 			double cg = 0;
-		}
+		} */
 
 		if (forecastCase != potential)
 		{
@@ -2239,6 +2257,22 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 			case 1:
 				SetCutRatesBackValues(facilityCounter, dateIndex, optimized_cutbacks[i],
 									  scenario, deck, j);
+				/* if(CurrentDate.year == 2024){
+					if(deck.Flow_station == "ABU_FS1" ||
+					deck.Flow_station == "ABU_FS3" ||
+					deck.Flow_station == "ABU_FS4" ||
+					deck.Flow_station == "ABU_FS5" ||
+					deck.Flow_station == "ABU_FS2"){
+						wellsOilRates.push_back(results[dateIndex][facilityCounter][j].Oil_rate); */
+
+				//if(CurrentDate.year == 2024){
+					/* if(deck.Module == "FO26016T_FO26 F40X_P09"){
+						double kjh = 0;
+					} */
+					if(deck.Module == "FO15004L_FO15 R10X_P01"){
+						wellsOilRates.push_back(results[dateIndex][facilityCounter][j].Oil_rate);
+					}
+				//}
 				break;
 
 			case 2:
@@ -2559,7 +2593,7 @@ void CalculateDeckVariables::GetCurrentFacilityData()
 	//double MM = 1000000.0;
 	int i = 0, nSIze = FacilityList.size();
 
-	if (dateCreation.EqualTo2(CurrentDate, FacilityList[0].FacilityDate))
+	if (dateCreation.EqualTo2(CurrentDate, FacilityList[0].FacilityDate, isMonthly))
 	{
 
 		CurrentFacilityData = FacilityList[0];
@@ -2582,7 +2616,7 @@ void CalculateDeckVariables::GetCurrentFacilityData()
 		for (i = 1; i < nSIze; i++)
 		{
 
-			if (dateCreation.EqualTo2(CurrentDate, FacilityList[i - 1].FacilityDate))
+			if (dateCreation.EqualTo2(CurrentDate, FacilityList[i - 1].FacilityDate, isMonthly))
 			{
 				CurrentFacilityData = FacilityList[i - 1];
 				//std::cout << "GAS CAPACITY: " << CurrentFacilityData.Gas_Capacity << std::endl;
@@ -2591,7 +2625,7 @@ void CalculateDeckVariables::GetCurrentFacilityData()
 				return;
 			}
 
-			if (dateCreation.EqualTo2(CurrentDate, FacilityList[i].FacilityDate))
+			if (dateCreation.EqualTo2(CurrentDate, FacilityList[i].FacilityDate, isMonthly))
 			{
 				CurrentFacilityData = FacilityList[i];
 				//std::cout << "GAS CAPACITY: " << CurrentFacilityData.Gas_Capacity << std::endl;
@@ -3894,7 +3928,7 @@ void CalculateDeckVariables::SetCutRatesBackValues(int &facilityCounter, int &ti
 				if (results[timeStepCounter][facilityCounter].size() > results[timeStepCounter - 1][facilityCounter].size() &&
 					i >= results[timeStepCounter - 1][facilityCounter].size())
 				{
-					tuple<bool, int> checkIndex = CalculateDeckVariables::CheckWellFacilityAndGetIndex(WellFacilityDataList, deck.Module);
+					tuple<bool, int> checkIndex = CheckWellFacilityAndGetIndex(WellFacilityDataList, deck.Module);
 					int Idx = get<1>(checkIndex);
 					if (get<0>(checkIndex) == true)
 					{
@@ -4001,7 +4035,7 @@ void CalculateDeckVariables::SetCutRatesBackValues(int &facilityCounter, int &ti
 				if (results[timeStepCounter][facilityCounter].size() > results[timeStepCounter - 1][facilityCounter].size() &&
 					i >= results[timeStepCounter - 1][facilityCounter].size())
 				{
-					tuple<bool, int> checkIndex = CalculateDeckVariables::CheckWellFacilityAndGetIndex(WellFacilityDataList, deck.Module);
+					tuple<bool, int> checkIndex = CheckWellFacilityAndGetIndex(WellFacilityDataList, deck.Module);
 					int Idx = get<1>(checkIndex);
 					if (get<0>(checkIndex) == true)
 					{
@@ -5504,9 +5538,8 @@ void CalculateDeckVariables::WellAbandonmentConditions(int &scenario, InputDeckS
 		}
 
 
-		/* 
-			Abandon well if there if GOR is greater than abandonment GOR
-		} */
+			
+		/* //Abandon well if there if GOR is greater than abandonment GOR
 		if (forecastResult.GOR >= GOR_Aband &&
 			GOR_Aband > 0){
 
@@ -5529,10 +5562,8 @@ void CalculateDeckVariables::WellAbandonmentConditions(int &scenario, InputDeckS
 			return;
 		}
 
-
-		/* 
-			Abandon well if there if BSW is greater than abandonment BSW
-		} */
+ 
+		//Abandon well if there if BSW is greater than abandonment BSW
 		if (forecastResult.BSW >= BSW_Aband && BSW_Aband > 0){
 
 			forecastResult.IsFlowing = false;
@@ -5553,7 +5584,7 @@ void CalculateDeckVariables::WellAbandonmentConditions(int &scenario, InputDeckS
 			forecastResult.reasonForTermination = "Terminated by Abandonment BSW";
 			return;
 
-		}
+		} */
 	}
 	else
 	{

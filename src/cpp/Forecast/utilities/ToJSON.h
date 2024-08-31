@@ -138,13 +138,16 @@ class ReportJSON
 		Napi::Object ConvertMapToNapiObject(Napi::Env env, const map<string, 
 		map<string, map<string, YObj>>>& nestedMap);
 		Napi::Object PlotChartAsync(Napi::Env env, 
-		const json& forecastResultsJsonData, 
-		const json& chatInputJsonData);
+		const Napi::Array& wrappedForecastResults, 
+		const Napi::Object& wrappedChatInputData);
 		Napi::Array ConvertYObjVectorToNapiArray(Napi::Env env, const vector<YObj>& yObjVec);
 		Napi::Object ConvertMapToNapiObject(Napi::Env env, 
 		const map<string, map<string, map<std::string, vector<YObj>>>>& nestedMap);
 		json NapiValueToJson(const Napi::Value& value);
 		json ConvertNapiArrayToJsonString(const Napi::Array& array);
+		ChatInputPayload ConvertToChatInputPayload(const Napi::Object& obj);
+		ForecastResultsByModule ConvertToForecastResultsByModule(const Napi::Object& obj);
+		std::vector<ForecastResultsByModule> ConvertArrayToVector(const Napi::Array& arr);
 
 		vector<vector<vector<ForecastResult>>> results;
 
@@ -250,16 +253,73 @@ const map<string, map<string, map<std::string, vector<YObj>>>>& nestedMap) {
     return result;
 }
 
+ChatInputPayload ReportJSON::ConvertToChatInputPayload(const Napi::Object& obj) {
+    ChatInputPayload payload;
+
+    // Convert forecastResultsIds
+    Napi::Array forecastResultsIdsArray = obj.Get("forecastResultsIds").As<Napi::Array>();
+    for (size_t i = 0; i < forecastResultsIdsArray.Length(); i++) {
+        payload.forecastResultsIds.push_back(forecastResultsIdsArray.Get(i).As<Napi::String>());
+    }
+
+    // Convert selectedModulePaths
+    Napi::Array selectedModulePathsArray = obj.Get("selectedModulePaths").As<Napi::Array>();
+    for (size_t i = 0; i < selectedModulePathsArray.Length(); i++) {
+        payload.selectedModulePaths.push_back(selectedModulePathsArray.Get(i).As<Napi::String>());
+    }
+
+    // Convert selectedVariables
+    Napi::Array selectedVariablesArray = obj.Get("selectedVariables").As<Napi::Array>();
+    for (size_t i = 0; i < selectedVariablesArray.Length(); i++) {
+        payload.selectedVariables.push_back(selectedVariablesArray.Get(i).As<Napi::String>());
+    }
+
+    // Convert shouldAggregate
+    payload.shouldAggregate = obj.Get("shouldAggregate").As<Napi::Boolean>();
+
+    // Convert forecastSolutionSpaces
+    Napi::Array forecastSolutionSpacesArray = obj.Get("forecastSolutionSpaces").As<Napi::Array>();
+    for (size_t i = 0; i < forecastSolutionSpacesArray.Length(); i++) {
+        payload.forecastSolutionSpaces.push_back(forecastSolutionSpacesArray.Get(i).As<Napi::String>());
+    }
+
+    return payload;
+}
+
+ForecastResultsByModule ReportJSON::ConvertToForecastResultsByModule(const Napi::Object& obj) {
+    ForecastResultsByModule result;
+    result.forecastResultsId = obj.Get("forecastResultsId").As<Napi::String>();
+    result.ModuleName = obj.Get("ModuleName").As<Napi::String>();
+    result.FacilityName = obj.Get("FacilityName").As<Napi::String>();
+    result.ScenarioName = obj.Get("ScenarioName").As<Napi::String>();
+    result.ModuleKey = obj.Get("ModuleKey").As<Napi::String>();
+    result.SolutionSpace = obj.Get("SolutionSpace").As<Napi::String>();
+    result.forecastResults = obj.Get("forecastResults").As<Napi::String>();
+    result.forecastInputId = obj.Get("forecastInputId").As<Napi::String>();
+    return result;
+}
+
+std::vector<ForecastResultsByModule> ReportJSON::ConvertArrayToVector(const Napi::Array& arr) {
+    std::vector<ForecastResultsByModule> results;
+    for (uint32_t i = 0; i < arr.Length(); ++i) {
+        Napi::Object obj = arr.Get(i).As<Napi::Object>();
+        results.push_back(ConvertToForecastResultsByModule(obj));
+    }
+    return results;
+}
+
+
 Napi::Object ReportJSON::PlotChartAsync(Napi::Env env, 
-const json& forecastResultsJsonData, 
-const json& chatInputJsonData) {
+const Napi::Array& wrappedForecastResults, 
+const Napi::Object& wrappedChatInputData) {
     
 	std::cout << "chatInputPayload read befroe " << std::endl;
-    ChatInputPayload chatInputPayload = chatInputPayload_to_json(chatInputJsonData);
+    ChatInputPayload chatInputPayload = ConvertToChatInputPayload(wrappedChatInputData);
 	std::cout << "chatInputPayload read after " << std::endl;
+	std::cout << "forecastResultsByModule read before" << std::endl;
 	vector<ForecastResultsByModule> forecastResultsByModule = 
-    parseForecastResults(forecastResultsJsonData);
-	std::cout << "forecastResultsByModule read " << std::endl;
+    ConvertArrayToVector(wrappedForecastResults);
+	std::cout << "forecastResultsByModule read after" << std::endl;
 
 
     vector<string> selectedModulePaths = chatInputPayload.selectedModulePaths;

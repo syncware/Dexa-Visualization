@@ -118,3 +118,5 @@ build/
 docker-compose.yml
 
 utils.ts
+
+files/**

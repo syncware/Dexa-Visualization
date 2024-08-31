@@ -40,6 +40,7 @@ class ReportJSON2
 		Arithmetic arithmetic;
 		Interpolation interpolation;
 		int nValidatedDecks;
+		bool isMonthly = true;
 
 		string GetRow(ForecastResult& r, int &scenario, int& ii, bool& isLastRow);
 		string GetRow(ForecastResult& r, int& scenario, int& ii, vector<Date>& dateTimes);
@@ -969,7 +970,7 @@ tuple<vector<FacilityStructExternal>,vector<Date>> ReportJSON2::GetFacilitiesShe
 			for (i = 0; i < nEquipmentCapacities; i++)
 			{
 				if (facilityInEquipementConnections[j].facilityName == equipmentCapacities[i].Primary_Facility && 
-				dateCreation.EqualTo2(dates[k], equipmentCapacities[i].FacilityDate1P))
+				dateCreation.EqualTo2(dates[k], equipmentCapacities[i].FacilityDate1P, isMonthly))
 				{
 					int kk = 0;
 					int nMultipleConnections = facilityInEquipementConnections[j].multipleConnections.size();
@@ -1123,7 +1124,7 @@ tuple<vector<FacilityStructExternal>,vector<Date>> ReportJSON2::GetFacilitiesShe
 			{
 				//dates[k].day == deferments[i].FacilityDate1P.day &&
 				if (facilityInEquipementConnections[j].facilityName == deferments[i].Primary_Facility && 
-				dateCreation.EqualTo2(dates[k], deferments[i].FacilityDate1P))
+				dateCreation.EqualTo2(dates[k], deferments[i].FacilityDate1P, isMonthly))
 				{
 					int kk = 0;
 					int nMultipleConnections = facilityInEquipementConnections[j].multipleConnections.size();
@@ -1192,7 +1193,7 @@ tuple<vector<FacilityStructExternal>,vector<Date>> ReportJSON2::GetFacilitiesShe
 			{
 				//dates[k].day == crudeOilLosses[i].FacilityDate1P.day &&
 				if (facilityInEquipementConnections[j].facilityName == crudeOilLosses[i].Primary_Facility && 
-					dateCreation.EqualTo2(dates[k], crudeOilLosses[i].FacilityDate1P))
+					dateCreation.EqualTo2(dates[k], crudeOilLosses[i].FacilityDate1P, isMonthly))
 				{
 					int kk = 0;
 					int nMultipleConnections = facilityInEquipementConnections[j].multipleConnections.size();
@@ -1239,7 +1240,7 @@ tuple<vector<FacilityStructExternal>,vector<Date>> ReportJSON2::GetFacilitiesShe
 			{
 				//dates[k].day == gasOwnUse[i].FacilityDate1P.day &&
 				if (facilityInEquipementConnections[j].facilityName == gasOwnUse[i].Primary_Facility && 
-					dateCreation.EqualTo2(dates[k], gasOwnUse[i].FacilityDate1P))
+					dateCreation.EqualTo2(dates[k], gasOwnUse[i].FacilityDate1P, isMonthly))
 				{
 					int kk = 0;
 					int nMultipleConnections = facilityInEquipementConnections[j].multipleConnections.size();
@@ -1286,7 +1287,7 @@ tuple<vector<FacilityStructExternal>,vector<Date>> ReportJSON2::GetFacilitiesShe
 			{
 				//dates[k].day == gasFlared[i].FacilityDate1P.day &&
 				if (facilityInEquipementConnections[j].facilityName == gasFlared[i].Primary_Facility && 
-					dateCreation.EqualTo2(dates[k], gasFlared[i].FacilityDate1P))
+					dateCreation.EqualTo2(dates[k], gasFlared[i].FacilityDate1P, isMonthly))
 				{
 					int kk = 0;
 					int nMultipleConnections = facilityInEquipementConnections[j].multipleConnections.size();
@@ -1932,12 +1933,14 @@ void ReportJSON2::GetForecastWellYearlyOutput(string& tableYearly, vector<Foreca
 			vector<Date>& datesNew, string& ModuleName, string& FacilityName, int& scenario)
 {
 	bool isForChart = false;
+	bool isByYear = !isMonthly;
 	int timeSteps = resultsWellNew.size();
 
 	if(timeSteps > 0){
 		
 		vector<ForecastResult> resultsWellYearly 
-		= _dataPivoting.GetYearlyForcastResultModuleLevel(resultsWellNew, datesNew, isForChart);
+		= _dataPivoting.GetYearlyForcastResultModuleLevel(resultsWellNew, 
+		datesNew, isForChart, isByYear);
 	
 
 		int nresultsWell = resultsWellYearly.size();
@@ -2000,20 +2003,25 @@ string rowDelimeter = "@#*$%";
 std::string uniqueId = r.ModuleName + r.Flow_station + to_string(scenario) + "P" + to_string(scenario) + "C" +  to_string(ii);
 
 double oilRate = 0, condensateRate = 0;
-if(r.HyrocarbonStream == "oil"){
+oilRate = r.Oil_rate;
+condensateRate = r.Condensate_Rate;
+
+/* if(r.HyrocarbonStream == "oil"){
 	oilRate = r.Oil_rate;
 	condensateRate = 0;
 }else{
 	condensateRate = r.Condensate_Rate;
 	oilRate = 0;
-}
+} */
 
-double liquid =  0;
-if(r.HyrocarbonStream == "oil"){
+double liquid =  r.Liquid_Rate;
+
+/* if(r.HyrocarbonStream == "oil"){
 	liquid =  oilRate + r.Water_Rate;
 }else{
 	liquid =  condensateRate + r.Water_Rate;
-}
+} */
+
 string lastrow = std::to_string(r.DeclineRate) +  rowDelimeter;
 if(isLastRow == true){
 	lastrow = std::to_string(r.DeclineRate); // no new line
