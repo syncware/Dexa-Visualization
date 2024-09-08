@@ -54,6 +54,7 @@ private:
 	double allWellsGasCapacity = 0;
 	bool isGasFlow = false;
 	vector<double> wellsOilRates;
+	vector<double> cumProdDays;
 	double avgOilWellsRate;
 	
 
@@ -219,7 +220,8 @@ public:
 	string facilitiesTimeStepsReport = "";
 	string checker = "";
 	bool dURConstrained = false;
-	bool isMonthly = true;;
+	bool isMonthly = true;
+	bool isRateCum = false;
 	//ReportJSON reportJSON;
 };
 
@@ -963,7 +965,6 @@ void CalculateDeckVariables::GetDeckVariables(vector<vector<vector<InputDeckStru
 				case 1:
 					if (dateCreation.EqualTo2(dates[i], deck.Date_1P_1C, isMonthly)) // Assign Initial Values
 					{
-
 						if (deck.Hydrocarbon_Stream == oil)
 						{
 							//deck.Rate_of_Change_Rate_1P_1C = deck.Rate_of_Change_Rate_1P_1C * 0.00001;
@@ -1524,6 +1525,13 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 				} */
 				if (dateCreation.IsMaximumDate(dates[dateIndex], deck.Date_1P_1C) || dateCreation.EqualTo2(dates[dateIndex], deck.Date_1P_1C, isMonthly)) // Start Forecast for the well
 				{
+					forecastResult.deltaDay = 30;
+					forecastResult.cumDays = forecastResult_old.cumDays + forecastResult.deltaDay;
+
+					/* if(deck.Module == "FO10D40T_FO10 D40X_P12"){
+						cumProdDays.push_back(forecastResult.cumDays);
+					} */
+
 					forecastResult.ModuleName = deck.Module;
 					forecastResult.HyrocarbonStream = deck.Hydrocarbon_Stream;
 					forecastResult.hydrocarbonType = deck.hydrocarbonType;
@@ -1740,6 +1748,12 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 			case 2:
 				if (dateCreation.IsMaximumDate(dates[dateIndex], deck.Date_2P_2C) || dateCreation.EqualTo2(dates[dateIndex], deck.Date_2P_2C, isMonthly)) // Start Forecast for the well
 				{
+					forecastResult.deltaDay = 30;
+					forecastResult.cumDays = forecastResult_old.cumDays + forecastResult.deltaDay;
+					/* if(deck.Module == "FO10D40T_FO10 D40X_P12"){
+						cumProdDays.push_back(forecastResult.cumDays);
+					} */
+
 					forecastResult.ModuleName = deck.Module;
 					forecastResult.HyrocarbonStream = deck.Hydrocarbon_Stream;
 					forecastResult.hydrocarbonType = deck.hydrocarbonType;
@@ -1949,6 +1963,12 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 			case 3:
 				if (dateCreation.IsMaximumDate(dates[dateIndex], deck.Date_3P_3C) || dateCreation.EqualTo2(dates[dateIndex], deck.Date_3P_3C, isMonthly)) // Start Forecast for the well
 				{
+					forecastResult.deltaDay = 30;
+					forecastResult.cumDays = forecastResult_old.cumDays + forecastResult.deltaDay;
+					if(deck.Module == "FO10D40T_FO10 D40X_P12"){
+						cumProdDays.push_back(forecastResult.cumDays);
+					}
+
 					forecastResult.ModuleName = deck.Module;
 					forecastResult.HyrocarbonStream = deck.Hydrocarbon_Stream;
 					forecastResult.hydrocarbonType = deck.hydrocarbonType;
@@ -2257,32 +2277,26 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 			case 1:
 				SetCutRatesBackValues(facilityCounter, dateIndex, optimized_cutbacks[i],
 									  scenario, deck, j);
-				/* if(CurrentDate.year == 2024){
-					if(deck.Flow_station == "ABU_FS1" ||
-					deck.Flow_station == "ABU_FS3" ||
-					deck.Flow_station == "ABU_FS4" ||
-					deck.Flow_station == "ABU_FS5" ||
-					deck.Flow_station == "ABU_FS2"){
-						wellsOilRates.push_back(results[dateIndex][facilityCounter][j].Oil_rate); */
 
-				//if(CurrentDate.year == 2024){
-					/* if(deck.Module == "FO26016T_FO26 F40X_P09"){
-						double kjh = 0;
-					} */
-					if(deck.Module == "FO15004L_FO15 R10X_P01"){
+					/* if(deck.Module == "FO10D40T_FO10 D40X_P12"){
 						wellsOilRates.push_back(results[dateIndex][facilityCounter][j].Oil_rate);
-					}
-				//}
+					} */
 				break;
 
 			case 2:
 				SetCutRatesBackValues(facilityCounter, dateIndex, optimized_cutbacks[i],
 									  scenario, deck, j);
+				/* if(deck.Module == "FO10D40T_FO10 D40X_P12"){
+						wellsOilRates.push_back(results[dateIndex][facilityCounter][j].Oil_rate);
+				} */
 				break;
 
 			case 3:
 				SetCutRatesBackValues(facilityCounter, dateIndex, optimized_cutbacks[i],
 									  scenario, deck, j);
+				if(deck.Module == "FO10D40T_FO10 D40X_P12"){
+						wellsOilRates.push_back(results[dateIndex][facilityCounter][j].Oil_rate);
+				}
 				break;
 			}
 
@@ -4118,7 +4132,8 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 					else if (forecastResult.scheduleKey == WellOpenUp_String)
 					{
 						forecastResult.Liquid_Rate = DCA.Get_DCA(initialLiquidRate,
-							deck.Rate_of_Change_Rate_1P_1C, cumprodNoPlateau, method, deck.DeclineExponent_1P_1C);
+							deck.Rate_of_Change_Rate_1P_1C, cumprodNoPlateau, method, 
+							deck.DeclineExponent_1P_1C, forecastResult.cumDays, isRateCum);
 					}
 					else if (forecastResult.scheduleKey == WellRampUp_String)
 					{
@@ -4128,7 +4143,8 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 					else
 					{
 						forecastResult.Liquid_Rate = DCA.Get_DCA(initialLiquidRate,
-							deck.Rate_of_Change_Rate_1P_1C, cumprodNoPlateau, method, deck.DeclineExponent_1P_1C);
+							deck.Rate_of_Change_Rate_1P_1C, cumprodNoPlateau, method, 
+							deck.DeclineExponent_1P_1C, forecastResult.cumDays, isRateCum);
 					}
 				}
 				else
@@ -4146,7 +4162,8 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 						double startUpLiquidRate = forecastResult.startupRate;
 						forecastResult.Liquid_Rate = DCA.Get_DCA(startUpLiquidRate,
 						forecastResult.declineRate, cumprodNoPlateau,
-						forecastResult.declineType2, forecastResult.hyperbolicExponent);
+						forecastResult.declineType2, forecastResult.hyperbolicExponent,
+						forecastResult.cumDays, isRateCum);
 					}
 					else if (forecastResult.scheduleKey == WellRampUp_String)
 					{
@@ -4158,7 +4175,8 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 						double startUpLiquidRate = forecastResult.startupRate;
 						forecastResult.Liquid_Rate = DCA.Get_DCA(startUpLiquidRate,
 						forecastResult.declineRate, cumprodNoPlateau,
-						forecastResult.declineType2, forecastResult.hyperbolicExponent);
+						forecastResult.declineType2, forecastResult.hyperbolicExponent,
+						forecastResult.cumDays, isRateCum);
 					}
 				}
 			}
@@ -4207,7 +4225,8 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 					else if (forecastResult.scheduleKey == WellOpenUp_String)
 					{
 						forecastResult.Liquid_Rate = DCA.Get_DCA(initialLiquidRate,
-							deck.Rate_of_Change_Rate_2P_2C, cumprodNoPlateau, method, deck.DeclineExponent_2P_2C);
+							deck.Rate_of_Change_Rate_2P_2C, cumprodNoPlateau, method, 
+							deck.DeclineExponent_2P_2C, forecastResult.cumDays, isRateCum);
 					}
 					else if (forecastResult.scheduleKey == WellRampUp_String)
 					{
@@ -4217,7 +4236,8 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 					else
 					{
 						forecastResult.Liquid_Rate = DCA.Get_DCA(initialLiquidRate,
-								deck.Rate_of_Change_Rate_2P_2C, cumprodNoPlateau, method, deck.DeclineExponent_2P_2C);
+								deck.Rate_of_Change_Rate_2P_2C, cumprodNoPlateau, method, 
+								deck.DeclineExponent_2P_2C, forecastResult.cumDays, isRateCum);
 					}
 				}
 				else
@@ -4235,7 +4255,8 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 						double startUpLiquidRate = forecastResult.startupRate;
 						forecastResult.Liquid_Rate = DCA.Get_DCA(startUpLiquidRate,
 						forecastResult.declineRate, cumprodNoPlateau,
-						forecastResult.declineType2, forecastResult.hyperbolicExponent);
+						forecastResult.declineType2, 
+						forecastResult.hyperbolicExponent, forecastResult.cumDays, isRateCum);
 					}
 					else if (forecastResult.scheduleKey == WellRampUp_String)
 					{
@@ -4247,7 +4268,8 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 						double startUpLiquidRate = forecastResult.startupRate;
 						forecastResult.Liquid_Rate = DCA.Get_DCA(startUpLiquidRate,
 						forecastResult.declineRate, cumprodNoPlateau,
-						forecastResult.declineType2, forecastResult.hyperbolicExponent);
+						forecastResult.declineType2, 
+						forecastResult.hyperbolicExponent, forecastResult.cumDays, isRateCum);
 					}
 				}
 			}
@@ -4283,7 +4305,8 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 					else if (forecastResult.scheduleKey == WellOpenUp_String)
 					{
 						forecastResult.Liquid_Rate = DCA.Get_DCA(initialLiquidRate,
-							deck.Rate_of_Change_Rate_3P_3C, cumprodNoPlateau, method, deck.DeclineExponent_3P_3C);
+							deck.Rate_of_Change_Rate_3P_3C, cumprodNoPlateau, method, 
+							deck.DeclineExponent_3P_3C, forecastResult.cumDays, isRateCum);
 					}
 					else if (forecastResult.scheduleKey == WellRampUp_String)
 					{
@@ -4293,7 +4316,8 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 					else
 					{
 						forecastResult.Liquid_Rate = DCA.Get_DCA(initialLiquidRate,
-							deck.Rate_of_Change_Rate_3P_3C, cumprodNoPlateau, method, deck.DeclineExponent_3P_3C);
+							deck.Rate_of_Change_Rate_3P_3C, cumprodNoPlateau, method, 
+							deck.DeclineExponent_3P_3C, forecastResult.cumDays, isRateCum);
 					}
 				}
 				else
@@ -4311,7 +4335,8 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 						double startUpLiquidRate = forecastResult.startupRate;
 						forecastResult.Liquid_Rate = DCA.Get_DCA(startUpLiquidRate,
 						forecastResult.declineRate, cumprodNoPlateau,
-						forecastResult.declineType2, forecastResult.hyperbolicExponent);
+						forecastResult.declineType2, 
+						forecastResult.hyperbolicExponent, forecastResult.cumDays, isRateCum);
 					}
 					else if (forecastResult.scheduleKey == WellRampUp_String)
 					{
@@ -4323,7 +4348,8 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 						double startUpLiquidRate = forecastResult.startupRate;
 						forecastResult.Liquid_Rate = DCA.Get_DCA(startUpLiquidRate,
 						forecastResult.declineRate, cumprodNoPlateau,
-						forecastResult.declineType2, forecastResult.hyperbolicExponent);
+						forecastResult.declineType2, 
+						forecastResult.hyperbolicExponent, forecastResult.cumDays, isRateCum);
 					}
 				}
 			}
@@ -4380,7 +4406,9 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 					else if (forecastResult.scheduleKey == WellOpenUp_String)
 					{
 						forecastResult.Gas_Rate = DCA.Get_DCA(deck.Init_Liquid_Gas_Rate_1P_1C,
-																deck.Rate_of_Change_Rate_1P_1C, cumprodNoPlateau, method, deck.DeclineExponent_1P_1C);
+						deck.Rate_of_Change_Rate_1P_1C, 
+						cumprodNoPlateau, method, deck.DeclineExponent_1P_1C,
+						forecastResult.cumDays, isRateCum);
 					}
 					else if (forecastResult.scheduleKey == WellRampUp_String)
 					{
@@ -4389,7 +4417,8 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 					else
 					{
 						forecastResult.Gas_Rate = DCA.Get_DCA(deck.Init_Liquid_Gas_Rate_1P_1C,
-																deck.Rate_of_Change_Rate_1P_1C, cumprodNoPlateau, method, deck.DeclineExponent_1P_1C);
+						deck.Rate_of_Change_Rate_1P_1C, cumprodNoPlateau, method, 
+						deck.DeclineExponent_1P_1C,  forecastResult.cumDays, isRateCum);
 					}
 				}
 				else
@@ -4405,8 +4434,9 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 					else if (forecastResult.scheduleKey == WellOpenUp_String)
 					{
 						forecastResult.Gas_Rate = DCA.Get_DCA(forecastResult.startupRate,
-																forecastResult.declineRate, cumprodNoPlateau,
-																forecastResult.declineType2, forecastResult.hyperbolicExponent);
+						forecastResult.declineRate, cumprodNoPlateau,
+						forecastResult.declineType2, 
+						forecastResult.hyperbolicExponent, forecastResult.cumDays, isRateCum);
 					}
 					else if (forecastResult.scheduleKey == WellRampUp_String)
 					{
@@ -4415,8 +4445,9 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 					else if (forecastResult.scheduleKey == WellReroute_String)
 					{
 						forecastResult.Gas_Rate = DCA.Get_DCA(forecastResult.startupRate,
-																forecastResult.declineRate, cumprodNoPlateau,
-																forecastResult.declineType2, forecastResult.hyperbolicExponent);
+						forecastResult.declineRate, cumprodNoPlateau,
+						forecastResult.declineType2, 
+						forecastResult.hyperbolicExponent, forecastResult.cumDays, isRateCum);
 					}
 				}
 			}
@@ -4450,7 +4481,8 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 					else if (forecastResult.scheduleKey == WellOpenUp_String)
 					{
 						forecastResult.Gas_Rate = DCA.Get_DCA(deck.Init_Liquid_Gas_Rate_2P_2C,
-																deck.Rate_of_Change_Rate_2P_2C, cumprodNoPlateau, method, deck.DeclineExponent_2P_2C);
+				deck.Rate_of_Change_Rate_2P_2C, cumprodNoPlateau, method, 
+				deck.DeclineExponent_2P_2C, forecastResult.cumDays, isRateCum);
 					}
 					else if (forecastResult.scheduleKey == WellRampUp_String)
 					{
@@ -4459,7 +4491,8 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 					else
 					{
 						forecastResult.Gas_Rate = DCA.Get_DCA(deck.Init_Liquid_Gas_Rate_2P_2C,
-																deck.Rate_of_Change_Rate_2P_2C, cumprodNoPlateau, method, deck.DeclineExponent_2P_2C);
+						deck.Rate_of_Change_Rate_2P_2C, cumprodNoPlateau, method, 
+						deck.DeclineExponent_2P_2C, forecastResult.cumDays, isRateCum);
 					}
 				}
 				else
@@ -4475,8 +4508,9 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 					else if (forecastResult.scheduleKey == WellOpenUp_String)
 					{
 						forecastResult.Gas_Rate = DCA.Get_DCA(forecastResult.startupRate,
-																forecastResult.declineRate, cumprodNoPlateau,
-																forecastResult.declineType2, forecastResult.hyperbolicExponent);
+						forecastResult.declineRate, cumprodNoPlateau,
+						forecastResult.declineType2, 
+						forecastResult.hyperbolicExponent, forecastResult.cumDays, isRateCum);
 					}
 					else if (forecastResult.scheduleKey == WellRampUp_String)
 					{
@@ -4485,8 +4519,9 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 					else if (forecastResult.scheduleKey == WellReroute_String)
 					{
 						forecastResult.Gas_Rate = DCA.Get_DCA(forecastResult.startupRate,
-																forecastResult.declineRate, cumprodNoPlateau,
-																forecastResult.declineType2, forecastResult.hyperbolicExponent);
+						forecastResult.declineRate, cumprodNoPlateau,
+						forecastResult.declineType2, 
+						forecastResult.hyperbolicExponent, forecastResult.cumDays, isRateCum);
 					}
 				}
 			}
@@ -4520,7 +4555,8 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 					else if (forecastResult.scheduleKey == WellOpenUp_String)
 					{
 						forecastResult.Gas_Rate = DCA.Get_DCA(deck.Init_Liquid_Gas_Rate_3P_3C,
-																deck.Rate_of_Change_Rate_3P_3C, cumprodNoPlateau, method, deck.DeclineExponent_3P_3C);
+						deck.Rate_of_Change_Rate_3P_3C, cumprodNoPlateau, method, 
+						deck.DeclineExponent_3P_3C, forecastResult.cumDays, isRateCum);
 					}
 					else if (forecastResult.scheduleKey == WellRampUp_String)
 					{
@@ -4529,7 +4565,8 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 					else
 					{
 						forecastResult.Gas_Rate = DCA.Get_DCA(deck.Init_Liquid_Gas_Rate_3P_3C,
-																deck.Rate_of_Change_Rate_3P_3C, cumprodNoPlateau, method, deck.DeclineExponent_3P_3C);
+						deck.Rate_of_Change_Rate_3P_3C, cumprodNoPlateau, method, 
+						deck.DeclineExponent_3P_3C, forecastResult.cumDays, isRateCum);
 					}
 				}
 				else
@@ -4545,8 +4582,9 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 					else if (forecastResult.scheduleKey == WellOpenUp_String)
 					{
 						forecastResult.Gas_Rate = DCA.Get_DCA(forecastResult.startupRate,
-																forecastResult.declineRate, cumprodNoPlateau,
-																forecastResult.declineType2, forecastResult.hyperbolicExponent);
+						forecastResult.declineRate, cumprodNoPlateau,
+						forecastResult.declineType2, 
+						forecastResult.hyperbolicExponent, forecastResult.cumDays, isRateCum);
 					}
 					else if (forecastResult.scheduleKey == WellRampUp_String)
 					{
@@ -4555,8 +4593,9 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 					else if (forecastResult.scheduleKey == WellReroute_String)
 					{
 						forecastResult.Gas_Rate = DCA.Get_DCA(forecastResult.startupRate,
-																forecastResult.declineRate, cumprodNoPlateau,
-																forecastResult.declineType2, forecastResult.hyperbolicExponent);
+						forecastResult.declineRate, cumprodNoPlateau,
+						forecastResult.declineType2, 
+						forecastResult.hyperbolicExponent, forecastResult.cumDays, isRateCum);
 					}
 				}
 			}
@@ -4631,8 +4670,8 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 					{
 					}
 					forecastResult.Liquid_Rate = DCA.Get_DCA(deck.Init_Liquid_Gas_Rate_1P_1C,
-															deck.Rate_of_Change_Rate_1P_1C, cumprodNoPlateau, method,
-															deck.DeclineExponent_1P_1C);
+					deck.Rate_of_Change_Rate_1P_1C, cumprodNoPlateau, method,
+					deck.DeclineExponent_1P_1C, forecastResult.cumDays, isRateCum);
 				}
 			}
 			forecastResult.DeclineRate = deck.Rate_of_Change_Rate_1P_1C;
@@ -4665,8 +4704,8 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 				else
 				{
 					forecastResult.Liquid_Rate = DCA.Get_DCA(deck.Init_Liquid_Gas_Rate_2P_2C,
-															deck.Rate_of_Change_Rate_2P_2C, cumprodNoPlateau, method,
-															deck.DeclineExponent_2P_2C);
+					deck.Rate_of_Change_Rate_2P_2C, cumprodNoPlateau, method,
+					deck.DeclineExponent_2P_2C, forecastResult.cumDays, isRateCum);
 				}
 			}
 			forecastResult.DeclineRate = deck.Rate_of_Change_Rate_2P_2C;
@@ -4693,8 +4732,8 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 				else
 				{
 					forecastResult.Liquid_Rate = DCA.Get_DCA(deck.Init_Liquid_Gas_Rate_3P_3C,
-															deck.Rate_of_Change_Rate_3P_3C, cumprodNoPlateau, method,
-															deck.DeclineExponent_3P_3C);
+					deck.Rate_of_Change_Rate_3P_3C, cumprodNoPlateau, method,
+					deck.DeclineExponent_3P_3C, forecastResult.cumDays, isRateCum);
 				}
 			}
 			forecastResult.DeclineRate = deck.Rate_of_Change_Rate_3P_3C;
@@ -4729,7 +4768,8 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 				else
 				{
 					forecastResult.Gas_Rate = DCA.Get_DCA(deck.Init_Liquid_Gas_Rate_1P_1C,
-															deck.Rate_of_Change_Rate_1P_1C, cumprodNoPlateau, method, deck.DeclineExponent_1P_1C);
+					deck.Rate_of_Change_Rate_1P_1C, cumprodNoPlateau, method, 
+					deck.DeclineExponent_1P_1C, forecastResult.cumDays, isRateCum);
 				}
 			}
 			forecastResult.DeclineRate = deck.Rate_of_Change_Rate_1P_1C;
@@ -4758,8 +4798,8 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 				else
 				{
 					forecastResult.Gas_Rate = DCA.Get_DCA(deck.Init_Liquid_Gas_Rate_2P_2C,
-															deck.Rate_of_Change_Rate_2P_2C, cumprodNoPlateau, 
-															method, deck.DeclineExponent_2P_2C);
+					deck.Rate_of_Change_Rate_2P_2C, cumprodNoPlateau, 
+					method, deck.DeclineExponent_2P_2C, forecastResult.cumDays, isRateCum);
 				}
 			}
 			forecastResult.DeclineRate = deck.Rate_of_Change_Rate_2P_2C;
@@ -4786,8 +4826,8 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 				else
 				{
 					forecastResult.Gas_Rate = DCA.Get_DCA(deck.Init_Liquid_Gas_Rate_3P_3C,
-															deck.Rate_of_Change_Rate_3P_3C, cumprodNoPlateau, method,
-															deck.DeclineExponent_3P_3C);
+					deck.Rate_of_Change_Rate_3P_3C, cumprodNoPlateau, method,
+					deck.DeclineExponent_3P_3C, forecastResult.cumDays, isRateCum);
 				}
 			}
 			forecastResult.DeclineRate = deck.Rate_of_Change_Rate_3P_3C;
@@ -4988,7 +5028,7 @@ ForecastResult &forecastResult_old)
 				forecastResult.GOR  = deck.Init_GOR_CGR;
 			}else{
 				forecastResult.GOR = fractionalFlow.Get_Fractional_Flow(deck.Rate_Of_Rate_GOR_CGR_1P1C, x1,
-																		x2, deck.Init_GOR_CGR);
+				x2, deck.Init_GOR_CGR, forecastResult.cumDays, isRateCum);
 				if (forecastResult.GOR > deck.Aband_GOR_CGR_1P_1C)
 				{
 					forecastResult.GOR = deck.Aband_GOR_CGR_1P_1C;
@@ -5004,7 +5044,7 @@ ForecastResult &forecastResult_old)
 				forecastResult.GOR  = deck.Init_GOR_CGR;
 			}else{
 				forecastResult.GOR = fractionalFlow.Get_Fractional_Flow(deck.Rate_Of_Rate_GOR_CGR_2P2C, x1,
-																		x2, deck.Init_GOR_CGR);
+				x2, deck.Init_GOR_CGR, forecastResult.cumDays, isRateCum);
 				if (forecastResult.GOR > deck.Aband_GOR_CGR_2P_2C)
 				{
 					forecastResult.GOR = deck.Aband_GOR_CGR_2P_2C;
@@ -5020,7 +5060,7 @@ ForecastResult &forecastResult_old)
 				forecastResult.GOR  = deck.Init_GOR_CGR;
 			}else{
 				forecastResult.GOR = fractionalFlow.Get_Fractional_Flow(deck.Rate_Of_Rate_GOR_CGR_3P3C, x1,
-																		x2, deck.Init_GOR_CGR);
+				x2, deck.Init_GOR_CGR, forecastResult.cumDays, isRateCum);
 
 				if (forecastResult.GOR > deck.Aband_GOR_CGR_3P_3C)
 				{
@@ -5054,7 +5094,7 @@ ForecastResult &forecastResult_old)
 				forecastResult.CGR  = deck.Init_GOR_CGR;
 			}else{
 				forecastResult.CGR = fractionalFlow.Get_Fractional_Flow(deck.Rate_Of_Rate_GOR_CGR_1P1C, x1,
-																		x2, deck.Init_GOR_CGR);
+				x2, deck.Init_GOR_CGR, forecastResult.cumDays, isRateCum);
 				if (forecastResult.CGR <= deck.Aband_GOR_CGR_1P_1C)
 				{
 					forecastResult.CGR = deck.Aband_GOR_CGR_1P_1C;
@@ -5070,7 +5110,7 @@ ForecastResult &forecastResult_old)
 				forecastResult.CGR  = deck.Init_GOR_CGR;
 			}else{
 				forecastResult.CGR = fractionalFlow.Get_Fractional_Flow(deck.Rate_Of_Rate_GOR_CGR_2P2C, x1,
-																		x2, deck.Init_GOR_CGR);
+				x2, deck.Init_GOR_CGR, forecastResult.cumDays, isRateCum);
 				if (forecastResult.CGR <= deck.Aband_GOR_CGR_2P_2C)
 				{
 					forecastResult.CGR = deck.Aband_GOR_CGR_2P_2C;
@@ -5086,7 +5126,7 @@ ForecastResult &forecastResult_old)
 				forecastResult.CGR  = deck.Init_GOR_CGR;
 			}else{
 				forecastResult.CGR = fractionalFlow.Get_Fractional_Flow(deck.Rate_Of_Rate_GOR_CGR_3P3C, x1,
-																		x2, deck.Init_GOR_CGR);
+				x2, deck.Init_GOR_CGR, forecastResult.cumDays, isRateCum);
 				if (forecastResult.CGR <= deck.Aband_GOR_CGR_3P_3C)
 				{
 					forecastResult.CGR = deck.Aband_GOR_CGR_3P_3C;
@@ -5129,7 +5169,7 @@ ForecastResult &forecastResult, ForecastResult &forecastResult_old)
 				forecastResult.BSW  = deck.Init_BSW_WGR;
 			}else{
 				forecastResult.BSW = fractionalFlow.Get_Fractional_Flow(deck.Rate_Of_Rate_BSW_WGR_1P1C, x1,
-																		x2, deck.Init_BSW_WGR);
+				x2, deck.Init_BSW_WGR, forecastResult.cumDays, isRateCum);
 
 				if (forecastResult.BSW > deck.Aband_BSW_WGR_1P_1C)
 				{
@@ -5146,7 +5186,7 @@ ForecastResult &forecastResult, ForecastResult &forecastResult_old)
 				forecastResult.BSW  = deck.Init_BSW_WGR;
 			}else{
 				forecastResult.BSW = fractionalFlow.Get_Fractional_Flow(deck.Rate_Of_Rate_BSW_WGR_2P2C, x1,
-																		x2, deck.Init_BSW_WGR);
+				x2, deck.Init_BSW_WGR, forecastResult.cumDays, isRateCum);
 
 				if (forecastResult.BSW > deck.Aband_BSW_WGR_2P_2C)
 				{
@@ -5163,7 +5203,7 @@ ForecastResult &forecastResult, ForecastResult &forecastResult_old)
 				forecastResult.BSW  = deck.Init_BSW_WGR;
 			}else{
 				forecastResult.BSW = fractionalFlow.Get_Fractional_Flow(deck.Rate_Of_Rate_BSW_WGR_3P3C, x1,
-																		x2, deck.Init_BSW_WGR);
+				x2, deck.Init_BSW_WGR, forecastResult.cumDays, isRateCum);
 
 				if (forecastResult.BSW > deck.Aband_BSW_WGR_3P_3C)
 				{
@@ -5202,7 +5242,7 @@ ForecastResult &forecastResult, ForecastResult &forecastResult_old)
 				forecastResult.WGR  = deck.Init_BSW_WGR;
 			}else{
 				forecastResult.WGR = fractionalFlow.Get_Fractional_Flow(deck.Rate_Of_Rate_BSW_WGR_1P1C, x1,
-																		x2, deck.Init_BSW_WGR);
+				x2, deck.Init_BSW_WGR, forecastResult.cumDays, isRateCum);
 				if (forecastResult.WGR > deck.Aband_BSW_WGR_1P_1C)
 				{
 					forecastResult.WGR = deck.Aband_BSW_WGR_1P_1C;
@@ -5218,7 +5258,7 @@ ForecastResult &forecastResult, ForecastResult &forecastResult_old)
 				forecastResult.WGR  = deck.Init_BSW_WGR;
 			}else{
 				forecastResult.WGR = fractionalFlow.Get_Fractional_Flow(deck.Rate_Of_Rate_BSW_WGR_2P2C, x1,
-																		x2, deck.Init_BSW_WGR);
+				x2, deck.Init_BSW_WGR, forecastResult.cumDays, isRateCum);
 				if (forecastResult.WGR > deck.Aband_BSW_WGR_2P_2C)
 				{
 					forecastResult.WGR = deck.Aband_BSW_WGR_2P_2C;
@@ -5234,7 +5274,7 @@ ForecastResult &forecastResult, ForecastResult &forecastResult_old)
 				forecastResult.WGR  = deck.Init_BSW_WGR;
 			}else{
 				forecastResult.WGR = fractionalFlow.Get_Fractional_Flow(deck.Rate_Of_Rate_BSW_WGR_3P3C, x1,
-																		x2, deck.Init_BSW_WGR);
+				x2, deck.Init_BSW_WGR, forecastResult.cumDays, isRateCum);
 				if (forecastResult.WGR > deck.Aband_BSW_WGR_3P_3C)
 				{
 					forecastResult.WGR = deck.Aband_BSW_WGR_3P_3C;

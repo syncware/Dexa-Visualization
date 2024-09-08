@@ -68,6 +68,9 @@ public:
 	void InitilizeModule(InputDeckStruct &extendedInputDeck);
 	void InitilizeModules();
 	void CalculateDeclineParameters(InputDeckStruct &extendedInputDeck);
+	double cumProdDays;
+	bool isRateCum;
+	Date stopDate;
 };
 
 Inputdeck::Inputdeck()
@@ -386,87 +389,97 @@ void Inputdeck::ValidateDeck(InputDeckStruct &extendedInputDeck)
 
 	if (extendedInputDeck.Hydrocarbon_Stream == "oil")
 	{
+
 		if (check_DBSW_WGR_1P1C == false && check_UR_1P1C == false)
 		{
+			cumProdDays = dateCreation.DateDiff_TotalDays(extendedInputDeck.Date_1P_1C, stopDate);
 			x1 = extendedInputDeck.Np * MM;
 			x2 = extendedInputDeck.URo_1P_1C * MM;
 
 			extendedInputDeck.Rate_Of_Rate_BSW_WGR_1P1C = fractionalFlow.Get_Fractional_Rate_Of_Change_Exponential(
 				x1, x2, extendedInputDeck.Init_BSW_WGR,
-				extendedInputDeck.Aband_BSW_WGR_1P_1C);
+				extendedInputDeck.Aband_BSW_WGR_1P_1C, cumProdDays, isRateCum);
 		}
 		if (check_DBSW_WGR_2P2C == false && check_UR_2P2C == false)
 		{
+			cumProdDays = dateCreation.DateDiff_TotalDays(extendedInputDeck.Date_2P_2C, stopDate);
 			x1 = extendedInputDeck.Np * MM;
 			x2 = extendedInputDeck.URo_2P_2C * MM;
 
 			extendedInputDeck.Rate_Of_Rate_BSW_WGR_2P2C = fractionalFlow.Get_Fractional_Rate_Of_Change_Exponential(
 				x1, x2, extendedInputDeck.Init_BSW_WGR,
-				extendedInputDeck.Aband_BSW_WGR_2P_2C);
+				extendedInputDeck.Aband_BSW_WGR_2P_2C, cumProdDays, isRateCum);
 		}
 		if (check_DBSW_WGR_3P3C == false && check_UR_3P3C == false)
 		{
+			cumProdDays = dateCreation.DateDiff_TotalDays(extendedInputDeck.Date_3P_3C, stopDate);
 			x1 = extendedInputDeck.Np * MM;
 			x2 = extendedInputDeck.URo_3P_3C * MM;
 
 			extendedInputDeck.Rate_Of_Rate_BSW_WGR_3P3C = fractionalFlow.Get_Fractional_Rate_Of_Change_Exponential(
 				x1, x2, extendedInputDeck.Init_BSW_WGR,
-				extendedInputDeck.Aband_BSW_WGR_3P_3C);
+				extendedInputDeck.Aband_BSW_WGR_3P_3C, cumProdDays, isRateCum);
 		}
 
 		if (check_DGOR_CGR_1P1C == false && check_UR_1P1C == false)
 		{
+			cumProdDays = dateCreation.DateDiff_TotalDays(extendedInputDeck.Date_1P_1C, stopDate);
 			x1 = extendedInputDeck.Np * MM;
 			x2 = extendedInputDeck.URo_1P_1C * MM;
 
 			extendedInputDeck.Rate_Of_Rate_GOR_CGR_1P1C = fractionalFlow.Get_Fractional_Rate_Of_Change_Exponential(
 				x1, x2, extendedInputDeck.Init_GOR_CGR,
-				extendedInputDeck.Aband_GOR_CGR_1P_1C);
+				extendedInputDeck.Aband_GOR_CGR_1P_1C, cumProdDays, isRateCum);
 		}
 		if (check_DGOR_CGR_2P2C == false && check_UR_2P2C == false)
 		{
+			cumProdDays = dateCreation.DateDiff_TotalDays(extendedInputDeck.Date_2P_2C, stopDate);
 			x1 = extendedInputDeck.Np * MM;
 			x2 = extendedInputDeck.URo_2P_2C * MM;
 
 			extendedInputDeck.Rate_Of_Rate_GOR_CGR_2P2C = fractionalFlow.Get_Fractional_Rate_Of_Change_Exponential(
 				x1, x2, extendedInputDeck.Init_GOR_CGR,
-				extendedInputDeck.Aband_GOR_CGR_2P_2C);
+				extendedInputDeck.Aband_GOR_CGR_2P_2C, cumProdDays, isRateCum);
 		}
 		if (check_DGOR_CGR_3P3C == false && check_UR_3P3C == false)
 		{
+			cumProdDays = dateCreation.DateDiff_TotalDays(extendedInputDeck.Date_3P_3C, stopDate);
 			x1 = extendedInputDeck.Np * MM;
 			x2 = extendedInputDeck.URo_3P_3C * MM;
 
 			extendedInputDeck.Rate_Of_Rate_GOR_CGR_3P3C = fractionalFlow.Get_Fractional_Rate_Of_Change_Exponential(
 				x1, x2, extendedInputDeck.Init_GOR_CGR,
-				extendedInputDeck.Aband_GOR_CGR_3P_3C);
+				extendedInputDeck.Aband_GOR_CGR_3P_3C, cumProdDays, isRateCum);
 		}
 
 		if (check_Rate_1P1C == false && check_UR_1P1C == false)
 		{
+			cumProdDays = dateCreation.DateDiff_TotalDays(extendedInputDeck.Date_1P_1C, stopDate);
 			x1 = extendedInputDeck.Np * MM;
 			x2 = extendedInputDeck.URo_1P_1C * MM;
 			extendedInputDeck.Rate_of_Change_Rate_1P_1C = decline_Curve_Analysis.Get_DeclineFactor(
 				extendedInputDeck.Init_Liquid_Gas_Rate_1P_1C, extendedInputDeck.Aband_Liquid_Gas_Rate_1P_1C,
-				x1, x2, extendedInputDeck.DeclineMethod);
+				x1, x2, extendedInputDeck.DeclineMethod, cumProdDays, isRateCum);
 		}
 		if (check_Rate_2P2C == false && check_UR_2P2C == false)
 		{
+			cumProdDays = dateCreation.DateDiff_TotalDays(extendedInputDeck.Date_2P_2C, stopDate);
 			x1 = extendedInputDeck.Np * MM;
 			x2 = extendedInputDeck.URo_2P_2C * MM;
 
 			extendedInputDeck.Rate_of_Change_Rate_2P_2C = decline_Curve_Analysis.Get_DeclineFactor(
 				extendedInputDeck.Init_Liquid_Gas_Rate_2P_2C, extendedInputDeck.Aband_Liquid_Gas_Rate_2P_2C,
-				x1, x2, extendedInputDeck.DeclineMethod);
+				x1, x2, extendedInputDeck.DeclineMethod, cumProdDays, isRateCum);
 		}
 		if (check_Rate_3P3C == false && check_UR_3P3C == false)
 		{
+			cumProdDays = dateCreation.DateDiff_TotalDays(extendedInputDeck.Date_3P_3C, stopDate);
 			x1 = extendedInputDeck.Np * MM;
 			x2 = extendedInputDeck.URo_3P_3C * MM;
 
 			extendedInputDeck.Rate_of_Change_Rate_3P_3C = decline_Curve_Analysis.Get_DeclineFactor(
 				extendedInputDeck.Init_Liquid_Gas_Rate_3P_3C, extendedInputDeck.Aband_Liquid_Gas_Rate_3P_3C,
-				x1, x2, extendedInputDeck.DeclineMethod);
+				x1, x2, extendedInputDeck.DeclineMethod, cumProdDays, isRateCum);
 		}
 	}
 
@@ -474,87 +487,96 @@ void Inputdeck::ValidateDeck(InputDeckStruct &extendedInputDeck)
 	{
 		if (check_DBSW_WGR_1P1C == false && check_UR_1P1C == false)
 		{
+			cumProdDays = dateCreation.DateDiff_TotalDays(extendedInputDeck.Date_1P_1C, stopDate);
 			x1 = extendedInputDeck.Gp * MM;
 			x2 = extendedInputDeck.URg_1P_1C * MM;
 			//Get_Fractional_Rate_Of_Change_Exponential(double& X_init, double& X_last, double& Y_init, double& Y_last)
 
 			extendedInputDeck.Rate_Of_Rate_BSW_WGR_1P1C = fractionalFlow.Get_Fractional_Rate_Of_Change_Exponential(
 				x1, x2, extendedInputDeck.Init_BSW_WGR,
-				extendedInputDeck.Aband_BSW_WGR_1P_1C);
+				extendedInputDeck.Aband_BSW_WGR_1P_1C, cumProdDays, isRateCum);
 		}
 		if (check_DBSW_WGR_2P2C == false && check_UR_2P2C == false)
 		{
+			cumProdDays = dateCreation.DateDiff_TotalDays(extendedInputDeck.Date_2P_2C, stopDate);
 			x1 = extendedInputDeck.Gp * MM;
 			x2 = extendedInputDeck.URg_2P_2C * MM;
 
 			extendedInputDeck.Rate_Of_Rate_BSW_WGR_2P2C = fractionalFlow.Get_Fractional_Rate_Of_Change_Exponential(
 				x1, x2, extendedInputDeck.Init_BSW_WGR,
-				extendedInputDeck.Aband_BSW_WGR_2P_2C);
+				extendedInputDeck.Aband_BSW_WGR_2P_2C, cumProdDays, isRateCum);
 		}
 		if (check_DBSW_WGR_3P3C == false && check_UR_3P3C == false)
 		{
+			cumProdDays = dateCreation.DateDiff_TotalDays(extendedInputDeck.Date_3P_3C, stopDate);
 			x1 = extendedInputDeck.Gp * MM;
 			x2 = extendedInputDeck.URg_3P_3C * MM;
 
 			extendedInputDeck.Rate_Of_Rate_BSW_WGR_3P3C = fractionalFlow.Get_Fractional_Rate_Of_Change_Exponential(
 				x1, x2, extendedInputDeck.Init_BSW_WGR,
-				extendedInputDeck.Aband_BSW_WGR_3P_3C);
+				extendedInputDeck.Aband_BSW_WGR_3P_3C, cumProdDays, isRateCum);
 		}
 
 		if (check_DGOR_CGR_1P1C == false && check_UR_1P1C == false)
 		{
+			cumProdDays = dateCreation.DateDiff_TotalDays(extendedInputDeck.Date_1P_1C, stopDate);
 			x1 = extendedInputDeck.Gp * MM;
 			x2 = extendedInputDeck.URg_1P_1C * MM;
 
 			extendedInputDeck.Rate_Of_Rate_GOR_CGR_1P1C = fractionalFlow.Get_Fractional_Rate_Of_Change_Exponential(
 				x1, x2, extendedInputDeck.Init_GOR_CGR,
-				extendedInputDeck.Aband_GOR_CGR_1P_1C);
+				extendedInputDeck.Aband_GOR_CGR_1P_1C, cumProdDays, isRateCum);
 		}
 		if (check_DGOR_CGR_2P2C == false && check_UR_2P2C == false)
 		{
+			cumProdDays = dateCreation.DateDiff_TotalDays(extendedInputDeck.Date_2P_2C, stopDate);
 			x1 = extendedInputDeck.Gp * MM;
 			x2 = extendedInputDeck.URg_2P_2C * MM;
 
 			extendedInputDeck.Rate_Of_Rate_GOR_CGR_2P2C = fractionalFlow.Get_Fractional_Rate_Of_Change_Exponential(
 				x1, x2, extendedInputDeck.Init_GOR_CGR,
-				extendedInputDeck.Aband_GOR_CGR_2P_2C);
+				extendedInputDeck.Aband_GOR_CGR_2P_2C, cumProdDays, isRateCum);
 		}
 		if (check_DGOR_CGR_3P3C == false && check_UR_3P3C == false)
 		{
+			cumProdDays = dateCreation.DateDiff_TotalDays(extendedInputDeck.Date_3P_3C, stopDate);
 			x1 = extendedInputDeck.Gp * MM;
 			x2 = extendedInputDeck.URg_3P_3C * MM;
 
 			extendedInputDeck.Rate_Of_Rate_GOR_CGR_3P3C = fractionalFlow.Get_Fractional_Rate_Of_Change_Exponential(
 				x1, x2, extendedInputDeck.Init_GOR_CGR,
-				extendedInputDeck.Aband_GOR_CGR_3P_3C);
+				extendedInputDeck.Aband_GOR_CGR_3P_3C, cumProdDays, isRateCum);
 		}
 
 		if (check_Rate_1P1C == false && check_UR_1P1C == false)
 		{
+			cumProdDays = dateCreation.DateDiff_TotalDays(extendedInputDeck.Date_1P_1C, stopDate);
 			x1 = extendedInputDeck.Gp * MM;
 			x2 = extendedInputDeck.URg_1P_1C * MM;
 
 			extendedInputDeck.Rate_of_Change_Rate_1P_1C = decline_Curve_Analysis.Get_DeclineFactor(
 				extendedInputDeck.Init_Liquid_Gas_Rate_1P_1C, extendedInputDeck.Aband_Liquid_Gas_Rate_1P_1C,
-				x1, x2, extendedInputDeck.DeclineMethod);
+				x1, x2, extendedInputDeck.DeclineMethod, cumProdDays, isRateCum);
 		}
 		if (check_Rate_2P2C == false && check_UR_2P2C == false)
 		{
+			cumProdDays = dateCreation.DateDiff_TotalDays(extendedInputDeck.Date_2P_2C, stopDate);
 			x1 = extendedInputDeck.Gp * MM;
 			x2 = extendedInputDeck.URg_2P_2C * MM;
 
 			extendedInputDeck.Rate_of_Change_Rate_2P_2C = decline_Curve_Analysis.Get_DeclineFactor(
 				extendedInputDeck.Init_Liquid_Gas_Rate_2P_2C, extendedInputDeck.Aband_Liquid_Gas_Rate_2P_2C,
-				x1, x2, extendedInputDeck.DeclineMethod);
+				x1, x2, extendedInputDeck.DeclineMethod, cumProdDays, isRateCum);
 		}
 		if (check_Rate_3P3C == false && check_UR_3P3C == false)
 		{
+			cumProdDays = dateCreation.DateDiff_TotalDays(extendedInputDeck.Date_3P_3C, stopDate);
 			x1 = extendedInputDeck.Gp * MM;
 			x2 = extendedInputDeck.URg_3P_3C * MM;
 
 			extendedInputDeck.Rate_of_Change_Rate_3P_3C = decline_Curve_Analysis.Get_DeclineFactor(
 				extendedInputDeck.Init_Liquid_Gas_Rate_3P_3C, extendedInputDeck.Aband_Liquid_Gas_Rate_3P_3C,
-				x1, x2, extendedInputDeck.DeclineMethod);
+				x1, x2, extendedInputDeck.DeclineMethod, cumProdDays, isRateCum);
 		}
 
 	}
@@ -585,6 +607,10 @@ void Inputdeck::CalculateDeclineParameters(InputDeckStruct &extendedInputDeck)
 		extendedInputDeck.PlateauUR_3P_3C = extendedInputDeck.Plateau_Oil_Gas * (extendedInputDeck.URg_3P_3C - extendedInputDeck.Gp);
 	}
 
+	double cumProdDays_1P_1C = dateCreation.DateDiff_TotalDays(stopDate, extendedInputDeck.Date_1P_1C);
+	double cumProdDays_2P_2C = dateCreation.DateDiff_TotalDays(stopDate, extendedInputDeck.Date_2P_2C);
+	double cumProdDays_3P_3C = dateCreation.DateDiff_TotalDays(stopDate, extendedInputDeck.Date_3P_3C);
+
 	if (extendedInputDeck.Hydrocarbon_Stream == "oil")
 	{
 
@@ -593,62 +619,64 @@ void Inputdeck::CalculateDeclineParameters(InputDeckStruct &extendedInputDeck)
 
 		extendedInputDeck.Rate_Of_Rate_BSW_WGR_1P1C = fractionalFlow.Get_Fractional_Rate_Of_Change_Exponential(
 		x1, x2, extendedInputDeck.Init_BSW_WGR,
-		extendedInputDeck.Aband_BSW_WGR_1P_1C);
+		extendedInputDeck.Aband_BSW_WGR_1P_1C, cumProdDays_1P_1C, isRateCum);
 
 		x1 = extendedInputDeck.Np * MM;
 		x2 = extendedInputDeck.URo_2P_2C * MM;
 
+		cumProdDays = dateCreation.DateDiff_TotalDays(extendedInputDeck.Date_2P_2C, stopDate);
+
 		extendedInputDeck.Rate_Of_Rate_BSW_WGR_2P2C = fractionalFlow.Get_Fractional_Rate_Of_Change_Exponential(
 		x1, x2, extendedInputDeck.Init_BSW_WGR,
-		extendedInputDeck.Aband_BSW_WGR_2P_2C);
+		extendedInputDeck.Aband_BSW_WGR_2P_2C, cumProdDays_2P_2C, isRateCum);
 
 		x1 = extendedInputDeck.Np * MM;
 		x2 = extendedInputDeck.URo_3P_3C * MM;
 
 		extendedInputDeck.Rate_Of_Rate_BSW_WGR_3P3C = fractionalFlow.Get_Fractional_Rate_Of_Change_Exponential(
 		x1, x2, extendedInputDeck.Init_BSW_WGR,
-		extendedInputDeck.Aband_BSW_WGR_3P_3C);
+		extendedInputDeck.Aband_BSW_WGR_3P_3C, cumProdDays_3P_3C, isRateCum);
 
 		x1 = extendedInputDeck.Np * MM;
 		x2 = extendedInputDeck.URo_1P_1C * MM;
 
 		extendedInputDeck.Rate_Of_Rate_GOR_CGR_1P1C = fractionalFlow.Get_Fractional_Rate_Of_Change_Exponential(
 		x1, x2, extendedInputDeck.Init_GOR_CGR,
-		extendedInputDeck.Aband_GOR_CGR_1P_1C);
+		extendedInputDeck.Aband_GOR_CGR_1P_1C, cumProdDays_1P_1C, isRateCum);
 
 		x1 = extendedInputDeck.Np * MM;
 		x2 = extendedInputDeck.URo_2P_2C * MM;
 
 		extendedInputDeck.Rate_Of_Rate_GOR_CGR_2P2C = fractionalFlow.Get_Fractional_Rate_Of_Change_Exponential(
 		x1, x2, extendedInputDeck.Init_GOR_CGR,
-		extendedInputDeck.Aband_GOR_CGR_2P_2C);
+		extendedInputDeck.Aband_GOR_CGR_2P_2C, cumProdDays_2P_2C, isRateCum);
 
 		x1 = extendedInputDeck.Np * MM;
 		x2 = extendedInputDeck.URo_3P_3C * MM;
 
 		extendedInputDeck.Rate_Of_Rate_GOR_CGR_3P3C = fractionalFlow.Get_Fractional_Rate_Of_Change_Exponential(
 		x1, x2, extendedInputDeck.Init_GOR_CGR,
-		extendedInputDeck.Aband_GOR_CGR_3P_3C);
+		extendedInputDeck.Aband_GOR_CGR_3P_3C, cumProdDays_3P_3C, isRateCum);
 
 		x1 = extendedInputDeck.Np * MM;
 		x2 = extendedInputDeck.URo_1P_1C * MM;
 		extendedInputDeck.Rate_of_Change_Rate_1P_1C = decline_Curve_Analysis.Get_DeclineFactor(
 		extendedInputDeck.Init_Liquid_Gas_Rate_1P_1C, extendedInputDeck.Aband_Liquid_Gas_Rate_1P_1C,
-		x1, x2, extendedInputDeck.DeclineMethod);
+		x1, x2, extendedInputDeck.DeclineMethod, cumProdDays_1P_1C, isRateCum);
 
 		x1 = extendedInputDeck.Np * MM;
 		x2 = extendedInputDeck.URo_2P_2C * MM;
 
 		extendedInputDeck.Rate_of_Change_Rate_2P_2C = decline_Curve_Analysis.Get_DeclineFactor(
 		extendedInputDeck.Init_Liquid_Gas_Rate_2P_2C, extendedInputDeck.Aband_Liquid_Gas_Rate_2P_2C,
-		x1, x2, extendedInputDeck.DeclineMethod);
+		x1, x2, extendedInputDeck.DeclineMethod, cumProdDays_2P_2C, isRateCum);
 
 		x1 = extendedInputDeck.Np * MM;
 		x2 = extendedInputDeck.URo_3P_3C * MM;
 
 		extendedInputDeck.Rate_of_Change_Rate_3P_3C = decline_Curve_Analysis.Get_DeclineFactor(
 		extendedInputDeck.Init_Liquid_Gas_Rate_3P_3C, extendedInputDeck.Aband_Liquid_Gas_Rate_3P_3C,
-		x1, x2, extendedInputDeck.DeclineMethod);
+		x1, x2, extendedInputDeck.DeclineMethod, cumProdDays_3P_3C, isRateCum);
 	}
 
 	if (extendedInputDeck.Hydrocarbon_Stream == "gas")
@@ -658,63 +686,63 @@ void Inputdeck::CalculateDeclineParameters(InputDeckStruct &extendedInputDeck)
 
 		extendedInputDeck.Rate_Of_Rate_BSW_WGR_1P1C = fractionalFlow.Get_Fractional_Rate_Of_Change_Exponential(
 		x1, x2, extendedInputDeck.Init_BSW_WGR,
-		extendedInputDeck.Aband_BSW_WGR_1P_1C);
+		extendedInputDeck.Aband_BSW_WGR_1P_1C, cumProdDays_1P_1C, isRateCum);
 
 		x1 = extendedInputDeck.Gp * MM;
 		x2 = extendedInputDeck.URg_2P_2C * MM;
 
 		extendedInputDeck.Rate_Of_Rate_BSW_WGR_2P2C = fractionalFlow.Get_Fractional_Rate_Of_Change_Exponential(
 		x1, x2, extendedInputDeck.Init_BSW_WGR,
-		extendedInputDeck.Aband_BSW_WGR_2P_2C);
+		extendedInputDeck.Aband_BSW_WGR_2P_2C, cumProdDays_2P_2C, isRateCum);
 
 		x1 = extendedInputDeck.Gp * MM;
 		x2 = extendedInputDeck.URg_3P_3C * MM;
 
 		extendedInputDeck.Rate_Of_Rate_BSW_WGR_3P3C = fractionalFlow.Get_Fractional_Rate_Of_Change_Exponential(
 		x1, x2, extendedInputDeck.Init_BSW_WGR,
-		extendedInputDeck.Aband_BSW_WGR_3P_3C);
+		extendedInputDeck.Aband_BSW_WGR_3P_3C, cumProdDays_3P_3C, isRateCum);
 
 		x1 = extendedInputDeck.Gp * MM;
 		x2 = extendedInputDeck.URg_1P_1C * MM;
 
 		extendedInputDeck.Rate_Of_Rate_GOR_CGR_1P1C = fractionalFlow.Get_Fractional_Rate_Of_Change_Exponential(
 		x1, x2, extendedInputDeck.Init_GOR_CGR,
-		extendedInputDeck.Aband_GOR_CGR_1P_1C);
+		extendedInputDeck.Aband_GOR_CGR_1P_1C, cumProdDays_1P_1C, isRateCum);
 
 		x1 = extendedInputDeck.Gp * MM;
 		x2 = extendedInputDeck.URg_2P_2C * MM;
 
 		extendedInputDeck.Rate_Of_Rate_GOR_CGR_2P2C = fractionalFlow.Get_Fractional_Rate_Of_Change_Exponential(
 		x1, x2, extendedInputDeck.Init_GOR_CGR,
-		extendedInputDeck.Aband_GOR_CGR_2P_2C);
+		extendedInputDeck.Aband_GOR_CGR_2P_2C, cumProdDays_2P_2C, isRateCum);
 
 		x1 = extendedInputDeck.Gp * MM;
 		x2 = extendedInputDeck.URg_3P_3C * MM;
 
 		extendedInputDeck.Rate_Of_Rate_GOR_CGR_3P3C = fractionalFlow.Get_Fractional_Rate_Of_Change_Exponential(
 		x1, x2, extendedInputDeck.Init_GOR_CGR,
-		extendedInputDeck.Aband_GOR_CGR_3P_3C);
+		extendedInputDeck.Aband_GOR_CGR_3P_3C, cumProdDays_3P_3C, isRateCum);
 
 		x1 = extendedInputDeck.Gp * MM;
 		x2 = extendedInputDeck.URg_1P_1C * MM;
 
 		extendedInputDeck.Rate_of_Change_Rate_1P_1C = decline_Curve_Analysis.Get_DeclineFactor(
 		extendedInputDeck.Init_Liquid_Gas_Rate_1P_1C, extendedInputDeck.Aband_Liquid_Gas_Rate_1P_1C,
-		x1, x2, extendedInputDeck.DeclineMethod);
+		x1, x2, extendedInputDeck.DeclineMethod, cumProdDays_1P_1C, isRateCum);
 
 		x1 = extendedInputDeck.Gp * MM;
 		x2 = extendedInputDeck.URg_2P_2C * MM;
 
 		extendedInputDeck.Rate_of_Change_Rate_2P_2C = decline_Curve_Analysis.Get_DeclineFactor(
 		extendedInputDeck.Init_Liquid_Gas_Rate_2P_2C, extendedInputDeck.Aband_Liquid_Gas_Rate_2P_2C,
-		x1, x2, extendedInputDeck.DeclineMethod);
+		x1, x2, extendedInputDeck.DeclineMethod, cumProdDays_2P_2C, isRateCum);
 
 		x1 = extendedInputDeck.Gp * MM;
 		x2 = extendedInputDeck.URg_3P_3C * MM;
 
 		extendedInputDeck.Rate_of_Change_Rate_3P_3C = decline_Curve_Analysis.Get_DeclineFactor(
 		extendedInputDeck.Init_Liquid_Gas_Rate_3P_3C, extendedInputDeck.Aband_Liquid_Gas_Rate_3P_3C,
-		x1, x2, extendedInputDeck.DeclineMethod);
+		x1, x2, extendedInputDeck.DeclineMethod, cumProdDays_3P_3C, isRateCum);
 
 
 	}
@@ -725,6 +753,7 @@ void Inputdeck::InitilizeModules()
 {
 	int i = 0, n = inputdecks.size();
 	for(i = 0; i < n; i++){
+		CalculateDeclineParameters(inputdecks[i]);
 		InitilizeModule(inputdecks[i]);
 	}
 }
@@ -737,13 +766,28 @@ void Inputdeck::InitilizeModule(InputDeckStruct &extendedInputDeck)
 
 	if (extendedInputDeck.Hydrocarbon_Stream == "oil")
 	{
+		double fac = 1;
 
-		double oilRate = extendedInputDeck.Init_Liquid_Gas_Rate_1P_1C;
-		double one_minus_bsw = (1 - extendedInputDeck.Init_BSW_WGR);
-		double liqRate = oilRate / one_minus_bsw;
-		extendedInputDeck.Init_Liquid_Gas_Rate_1P_1C = liqRate;
-		double declineRate = extendedInputDeck.Rate_of_Change_Rate_1P_1C * 0.001;
-		extendedInputDeck.Rate_of_Change_Rate_1P_1C = declineRate;
+		double oilRate1 = extendedInputDeck.Init_Liquid_Gas_Rate_1P_1C;
+		double one_minus_bsw1 = (1 - extendedInputDeck.Init_BSW_WGR);
+		double liqRate1 = oilRate1 / one_minus_bsw1;
+		//extendedInputDeck.Init_Liquid_Gas_Rate_1P_1C = liqRate1;
+		double declineRate1 = extendedInputDeck.Rate_of_Change_Rate_1P_1C * fac;
+		extendedInputDeck.Rate_of_Change_Rate_1P_1C = declineRate1;
+
+		double oilRate2 = extendedInputDeck.Init_Liquid_Gas_Rate_2P_2C;
+		double one_minus_bsw2 = (1 - extendedInputDeck.Init_BSW_WGR);
+		double liqRate2 = oilRate2 / one_minus_bsw2;
+		//extendedInputDeck.Init_Liquid_Gas_Rate_2P_2C = liqRate2;
+		double declineRate2 = extendedInputDeck.Rate_of_Change_Rate_2P_2C * fac;
+		extendedInputDeck.Rate_of_Change_Rate_2P_2C = declineRate2;
+
+		double oilRate3 = extendedInputDeck.Init_Liquid_Gas_Rate_3P_3C;
+		double one_minus_bsw3 = (1 - extendedInputDeck.Init_BSW_WGR);
+		double liqRate3 = oilRate3 / one_minus_bsw3;
+		//extendedInputDeck.Init_Liquid_Gas_Rate_3P_3C = liqRate3;
+		double declineRate3 = extendedInputDeck.Rate_of_Change_Rate_3P_3C * fac;
+		extendedInputDeck.Rate_of_Change_Rate_3P_3C = declineRate3;
 
 
 		extendedInputDeck.Cum_Water_Prod = extendedInputDeck.Np * extendedInputDeck.Init_BSW_WGR /

@@ -22,7 +22,8 @@ public:
 	~Decline_Curve_Analysis();
 
 	double Get_DeclineFactor_Exponential(double& Initial_Rate, double& Aband_Rate, double& Init_Cum_Prod, double& UR);
-    double Get_DeclineFactor(double& Initial_Rate, double& Aband_Rate, double& Init_Cum_Prod, double& UR, int& Method);
+    double Get_DeclineFactor(double& Initial_Rate, double& Aband_Rate, 
+    double& Init_Cum_Prod, double& UR, int& Method, double& cumProdDays, bool& isRateCum);
     double Get_DeclineFactor_Harmonic(double& Initial_Rate, double& Aband_Rate, double& Init_Cum_Prod, double& UR);
 	double Get_DCA_Exponential(double& Initial_Rate, double& Rate_Of_Change, double& Cum_Prod);
     double Get_DCA_Hyperbolic(double& Initial_Rate, double& Rate_Of_Change, double& Cum_Prod, 
@@ -30,9 +31,15 @@ public:
     double Get_DCA_Harmonic(double& Initial_Rate, double& Rate_Of_Change, double& Cum_Prod);
 	double Get_DCA_Exponential2(double& Initial_Rate, double& Rate_Of_Change, double& ProductionDays);
 
-	double Get_DCA(double& Initial_Rate, double& Rate_Of_Change, double& Cum_Prod,  int& Method, double& Decline_Exponent);
+	double Get_DCA(double& Initial_Rate, double& Rate_Of_Change, double& Cum_Prod,  
+    int& Method, double& Decline_Exponent, double& cumDays, bool& isRateCum);
 
 	double Get_DCA2(double& Initial_Rate, double& Rate_Of_Change, double& ProductionDays,  int& Method);
+    double Get_DCA_Exponential_CumDays(double& Initial_Rate, double& Rate_Of_Change, 
+    double& cumDays);
+
+    double Get_DeclineFactor_Exponential_CumProdDays(double& Initial_Rate, 
+    double& Aband_Rate, double& cumProdDays);
 
 };
 
@@ -57,15 +64,40 @@ double Decline_Curve_Analysis::Get_DeclineFactor_Exponential(double& Initial_Rat
 	return DeclineFactor;
 }
 
+double Decline_Curve_Analysis::Get_DeclineFactor_Exponential_CumProdDays(double& Initial_Rate, 
+double& Aband_Rate, double& cumProdDays)
+{
+    
+    double numerator = 0;
+    double DeclineFactor = 0;
+
+    numerator = (Aband_Rate / Initial_Rate);
+    
+
+    double denominator = cumProdDays;
+
+    if(denominator != 0 && numerator > 0)
+    {
+        DeclineFactor = log(numerator) / denominator;
+    }
+
+	return -1* DeclineFactor;
+}
+
 double Decline_Curve_Analysis::Get_DeclineFactor(double& Initial_Rate, double& Aband_Rate, double& Init_Cum_Prod, double& UR,
-        int& Method)
+        int& Method, double& cumProdDays, bool& isRateCum)
 {
     double DeclineFactor = 0;
 
     switch (Method)
     {
     case 1:
-        DeclineFactor = Get_DeclineFactor_Exponential(Initial_Rate, Aband_Rate, Init_Cum_Prod, UR);
+        if(isRateCum){
+            DeclineFactor = Get_DeclineFactor_Exponential(Initial_Rate, Aband_Rate, Init_Cum_Prod, UR);
+        }else{
+            DeclineFactor = Get_DeclineFactor_Exponential_CumProdDays(Initial_Rate, 
+            Aband_Rate, cumProdDays);
+        }
         break;
 
     case 2:
@@ -97,6 +129,14 @@ double Decline_Curve_Analysis::Get_DeclineFactor_Harmonic(double& Initial_Rate, 
 double Decline_Curve_Analysis::Get_DCA_Exponential(double& Initial_Rate, double& Rate_Of_Change, double& Cum_Prod)
 {
 	double Current_Rate = Initial_Rate - Rate_Of_Change * Cum_Prod;
+
+	return Current_Rate;
+}
+
+double Decline_Curve_Analysis::Get_DCA_Exponential_CumDays(double& Initial_Rate, double& Rate_Of_Change, 
+double& cumDays)
+{
+	double Current_Rate = Initial_Rate * exp(-1* Rate_Of_Change * cumDays);
 
 	return Current_Rate;
 }
@@ -141,14 +181,18 @@ double Decline_Curve_Analysis::Get_DCA_Exponential2(double& Initial_Rate, double
 }
 
 double Decline_Curve_Analysis::Get_DCA(double& Initial_Rate, double& Rate_Of_Change,
- double& Cum_Prod, int& Method,  double& Decline_Exponent)
+ double& Cum_Prod, int& Method,  double& Decline_Exponent, double& cumDays, bool& isRateCum)
 {
     double rate = 0;
 
     switch (Method)
     {
     case 1:
-        rate = Get_DCA_Exponential(Initial_Rate, Rate_Of_Change, Cum_Prod);
+        if(isRateCum){
+            rate = Get_DCA_Exponential(Initial_Rate, Rate_Of_Change, Cum_Prod);
+        }else{
+            rate = Get_DCA_Exponential_CumDays(Initial_Rate, Rate_Of_Change, cumDays);
+        }
         break;
 
     case 2:

@@ -166,6 +166,8 @@ typedef struct _ForecastResult
     double fluidFraction;
     double prodDays;
     string reasonForTermination;
+    double deltaDay;
+    double cumDays;
 
     double getVariableByName(const std::string& variableName) const {
         if (variableName == "oilRate") return Oil_rate;
@@ -184,6 +186,8 @@ typedef struct _ForecastResult
 
     void InitailizeData()
     {
+        deltaDay = 0;
+        cumDays = 0;
         reasonForTermination = "";
         prodDays = 0;
         fluidFraction = 0;

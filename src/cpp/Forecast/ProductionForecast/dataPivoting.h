@@ -368,23 +368,11 @@ vector<ForecastResult> dataPivoting::GetYearlyForcastResultModuleLevel(vector<Fo
                 if(results[i].Year == forecastResults[j].Year){
                     if(forecastResults[j].HyrocarbonStream == "oil"){
                         if(forecastResults[j].Oil_rate > 0){
-                            if(isByYear){
-                               ProdaysPerYear = 365; 
-                               dt30 = 365;
-                            }else{
-                                ProdaysPerYear = ProdaysPerYear + dt30;
-                                dt30 = 30;
-                            } 
+                            ProdaysPerYear = ProdaysPerYear + dt30;
                         }
                     }else{
                         if(forecastResults[j].Gas_Rate > 0){
-                            if(isByYear){
-                               ProdaysPerYear = 365; 
-                               dt30 = 365;
-                            }else{
-                                ProdaysPerYear = ProdaysPerYear + dt30;
-                                dt30 = 30;
-                            } 
+                             ProdaysPerYear = ProdaysPerYear + dt30;
                         }
                     }
                     dNp = dNp + (forecastResults[j].Oil_rate * dt30);
@@ -437,14 +425,6 @@ vector<ForecastResult> dataPivoting::GetYearlyForcastResultModuleLevel(vector<Fo
         if(ProdaysPerYear > 0) {
             results[i].Oil_rate =  dNp/ProdaysPerYear;
             results[i].Condensate_Rate =  dNpc/ProdaysPerYear;
-
-            // //=======To be removed=======================
-            // if(results[i].HyrocarbonStream == "oil"){
-            //     results[i].Condensate_Rate = results[i].Oil_rate;
-            // }else{
-            //     results[i].Oil_rate = results[i].Condensate_Rate;
-            // }
-            // //==================================================
 
             results[i].Gas_Rate =   dGp/ProdaysPerYear;
             results[i].Water_Rate =  dWp/ProdaysPerYear;

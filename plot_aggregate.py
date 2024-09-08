@@ -8,7 +8,7 @@ from text_file_data_io import read_text_file
 def plot_aggregated_data(file_name, solution_space, 
                         scenario, forecastResultIndex, variable,
                         x_axis_label, y_axis_label, title, label_title,
-                        actual_file_name):
+                        actual_file_name, divisor):
     # Load the JSON data from a file
     json_data = readJsonData(file_name)
 
@@ -16,7 +16,7 @@ def plot_aggregated_data(file_name, solution_space,
     variable_data = json_data[scenario][solution_space][variable]
     #x_values = [datetime.strptime(date, "%Y-%m-%dT%H:%M:%S.%fZ") for date in variable_data["x"]]
     x_values = [datetime.strptime(date, '%d/%m/%Y').strftime('%Y-%m-%d') for date in variable_data["x"]]
-    y_values = [value / 1000 for value in  variable_data["y"]]
+    y_values = [value / divisor for value in  variable_data["y"]]
 
     actual_data = read_text_file(actual_file_name)
     x_actual = actual_data["x"]
@@ -46,16 +46,17 @@ def plot_aggregated_data(file_name, solution_space,
     plt.show(block=True)
 
 file_name = "files/forecast_chat_data_output.json"
-solution_space = "POTENTIAL1P_1C"
-scenario = "1P_1C" 
+solution_space = "POTENTIAL3P_3C"
+scenario = "3P_3C" 
 forecastResultIndex = "1"
-variable = "oilRate"
+variable = "ownUseGas"
 x_axis_label = "Production Date"
-y_axis_label = "Oil Rate (bbl/d)"
-title = "Forecast Oil Rate"
+y_axis_label = "Sales Gas (MMscf/d)"
+title = "Forecast Gas Rate"
 label_title = "Facilit 1"
 actual_file_name = 'files/oIl_rate group_1.txt'
+divisor = 1000000
 plot_aggregated_data(file_name, solution_space, 
                     scenario, forecastResultIndex, variable,
                     x_axis_label, y_axis_label, title, label_title,
-                    actual_file_name)
+                    actual_file_name, divisor)
