@@ -433,6 +433,7 @@ void CalculateDeckVariables::GetFacilityFlowRates(vector<Node> &updatesNodes)
 {
 	Date minimumNodeOnstreamDate;
 	int ik = 0;
+	int nw = results[datePosition][facilityCounter].size();
 
 	if (datePosition == 0)
 	{
@@ -442,8 +443,7 @@ void CalculateDeckVariables::GetFacilityFlowRates(vector<Node> &updatesNodes)
 		minimumNodeOnstreamDate.day = results[datePosition][facilityCounter][0].startDay;
 		minimumNodeOnstreamDate.month = results[datePosition][facilityCounter][0].startMonth;
 		minimumNodeOnstreamDate.year = results[datePosition][facilityCounter][0].StartYear;
-		int nw = results[datePosition][facilityCounter].size();
-
+		
 		for (ik = 1; ik < nw; ik++)
 		{
 			Date nextWellOSDDate;
@@ -490,15 +490,99 @@ void CalculateDeckVariables::GetFacilityFlowRates(vector<Node> &updatesNodes)
 		{
 			//Set the sum of fluxes from wells to its corresponding facility provided
 			//the current time step date is greater or equal to the facility OSD
-			if(updatesNodes[0].equipmentDataInEquipementConnections[idx].Primary_Facility == "REO_GP3"){
-				double cg = 0;
-			}
+			
 			updatesNodes[0].equipmentDataInEquipementConnections[idx].FacilityOiProduced = FacilityOiProduced;
 			updatesNodes[0].equipmentDataInEquipementConnections[idx].FacilityGasProduced = FacilityGasProduced;
 			updatesNodes[0].equipmentDataInEquipementConnections[idx].FacilityAGProduced = FacilityAGProduced;
 			updatesNodes[0].equipmentDataInEquipementConnections[idx].FacilityNAGProduced = FacilityNAGProduced;
 			updatesNodes[0].equipmentDataInEquipementConnections[idx].FacilityWaterProduced = FacilityWaterProduced;
 			updatesNodes[0].equipmentDataInEquipementConnections[idx].FacilityLiquidProduced = FacilityLiquidProduced;
+
+			//Settle Gas Own Use
+			if(FacilityGasProduced <= CurrentFacilityData.GasOwnUse ){
+				//All gas produced was re-used at the station
+				for (ik = 0; ik < nw-1; ik++)
+				{
+					if (results[datePosition][facilityCounter][ik].IsFlowing == true){
+						
+						results[datePosition][facilityCounter][ik].Gas_Own_Use = 
+						results[datePosition][facilityCounter][ik].Gas_Rate;
+						results[datePosition][facilityCounter][ik].Gas_Flared = 0;
+						results[datePosition][facilityCounter][ik].Gas_Demand = 0;
+
+					}
+				}
+			}else{
+				double frac = 0;
+				//Gas Own Use - First Priority
+				for (ik = 0; ik < nw-1; ik++)
+				{
+					if (results[datePosition][facilityCounter][ik].IsFlowing == true){
+
+						frac = results[datePosition][facilityCounter][ik].Gas_Rate/FacilityGasProduced;
+						
+						results[datePosition][facilityCounter][ik].Gas_Own_Use = frac * CurrentFacilityData.GasOwnUse;
+						results[datePosition][facilityCounter][ik].Gas_Flared = 0; // Could be adjusted. check next command lines
+						results[datePosition][facilityCounter][ik].Gas_Demand = 0; // Could be adjusted. check next command lines
+
+					}
+				}
+
+				double remaingGasProduced = FacilityGasProduced - CurrentFacilityData.GasOwnUse;
+				//Check is there is flared gas in the remaining gas
+				if(remaingGasProduced <= CurrentFacilityData.GasDemand && remaingGasProduced > 0){
+					// All the remaing gas is sales gas
+					double frac = 0;
+					for (ik = 0; ik < nw-1; ik++)
+					{
+						if (results[datePosition][facilityCounter][ik].IsFlowing == true){
+
+							frac = results[datePosition][facilityCounter][ik].Gas_Rate/FacilityGasProduced;
+							
+							results[datePosition][facilityCounter][ik].Gas_Demand = frac * remaingGasProduced;
+							results[datePosition][facilityCounter][ik].Gas_Flared = 0;
+
+						}
+					}
+				}else{
+					double frac = 0;
+					double flaredGas = remaingGasProduced - CurrentFacilityData.GasDemand;
+
+					for (ik = 0; ik < nw-1; ik++)
+					{
+						if (results[datePosition][facilityCounter][ik].IsFlowing == true){
+
+							frac = results[datePosition][facilityCounter][ik].Gas_Rate/FacilityGasProduced;
+							
+							results[datePosition][facilityCounter][ik].Gas_Demand = frac * CurrentFacilityData.GasDemand;
+							results[datePosition][facilityCounter][ik].Gas_Flared = 0;
+
+						}
+					}
+
+					if(flaredGas <= CurrentFacilityData.GasFlared && flaredGas > 0){
+						for (ik = 0; ik < nw-1; ik++)
+						{
+							if (results[datePosition][facilityCounter][ik].IsFlowing == true){
+
+								frac = results[datePosition][facilityCounter][ik].Gas_Rate/FacilityGasProduced;
+
+								results[datePosition][facilityCounter][ik].Gas_Flared = frac * flaredGas;
+
+							}
+						}
+					}else{
+						if (results[datePosition][facilityCounter][ik].IsFlowing == true){
+
+							frac = results[datePosition][facilityCounter][ik].Gas_Rate/FacilityGasProduced;
+
+							results[datePosition][facilityCounter][ik].Gas_Flared = frac * CurrentFacilityData.GasFlared;
+
+						}
+					}
+				}
+			}
+
 			break;
 		}
 	}

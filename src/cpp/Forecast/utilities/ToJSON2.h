@@ -106,6 +106,21 @@ class ReportJSON2
         string scenarioName, string SolutionSpace, vector<string> facilityNames);
 		map<string, string> GetForecastOutputAsJson(vector<ForecastResult>& results);
 		map<string, map<string, string>> GetForecastOutputAsJson(vector<vector<ForecastResult>>& results);
+		vector<FacilityInEquipementConnection> LastNodeGasConsumers(Node& lastNode);
+		bool isContainString(vector<string>& xs, string& x);
+		vector<string> LastFacilitiesConnectedToAGasConsumer(Node& lastNode, FacilityInEquipementConnection& gasConsumer);
+		double GetTotalFacilitiesGasCapacitiesPerGasConsumer(
+			FacilityStructExternal gasConsumerPerDate, Node& firstNode,
+			vector<string> facilityNamesPerGasConsumer
+		);
+
+		vector<FacilityStructExternal> GetFacilitiesGasDemandPerGasConsumer(
+			FacilityStructExternal gasConsumerPerDate, Node& firstNode,
+			vector<string> facilityNamesPerGasConsumer,
+			vector<Node>& updatesNodes
+		);
+
+		void GetFacilitiesGasDemand(vector<Node>& updatesNode);
 
 
 		vector<vector<vector<ForecastResult>>> results;
@@ -960,6 +975,7 @@ tuple<vector<FacilityStructExternal>,vector<Date>> ReportJSON2::GetFacilitiesShe
 	vector<Date> dates = GetUniqueDatesForFacilities(equipmentCapacities, deferments, 
 	crudeOilLosses, gasOwnUse, gasFlared); // Sort Dates
 	int nDates = dates.size();
+	int _nMultipleConnections = 0;
 
 	for (j = 0; j < nFacilityInEquipementConnections; j++)
 	{
@@ -974,6 +990,7 @@ tuple<vector<FacilityStructExternal>,vector<Date>> ReportJSON2::GetFacilitiesShe
 				{
 					int kk = 0;
 					int nMultipleConnections = facilityInEquipementConnections[j].multipleConnections.size();
+					_nMultipleConnections = nMultipleConnections;
 					FacilityStructExternal facilityStructExternal;
 					facilityStructExternal.equipmentType = facilityInEquipementConnections[j].equipmentType;
 					facilityStructExternal.Liquid_Capacity1P = 0;
@@ -1091,9 +1108,11 @@ tuple<vector<FacilityStructExternal>,vector<Date>> ReportJSON2::GetFacilitiesShe
 
 						facilityStructExternal.ParentNodes = facilityStructExternal.ParentNodes +
 															 facilityInEquipementConnections[j].toNodes[kk] + "===";
+
+						facilitiesDataX.push_back(facilityStructExternal);
 					}
 
-					facilitiesDataX.push_back(facilityStructExternal);
+					//facilitiesDataX.push_back(facilityStructExternal);
 					check = true;
 					break;
 				}
@@ -1104,6 +1123,9 @@ tuple<vector<FacilityStructExternal>,vector<Date>> ReportJSON2::GetFacilitiesShe
 				int lastIndex = facilitiesDataX.size();
 				if (lastIndex > 0)
 				{
+					/* for(i = lastIndex - _nMultipleConnections; i < lastIndex; i++){
+
+					} */
 					FacilityStructExternal facilityStructExternal = facilitiesDataX[lastIndex - 1];
 					facilityStructExternal.FacilityDate1P = dates[k];
 					facilityStructExternal.FacilityDate2P = dates[k];
@@ -1469,7 +1491,161 @@ tuple<vector<Node>, vector<Date>> ReportJSON2::GetNodesSheetData(
 			}
 		}
 	}
+
+	GetFacilitiesGasDemand(updatesNodes);
 	return make_tuple(updatesNodes, dates);
+}
+
+//Use IP_IC date for the calculations
+//Get the gasDemand of the consumer node per date (gasDemandConsumerNode)
+//Get All facilities connected to consumer node (last node of equipentType = gas_asset) per date
+// Summ all the gas capcities of the these facilities (totalGasCacity)
+// calculate the gas demand of each facility by = (facilityGasCapacity/totalGasCacity)*gasDemandConsumerNode
+
+
+vector<FacilityInEquipementConnection> ReportJSON2::LastNodeGasConsumers(Node& lastNode) {
+	vector<FacilityInEquipementConnection> equipmentInEquipementConnections = lastNode.equipmentInEquipementConnections;
+	vector<FacilityInEquipementConnection> gasConsumers;
+	int nEquipmentInEquipementConnections = equipmentInEquipementConnections.size();
+	int i = 0;
+
+	for(i = 0; i < nEquipmentInEquipementConnections; i++){
+		if(equipmentInEquipementConnections[i].equipmentType == "gas asset"){
+			gasConsumers.push_back(equipmentInEquipementConnections[i]);
+		}
+	}
+
+	return gasConsumers;
+
+}
+
+bool ReportJSON2::isContainString(vector<string>& xs, string& x)
+{
+	bool check = false;
+	int i = 0, n = xs.size();
+	for (i = 0; i < n; i++)
+	{
+		if (xs[i] == x)
+		{
+			check = true;
+			break;
+		}
+	}
+	return check;
+}
+
+vector<string> ReportJSON2::LastFacilitiesConnectedToAGasConsumer(Node& lastNode, FacilityInEquipementConnection& gasConsumer) {
+	vector<FacilityStructExternal> equipmentDataInEquipementConnections = lastNode.equipmentDataInEquipementConnections;
+	int nEquipmentDataInEquipementConnections = equipmentDataInEquipementConnections.size();
+	int i = 0;
+	vector<string> facilityNames;
+
+	for(i = 0; i < nEquipmentDataInEquipementConnections; i++){
+		if(equipmentDataInEquipementConnections[i].Primary_Facility == 
+		gasConsumer.facilityName){
+			vector<string> nodeNames;
+			string delimeter = "===";
+			string nodeConnectionKeys = equipmentDataInEquipementConnections[i].nodesConnectionKey;
+			inputdeck.tokenize(nodeConnectionKeys, delimeter, nodeNames); 
+			bool check = isContainString(facilityNames, nodeNames[0]);
+			if(check == false){
+				facilityNames.push_back(nodeNames[0]);
+			}
+		}
+
+	}
+	return facilityNames;
+}
+
+double ReportJSON2::GetTotalFacilitiesGasCapacitiesPerGasConsumer(
+	FacilityStructExternal gasConsumerPerDate, Node& firstNode,
+	vector<string> facilityNamesPerGasConsumer
+) {
+
+	double totalGasCapacity = 0;
+	vector<FacilityStructExternal> equipmentDataInEquipementConnections = firstNode.equipmentDataInEquipementConnections;
+	int nEquipmentDataInEquipementConnections = equipmentDataInEquipementConnections.size();
+	int nFacilityNamesPerGasConsumer = facilityNamesPerGasConsumer.size();
+	int i = 0, j = 0;
+
+	for(i = 0; i < nEquipmentDataInEquipementConnections; i++){
+		for(j = 0; j < nFacilityNamesPerGasConsumer; j++){
+			if(facilityNamesPerGasConsumer[j] == equipmentDataInEquipementConnections[i].Primary_Facility){
+				if(dateCreation.IsMinimumDate(equipmentDataInEquipementConnections[i].FacilityDate1P,
+				gasConsumerPerDate.FacilityDate1P) || 
+				dateCreation.EqualTo(equipmentDataInEquipementConnections[i].FacilityDate1P,
+				gasConsumerPerDate.FacilityDate1P)){
+					totalGasCapacity = totalGasCapacity + equipmentDataInEquipementConnections[i].Gas_Capacity1P;
+				}
+			}
+		}
+	}
+	return totalGasCapacity;
+}
+
+vector<FacilityStructExternal> ReportJSON2::GetFacilitiesGasDemandPerGasConsumer(
+	FacilityStructExternal gasConsumerPerDate, Node& firstNode,
+	vector<string> facilityNamesPerGasConsumer,
+	vector<Node>& updatesNodes
+) {
+
+	double totalGasCapacity = GetTotalFacilitiesGasCapacitiesPerGasConsumer(
+		gasConsumerPerDate, firstNode,facilityNamesPerGasConsumer);
+
+	vector<FacilityStructExternal> equipmentDataInEquipementConnections = firstNode.equipmentDataInEquipementConnections;
+	int nEquipmentDataInEquipementConnections = equipmentDataInEquipementConnections.size();
+	int nFacilityNamesPerGasConsumer = facilityNamesPerGasConsumer.size();
+	int i = 0, j = 0;
+
+	for(i = 0; i < nEquipmentDataInEquipementConnections; i++){
+		for(j = 0; j < nFacilityNamesPerGasConsumer; j++){
+			if(facilityNamesPerGasConsumer[j] == equipmentDataInEquipementConnections[i].Primary_Facility){
+				if(dateCreation.IsMinimumDate(equipmentDataInEquipementConnections[i].FacilityDate1P,
+				gasConsumerPerDate.FacilityDate1P) || 
+				dateCreation.EqualTo(equipmentDataInEquipementConnections[i].FacilityDate1P,
+				gasConsumerPerDate.FacilityDate1P)){
+					double frac = equipmentDataInEquipementConnections[i].Gas_Capacity1P / totalGasCapacity;
+					equipmentDataInEquipementConnections[i].GasDemand1P = frac * gasConsumerPerDate.GasDemand1P;
+					equipmentDataInEquipementConnections[i].GasDemand2P = frac * gasConsumerPerDate.GasDemand1P;
+					equipmentDataInEquipementConnections[i].GasDemand3P = frac * gasConsumerPerDate.GasDemand1P;
+				}
+			}
+		}
+	}
+	
+	return equipmentDataInEquipementConnections;
+	
+}
+
+void ReportJSON2::GetFacilitiesGasDemand(vector<Node>& updatesNode){
+	int nUpdatesNode = updatesNode.size();
+	Node lastNode = updatesNode[nUpdatesNode-1];
+	Node firstNode = updatesNode[0];
+	vector<FacilityInEquipementConnection> gasConsumers = LastNodeGasConsumers(lastNode);
+	int nGasConsumers = gasConsumers.size();
+	vector<FacilityStructExternal> equipmentDataInEquipementConnections = lastNode.equipmentDataInEquipementConnections;
+	int nEquipmentDataInEquipementConnections = equipmentDataInEquipementConnections.size();
+
+	int i = 0, j = 0;
+
+	for(i = 0; i < nGasConsumers; i++){
+		for(j = 0; j < nEquipmentDataInEquipementConnections; j++){
+			vector<string> facilityNamesPerGasConsumer =
+			LastFacilitiesConnectedToAGasConsumer(lastNode, gasConsumers[i]);
+			FacilityStructExternal gasConsumerPerDate = equipmentDataInEquipementConnections[j];
+			if(facilityNamesPerGasConsumer.size() > 0){	
+				vector<FacilityStructExternal> equipmentDataInEquipementConnections_firstNode =
+				GetFacilitiesGasDemandPerGasConsumer(gasConsumerPerDate, firstNode,
+					facilityNamesPerGasConsumer,updatesNode);
+
+				if(gasConsumerPerDate.GasDemand1P > 0){
+					updatesNode[0].equipmentDataInEquipementConnections = equipmentDataInEquipementConnections_firstNode;
+				}
+				
+			}
+			
+		}
+	}
 }
 
 
