@@ -18,3 +18,17 @@ public:
         right = nullptr; 
     }
 };
+
+
+class TreeNodeBinarySearch {
+    public:
+        double data;
+        TreeNodeBinarySearch* left;
+        TreeNodeBinarySearch* right;
+
+        TreeNodeBinarySearch(double val){
+            data = val;
+            left = nullptr;
+            right = nullptr;
+        }
+};

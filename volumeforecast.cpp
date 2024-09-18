@@ -1,4 +1,7 @@
 #include <napi.h>
+#include <unordered_map>
+#include <iostream>
+#include <string>
 #include "src/cpp/Forecast/ProductionForecast/DateCreation.h"
 #include "src/cpp/Forecast/utilities/runForecastAsyncWorkerModifiedT.h"
 #include "src/cpp/Forecast/utilities/runForecastAsyncWorker.h"
@@ -12,6 +15,8 @@
 #include "src/cpp/learnings/BinarySearchTree.h"
 #include "src/cpp/learnings/HashTable.h"
 #include "src/cpp/learnings/Stack.h"
+
+using namespace std;
 
 
 void getDays();
@@ -29,6 +34,8 @@ void testLinkedList();
 void testBinaryTreeSearch();
 void testHashTable();
 void testStackList();
+int lengthOfLongestSubstring(string s);
+pair<int, string> lengthOfLongestSubstring2(string s);
 
 DateCreation dateCreation;
 
@@ -46,12 +53,74 @@ int main(){
     //testBinaryTreeSearch();
     //testLinkedList();
     //testHashTable();
-    //testStackList()
+    //testStackList();
+
+    string s = "bbbbb";
+    int a = lengthOfLongestSubstring(s);
+
+    auto result = lengthOfLongestSubstring2(s);
+    cout << "Length of the longest substring without repeating characters: " << result.first << endl;
+    cout << "Longest substring: " << result.second << endl;
+
     return 0;
 }
 
+int lengthOfLongestSubstring(string s) {
+    unordered_map<char, int> charIndexMap; // To store the latest index of each character
+    int maxLength = 0; // To store the result
+    int start = 0;     // Left pointer of the window
+
+    for (int end = 0; end < s.length(); end++) {
+        char currentChar = s[end];
+
+        // If the character is found in the map and is in the current window, move the start pointer
+        if (charIndexMap.find(currentChar) != charIndexMap.end() && charIndexMap[currentChar] >= start) {
+            start = charIndexMap[currentChar] + 1;
+        }
+
+        // Update the character's latest index
+        charIndexMap[currentChar] = end;
+
+        // Calculate the maximum length of substring
+        maxLength = max(maxLength, end - start + 1);
+    }
+
+    return maxLength;
+}
+
+pair<int, string> lengthOfLongestSubstring2(string s) {
+    unordered_map<char, int> charIndexMap; // To store the latest index of each character
+    int maxLength = 0;     // To store the maximum length
+    int start = 0;         // Left pointer of the window
+    int maxStart = 0;      // Start index of the longest substring
+
+    for (int end = 0; end < s.length(); end++) {
+        char currentChar = s[end];
+
+        // If the character is found in the map and is in the current window, move the start pointer
+        if (charIndexMap.find(currentChar) != charIndexMap.end() && charIndexMap[currentChar] >= start) {
+            start = charIndexMap[currentChar] + 1;
+        }
+
+        // Update the character's latest index
+        charIndexMap[currentChar] = end;
+
+        // Calculate the maximum length and update the starting index of the longest substring
+        if (end - start + 1 > maxLength) {
+            maxLength = end - start + 1;
+            maxStart = start;
+        }
+    }
+
+    // Extract the longest substring
+    string longestSubstring = s.substr(maxStart, maxLength);
+
+    return {maxLength, longestSubstring}; // Return both the length and the longest substring
+}
+
 void testStackList() {
-     Stack stack(5);
+
+     StackDouble stack(4);
 
     stack.push(10);
     stack.push(20);

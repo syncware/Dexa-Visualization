@@ -18,21 +18,27 @@ def plot_aggregated_data(file_name, solution_space,
     x_values = [datetime.strptime(date, '%d/%m/%Y').strftime('%Y-%m-%d') for date in variable_data["x"]]
     y_values = [value / divisor for value in  variable_data["y"]]
 
-    actual_data = read_text_file(actual_file_name)
-    x_actual = actual_data["x"]
-    #x_actual_date = [datetime.strptime(date, "%m/%d/%Y").date() for date in x_actual]
-    x_actual_date = [datetime.strptime(date, '%d/%m/%Y').strftime('%Y-%m-%d') for date in x_actual]
-    y_actual = actual_data["y"]
+    actual_data = readJsonData(actual_file_name)
     
+
+    x_actual = []
+    y_actual = []
+    for entry in actual_data:
+        x_value = "31/12/" + entry["x"].split('.')[0]  # First column is x
+        x_actual.append(x_value)
+        y_actual.append(float(entry["y"]))
+    
+    x_actual_date = [datetime.strptime(date, '%d/%m/%Y').strftime('%Y-%m-%d') for date in x_actual]
 
     # Plotting the data
     plt.figure(figsize=(10, 5))
     #plt.plot(x_values, y_values, marker='o', linestyle='-', color='b')
     plt.plot(x_values, y_values, label=label_title)
 
-    # plt.plot(x_actual_date, y_actual, label="Actual")
+    plt.plot(x_actual_date, y_actual, label="Third Party")
 
-    #plt.gcf().autofmt_xdate()
+
+    plt.legend()
 
     # Adding title and labels
     plt.title(title)
@@ -51,10 +57,10 @@ scenario = "3P_3C"
 forecastResultIndex = "1"
 variable = "flareGas"
 x_axis_label = "Production Date"
-y_axis_label = "flareGas (MMscf/d)"
-title = "Forecast Gas Rate"
-label_title = "Facilit 1"
-actual_file_name = 'files/oIl_rate group_1.txt'
+y_axis_label = "Flare Gas (MMscf/d)"
+title = "Forecast Flare Gas"
+label_title = "Apex"
+actual_file_name = 'files/third_party/Group 1/Potential/Flare Gas Rate Group 1 - Potential.json'
 divisor = 1000000
 plot_aggregated_data(file_name, solution_space, 
                     scenario, forecastResultIndex, variable,
