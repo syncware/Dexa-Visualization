@@ -3,7 +3,7 @@ import pandas as pd
 import json
 from datetime import datetime
 from json_data_io import readJsonData
-from text_file_data_io import read_text_file
+from text_file_data_io import write_json_to_textfile
 
 def plot_aggregated_data(file_name, solution_space, 
                         scenario, forecastResultIndex, variable,
@@ -18,7 +18,10 @@ def plot_aggregated_data(file_name, solution_space,
     x_values = [datetime.strptime(date, '%d/%m/%Y').strftime('%Y-%m-%d') for date in variable_data["x"]]
     y_values = [value / divisor for value in  variable_data["y"]]
 
-    actual_data = readJsonData(actual_file_name)
+    actual_data = readJsonData(actual_file_name + ".json")
+
+    write_json_to_textfile(actual_file_name + ".txt", actual_data)
+
     
 
     x_actual = []
@@ -55,13 +58,13 @@ file_name = "files/forecast_chat_data_output.json"
 solution_space = "POTENTIAL3P_3C"
 scenario = "3P_3C" 
 forecastResultIndex = "1"
-variable = "flareGas"
+variable = "oilRate"
 x_axis_label = "Production Date"
-y_axis_label = "Flare Gas (MMscf/d)"
-title = "Forecast Flare Gas"
+y_axis_label = "Produced Condensate (Mbbl/d)"
+title = "Produced Condensate"
 label_title = "Apex"
-actual_file_name = 'files/third_party/Group 1/Potential/Flare Gas Rate Group 1 - Potential.json'
-divisor = 1000000
+actual_file_name = 'files/third_party/Group 1/Potential/Oil Rate Group 1 - Potential.json'
+divisor = 1000
 plot_aggregated_data(file_name, solution_space, 
                     scenario, forecastResultIndex, variable,
                     x_axis_label, y_axis_label, title, label_title,

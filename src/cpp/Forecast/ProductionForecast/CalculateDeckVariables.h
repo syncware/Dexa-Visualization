@@ -4290,7 +4290,7 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 		case 2:
 
 			initialLiquidRate = deck.Init_Liquid_Gas_Rate_2P_2C; // Initial liquid rate
-			plateauCumProd = deck.PlateauUR_1P_1C * MM;
+			plateauCumProd = deck.PlateauUR_2P_2C * MM;
 
 			cumprodNoPlateau = (cumprod - plateauCumProd); //Liquid remaining plateau volume
 			if (cumprodNoPlateau < 0)
@@ -4370,7 +4370,7 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 
 		case 3:
 			initialLiquidRate = deck.Init_Liquid_Gas_Rate_3P_3C; // Initial liquid rate
-			plateauCumProd = deck.PlateauUR_1P_1C * MM;
+			plateauCumProd = deck.PlateauUR_3P_3C * MM;
 
 			cumprodNoPlateau = (cumprod - plateauCumProd); //Liquid remaining plateau volume
 			if (cumprodNoPlateau < 0)
@@ -5096,6 +5096,8 @@ ForecastResult &forecastResult_old)
 
 	double MM = 1000000.0, x1 = 0, x2 = 0;
 
+	bool isLinear = true;
+
 	if (deck.Hydrocarbon_Stream == oil)
 	{
 		x1 = deck.Cum_Liq_Prod * MM;
@@ -5112,7 +5114,7 @@ ForecastResult &forecastResult_old)
 				forecastResult.GOR  = deck.Init_GOR_CGR;
 			}else{
 				forecastResult.GOR = fractionalFlow.Get_Fractional_Flow(deck.Rate_Of_Rate_GOR_CGR_1P1C, x1,
-				x2, deck.Init_GOR_CGR, forecastResult.cumDays, isRateCum);
+				x2, deck.Init_GOR_CGR, forecastResult.cumDays, isRateCum, isLinear);
 				if (forecastResult.GOR > deck.Aband_GOR_CGR_1P_1C)
 				{
 					forecastResult.GOR = deck.Aband_GOR_CGR_1P_1C;
@@ -5128,7 +5130,7 @@ ForecastResult &forecastResult_old)
 				forecastResult.GOR  = deck.Init_GOR_CGR;
 			}else{
 				forecastResult.GOR = fractionalFlow.Get_Fractional_Flow(deck.Rate_Of_Rate_GOR_CGR_2P2C, x1,
-				x2, deck.Init_GOR_CGR, forecastResult.cumDays, isRateCum);
+				x2, deck.Init_GOR_CGR, forecastResult.cumDays, isRateCum, isLinear);
 				if (forecastResult.GOR > deck.Aband_GOR_CGR_2P_2C)
 				{
 					forecastResult.GOR = deck.Aband_GOR_CGR_2P_2C;
@@ -5144,7 +5146,7 @@ ForecastResult &forecastResult_old)
 				forecastResult.GOR  = deck.Init_GOR_CGR;
 			}else{
 				forecastResult.GOR = fractionalFlow.Get_Fractional_Flow(deck.Rate_Of_Rate_GOR_CGR_3P3C, x1,
-				x2, deck.Init_GOR_CGR, forecastResult.cumDays, isRateCum);
+				x2, deck.Init_GOR_CGR, forecastResult.cumDays, isRateCum, isLinear);
 
 				if (forecastResult.GOR > deck.Aband_GOR_CGR_3P_3C)
 				{
@@ -5167,6 +5169,7 @@ ForecastResult &forecastResult_old)
 		x1 = deck.Gp * MM;
 		x2 = forecastResult.Cum_Gas_Prod * MM;
 		cumprod = (forecastResult_old.Cum_Gas_Prod - deck.Gp) * MM;
+		isLinear = false;
 
 		switch (scenario)
 		{
@@ -5178,7 +5181,7 @@ ForecastResult &forecastResult_old)
 				forecastResult.CGR  = deck.Init_GOR_CGR;
 			}else{
 				forecastResult.CGR = fractionalFlow.Get_Fractional_Flow(deck.Rate_Of_Rate_GOR_CGR_1P1C, x1,
-				x2, deck.Init_GOR_CGR, forecastResult.cumDays, isRateCum);
+				x2, deck.Init_GOR_CGR, forecastResult.cumDays, isRateCum, isLinear);
 				if (forecastResult.CGR <= deck.Aband_GOR_CGR_1P_1C)
 				{
 					forecastResult.CGR = deck.Aband_GOR_CGR_1P_1C;
@@ -5194,7 +5197,7 @@ ForecastResult &forecastResult_old)
 				forecastResult.CGR  = deck.Init_GOR_CGR;
 			}else{
 				forecastResult.CGR = fractionalFlow.Get_Fractional_Flow(deck.Rate_Of_Rate_GOR_CGR_2P2C, x1,
-				x2, deck.Init_GOR_CGR, forecastResult.cumDays, isRateCum);
+				x2, deck.Init_GOR_CGR, forecastResult.cumDays, isRateCum, isLinear);
 				if (forecastResult.CGR <= deck.Aband_GOR_CGR_2P_2C)
 				{
 					forecastResult.CGR = deck.Aband_GOR_CGR_2P_2C;
@@ -5210,7 +5213,7 @@ ForecastResult &forecastResult_old)
 				forecastResult.CGR  = deck.Init_GOR_CGR;
 			}else{
 				forecastResult.CGR = fractionalFlow.Get_Fractional_Flow(deck.Rate_Of_Rate_GOR_CGR_3P3C, x1,
-				x2, deck.Init_GOR_CGR, forecastResult.cumDays, isRateCum);
+				x2, deck.Init_GOR_CGR, forecastResult.cumDays, isRateCum, isLinear);
 				if (forecastResult.CGR <= deck.Aband_GOR_CGR_3P_3C)
 				{
 					forecastResult.CGR = deck.Aband_GOR_CGR_3P_3C;
@@ -5237,6 +5240,9 @@ ForecastResult &forecastResult, ForecastResult &forecastResult_old)
 
 	double MM = 1000000.0, x1 = 0, x2 = 0;
 
+	bool isLinear = true;
+
+
 	if (deck.Hydrocarbon_Stream == oil)
 	{
 		x1 = deck.Cum_Liq_Prod * MM;
@@ -5253,7 +5259,7 @@ ForecastResult &forecastResult, ForecastResult &forecastResult_old)
 				forecastResult.BSW  = deck.Init_BSW_WGR;
 			}else{
 				forecastResult.BSW = fractionalFlow.Get_Fractional_Flow(deck.Rate_Of_Rate_BSW_WGR_1P1C, x1,
-				x2, deck.Init_BSW_WGR, forecastResult.cumDays, isRateCum);
+				x2, deck.Init_BSW_WGR, forecastResult.cumDays, isRateCum, isLinear);
 
 				if (forecastResult.BSW > deck.Aband_BSW_WGR_1P_1C)
 				{
@@ -5270,7 +5276,7 @@ ForecastResult &forecastResult, ForecastResult &forecastResult_old)
 				forecastResult.BSW  = deck.Init_BSW_WGR;
 			}else{
 				forecastResult.BSW = fractionalFlow.Get_Fractional_Flow(deck.Rate_Of_Rate_BSW_WGR_2P2C, x1,
-				x2, deck.Init_BSW_WGR, forecastResult.cumDays, isRateCum);
+				x2, deck.Init_BSW_WGR, forecastResult.cumDays, isRateCum, isLinear);
 
 				if (forecastResult.BSW > deck.Aband_BSW_WGR_2P_2C)
 				{
@@ -5287,7 +5293,7 @@ ForecastResult &forecastResult, ForecastResult &forecastResult_old)
 				forecastResult.BSW  = deck.Init_BSW_WGR;
 			}else{
 				forecastResult.BSW = fractionalFlow.Get_Fractional_Flow(deck.Rate_Of_Rate_BSW_WGR_3P3C, x1,
-				x2, deck.Init_BSW_WGR, forecastResult.cumDays, isRateCum);
+				x2, deck.Init_BSW_WGR, forecastResult.cumDays, isRateCum, isLinear);
 
 				if (forecastResult.BSW > deck.Aband_BSW_WGR_3P_3C)
 				{
@@ -5315,6 +5321,7 @@ ForecastResult &forecastResult, ForecastResult &forecastResult_old)
 		x1 = deck.Gp * MM;
 		x2 = forecastResult.Cum_Gas_Prod * MM;
 		cumprod = (forecastResult_old.Cum_Gas_Prod - deck.Gp) * MM;
+		isLinear = true;
 
 		switch (scenario)
 		{
@@ -5326,7 +5333,7 @@ ForecastResult &forecastResult, ForecastResult &forecastResult_old)
 				forecastResult.WGR  = deck.Init_BSW_WGR;
 			}else{
 				forecastResult.WGR = fractionalFlow.Get_Fractional_Flow(deck.Rate_Of_Rate_BSW_WGR_1P1C, x1,
-				x2, deck.Init_BSW_WGR, forecastResult.cumDays, isRateCum);
+				x2, deck.Init_BSW_WGR, forecastResult.cumDays, isRateCum, isLinear);
 				if (forecastResult.WGR > deck.Aband_BSW_WGR_1P_1C)
 				{
 					forecastResult.WGR = deck.Aband_BSW_WGR_1P_1C;
@@ -5342,7 +5349,7 @@ ForecastResult &forecastResult, ForecastResult &forecastResult_old)
 				forecastResult.WGR  = deck.Init_BSW_WGR;
 			}else{
 				forecastResult.WGR = fractionalFlow.Get_Fractional_Flow(deck.Rate_Of_Rate_BSW_WGR_2P2C, x1,
-				x2, deck.Init_BSW_WGR, forecastResult.cumDays, isRateCum);
+				x2, deck.Init_BSW_WGR, forecastResult.cumDays, isRateCum, isLinear);
 				if (forecastResult.WGR > deck.Aband_BSW_WGR_2P_2C)
 				{
 					forecastResult.WGR = deck.Aband_BSW_WGR_2P_2C;
@@ -5358,7 +5365,7 @@ ForecastResult &forecastResult, ForecastResult &forecastResult_old)
 				forecastResult.WGR  = deck.Init_BSW_WGR;
 			}else{
 				forecastResult.WGR = fractionalFlow.Get_Fractional_Flow(deck.Rate_Of_Rate_BSW_WGR_3P3C, x1,
-				x2, deck.Init_BSW_WGR, forecastResult.cumDays, isRateCum);
+				x2, deck.Init_BSW_WGR, forecastResult.cumDays, isRateCum, isLinear);
 				if (forecastResult.WGR > deck.Aband_BSW_WGR_3P_3C)
 				{
 					forecastResult.WGR = deck.Aband_BSW_WGR_3P_3C;
@@ -5613,29 +5620,29 @@ void CalculateDeckVariables::WellAbandonmentConditions(int &scenario, InputDeckS
 		/* 
 			Abandon well if there is no reserves
 		} */
-		if(dURConstrained == true){
-			if (forecastResult.URo <= 0){
+		// if(dURConstrained == true){
+		// 	if (forecastResult.URo <= 0){
 
-				forecastResult.IsFlowing = false;
-				forecastResult.Gas_Rate = 0;
-				forecastResult.Oil_rate = 0;
-				forecastResult.Water_Rate = 0;
-				forecastResult.Gas_Rate_NotTerminated = 0;
-				forecastResult.Oil_rate_NotTerminated = 0;
-				forecastResult.Liquid_Rate = 0;
-				forecastResult.Liquid_rate_NotTerminated = 0;
-				forecastResult.GOR = 0;
-				forecastResult.WGR = 0;
-				forecastResult.BSW = 0;
-				forecastResult.CGR = 0;
-				forecastResult.Gas_Demand = 0;
-				forecastResult.Gas_Own_Use = 0;
-				forecastResult.Gas_Flared = 0;
-				forecastResult.reasonForTermination = "Terminated by Oil DUR";
-				return;
+		// 		forecastResult.IsFlowing = false;
+		// 		forecastResult.Gas_Rate = 0;
+		// 		forecastResult.Oil_rate = 0;
+		// 		forecastResult.Water_Rate = 0;
+		// 		forecastResult.Gas_Rate_NotTerminated = 0;
+		// 		forecastResult.Oil_rate_NotTerminated = 0;
+		// 		forecastResult.Liquid_Rate = 0;
+		// 		forecastResult.Liquid_rate_NotTerminated = 0;
+		// 		forecastResult.GOR = 0;
+		// 		forecastResult.WGR = 0;
+		// 		forecastResult.BSW = 0;
+		// 		forecastResult.CGR = 0;
+		// 		forecastResult.Gas_Demand = 0;
+		// 		forecastResult.Gas_Own_Use = 0;
+		// 		forecastResult.Gas_Flared = 0;
+		// 		forecastResult.reasonForTermination = "Terminated by Oil DUR";
+		// 		return;
 
-			}
-		}
+		// 	}
+		// }
 
 		/* 
 			Abandon well if there is liquid rate is less than or equal to abandonment liquid rate
@@ -5766,33 +5773,33 @@ void CalculateDeckVariables::WellAbandonmentConditions(int &scenario, InputDeckS
 		/* 
 			Abandon well if there is no reserves
 		} */
-		if(dURConstrained == true){
-			if (forecastResult.URg <= 0){
+		// if(dURConstrained == true){
+		// 	if (forecastResult.URg <= 0){
 
-				/* if(deck.Module == "FO12U60T_FO12 U60X_P03"){
-					std::cout << "FO12U60T_FO12 U60X_P03 Well Killed by URg \n";
-				} */
+		// 		/* if(deck.Module == "FO12U60T_FO12 U60X_P03"){
+		// 			std::cout << "FO12U60T_FO12 U60X_P03 Well Killed by URg \n";
+		// 		} */
 
-				forecastResult.IsFlowing = false;
-				forecastResult.Gas_Rate = 0;
-				forecastResult.Oil_rate = 0;
-				forecastResult.Water_Rate = 0;
-				forecastResult.Gas_Rate_NotTerminated = 0;
-				forecastResult.Oil_rate_NotTerminated = 0;
-				forecastResult.Liquid_Rate = 0;
-				forecastResult.Liquid_rate_NotTerminated = 0;
-				forecastResult.GOR = 0;
-				forecastResult.WGR = 0;
-				forecastResult.BSW = 0;
-				forecastResult.CGR = 0;
-				forecastResult.Gas_Demand = 0;
-				forecastResult.Gas_Own_Use = 0;
-				forecastResult.Gas_Flared = 0;
-				forecastResult.reasonForTermination = "Terminated by Gas DUR";
-				return;
+		// 		forecastResult.IsFlowing = false;
+		// 		forecastResult.Gas_Rate = 0;
+		// 		forecastResult.Oil_rate = 0;
+		// 		forecastResult.Water_Rate = 0;
+		// 		forecastResult.Gas_Rate_NotTerminated = 0;
+		// 		forecastResult.Oil_rate_NotTerminated = 0;
+		// 		forecastResult.Liquid_Rate = 0;
+		// 		forecastResult.Liquid_rate_NotTerminated = 0;
+		// 		forecastResult.GOR = 0;
+		// 		forecastResult.WGR = 0;
+		// 		forecastResult.BSW = 0;
+		// 		forecastResult.CGR = 0;
+		// 		forecastResult.Gas_Demand = 0;
+		// 		forecastResult.Gas_Own_Use = 0;
+		// 		forecastResult.Gas_Flared = 0;
+		// 		forecastResult.reasonForTermination = "Terminated by Gas DUR";
+		// 		return;
 
-			}
-		}
+		// 	}
+		// }
 
 		/* 
 			Abandon well if there is gas rate is less than or equal to abandonment gas rate
@@ -5832,66 +5839,66 @@ void CalculateDeckVariables::WellAbandonmentConditions(int &scenario, InputDeckS
 		/* 
 			Abandon well if there if CGR is less than or equal to abandonment CGR
 		} */
-		if (forecastResult.CGR <= CGR_Aband && InitialCGR > 0){
+		// if (forecastResult.CGR <= CGR_Aband && InitialCGR > 0){
 
-			logger = logger + 
-			"CGR = "  + to_string(forecastResult.CGR) + " * " +
-			"InitialCGR = "  + to_string(InitialCGR) + " * " +
-			"CGR_Aband = "  + to_string(CGR_Aband) + " * "  + "\n";
+		// 	logger = logger + 
+		// 	"CGR = "  + to_string(forecastResult.CGR) + " * " +
+		// 	"InitialCGR = "  + to_string(InitialCGR) + " * " +
+		// 	"CGR_Aband = "  + to_string(CGR_Aband) + " * "  + "\n";
 
-			/* if(deck.Module == "FO12U60T_FO12 U60X_P03"){
-				std::cout << "FO12U60T_FO12 U60X_P03 Well Killed by CGR_Aband " << logger;
-			} */
+		// 	/* if(deck.Module == "FO12U60T_FO12 U60X_P03"){
+		// 		std::cout << "FO12U60T_FO12 U60X_P03 Well Killed by CGR_Aband " << logger;
+		// 	} */
 
-			forecastResult.IsFlowing = false;
-			forecastResult.Gas_Rate = 0;
-			forecastResult.Oil_rate = 0;
-			forecastResult.Water_Rate = 0;
-			forecastResult.Gas_Rate_NotTerminated = 0;
-			forecastResult.Oil_rate_NotTerminated = 0;
-			forecastResult.Liquid_Rate = 0;
-			forecastResult.Liquid_rate_NotTerminated = 0;
-			forecastResult.GOR = 0;
-			forecastResult.WGR = 0;
-			forecastResult.BSW = 0;
-			forecastResult.CGR = 0;
-			forecastResult.Gas_Demand = 0;
-			forecastResult.Gas_Own_Use = 0;
-			forecastResult.Gas_Flared = 0;
-			forecastResult.reasonForTermination = "Terminated by Abandonment CGR";
-			return;
+		// 	forecastResult.IsFlowing = false;
+		// 	forecastResult.Gas_Rate = 0;
+		// 	forecastResult.Oil_rate = 0;
+		// 	forecastResult.Water_Rate = 0;
+		// 	forecastResult.Gas_Rate_NotTerminated = 0;
+		// 	forecastResult.Oil_rate_NotTerminated = 0;
+		// 	forecastResult.Liquid_Rate = 0;
+		// 	forecastResult.Liquid_rate_NotTerminated = 0;
+		// 	forecastResult.GOR = 0;
+		// 	forecastResult.WGR = 0;
+		// 	forecastResult.BSW = 0;
+		// 	forecastResult.CGR = 0;
+		// 	forecastResult.Gas_Demand = 0;
+		// 	forecastResult.Gas_Own_Use = 0;
+		// 	forecastResult.Gas_Flared = 0;
+		// 	forecastResult.reasonForTermination = "Terminated by Abandonment CGR";
+		// 	return;
 
-		}
+		// }
 
 
 		/* 
 			Abandon well if there if WGR is greater than or equal to abandonment WGR
 		} */
-		if (forecastResult.WGR >= WGR_Aband && WGR_Aband > 0){
+		// if (forecastResult.WGR >= WGR_Aband && WGR_Aband > 0){
 
-			/* if(deck.Module == "FO12U60T_FO12 U60X_P03"){
-				std::cout << "FO12U60T_FO12 U60X_P03 Well Killed by WGR_Aband \n";
-			} */
+		// 	/* if(deck.Module == "FO12U60T_FO12 U60X_P03"){
+		// 		std::cout << "FO12U60T_FO12 U60X_P03 Well Killed by WGR_Aband \n";
+		// 	} */
 
-			forecastResult.IsFlowing = false;
-			forecastResult.Gas_Rate = 0;
-			forecastResult.Oil_rate = 0;
-			forecastResult.Water_Rate = 0;
-			forecastResult.Gas_Rate_NotTerminated = 0;
-			forecastResult.Oil_rate_NotTerminated = 0;
-			forecastResult.Liquid_Rate = 0;
-			forecastResult.Liquid_rate_NotTerminated = 0;
-			forecastResult.GOR = 0;
-			forecastResult.WGR = 0;
-			forecastResult.BSW = 0;
-			forecastResult.CGR = 0;
-			forecastResult.Gas_Demand = 0;
-			forecastResult.Gas_Own_Use = 0;
-			forecastResult.Gas_Flared = 0;
-			forecastResult.reasonForTermination = "Terminated by Abandonment WGR";
-			return;
+		// 	forecastResult.IsFlowing = false;
+		// 	forecastResult.Gas_Rate = 0;
+		// 	forecastResult.Oil_rate = 0;
+		// 	forecastResult.Water_Rate = 0;
+		// 	forecastResult.Gas_Rate_NotTerminated = 0;
+		// 	forecastResult.Oil_rate_NotTerminated = 0;
+		// 	forecastResult.Liquid_Rate = 0;
+		// 	forecastResult.Liquid_rate_NotTerminated = 0;
+		// 	forecastResult.GOR = 0;
+		// 	forecastResult.WGR = 0;
+		// 	forecastResult.BSW = 0;
+		// 	forecastResult.CGR = 0;
+		// 	forecastResult.Gas_Demand = 0;
+		// 	forecastResult.Gas_Own_Use = 0;
+		// 	forecastResult.Gas_Flared = 0;
+		// 	forecastResult.reasonForTermination = "Terminated by Abandonment WGR";
+		// 	return;
 
-		}
+		// }
 	}
 
 	/* logger = logger + 

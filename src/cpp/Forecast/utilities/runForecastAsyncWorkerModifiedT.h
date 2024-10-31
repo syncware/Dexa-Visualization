@@ -163,6 +163,12 @@ json RunForecastAsyncWorkerModifiedTest::RunForecast(const json& jsonData){
     deckobj.cumProdDays = dateCreation.daysList[nth-1];
     deckobj.stopDate = dateCreation.dateTimes[nth-1];
 
+    Date startDate;
+    startDate.year = 2024;
+    startDate.month = 1;
+    startDate.day = 1;
+    deckobj.startDate = startDate;
+
     deckobj.InitilizeModules();
     
     int i = 0;

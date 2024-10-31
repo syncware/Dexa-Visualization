@@ -1,3 +1,4 @@
+import json
 # Step 1: Read the data from the file
 #file_path = 'oIl_rate group_1.txt'  # replace with your actual file path
 
@@ -24,3 +25,15 @@ def read_text_file(file_path):
         "y": y
     }
 
+def dump_json_to_textfile(file_path, json_data):
+    with open(file_path, "w") as file:
+        json.dump(json_data, file, indent=4)
+
+def write_json_to_textfile(file_path, json_data):
+    with open(file_path, "w") as file:
+        # Writing the header
+        file.write("x\t\ty\n")
+    
+        # Writing the data row by row
+        for entry in json_data:
+            file.write(f"{entry['x']}\t{entry['y']}\n")

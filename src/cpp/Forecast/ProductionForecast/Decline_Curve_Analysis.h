@@ -28,6 +28,8 @@ public:
 	double Get_DCA_Exponential(double& Initial_Rate, double& Rate_Of_Change, double& Cum_Prod);
     double Get_DCA_Hyperbolic(double& Initial_Rate, double& Rate_Of_Change, double& Cum_Prod, 
         double& Decline_Exponent);
+    double Get_DCA_Hyperbolic_TimeCum(double& Initial_Rate, double& Rate_Of_Change, double& CumDays, 
+        double& Decline_Exponent);
     double Get_DCA_Harmonic(double& Initial_Rate, double& Rate_Of_Change, double& Cum_Prod);
 	double Get_DCA_Exponential2(double& Initial_Rate, double& Rate_Of_Change, double& ProductionDays);
 
@@ -159,6 +161,24 @@ double Decline_Curve_Analysis::Get_DCA_Hyperbolic(double& Initial_Rate, double& 
 	return Current_Rate;
 }
 
+double Decline_Curve_Analysis::Get_DCA_Hyperbolic_TimeCum(double& Initial_Rate, double& Rate_Of_Change, double& CumDays, 
+        double& Decline_Exponent)
+{
+    double term1 = 1 + (Decline_Exponent * Rate_Of_Change * CumDays);
+    double DeclineExponet = 0;
+    if(Decline_Exponent != 0){
+        DeclineExponet = 1 / Decline_Exponent;
+    }
+    double denominator = pow(term1, DeclineExponet);
+    double Current_Rate = 0;
+    if(denominator != 0)
+    {
+       Current_Rate =  Initial_Rate / denominator;
+    }
+
+	return Current_Rate;
+}
+
 
 double Decline_Curve_Analysis::Get_DCA_Harmonic(double& Initial_Rate, double& Rate_Of_Change, double& Cum_Prod)
 {
@@ -196,7 +216,11 @@ double Decline_Curve_Analysis::Get_DCA(double& Initial_Rate, double& Rate_Of_Cha
         break;
 
     case 2:
-        rate = Get_DCA_Hyperbolic(Initial_Rate, Rate_Of_Change, Cum_Prod, Decline_Exponent);
+        if(isRateCum){
+            rate = Get_DCA_Hyperbolic(Initial_Rate, Rate_Of_Change, Cum_Prod, Decline_Exponent);
+        }else{
+            rate = Get_DCA_Hyperbolic_TimeCum(Initial_Rate, Rate_Of_Change, cumDays, Decline_Exponent);
+        }
         break;
         
     case 3:

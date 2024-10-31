@@ -15,6 +15,7 @@
 #include "src/cpp/learnings/BinarySearchTree.h"
 #include "src/cpp/learnings/HashTable.h"
 #include "src/cpp/learnings/Stack.h"
+#include "src/cpp/learnings/HackRankTest.h"
 
 using namespace std;
 
@@ -35,6 +36,7 @@ void testBinaryTreeSearch();
 void testHashTable();
 void testStackList();
 int lengthOfLongestSubstring(string s);
+void testHackRankTest();
 pair<int, string> lengthOfLongestSubstring2(string s);
 
 DateCreation dateCreation;
@@ -55,14 +57,27 @@ int main(){
     //testHashTable();
     //testStackList();
 
-    string s = "bbbbb";
-    int a = lengthOfLongestSubstring(s);
+    // string s = "bbbbb";
+    // int a = lengthOfLongestSubstring(s);
 
-    auto result = lengthOfLongestSubstring2(s);
-    cout << "Length of the longest substring without repeating characters: " << result.first << endl;
-    cout << "Longest substring: " << result.second << endl;
+    // auto result = lengthOfLongestSubstring2(s);
+    // cout << "Length of the longest substring without repeating characters: " << result.first << endl;
+    // cout << "Longest substring: " << result.second << endl;
 
+    testHackRankTest();
     return 0;
+}
+
+void testHackRankTest() {
+    HackRankTest hackRankTest;
+    // string ss = "Gabriel";
+    // string ans = hackRankTest.isPalindrome(ss);
+    // bool isAscending = false;
+    // vector<int> vec = {2, 7, 4, 6, 1, 3, 5};
+    // hackRankTest.sortIntegers(vec, isAscending);
+    int n = 6;
+    hackRankTest.fibonacci(n);
+    int a = 0;
 }
 
 int lengthOfLongestSubstring(string s) {
