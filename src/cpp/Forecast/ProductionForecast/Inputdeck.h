@@ -583,7 +583,7 @@ void Inputdeck::CalculateDeclineParameters(InputDeckStruct &extendedInputDeck)
 
 	double MM = 1000000.0;
 	double x1 = 0, x2 = 0;
-	bool isLinear = true;
+	bool isLinear = false;
 
 	if(extendedInputDeck.Hydrocarbon_Stream == oil){
 		
@@ -775,21 +775,21 @@ void Inputdeck::InitilizeModule(InputDeckStruct &extendedInputDeck)
 		double oilRate1 = extendedInputDeck.Init_Liquid_Gas_Rate_1P_1C;
 		double one_minus_bsw1 = (1 - extendedInputDeck.Init_BSW_WGR);
 		double liqRate1 = oilRate1 / one_minus_bsw1;
-		//extendedInputDeck.Init_Liquid_Gas_Rate_1P_1C = liqRate1;
+		extendedInputDeck.Init_Liquid_Gas_Rate_1P_1C = liqRate1;
 		double declineRate1 = extendedInputDeck.Rate_of_Change_Rate_1P_1C * fac;
 		extendedInputDeck.Rate_of_Change_Rate_1P_1C = declineRate1;
 
 		double oilRate2 = extendedInputDeck.Init_Liquid_Gas_Rate_2P_2C;
 		double one_minus_bsw2 = (1 - extendedInputDeck.Init_BSW_WGR);
 		double liqRate2 = oilRate2 / one_minus_bsw2;
-		//extendedInputDeck.Init_Liquid_Gas_Rate_2P_2C = liqRate2;
+		extendedInputDeck.Init_Liquid_Gas_Rate_2P_2C = liqRate2;
 		double declineRate2 = extendedInputDeck.Rate_of_Change_Rate_2P_2C * fac;
 		extendedInputDeck.Rate_of_Change_Rate_2P_2C = declineRate2;
 
 		double oilRate3 = extendedInputDeck.Init_Liquid_Gas_Rate_3P_3C;
 		double one_minus_bsw3 = (1 - extendedInputDeck.Init_BSW_WGR);
 		double liqRate3 = oilRate3 / one_minus_bsw3;
-		//extendedInputDeck.Init_Liquid_Gas_Rate_3P_3C = liqRate3;
+		extendedInputDeck.Init_Liquid_Gas_Rate_3P_3C = liqRate3;
 		double declineRate3 = extendedInputDeck.Rate_of_Change_Rate_3P_3C * fac;
 		extendedInputDeck.Rate_of_Change_Rate_3P_3C = declineRate3;
 
@@ -806,18 +806,6 @@ void Inputdeck::InitilizeModule(InputDeckStruct &extendedInputDeck)
 		extendedInputDeck.Cum_Water_Prod = extendedInputDeck.Gp * extendedInputDeck.Init_BSW_WGR;
 		extendedInputDeck.Np = extendedInputDeck.Gp * extendedInputDeck.Init_GOR_CGR;
 		extendedInputDeck.Cum_Liq_Prod = extendedInputDeck.Np + extendedInputDeck.Cum_Water_Prod;
-
-		extendedInputDeck.declineType = "hyperbolic";
-		extendedInputDeck.DeclineMethod = 2;
-		extendedInputDeck.DeclineExponent_1P_1C = 0.9;
-
-		extendedInputDeck.declineType = "hyperbolic";
-		extendedInputDeck.DeclineMethod = 2;
-		extendedInputDeck.DeclineExponent_2P_2C = 0.9;
-
-		extendedInputDeck.declineType = "hyperbolic";
-		extendedInputDeck.DeclineMethod = 2;
-		extendedInputDeck.DeclineExponent_3P_3C = 0.9;
 	}
 }
 

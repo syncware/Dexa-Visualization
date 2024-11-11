@@ -45,8 +45,8 @@ DateCreation dateCreation;
 
 int main(){
     //getDays();
-    //runForecast();
-    //plotChat2();
+    // runForecast();
+    plotChat2();
     //testInheritance();
     //testPolymorphism();
     //testEncapsulation();
@@ -64,7 +64,7 @@ int main(){
     // cout << "Length of the longest substring without repeating characters: " << result.first << endl;
     // cout << "Longest substring: " << result.second << endl;
 
-    testHackRankTest();
+    //testHackRankTest();
     return 0;
 }
 
@@ -261,29 +261,29 @@ json ReadJsonFile(string jsonFileName) {
 }
 
 void runForecast() {
-    json jsonData = ReadJsonFile("C:/Users/Gabriel.Achumba/Documents/Softwares/Newwayconsults/PetDigest/pet_app/files/forecast_input_data.json");
+    json jsonData = ReadJsonFile("C:/Users/Gabriel/Documents/Softwares/Syncware/Pet_App/pet_app/files/forecast_input_data_updated.json");
     RunForecastAsyncWorkerModifiedTest runForecastAsyncWorkerModifiedTest;
     json responseJsonData = runForecastAsyncWorkerModifiedTest.RunForecast(jsonData);
     export_to_file(responseJsonData, 
-    "C:/Users/Gabriel.Achumba/Documents/Softwares/Newwayconsults/PetDigest/pet_app/files/forecast_output_data.json");
+    "C:/Users/Gabriel/Documents/Softwares/Syncware/Pet_App/pet_app/files/forecast_output_data.json");
 }
 
 void plotChat() {
-    json jsonData = ReadJsonFile("C:/Users/Gabriel.Achumba/Documents/Softwares/Newwayconsults/PetDigest/pet_app/forecast_chat_data_input.json");
+    json jsonData = ReadJsonFile("C:/Users/Gabriel/Documents/Softwares/Syncware/Pet_App/pet_app/forecast_chat_data_input.json");
     AllWellsYearlyResultNewAsyncT allWellsYearlyResultNewAsyncT;
     json responseJsonData = allWellsYearlyResultNewAsyncT.Plot(jsonData);
     export_to_file(responseJsonData, 
-    "C:/Users/Gabriel.Achumba/Documents/Softwares/Newwayconsults/PetDigest/pet_app/forecast_chat_data_output.json");
+    "C:/Users/Gabriel/Documents/Softwares/Syncware/Pet_App/pet_app/forecast_chat_data_output.json");
 }
 
 void plotChat2() {
-    json forecastResultsJsonData = ReadJsonFile("C:/Users/Gabriel.Achumba/Documents/Softwares/Newwayconsults/PetDigest/pet_app/files/apex-FG.forecast_forecastresultsbymodules.json");
+    json forecastResultsJsonData = ReadJsonFile("C:/Users/Gabriel/Documents/Softwares/Syncware/Pet_App/pet_app/files/apex_forecast_db.forecast_forecastresultsbymodules.json");
     AllWellsYearlyResultNewAsyncT allWellsYearlyResultNewAsyncT;
-    json chatInputJsonData = ReadJsonFile("C:/Users/Gabriel.Achumba/Documents/Softwares/Newwayconsults/PetDigest/pet_app/files/forecast_chat_data_input.json");
+    json chatInputJsonData = ReadJsonFile("C:/Users/Gabriel/Documents/Softwares/Syncware/Pet_App/pet_app/files/forecast_chat_data_input.json");
     json responseJsonData = 
     allWellsYearlyResultNewAsyncT.PlotChart(forecastResultsJsonData, chatInputJsonData);
     export_to_file(responseJsonData, 
-    "C:/Users/Gabriel.Achumba/Documents/Softwares/Newwayconsults/PetDigest/pet_app/files/forecast_chat_data_output.json");
+    "C:/Users/Gabriel/Documents/Softwares/Syncware/Pet_App/pet_app/files/forecast_chat_data_output.json");
 }
 
 

@@ -16,8 +16,8 @@ class HackRankTest {
         string isPalindrome(string s);
         void sortIntegers(vector<int>& vec, bool isAscending);
         int fibonacci(int n);
-        int maxPerimeterTriangle(vector<int>& sticks);;
-        int binarySearch(vector<int>& arrr, int x)
+        int maxPerimeterTriangle(vector<int>& sticks);
+        int binarySearch(vector<int>& arrr, int x);
 
 };
 
@@ -92,20 +92,22 @@ int HackRankTest::fibonacci(int n) {
 
 int HackRankTest::maxPerimeterTriangle(vector<int>& sticks) {
     bool isAscending = false;
-    sortIntegers(sticks);
+    sortIntegers(sticks, isAscending);
 
     int n = sticks.size();
-    for (int i = 0; i < n-2){
+    for (int i = 0; i < n-2; i++){
         if(sticks[i] < sticks[i+1] + sticks[i+2]){
-            return sticks[i] + sticks[i+1] + sticks[i+2]
+            return sticks[i] + sticks[i+1] + sticks[i+2];
         }
     }
 
     return -1;
 }
 
-int HackRankTest::binarySearch(vector<int>& arrr, int x) {
-    sortIntegers(arr);
+int HackRankTest::binarySearch(vector<int>& arr, int x) {
+    bool isAscending = false;
+    sortIntegers(arr, isAscending);
+
     int n = arr.size();
 
     int low = 0;

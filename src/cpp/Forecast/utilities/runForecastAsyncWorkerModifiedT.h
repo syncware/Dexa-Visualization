@@ -159,7 +159,7 @@ json RunForecastAsyncWorkerModifiedTest::RunForecast(const json& jsonData){
     CalculateDeckVariables calculateDeckVariables;
 
     int nth =  dateCreation.dateTimes.size();
-    deckobj.isRateCum = false;
+    deckobj.isRateCum = true;
     deckobj.cumProdDays = dateCreation.daysList[nth-1];
     deckobj.stopDate = dateCreation.dateTimes[nth-1];
 
@@ -196,7 +196,7 @@ json RunForecastAsyncWorkerModifiedTest::RunForecast(const json& jsonData){
 
         int fSSIndex = 0;
         int nForecastSolutionSpaces = forecastSolutionSpaces.size();
-        int scenarios = 4; 
+        int scenarios = 3; 
         vector<WellSchedule> wellSchedules = reportJSON2.GetWellSchedulesSheetData(deckobj.wellRerouteDecks,
                        deckobj.wellRampUpDecks, deckobj.wellShutInOpenUpDecks, StopDate);
 
@@ -218,7 +218,7 @@ json RunForecastAsyncWorkerModifiedTest::RunForecast(const json& jsonData){
         {
             calculateDeckVariables.dURConstrained = forecastSolutionSpacesIsDURConstrained[fSSIndex];
             map<string, map<string, map<string, map<string, string>>>> scenariosResult;
-            for(i = 3;  i < scenarios; i++){
+            for(i = 2;  i < scenarios; i++){
                 scenario = i;
                 vector<string> Facilities = deckobj.GetFacilities(deckobj.inputdecks, ndecks, dateCreation.dateTimes, scenario);
         

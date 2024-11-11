@@ -93,7 +93,10 @@ class AllWellsYearlyResultNewAsyncT
         map<string, map<string, ModuleResultMonthly>> convertToOrdered(
         const unordered_map<string, unordered_map<string, ModuleResultMonthly>>& unorderedMap);
         vector<map<string, string>> GetYearlyForcastResultModulesNewAsync(
-        InputObject inputOjbect);
+        vector<ModuleResultMonthly> wells,
+        bool& isByYear,
+        bool& isForChart,
+        int& nWells);
         //string join(const vector<double>& yAgg, const string& delimiter);
         //string joinStrings(const vector<string>& yAgg, const string& delimiter);
         map<string, map<string,  map<string, YObj>>> chartDataByModulesOrAggregate2(
@@ -204,7 +207,10 @@ json AllWellsYearlyResultNewAsyncT::Plot(const json& jsonData){
 
 
 vector<map<string, string>> AllWellsYearlyResultNewAsyncT::GetYearlyForcastResultModulesNewAsync(
-    InputObject inputOjbect) {
+        vector<ModuleResultMonthly> wells,
+        bool& isByYear,
+        bool& isForChart,
+        int& nWells) {
 
         /* InputObject inputOjbect = {
             lstWells,
@@ -213,12 +219,16 @@ vector<map<string, string>> AllWellsYearlyResultNewAsyncT::GetYearlyForcastResul
             static_cast<int>(lstWells.size())
         }; */
 
+
+        // lstWells,
+        //     !isMonthly,
+        //     false,
+        //     static_cast<int>(lstWells.size())
+
     vector<vector<ForecastResult>> WellsForecastResults;
-    for(int i = 0; i < inputOjbect.wells.size(); i++){
-        WellsForecastResults.push_back(inputOjbect.wells[i].resultWells);
+    for(int i = 0; i < wells.size(); i++){
+        WellsForecastResults.push_back(wells[i].resultWells);
     }
-    bool isByYear = inputOjbect.isByYear; 
-    bool& isForChart = inputOjbect.isForChart;
 
     dataPivoting _dataPivoting;
     vector<Date> dates =  _dataPivoting.GetListOfYears(WellsForecastResults, isByYear);
@@ -677,15 +687,19 @@ AllWellsYearlyResultNewAsyncT::chartDataByModulesOrAggregate_Obsolete(
     map<string, vector<map<string, string>>> results_OutputObject;
     //map<string, map<string, string>>
     for (const auto& [key, lstWells] : lstWellsObject) {
-        InputObject inputOjbect = {
-            lstWells,
-            !isMonthly,
-            false,
-            static_cast<int>(lstWells.size())
-        };
+        // InputObject inputOjbect = {
+        //     lstWells,
+        //     !isMonthly,
+        //     false,
+        //     static_cast<int>(lstWells.size())
+        // };
 
         // Assume GetYearlyForcastResultModulesNewAsync is defined
-        auto results_Output = GetYearlyForcastResultModulesNewAsync(inputOjbect);
+        //vector<ModuleResultMonthly> wells = lstWells;
+        bool isByYear = !isMonthly;
+        bool isForChart = false;
+        int nWells = static_cast<int>(lstWells.size());
+        auto results_Output = GetYearlyForcastResultModulesNewAsync(lstWells, isByYear, isForChart, nWells);
         results_OutputObject[key] = results_Output;
     }
 
@@ -788,9 +802,13 @@ AllWellsYearlyResultNewAsyncT::chartDataByModulesOrAggregate(
             string case_scenario_Name = (forecastSolutionSpaceName + _scenarioName);
             transform(case_scenario_Name.begin(), case_scenario_Name.end(), case_scenario_Name.begin(), ::toupper);
 
-            auto iforecastResult = GetModulesForecastResultsByScenario(
+            lstWellsObject[case_scenario_Name] = GetModulesForecastResultsByScenario(
                 forecastResultsByModule, _scenarioName, forecastSolutionSpaceName, facilityNames);
-                lstWellsObject[case_scenario_Name] = iforecastResult;
+
+            // auto iforecastResult = GetModulesForecastResultsByScenario(
+            //     forecastResultsByModule, _scenarioName, forecastSolutionSpaceName, facilityNames);
+
+            //     lstWellsObject[case_scenario_Name] = iforecastResult;
                 
             //GetModulesForecastResultsByFacility
             // if(isFacilityGroupped){
@@ -804,16 +822,19 @@ AllWellsYearlyResultNewAsyncT::chartDataByModulesOrAggregate(
     map<string, vector<map<string, string>>> results_OutputObject;
     //map<string, map<string, string>>
     for (const auto& [key, lstWells] : lstWellsObject) {
-        InputObject inputOjbect = {
-            lstWells,
-            !isMonthly,
-            false,
-            static_cast<int>(lstWells.size())
-        };
+        // InputObject inputOjbect = {
+        //     lstWells,
+        //     !isMonthly,
+        //     false,
+        //     static_cast<int>(lstWells.size())
+        // };
 
         // Assume GetYearlyForcastResultModulesNewAsync is defined
-        auto results_Output = GetYearlyForcastResultModulesNewAsync(inputOjbect);
-        results_OutputObject[key] = results_Output;
+        bool isByYear = !isMonthly;
+        bool isForChart = false;
+        int nWells = static_cast<int>(lstWells.size());
+        results_OutputObject[key] = GetYearlyForcastResultModulesNewAsync(lstWells, isByYear, isForChart, nWells);
+        //results_OutputObject[key] = results_Output;
     }
 
     map<string,  map<string, map<string, vector<YObj>>>> res2;

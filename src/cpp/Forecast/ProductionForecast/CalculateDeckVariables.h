@@ -20,6 +20,7 @@
 #include "../../MathematicsLibrary/MatrixOperations.h"
 #include "FractionalFlow.h"
 #include "DateCreation.h"
+#include "dataPivoting.h"
 #include "../../MathematicsLibrary/MainSimplex.h"
 #include "Inputdeck.h"
 #include "./ExternalForecast.h"
@@ -34,6 +35,7 @@ using namespace std::placeholders;
 class CalculateDeckVariables
 {
 private:
+	dataPivoting dataPivoting;
 	MatrixOperations matrixOperations;
 	Decline_Curve_Analysis DCA;
 	FractionalFlow fractionalFlow;
@@ -56,6 +58,7 @@ private:
 	vector<double> wellsOilRates;
 	vector<double> cumProdDays;
 	double avgOilWellsRate;
+	 vector<Date> monthlyDate;
 	
 
 public:
@@ -1496,6 +1499,13 @@ void CalculateDeckVariables::GetDeckVariables(vector<vector<vector<InputDeckStru
 	}
 	
 	avgOilWellsRate = avgOilWellsRate / n;
+
+	string hyrocarbonStream = "oil";
+	bool isByYear = true;
+	vector<Date> yearlyDates = dataPivoting.GetListOfYears(monthlyDate, isByYear);
+	vector<double> yearlyAggregate =  dataPivoting.GeYearlyAggregate(wellsOilRates,
+                             monthlyDate, yearlyDates,
+                              hyrocarbonStream);
 	
 
 	InputDecks.clear();
@@ -1837,6 +1847,10 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 					/* if(deck.Module == "FO10D40T_FO10 D40X_P12"){
 						cumProdDays.push_back(forecastResult.cumDays);
 					} */
+
+					if(deck.Module == "FO26006T_FO26 G10X_P13"){
+						double hg = 0;
+					}
 
 					forecastResult.ModuleName = deck.Module;
 					forecastResult.HyrocarbonStream = deck.Hydrocarbon_Stream;
@@ -2364,23 +2378,26 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 
 					/* if(deck.Module == "FO10D40T_FO10 D40X_P12"){
 						wellsOilRates.push_back(results[dateIndex][facilityCounter][j].Oil_rate);
+						monthlyDate.push_back(CurrentDate);
 					} */
 				break;
 
 			case 2:
 				SetCutRatesBackValues(facilityCounter, dateIndex, optimized_cutbacks[i],
 									  scenario, deck, j);
-				/* if(deck.Module == "FO10D40T_FO10 D40X_P12"){
+				if(deck.Module == "FO26006T_FO26 G10X_P13"){
 						wellsOilRates.push_back(results[dateIndex][facilityCounter][j].Oil_rate);
-				} */
+						monthlyDate.push_back(CurrentDate);
+				}
 				break;
 
 			case 3:
 				SetCutRatesBackValues(facilityCounter, dateIndex, optimized_cutbacks[i],
 									  scenario, deck, j);
-				if(deck.Module == "FO10D40T_FO10 D40X_P12"){
-						wellsOilRates.push_back(results[dateIndex][facilityCounter][j].Oil_rate);
-				}
+				// if(deck.Module == "FO10D40T_FO10 D40X_P12"){
+				// 		wellsOilRates.push_back(results[dateIndex][facilityCounter][j].Oil_rate);
+						monthlyDate.push_back(CurrentDate);
+				// }
 				break;
 			}
 
@@ -5096,7 +5113,7 @@ ForecastResult &forecastResult_old)
 
 	double MM = 1000000.0, x1 = 0, x2 = 0;
 
-	bool isLinear = true;
+	bool isLinear = false;
 
 	if (deck.Hydrocarbon_Stream == oil)
 	{
@@ -5240,7 +5257,7 @@ ForecastResult &forecastResult, ForecastResult &forecastResult_old)
 
 	double MM = 1000000.0, x1 = 0, x2 = 0;
 
-	bool isLinear = true;
+	bool isLinear = false;
 
 
 	if (deck.Hydrocarbon_Stream == oil)
@@ -5321,7 +5338,7 @@ ForecastResult &forecastResult, ForecastResult &forecastResult_old)
 		x1 = deck.Gp * MM;
 		x2 = forecastResult.Cum_Gas_Prod * MM;
 		cumprod = (forecastResult_old.Cum_Gas_Prod - deck.Gp) * MM;
-		isLinear = true;
+		isLinear = false;
 
 		switch (scenario)
 		{

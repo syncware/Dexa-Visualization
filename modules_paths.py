@@ -5,7 +5,7 @@ from json_data_io import readJsonData
 from json_data_io import writeJsonData
 
 facilities = selected_facilities
-file_path = 'files/forecast_result.json'
+file_path = 'files/apex_forecast_db.forecast_forecastresults.json'
 output_file_path = 'files/module_paths.json'
 
 def getModulePathsPerFacility(facilityName, json_data):
@@ -13,7 +13,7 @@ def getModulePathsPerFacility(facilityName, json_data):
 
     # Access the data
     facilityIndex = facilities[facilityName]
-    nodules_data = json_data['treeResult']['treeModel'][0]['children'][facilityIndex]['children']
+    nodules_data = json_data[0]['treeResult']['treeModel'][0]['children'][facilityIndex]['children']
 
     # Loop through the 'nodules_data' list and plot each series
     module_paths = []
@@ -35,17 +35,17 @@ def getModulePathsPerSelectedFacilities(facilityNames, json_data):
 
 facilityNames = [
     "ABU_FS1",
-    # "ABU_FS2",
-    # "ABU_FS3",
-    # "ABU_FS4",
-    # "ABU_FS5",
-    # "ABU_FS6",
-    # "ABU_FS7",
-    # "REO_GP1",
-    # "REO_GP2",
-    # "REO_GP3",
-    # "REO_GP4",
-    # "REO_GP5"
+    "ABU_FS2",
+    "ABU_FS3",
+    "ABU_FS4",
+    "ABU_FS5",
+    "ABU_FS6",
+    "ABU_FS7",
+    "REO_GP1",
+    "REO_GP2",
+    "REO_GP3",
+    "REO_GP4",
+    "REO_GP5"
 ]
 json_data = readJsonData(file_path)
 modulePaths = getModulePathsPerSelectedFacilities(facilityNames, json_data)
