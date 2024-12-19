@@ -178,13 +178,11 @@ json RunForecastAsyncWorkerModifiedTest::RunForecast(const json &jsonData)
     map<string, map<string, map<string, map<string, map<string, string>>>>> forecastSolutionSpacesResults;
     if (nth > 0)
     {
-
         vector<WellActivityResult> wellActivities;
         bool isForecastProfilesAndDecksMatched = true;
         if (isForecastProfiles == "external")
         {
             vector<vector<ForecastResult>> forecastProfilesList =
-
                 externalForecast.GetUniqueForecastProfiles(forecastProfiles, deckobj.inputdecks);
             vector<string> uniqueModuleNames =
                 externalForecast.GetUniqueModuleNames(forecastProfilesList);
@@ -206,7 +204,6 @@ json RunForecastAsyncWorkerModifiedTest::RunForecast(const json &jsonData)
         int nUpdatesNodes = updatesNodes.size();
         for (i = 0; i < nUpdatesNodes; i++)
         {
-
             if (i > 0)
             {
                 priotization.typeOfPrioritization = "streamPrioritization";
@@ -215,6 +212,7 @@ json RunForecastAsyncWorkerModifiedTest::RunForecast(const json &jsonData)
                 configurePrioritization.SetUpPrioritization(updatesNodes[i].equipmentDataInEquipementConnections,
                                                             dateCreation.dateTimes[0], StopDate, priotization, nodalPriotizations);
         }
+        
         vector<Priotization> priotizations = updatesNodes[0].priotizations;
 
         for (fSSIndex = 0; fSSIndex < nForecastSolutionSpaces; fSSIndex++)

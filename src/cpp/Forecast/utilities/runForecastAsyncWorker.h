@@ -116,7 +116,6 @@ private:
         reportJSON2.isMonthly = isMonthly;
 
         deckobj.inputdecks = payload.decks;
-        ;
         deckobj.InitilizeModules();
 
         deckobj.wellRerouteDecks = payload.wellRerouteDecks;
