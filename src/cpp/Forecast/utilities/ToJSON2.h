@@ -24,122 +24,115 @@
 using namespace std;
 using namespace std::placeholders;
 
-
 class ReportJSON2
 {
 
-    public:
-		dataPivoting _dataPivoting;
-        DateCreation dateCreation;
-		vector<FacilityStructExternal> FacilityTable;
-		double myZero = 0.00000001;
-		FractionalFlow fractionalFlow;
-		Decline_Curve_Analysis decline_Curve_Analysis;
-		Inputdeck inputdeck;
-		RunParameter runParameter;
-		Arithmetic arithmetic;
-		Interpolation interpolation;
-		int nValidatedDecks;
-		bool isMonthly = true;
+public:
+	dataPivoting _dataPivoting;
+	DateCreation dateCreation;
+	vector<FacilityStructExternal> FacilityTable;
+	double myZero = 0.00000001;
+	FractionalFlow fractionalFlow;
+	Decline_Curve_Analysis decline_Curve_Analysis;
+	Inputdeck inputdeck;
+	RunParameter runParameter;
+	Arithmetic arithmetic;
+	Interpolation interpolation;
+	int nValidatedDecks;
+	bool isMonthly = true;
 
-		string GetRow(ForecastResult& r, int &scenario, int& ii, bool& isLastRow);
-		string GetRow(ForecastResult& r, int& scenario, int& ii, vector<Date>& dateTimes);
-		void GetForecastWellMonthOutput(int& k, int& j, int& scenario,
- 		string& table, vector<ForecastResult>& resultsWellNew);
-		void GetForecastWellYearlyOutput(string& tableYearly, vector<ForecastResult>& resultsWellNew,
-		vector<Date>& datesNew, string& ModuleName, string& FacilityName, int& scenario);
-	
+	string GetRow(ForecastResult &r, int &scenario, int &ii, bool &isLastRow);
+	string GetRow(ForecastResult &r, int &scenario, int &ii, vector<Date> &dateTimes);
+	void GetForecastWellMonthOutput(int &k, int &j, int &scenario,
+									string &table, vector<ForecastResult> &resultsWellNew);
+	void GetForecastWellYearlyOutput(string &tableYearly, vector<ForecastResult> &resultsWellNew,
+									 vector<Date> &datesNew, string &ModuleName, string &FacilityName, int &scenario);
 
-		FacilityStructExternal GetMinimumSelectedEquipmentsGasOwnUseByDate(vector<FacilityStructExternal> &gasOwnUse, vector<string> &selectedEquipments, Date date);
-		FacilityStructExternal GetMinimumSelectedEquipmentsGasFlaredByDate(vector<FacilityStructExternal> &gasFlared, vector<string> &selectedEquipments, Date date);
-		FacilityStructExternal GetSelectedEquipmentGasOwnuseByDate(vector<FacilityStructExternal> &gasOwnUse, string &selectedEquipment, Date date);
-		FacilityStructExternal GetSelectedEquipmentGasFlaredByDate(vector<FacilityStructExternal> &gasFlared, string &selectedEquipment, Date date);
-		vector<WellSchedule> GetWellSchedulesSheetData(vector<WellReroute>& wellRerouteDecks,
-		vector<WellRampUp>& wellRampUpDecks, vector<ShutInOpenUp>& wellShutInOpenDecks,
-		Date& StopDate);
-		vector<WellSchedule> SortWellSchedules(vector<WellSchedule> &wellSchedules);
-		tuple<vector<Node>, vector<Date>> GetNodesSheetData(vector<Node> &nodes,
-		vector<FacilityStructExternal> &equipmentCapacities, 
-		vector<FacilityStructExternal> &deferments,
-		vector<FacilityStructExternal> &crudeOilLosses,
-		vector<FacilityStructExternal>& gasOwnUse, 
-		vector<FacilityStructExternal>& gasFlared);
-		vector<Node> GetNodes(vector<InternalExternalEquipmentName> &internalExternalFacilitiesNames,
-		vector<vector<string>> &equipmentConnections);
-		vector<FacilityInEquipementConnection> GetFacilitiesInEquipmentConnections(
+	FacilityStructExternal GetMinimumSelectedEquipmentsGasOwnUseByDate(vector<FacilityStructExternal> &gasOwnUse, vector<string> &selectedEquipments, Date date);
+	FacilityStructExternal GetMinimumSelectedEquipmentsGasFlaredByDate(vector<FacilityStructExternal> &gasFlared, vector<string> &selectedEquipments, Date date);
+	FacilityStructExternal GetSelectedEquipmentGasOwnuseByDate(vector<FacilityStructExternal> &gasOwnUse, string &selectedEquipment, Date date);
+	FacilityStructExternal GetSelectedEquipmentGasFlaredByDate(vector<FacilityStructExternal> &gasFlared, string &selectedEquipment, Date date);
+	vector<WellSchedule> GetWellSchedulesSheetData(vector<WellReroute> &wellRerouteDecks,
+												   vector<WellRampUp> &wellRampUpDecks, vector<ShutInOpenUp> &wellShutInOpenDecks,
+												   Date &StopDate);
+	vector<WellSchedule> SortWellSchedules(vector<WellSchedule> &wellSchedules);
+	tuple<vector<Node>, vector<Date>> GetNodesSheetData(vector<Node> &nodes,
+														vector<FacilityStructExternal> &equipmentCapacities,
+														vector<FacilityStructExternal> &deferments,
+														vector<FacilityStructExternal> &crudeOilLosses,
+														vector<FacilityStructExternal> &gasOwnUse,
+														vector<FacilityStructExternal> &gasFlared);
+	vector<Node> GetNodes(vector<InternalExternalEquipmentName> &internalExternalFacilitiesNames,
+						  vector<vector<string>> &equipmentConnections);
+	vector<FacilityInEquipementConnection> GetFacilitiesInEquipmentConnections(
 		vector<InternalExternalEquipmentName> &internalExternalFacilitiesNames,
 		vector<vector<string>> &equipmentConnections, int &nodeIndex);
-		tuple<vector<FacilityStructExternal>,vector<Date>> GetFacilitiesSheetData(
+	tuple<vector<FacilityStructExternal>, vector<Date>> GetFacilitiesSheetData(
 		vector<FacilityInEquipementConnection> &facilityInEquipementConnections,
 		vector<FacilityStructExternal> &equipmentCapacities, vector<FacilityStructExternal> &deferments,
 		vector<FacilityStructExternal> &crudeOilLosses,
-		vector<FacilityStructExternal>& gasOwnUse, 
-		vector<FacilityStructExternal>& gasFlared);
-		vector<Date> GetUniqueDatesForFacilities(vector<FacilityStructExternal> &equipmentCapacities,
-		vector<FacilityStructExternal> &deferments,
-		vector<FacilityStructExternal> &crudeOilLosses,
-		vector<FacilityStructExternal>& gasOwnUse, 
-		vector<FacilityStructExternal>& gasFlared);
-		bool isContainDate(vector<Date> &dates, Date date);
-		FacilityStructExternal GetMinimumSelectedEquipmentsCapacityByDate(vector<FacilityStructExternal> &equipmentCapacities, 
-		vector<string> &selectedEquipments, Date date);
-		FacilityStructExternal GetSelectedEquipmentCapacityByDate(vector<FacilityStructExternal> &equipmentCapacities, 
-		string &selectedEquipment, Date date);
-		FacilityStructExternal GetMinimumSelectedEquipmentsDefermentByDate(vector<FacilityStructExternal> &deferments, 
-		vector<string> &selectedEquipments, Date date);
-		FacilityStructExternal GetSelectedEquipmentDefermentByDate(vector<FacilityStructExternal> &deferments, 
-		string &selectedEquipment, Date date);
-		FacilityStructExternal GetMinimumSelectedEquipmentsCrudeOilLossesByDate(vector<FacilityStructExternal> &crudeOilLosses, 
-		vector<string> &selectedEquipments, Date date);
-		FacilityStructExternal GetSelectedEquipmentCrudeOilLossesByDate(vector<FacilityStructExternal> &crudeOilLosses, 
-		string &selectedEquipment, Date date);
-		vector<FacilityStructExternal> SortFacilitiesData(vector<FacilityStructExternal> &facilitiesData);
-		string GetForecastOutput(int& scenario,
-		vector<vector<FacilityWellsIndicies>>& facilityWellsIndicies, 
-		vector<Date>& dateTimes, int& facilityIndex, int& wellIndex,
-		string& wellName, string& facilityName);
-        map<string, map<string, map<string, string>>> GetForecastOutputAllFacilities(int& scenario,
-        vector<vector<FacilityWellsIndicies>>& facilityWellsIndicies, 
-        vector<Date>& dateTimes);
-        void GetForecastResultsByScenario(
-        ResponseData responseData,
-        string scenarioName, string SolutionSpace, vector<string> facilityNames);
-		map<string, string> GetForecastOutputAsJson(vector<ForecastResult>& results);
-		map<string, map<string, string>> GetForecastOutputAsJson(vector<vector<ForecastResult>>& results);
-		vector<FacilityInEquipementConnection> LastNodeGasConsumers(Node& lastNode);
-		bool isContainString(vector<string>& xs, string& x);
-		vector<string> LastFacilitiesConnectedToAGasConsumer(Node& lastNode, FacilityInEquipementConnection& gasConsumer);
-		double GetTotalFacilitiesGasCapacitiesPerGasConsumer(
-			FacilityStructExternal gasConsumerPerDate, Node& firstNode,
-			vector<string> facilityNamesPerGasConsumer
-		);
+		vector<FacilityStructExternal> &gasOwnUse,
+		vector<FacilityStructExternal> &gasFlared);
+	vector<Date> GetUniqueDatesForFacilities(vector<FacilityStructExternal> &equipmentCapacities,
+											 vector<FacilityStructExternal> &deferments,
+											 vector<FacilityStructExternal> &crudeOilLosses,
+											 vector<FacilityStructExternal> &gasOwnUse,
+											 vector<FacilityStructExternal> &gasFlared);
+	bool isContainDate(vector<Date> &dates, Date date);
+	FacilityStructExternal GetMinimumSelectedEquipmentsCapacityByDate(vector<FacilityStructExternal> &equipmentCapacities,
+																	  vector<string> &selectedEquipments, Date date);
+	FacilityStructExternal GetSelectedEquipmentCapacityByDate(vector<FacilityStructExternal> &equipmentCapacities,
+															  string &selectedEquipment, Date date);
+	FacilityStructExternal GetMinimumSelectedEquipmentsDefermentByDate(vector<FacilityStructExternal> &deferments,
+																	   vector<string> &selectedEquipments, Date date);
+	FacilityStructExternal GetSelectedEquipmentDefermentByDate(vector<FacilityStructExternal> &deferments,
+															   string &selectedEquipment, Date date);
+	FacilityStructExternal GetMinimumSelectedEquipmentsCrudeOilLossesByDate(vector<FacilityStructExternal> &crudeOilLosses,
+																			vector<string> &selectedEquipments, Date date);
+	FacilityStructExternal GetSelectedEquipmentCrudeOilLossesByDate(vector<FacilityStructExternal> &crudeOilLosses,
+																	string &selectedEquipment, Date date);
+	vector<FacilityStructExternal> SortFacilitiesData(vector<FacilityStructExternal> &facilitiesData);
+	string GetForecastOutput(int &scenario,
+							 vector<vector<FacilityWellsIndicies>> &facilityWellsIndicies,
+							 vector<Date> &dateTimes, int &facilityIndex, int &wellIndex,
+							 string &wellName, string &facilityName);
+	map<string, map<string, map<string, string>>> GetForecastOutputAllFacilities(int &scenario,
+																				 vector<vector<FacilityWellsIndicies>> &facilityWellsIndicies,
+																				 vector<Date> &dateTimes);
+	void GetForecastResultsByScenario(
+		ResponseData responseData,
+		string scenarioName, string SolutionSpace, vector<string> facilityNames);
+	map<string, string> GetForecastOutputAsJson(vector<ForecastResult> &results);
+	map<string, map<string, string>> GetForecastOutputAsJson(vector<vector<ForecastResult>> &results);
+	vector<FacilityInEquipementConnection> LastNodeGasConsumers(Node &lastNode);
+	bool isContainString(vector<string> &xs, string &x);
+	vector<string> LastFacilitiesConnectedToAGasConsumer(Node &lastNode, FacilityInEquipementConnection &gasConsumer);
+	double GetTotalFacilitiesGasCapacitiesPerGasConsumer(
+		FacilityStructExternal gasConsumerPerDate, Node &firstNode,
+		vector<string> facilityNamesPerGasConsumer);
 
-		vector<FacilityStructExternal> GetFacilitiesGasDemandPerGasConsumer(
-			FacilityStructExternal gasConsumerPerDate, Node& firstNode,
-			vector<string> facilityNamesPerGasConsumer,
-			vector<Node>& updatesNodes
-		);
+	vector<FacilityStructExternal> GetFacilitiesGasDemandPerGasConsumer(
+		FacilityStructExternal gasConsumerPerDate, Node &firstNode,
+		vector<string> facilityNamesPerGasConsumer,
+		vector<Node> &updatesNodes);
 
-		void GetFacilitiesGasDemand(vector<Node>& updatesNode);
+	void GetFacilitiesGasDemand(vector<Node> &updatesNode);
 
+	vector<vector<vector<ForecastResult>>> results;
 
-		vector<vector<vector<ForecastResult>>> results;
-
-		ReportJSON2();
-		~ReportJSON2();
-
+	ReportJSON2();
+	~ReportJSON2();
 };
 
-ReportJSON2::ReportJSON2(){
-
+ReportJSON2::ReportJSON2()
+{
 }
 
-ReportJSON2::~ReportJSON2(){
-
+ReportJSON2::~ReportJSON2()
+{
 }
 
-
-map<string, string> ReportJSON2::GetForecastOutputAsJson(vector<ForecastResult>& results)
+map<string, string> ReportJSON2::GetForecastOutputAsJson(vector<ForecastResult> &results)
 {
 
 	int nResults = results.size();
@@ -148,31 +141,32 @@ map<string, string> ReportJSON2::GetForecastOutputAsJson(vector<ForecastResult>&
 	string table = "";
 	int i = 1;
 	bool isLastRow = false;
-	for (int ii = 0; ii < nResults; ii++) {
+	for (int ii = 0; ii < nResults; ii++)
+	{
 
 		ForecastResult r = results[ii];
 
-		if(ii == nResults-1){
+		if (ii == nResults - 1)
+		{
 			isLastRow = true;
 		}
 
 		table = table + GetRow(r, i, ii, isLastRow);
-
 	}
 
 	moduleResult["resultWells"] = table;
 
 	return moduleResult;
-			
 }
 
-map<string, map<string, string>> ReportJSON2::GetForecastOutputAsJson(vector<vector<ForecastResult>>& results)
+map<string, map<string, string>> ReportJSON2::GetForecastOutputAsJson(vector<vector<ForecastResult>> &results)
 {
 	int nWells = results.size();
 
 	map<string, map<string, string>> decksPerFacility;
 	int i = 0;
-	for(i = 0; i < nWells; i++){
+	for (i = 0; i < nWells; i++)
+	{
 		map<string, string> deckObject = GetForecastOutputAsJson(results[i]);
 		string wellNo = std::to_string(i);
 		decksPerFacility[wellNo] = deckObject;
@@ -181,112 +175,122 @@ map<string, map<string, string>> ReportJSON2::GetForecastOutputAsJson(vector<vec
 }
 
 void ReportJSON2::GetForecastResultsByScenario(ResponseData responseData,
-string scenarioName, string SolutionSpace, vector<string> facilityNames){
+											   string scenarioName, string SolutionSpace, vector<string> facilityNames)
+{
 
+	for (const auto &outer1 : responseData.monthlyReport)
+	{
+		const string &solutionSpace = outer1.first;
+		if (solutionSpace == SolutionSpace)
+		{
+			for (const auto &outer2 : outer1.second)
+			{
+				const string &scenario = outer2.first;
+				if (scenarioName == scenario)
+				{
+					for (const auto &facilityName : facilityNames)
+					{
+						for (const auto &outer3 : outer2.second)
+						{
+							const string &facility = outer3.first;
+							if (facilityName == facility)
+							{
 
-  for (const auto& outer1 : responseData.monthlyReport) {
-    const string& solutionSpace = outer1.first;
-    if(solutionSpace == SolutionSpace){
-        for (const auto& outer2 : outer1.second) {
-            const string& scenario = outer2.first;
-            if(scenarioName == scenario) {
-                for(const auto& facilityName : facilityNames){
-                    for (const auto& outer3 : outer2.second) {
-                        const string& facility = outer3.first;
-                        if(facilityName == facility){
-
-                            break;
-                        }
-                    }      
-                }
-                break;
-            }
-        }
-        break;
-    }
-  }
-
+								break;
+							}
+						}
+					}
+					break;
+				}
+			}
+			break;
+		}
+	}
 }
 
-map<string, map<string, map<string, string>>> ReportJSON2::GetForecastOutputAllFacilities(int& scenario,
-vector<vector<FacilityWellsIndicies>>& facilityWellsIndicies, 
-vector<Date>& dateTimes)
+map<string, map<string, map<string, string>>> ReportJSON2::GetForecastOutputAllFacilities(int &scenario,
+																						  vector<vector<FacilityWellsIndicies>> &facilityWellsIndicies,
+																						  vector<Date> &dateTimes)
 {
-	int  mkdirretval = 0;
+	int mkdirretval = 0;
 	int nDates = dateTimes.size();
-   int j = nDates - 1, facilityIndex = 0;
-   int wellIndex = 0;
-   int nFacilities = facilityWellsIndicies[j].size();
-   map<string, map<string, map<string, string>>> FaclitiesObject;
-   for(facilityIndex = 0; facilityIndex < nFacilities; facilityIndex++){
+	int j = nDates - 1, facilityIndex = 0;
+	int wellIndex = 0;
+	int nFacilities = facilityWellsIndicies[j].size();
+	map<string, map<string, map<string, string>>> FaclitiesObject;
+	for (facilityIndex = 0; facilityIndex < nFacilities; facilityIndex++)
+	{
 		facilityWellsIndicies[j][facilityIndex].Facility;
 
 		int nWells = facilityWellsIndicies[j][facilityIndex].WellNames.size();
-        map<string, map<string, string>> decksPerFacility;
-		for(wellIndex = 0; wellIndex < nWells; wellIndex++){
-			string table = GetForecastOutput(scenario,facilityWellsIndicies,dateTimes, 
-			facilityIndex, wellIndex,
-			facilityWellsIndicies[j][facilityIndex].WellNames[wellIndex],
-			facilityWellsIndicies[j][facilityIndex].Facility);
+		map<string, map<string, string>> decksPerFacility;
+		for (wellIndex = 0; wellIndex < nWells; wellIndex++)
+		{
+			string table = GetForecastOutput(scenario, facilityWellsIndicies, dateTimes,
+											 facilityIndex, wellIndex,
+											 facilityWellsIndicies[j][facilityIndex].WellNames[wellIndex],
+											 facilityWellsIndicies[j][facilityIndex].Facility);
 
-            map<string, string> deckObject;
-            deckObject["resultWells"] = table;
-            
+			map<string, string> deckObject;
+			deckObject["resultWells"] = table;
+
 			decksPerFacility[facilityWellsIndicies[j][facilityIndex].WellNames[wellIndex]] = deckObject;
 		}
 
-		FaclitiesObject[facilityWellsIndicies[j][facilityIndex].Facility] = decksPerFacility;  
-   }
+		FaclitiesObject[facilityWellsIndicies[j][facilityIndex].Facility] = decksPerFacility;
+	}
 
-   return FaclitiesObject;
+	return FaclitiesObject;
 }
 
-string ReportJSON2::GetForecastOutput(int& scenario,
-vector<vector<FacilityWellsIndicies>>& facilityWellsIndicies, 
-vector<Date>& dateTimes, int& facilityIndex, int& wellIndex,
-string& wellName, string& facilityName)
+string ReportJSON2::GetForecastOutput(int &scenario,
+									  vector<vector<FacilityWellsIndicies>> &facilityWellsIndicies,
+									  vector<Date> &dateTimes, int &facilityIndex, int &wellIndex,
+									  string &wellName, string &facilityName)
 {
 
-    int j = 0, mkdirretval = 0;
+	int j = 0, mkdirretval = 0;
 	string logger = "";
-			
+
 	int nDates = dateTimes.size();
 	vector<ForecastResult> wellResultsForAggregation;
 
-	for(j = 0; j < nDates; j++){
+	for (j = 0; j < nDates; j++)
+	{
 
-		if(j > 0){
-			
-			if(facilityWellsIndicies[j-1][facilityIndex].tables.size() < 
-			facilityWellsIndicies[j][facilityIndex].tables.size()){
-				facilityWellsIndicies[j][facilityIndex].tables = facilityWellsIndicies[j-1][facilityIndex].tables;
+		if (j > 0)
+		{
+
+			if (facilityWellsIndicies[j - 1][facilityIndex].tables.size() <
+				facilityWellsIndicies[j][facilityIndex].tables.size())
+			{
+				facilityWellsIndicies[j][facilityIndex].tables = facilityWellsIndicies[j - 1][facilityIndex].tables;
 				facilityWellsIndicies[j][facilityIndex].tables.push_back("");
-			}else{
-				facilityWellsIndicies[j][facilityIndex].tables = facilityWellsIndicies[j-1][facilityIndex].tables;
+			}
+			else
+			{
+				facilityWellsIndicies[j][facilityIndex].tables = facilityWellsIndicies[j - 1][facilityIndex].tables;
 			}
 		}
 
-		if(results[j][facilityIndex][wellIndex].IsFlowing == false) 
+		if (results[j][facilityIndex][wellIndex].IsFlowing == false)
 		{
-			//Clean up unwanted data
+			// Clean up unwanted data
 			results[j][facilityIndex][wellIndex].InitailizeData2();
-			
 		}
 
 		wellResultsForAggregation.push_back(results[j][facilityIndex][wellIndex]);
-		
 	}
 
 	string table = "";
 	nDates = wellResultsForAggregation.size();
-	for(j = 0; j < nDates; j++){
+	for (j = 0; j < nDates; j++)
+	{
 
-		table = table +  GetRow(wellResultsForAggregation[j], scenario, j, dateTimes);
+		table = table + GetRow(wellResultsForAggregation[j], scenario, j, dateTimes);
 	}
-	
-	return table;
 
-			
+	return table;
 }
 
 vector<FacilityStructExternal> ReportJSON2::SortFacilitiesData(vector<FacilityStructExternal> &facilitiesData)
@@ -312,14 +316,13 @@ vector<FacilityStructExternal> ReportJSON2::SortFacilitiesData(vector<FacilitySt
 	return facilitiesData;
 }
 
-
 FacilityStructExternal ReportJSON2::GetSelectedEquipmentCrudeOilLossesByDate(vector<FacilityStructExternal> &crudeOilLosses, string &selectedEquipment, Date date)
 {
 	FacilityStructExternal selectedCrudeLosses;
 	selectedCrudeLosses.Crudeoil_Lossess1P = 0;
 	int i = 0, n = crudeOilLosses.size();
 	DateCreation dateCreation;
-	vector<FacilityStructExternal>  selectedEquipmentCrudeOilLosses;
+	vector<FacilityStructExternal> selectedEquipmentCrudeOilLosses;
 	for (i = 0; i < n; i++)
 	{
 		if (crudeOilLosses[i].Primary_Facility == selectedEquipment)
@@ -330,7 +333,8 @@ FacilityStructExternal ReportJSON2::GetSelectedEquipmentCrudeOilLossesByDate(vec
 
 	n = selectedEquipmentCrudeOilLosses.size();
 
-	if(n > 0){
+	if (n > 0)
+	{
 
 		if (dateCreation.EqualTo(date, selectedEquipmentCrudeOilLosses[0].FacilityDate1P))
 		{
@@ -345,7 +349,6 @@ FacilityStructExternal ReportJSON2::GetSelectedEquipmentCrudeOilLossesByDate(vec
 			selectedCrudeLosses = selectedEquipmentCrudeOilLosses[0];
 			return selectedCrudeLosses;
 		}
-
 	}
 
 	if (n > 1)
@@ -366,8 +369,8 @@ FacilityStructExternal ReportJSON2::GetSelectedEquipmentCrudeOilLossesByDate(vec
 				return selectedCrudeLosses;
 			}
 
-			if (dateCreation.IsMaximumDate(date, selectedEquipmentCrudeOilLosses[i - 1].FacilityDate1P) && 
-			dateCreation.IsMinimumDate(date, selectedEquipmentCrudeOilLosses[i].FacilityDate1P))
+			if (dateCreation.IsMaximumDate(date, selectedEquipmentCrudeOilLosses[i - 1].FacilityDate1P) &&
+				dateCreation.IsMinimumDate(date, selectedEquipmentCrudeOilLosses[i].FacilityDate1P))
 			{
 				selectedCrudeLosses = selectedEquipmentCrudeOilLosses[i - 1];
 				return selectedCrudeLosses;
@@ -375,7 +378,8 @@ FacilityStructExternal ReportJSON2::GetSelectedEquipmentCrudeOilLossesByDate(vec
 		}
 	}
 
-	if(n > 0){
+	if (n > 0)
+	{
 		if (dateCreation.IsMaximumDate(date, selectedEquipmentCrudeOilLosses[n - 1].FacilityDate1P))
 		{
 			selectedCrudeLosses = selectedEquipmentCrudeOilLosses[n - 1];
@@ -392,7 +396,7 @@ FacilityStructExternal ReportJSON2::GetSelectedEquipmentGasOwnuseByDate(vector<F
 	selectedGasOwnUse.GasOwnUse1P = 0;
 	int i = 0, n = gasOwnUse.size();
 	DateCreation dateCreation;
-	vector<FacilityStructExternal>  selectedEquipmentGasOwnUse;
+	vector<FacilityStructExternal> selectedEquipmentGasOwnUse;
 	for (i = 0; i < n; i++)
 	{
 		if (gasOwnUse[i].Primary_Facility == selectedEquipment)
@@ -402,7 +406,8 @@ FacilityStructExternal ReportJSON2::GetSelectedEquipmentGasOwnuseByDate(vector<F
 	}
 
 	n = selectedEquipmentGasOwnUse.size();
-	if (n > 0){
+	if (n > 0)
+	{
 
 		if (dateCreation.EqualTo(date, selectedEquipmentGasOwnUse[0].FacilityDate1P))
 		{
@@ -437,8 +442,8 @@ FacilityStructExternal ReportJSON2::GetSelectedEquipmentGasOwnuseByDate(vector<F
 				return selectedGasOwnUse;
 			}
 
-			if (dateCreation.IsMaximumDate(date, selectedEquipmentGasOwnUse[i - 1].FacilityDate1P) && 
-			dateCreation.IsMinimumDate(date, selectedEquipmentGasOwnUse[i].FacilityDate1P))
+			if (dateCreation.IsMaximumDate(date, selectedEquipmentGasOwnUse[i - 1].FacilityDate1P) &&
+				dateCreation.IsMinimumDate(date, selectedEquipmentGasOwnUse[i].FacilityDate1P))
 			{
 				selectedGasOwnUse = selectedEquipmentGasOwnUse[i - 1];
 				return selectedGasOwnUse;
@@ -446,7 +451,8 @@ FacilityStructExternal ReportJSON2::GetSelectedEquipmentGasOwnuseByDate(vector<F
 		}
 	}
 
-	if(n > 0){
+	if (n > 0)
+	{
 		if (dateCreation.IsMaximumDate(date, selectedEquipmentGasOwnUse[n - 1].FacilityDate1P))
 		{
 			selectedGasOwnUse = selectedEquipmentGasOwnUse[n - 1];
@@ -463,7 +469,7 @@ FacilityStructExternal ReportJSON2::GetSelectedEquipmentGasFlaredByDate(vector<F
 	selectedGasFlared.GasFlared1P = 0;
 	int i = 0, n = gasFlared.size();
 	DateCreation dateCreation;
-	vector<FacilityStructExternal>  selectedEquipmentGasFlared;
+	vector<FacilityStructExternal> selectedEquipmentGasFlared;
 	for (i = 0; i < n; i++)
 	{
 		if (gasFlared[i].Primary_Facility == selectedEquipment)
@@ -474,7 +480,8 @@ FacilityStructExternal ReportJSON2::GetSelectedEquipmentGasFlaredByDate(vector<F
 
 	n = selectedEquipmentGasFlared.size();
 
-	if(n > 0){
+	if (n > 0)
+	{
 		if (dateCreation.EqualTo(date, selectedEquipmentGasFlared[0].FacilityDate1P))
 		{
 
@@ -508,8 +515,8 @@ FacilityStructExternal ReportJSON2::GetSelectedEquipmentGasFlaredByDate(vector<F
 				return selectedGasFlared;
 			}
 
-			if (dateCreation.IsMaximumDate(date, selectedEquipmentGasFlared[i - 1].FacilityDate1P) && 
-			dateCreation.IsMinimumDate(date, selectedEquipmentGasFlared[i].FacilityDate1P))
+			if (dateCreation.IsMaximumDate(date, selectedEquipmentGasFlared[i - 1].FacilityDate1P) &&
+				dateCreation.IsMinimumDate(date, selectedEquipmentGasFlared[i].FacilityDate1P))
 			{
 				selectedGasFlared = selectedEquipmentGasFlared[i - 1];
 				return selectedGasFlared;
@@ -517,7 +524,8 @@ FacilityStructExternal ReportJSON2::GetSelectedEquipmentGasFlaredByDate(vector<F
 		}
 	}
 
-	if(n > 0){
+	if (n > 0)
+	{
 		if (dateCreation.IsMaximumDate(date, selectedEquipmentGasFlared[n - 1].FacilityDate1P))
 		{
 			selectedGasFlared = selectedEquipmentGasFlared[n - 1];
@@ -553,7 +561,7 @@ FacilityStructExternal ReportJSON2::GetSelectedEquipmentDefermentByDate(vector<F
 	int i = 0, n = deferments.size();
 	DateCreation dateCreation;
 	bool check = false;
-	vector<FacilityStructExternal>  selectedEquipmentDeferments;
+	vector<FacilityStructExternal> selectedEquipmentDeferments;
 	for (i = 0; i < n; i++)
 	{
 		if (deferments[i].Primary_Facility == selectedEquipment)
@@ -564,7 +572,8 @@ FacilityStructExternal ReportJSON2::GetSelectedEquipmentDefermentByDate(vector<F
 
 	n = selectedEquipmentDeferments.size();
 
-	if(n > 0){
+	if (n > 0)
+	{
 
 		if (dateCreation.EqualTo(date, selectedEquipmentDeferments[0].FacilityDate1P))
 		{
@@ -599,8 +608,8 @@ FacilityStructExternal ReportJSON2::GetSelectedEquipmentDefermentByDate(vector<F
 				return selectedDeferment;
 			}
 
-			if (dateCreation.IsMaximumDate(date, selectedEquipmentDeferments[i - 1].FacilityDate1P) && 
-			dateCreation.IsMinimumDate(date, selectedEquipmentDeferments[i].FacilityDate1P))
+			if (dateCreation.IsMaximumDate(date, selectedEquipmentDeferments[i - 1].FacilityDate1P) &&
+				dateCreation.IsMinimumDate(date, selectedEquipmentDeferments[i].FacilityDate1P))
 			{
 				selectedDeferment = selectedEquipmentDeferments[i - 1];
 				return selectedDeferment;
@@ -608,7 +617,8 @@ FacilityStructExternal ReportJSON2::GetSelectedEquipmentDefermentByDate(vector<F
 		}
 	}
 
-	if(n > 0){
+	if (n > 0)
+	{
 		if (dateCreation.IsMaximumDate(date, selectedEquipmentDeferments[n - 1].FacilityDate1P))
 		{
 			selectedDeferment = selectedEquipmentDeferments[n - 1];
@@ -642,7 +652,7 @@ FacilityStructExternal ReportJSON2::GetMinimumSelectedEquipmentsDefermentByDate(
 
 FacilityStructExternal ReportJSON2::GetSelectedEquipmentCapacityByDate(vector<FacilityStructExternal> &equipmentCapacities, string &selectedEquipment, Date date)
 {
-	
+
 	FacilityStructExternal selectedCapacities;
 	selectedCapacities.Gas_Capacity1P = 0;
 	selectedCapacities.Liquid_Capacity1P = 0;
@@ -652,7 +662,7 @@ FacilityStructExternal ReportJSON2::GetSelectedEquipmentCapacityByDate(vector<Fa
 	selectedCapacities.GasDemand1P = 0;
 	DateCreation dateCreation;
 	int i = 0, n = equipmentCapacities.size();
-	vector<FacilityStructExternal>  selectedEquipmentCapacities;
+	vector<FacilityStructExternal> selectedEquipmentCapacities;
 	for (i = 0; i < n; i++)
 	{
 		if (equipmentCapacities[i].Primary_Facility == selectedEquipment)
@@ -663,7 +673,8 @@ FacilityStructExternal ReportJSON2::GetSelectedEquipmentCapacityByDate(vector<Fa
 
 	n = selectedEquipmentCapacities.size();
 
-	if(n > 0){
+	if (n > 0)
+	{
 
 		if (dateCreation.EqualTo(date, selectedEquipmentCapacities[0].FacilityDate1P))
 		{
@@ -671,16 +682,16 @@ FacilityStructExternal ReportJSON2::GetSelectedEquipmentCapacityByDate(vector<Fa
 			selectedCapacities.Gas_Capacity1P = selectedEquipmentCapacities[0].Gas_Capacity1P *
 												selectedEquipmentCapacities[0].equityPercentage / 100.0;
 			selectedCapacities.Liquid_Capacity1P = selectedEquipmentCapacities[0].Liquid_Capacity1P *
-													selectedEquipmentCapacities[0].equityPercentage / 100.0;
+												   selectedEquipmentCapacities[0].equityPercentage / 100.0;
 			selectedCapacities.Primary_Facility = selectedEquipmentCapacities[0].Primary_Facility;
 			selectedCapacities.AG_Capacity1P = selectedEquipmentCapacities[0].AG_Capacity1P *
-												selectedEquipmentCapacities[0].equityPercentage / 100.0;
+											   selectedEquipmentCapacities[0].equityPercentage / 100.0;
 			selectedCapacities.NAG_Capacity1P = selectedEquipmentCapacities[0].NAG_Capacity1P *
 												selectedEquipmentCapacities[0].equityPercentage / 100.0;
 			selectedCapacities.GasOwnUse1P = selectedEquipmentCapacities[0].GasOwnUse1P *
-												selectedEquipmentCapacities[0].equityPercentage / 100.0;
+											 selectedEquipmentCapacities[0].equityPercentage / 100.0;
 			selectedCapacities.GasDemand1P = selectedEquipmentCapacities[0].GasDemand1P *
-												selectedEquipmentCapacities[0].equityPercentage / 100.0;
+											 selectedEquipmentCapacities[0].equityPercentage / 100.0;
 			selectedCapacities.equityPercentage = selectedEquipmentCapacities[0].equityPercentage;
 
 			return selectedCapacities;
@@ -691,20 +702,19 @@ FacilityStructExternal ReportJSON2::GetSelectedEquipmentCapacityByDate(vector<Fa
 			selectedCapacities.Gas_Capacity1P = selectedEquipmentCapacities[0].Gas_Capacity1P *
 												selectedEquipmentCapacities[0].equityPercentage / 100.0;
 			selectedCapacities.Liquid_Capacity1P = selectedEquipmentCapacities[0].Liquid_Capacity1P *
-													selectedEquipmentCapacities[0].equityPercentage / 100.0;
+												   selectedEquipmentCapacities[0].equityPercentage / 100.0;
 			selectedCapacities.Primary_Facility = selectedEquipmentCapacities[0].Primary_Facility;
 			selectedCapacities.AG_Capacity1P = selectedEquipmentCapacities[0].AG_Capacity1P *
-												selectedEquipmentCapacities[0].equityPercentage / 100.0;
+											   selectedEquipmentCapacities[0].equityPercentage / 100.0;
 			selectedCapacities.NAG_Capacity1P = selectedEquipmentCapacities[0].NAG_Capacity1P *
 												selectedEquipmentCapacities[0].equityPercentage / 100.0;
 			selectedCapacities.GasOwnUse1P = selectedEquipmentCapacities[0].GasOwnUse1P *
-												selectedEquipmentCapacities[0].equityPercentage / 100.0;
+											 selectedEquipmentCapacities[0].equityPercentage / 100.0;
 			selectedCapacities.GasDemand1P = selectedEquipmentCapacities[0].GasDemand1P *
-												selectedEquipmentCapacities[0].equityPercentage / 100.0;
+											 selectedEquipmentCapacities[0].equityPercentage / 100.0;
 			selectedCapacities.equityPercentage = selectedEquipmentCapacities[0].equityPercentage;
 			return selectedCapacities;
 		}
-
 	}
 
 	if (n > 1)
@@ -715,18 +725,18 @@ FacilityStructExternal ReportJSON2::GetSelectedEquipmentCapacityByDate(vector<Fa
 			if (dateCreation.EqualTo(date, selectedEquipmentCapacities[i - 1].FacilityDate1P))
 			{
 				selectedCapacities.Gas_Capacity1P = selectedEquipmentCapacities[i - 1].Gas_Capacity1P *
-											selectedEquipmentCapacities[i - 1].equityPercentage / 100.0;
+													selectedEquipmentCapacities[i - 1].equityPercentage / 100.0;
 				selectedCapacities.Liquid_Capacity1P = selectedEquipmentCapacities[i - 1].Liquid_Capacity1P *
-														selectedEquipmentCapacities[i - 1].equityPercentage / 100.0;
+													   selectedEquipmentCapacities[i - 1].equityPercentage / 100.0;
 				selectedCapacities.Primary_Facility = selectedEquipmentCapacities[i - 1].Primary_Facility;
 				selectedCapacities.AG_Capacity1P = selectedEquipmentCapacities[i - 1].AG_Capacity1P *
-													selectedEquipmentCapacities[i - 1].equityPercentage / 100.0;
+												   selectedEquipmentCapacities[i - 1].equityPercentage / 100.0;
 				selectedCapacities.NAG_Capacity1P = selectedEquipmentCapacities[i - 1].NAG_Capacity1P *
 													selectedEquipmentCapacities[i - 1].equityPercentage / 100.0;
 				selectedCapacities.GasOwnUse1P = selectedEquipmentCapacities[i - 1].GasOwnUse1P *
-													selectedEquipmentCapacities[i - 1].equityPercentage / 100.0;
+												 selectedEquipmentCapacities[i - 1].equityPercentage / 100.0;
 				selectedCapacities.GasDemand1P = selectedEquipmentCapacities[i - 1].GasDemand1P *
-													selectedEquipmentCapacities[i - 1].equityPercentage / 100.0;
+												 selectedEquipmentCapacities[i - 1].equityPercentage / 100.0;
 				selectedCapacities.equityPercentage = selectedEquipmentCapacities[i - 1].equityPercentage;
 				return selectedCapacities;
 			}
@@ -734,66 +744,66 @@ FacilityStructExternal ReportJSON2::GetSelectedEquipmentCapacityByDate(vector<Fa
 			if (dateCreation.EqualTo(date, selectedEquipmentCapacities[i].FacilityDate1P))
 			{
 				selectedCapacities.Gas_Capacity1P = selectedEquipmentCapacities[i].Gas_Capacity1P *
-											selectedEquipmentCapacities[i].equityPercentage / 100.0;
+													selectedEquipmentCapacities[i].equityPercentage / 100.0;
 				selectedCapacities.Liquid_Capacity1P = selectedEquipmentCapacities[i].Liquid_Capacity1P *
-														selectedEquipmentCapacities[i].equityPercentage / 100.0;
+													   selectedEquipmentCapacities[i].equityPercentage / 100.0;
 				selectedCapacities.Primary_Facility = selectedEquipmentCapacities[i].Primary_Facility;
 				selectedCapacities.AG_Capacity1P = selectedEquipmentCapacities[i].AG_Capacity1P *
-													selectedEquipmentCapacities[i].equityPercentage / 100.0;
+												   selectedEquipmentCapacities[i].equityPercentage / 100.0;
 				selectedCapacities.NAG_Capacity1P = selectedEquipmentCapacities[i].NAG_Capacity1P *
 													selectedEquipmentCapacities[i].equityPercentage / 100.0;
 				selectedCapacities.GasOwnUse1P = selectedEquipmentCapacities[i].GasOwnUse1P *
-													selectedEquipmentCapacities[i].equityPercentage / 100.0;
+												 selectedEquipmentCapacities[i].equityPercentage / 100.0;
 				selectedCapacities.GasDemand1P = selectedEquipmentCapacities[i].GasDemand1P *
-													selectedEquipmentCapacities[i].equityPercentage / 100.0;
+												 selectedEquipmentCapacities[i].equityPercentage / 100.0;
 				selectedCapacities.equityPercentage = selectedEquipmentCapacities[i].equityPercentage;
 
 				return selectedCapacities;
 			}
 
-			if (dateCreation.IsMaximumDate(date, selectedEquipmentCapacities[i - 1].FacilityDate1P) && 
-			dateCreation.IsMinimumDate(date, selectedEquipmentCapacities[i].FacilityDate1P))
+			if (dateCreation.IsMaximumDate(date, selectedEquipmentCapacities[i - 1].FacilityDate1P) &&
+				dateCreation.IsMinimumDate(date, selectedEquipmentCapacities[i].FacilityDate1P))
 			{
 				selectedCapacities.Gas_Capacity1P = selectedEquipmentCapacities[i - 1].Gas_Capacity1P *
-											selectedEquipmentCapacities[i - 1].equityPercentage / 100.0;
+													selectedEquipmentCapacities[i - 1].equityPercentage / 100.0;
 				selectedCapacities.Liquid_Capacity1P = selectedEquipmentCapacities[i - 1].Liquid_Capacity1P *
-														selectedEquipmentCapacities[i - 1].equityPercentage / 100.0;
+													   selectedEquipmentCapacities[i - 1].equityPercentage / 100.0;
 				selectedCapacities.Primary_Facility = selectedEquipmentCapacities[i - 1].Primary_Facility;
 				selectedCapacities.AG_Capacity1P = selectedEquipmentCapacities[i - 1].AG_Capacity1P *
-													selectedEquipmentCapacities[i - 1].equityPercentage / 100.0;
+												   selectedEquipmentCapacities[i - 1].equityPercentage / 100.0;
 				selectedCapacities.NAG_Capacity1P = selectedEquipmentCapacities[i - 1].NAG_Capacity1P *
 													selectedEquipmentCapacities[i - 1].equityPercentage / 100.0;
 				selectedCapacities.GasOwnUse1P = selectedEquipmentCapacities[i - 1].GasOwnUse1P *
-													selectedEquipmentCapacities[i - 1].equityPercentage / 100.0;
+												 selectedEquipmentCapacities[i - 1].equityPercentage / 100.0;
 				selectedCapacities.GasDemand1P = selectedEquipmentCapacities[i - 1].GasDemand1P *
-													selectedEquipmentCapacities[i - 1].equityPercentage / 100.0;
+												 selectedEquipmentCapacities[i - 1].equityPercentage / 100.0;
 				selectedCapacities.equityPercentage = selectedEquipmentCapacities[i - 1].equityPercentage;
 				return selectedCapacities;
 			}
 		}
 	}
 
-	if(n > 0){
+	if (n > 0)
+	{
 
 		if (dateCreation.IsMaximumDate(date, selectedEquipmentCapacities[n - 1].FacilityDate1P))
 		{
 			selectedCapacities.Gas_Capacity1P = selectedEquipmentCapacities[n - 1].Gas_Capacity1P *
 												selectedEquipmentCapacities[n - 1].equityPercentage / 100.0;
 			selectedCapacities.Liquid_Capacity1P = selectedEquipmentCapacities[n - 1].Liquid_Capacity1P *
-													selectedEquipmentCapacities[n - 1].equityPercentage / 100.0;
+												   selectedEquipmentCapacities[n - 1].equityPercentage / 100.0;
 			selectedCapacities.Primary_Facility = selectedEquipmentCapacities[n - 1].Primary_Facility;
 			selectedCapacities.AG_Capacity1P = selectedEquipmentCapacities[n - 1].AG_Capacity1P *
-												selectedEquipmentCapacities[n - 1].equityPercentage / 100.0;
+											   selectedEquipmentCapacities[n - 1].equityPercentage / 100.0;
 			selectedCapacities.NAG_Capacity1P = selectedEquipmentCapacities[n - 1].NAG_Capacity1P *
 												selectedEquipmentCapacities[n - 1].equityPercentage / 100.0;
 			selectedCapacities.GasOwnUse1P = selectedEquipmentCapacities[n - 1].GasOwnUse1P *
-												selectedEquipmentCapacities[n - 1].equityPercentage / 100.0;
+											 selectedEquipmentCapacities[n - 1].equityPercentage / 100.0;
 			selectedCapacities.GasDemand1P = selectedEquipmentCapacities[n - 1].GasDemand1P *
-												selectedEquipmentCapacities[n - 1].equityPercentage / 100.0;
+											 selectedEquipmentCapacities[n - 1].equityPercentage / 100.0;
 			selectedCapacities.equityPercentage = selectedEquipmentCapacities[n - 1].equityPercentage;
 			return selectedCapacities;
 		}
-
 	}
 
 	return selectedCapacities;
@@ -872,10 +882,10 @@ bool ReportJSON2::isContainDate(vector<Date> &dates, Date date)
 }
 
 vector<Date> ReportJSON2::GetUniqueDatesForFacilities(vector<FacilityStructExternal> &equipmentCapacities,
-		vector<FacilityStructExternal> &deferments,
-		vector<FacilityStructExternal> &crudeOilLosses,
-		vector<FacilityStructExternal>& gasOwnUse, 
-		vector<FacilityStructExternal>& gasFlared)
+													  vector<FacilityStructExternal> &deferments,
+													  vector<FacilityStructExternal> &crudeOilLosses,
+													  vector<FacilityStructExternal> &gasOwnUse,
+													  vector<FacilityStructExternal> &gasFlared)
 {
 	int i = 0;
 	int nEquipmentCapacities = equipmentCapacities.size();
@@ -887,7 +897,8 @@ vector<Date> ReportJSON2::GetUniqueDatesForFacilities(vector<FacilityStructExter
 
 	for (i = 0; i < nEquipmentCapacities; i++)
 	{
-		if(equipmentCapacities[i].FacilityDate1P.year < 100){
+		if (equipmentCapacities[i].FacilityDate1P.year < 100)
+		{
 			double a = 0;
 		}
 
@@ -900,7 +911,8 @@ vector<Date> ReportJSON2::GetUniqueDatesForFacilities(vector<FacilityStructExter
 
 	for (i = 0; i < nDeferments; i++)
 	{
-		if(deferments[i].FacilityDate1P.year < 100){
+		if (deferments[i].FacilityDate1P.year < 100)
+		{
 			double a = 0;
 		}
 
@@ -913,10 +925,11 @@ vector<Date> ReportJSON2::GetUniqueDatesForFacilities(vector<FacilityStructExter
 
 	for (i = 0; i < nCrudeOilLosses; i++)
 	{
-		if(crudeOilLosses[i].FacilityDate1P.year < 100){
+		if (crudeOilLosses[i].FacilityDate1P.year < 100)
+		{
 			double a = 0;
 		}
-		
+
 		bool check = isContainDate(dates, crudeOilLosses[i].FacilityDate1P);
 		if (check == false)
 		{
@@ -924,10 +937,10 @@ vector<Date> ReportJSON2::GetUniqueDatesForFacilities(vector<FacilityStructExter
 		}
 	}
 
-
 	for (i = 0; i < nGasOwnUse; i++)
 	{
-		if(gasOwnUse[i].FacilityDate1P.year < 100){
+		if (gasOwnUse[i].FacilityDate1P.year < 100)
+		{
 			double a = 0;
 		}
 
@@ -940,7 +953,8 @@ vector<Date> ReportJSON2::GetUniqueDatesForFacilities(vector<FacilityStructExter
 
 	for (i = 0; i < nGasFlared; i++)
 	{
-		if(gasFlared[i].FacilityDate1P.year < 100){
+		if (gasFlared[i].FacilityDate1P.year < 100)
+		{
 			double a = 0;
 		}
 
@@ -954,14 +968,14 @@ vector<Date> ReportJSON2::GetUniqueDatesForFacilities(vector<FacilityStructExter
 	return dates;
 }
 
-
-tuple<vector<FacilityStructExternal>,vector<Date>> ReportJSON2::GetFacilitiesSheetData(
+tuple<vector<FacilityStructExternal>, vector<Date>> ReportJSON2::GetFacilitiesSheetData(
 	vector<FacilityInEquipementConnection> &facilityInEquipementConnections,
 	vector<FacilityStructExternal> &equipmentCapacities, vector<FacilityStructExternal> &deferments,
 	vector<FacilityStructExternal> &crudeOilLosses,
-	vector<FacilityStructExternal>& gasOwnUse, 
-	vector<FacilityStructExternal>& gasFlared)
-{vector<FacilityStructExternal> facilitiesData;
+	vector<FacilityStructExternal> &gasOwnUse,
+	vector<FacilityStructExternal> &gasFlared)
+{
+	vector<FacilityStructExternal> facilitiesData;
 	vector<vector<FacilityStructExternal>> facilitiesMatrixData;
 	int j = 0, i = 0, k = 0;
 	int nFacilityInEquipementConnections = facilityInEquipementConnections.size();
@@ -972,8 +986,8 @@ tuple<vector<FacilityStructExternal>,vector<Date>> ReportJSON2::GetFacilitiesShe
 	int nGasFlared = gasFlared.size();
 	DateCreation dateCreation;
 
-	vector<Date> dates = GetUniqueDatesForFacilities(equipmentCapacities, deferments, 
-	crudeOilLosses, gasOwnUse, gasFlared); // Sort Dates
+	vector<Date> dates = GetUniqueDatesForFacilities(equipmentCapacities, deferments,
+													 crudeOilLosses, gasOwnUse, gasFlared); // Sort Dates
 	int nDates = dates.size();
 	int _nMultipleConnections = 0;
 
@@ -985,8 +999,8 @@ tuple<vector<FacilityStructExternal>,vector<Date>> ReportJSON2::GetFacilitiesShe
 			bool check = false;
 			for (i = 0; i < nEquipmentCapacities; i++)
 			{
-				if (facilityInEquipementConnections[j].facilityName == equipmentCapacities[i].Primary_Facility && 
-				dateCreation.EqualTo2(dates[k], equipmentCapacities[i].FacilityDate1P, isMonthly))
+				if (facilityInEquipementConnections[j].facilityName == equipmentCapacities[i].Primary_Facility &&
+					dateCreation.EqualTo2(dates[k], equipmentCapacities[i].FacilityDate1P, isMonthly))
 				{
 					int kk = 0;
 					int nMultipleConnections = facilityInEquipementConnections[j].multipleConnections.size();
@@ -1047,9 +1061,9 @@ tuple<vector<FacilityStructExternal>,vector<Date>> ReportJSON2::GetFacilitiesShe
 					{
 						FacilityStructExternal selectedCapacities = GetMinimumSelectedEquipmentsCapacityByDate(
 							equipmentCapacities, facilityInEquipementConnections[j].multipleConnections[kk], dates[k]);
-					    
+
 						facilityStructExternal.nodesConnectionKey = facilityInEquipementConnections[j].nodesConnectionKeys[kk];
-							
+
 						if (selectedCapacities.Liquid_Capacity1P > 0)
 						{
 							facilityStructExternal.Liquid_Capacity1P = selectedCapacities.Liquid_Capacity1P;
@@ -1081,23 +1095,28 @@ tuple<vector<FacilityStructExternal>,vector<Date>> ReportJSON2::GetFacilitiesShe
 							facilityStructExternal.GasOwnUse2P = selectedCapacities.GasOwnUse1P;
 						}
 
-						if(selectedCapacities.GasDemand1P > 0){
+						if (selectedCapacities.GasDemand1P > 0)
+						{
 							facilityStructExternal.GasDemand1P = selectedCapacities.GasDemand1P;
 							facilityStructExternal.GasDemand2P = selectedCapacities.GasDemand1P;
 							facilityStructExternal.GasDemand3P = selectedCapacities.GasDemand1P;
-						}else{
+						}
+						else
+						{
 							if (selectedCapacities.Gas_Capacity1P > 0)
 							{
 								facilityStructExternal.GasDemand1P = selectedCapacities.Gas_Capacity1P;
 								facilityStructExternal.GasDemand2P = selectedCapacities.Gas_Capacity1P;
 								facilityStructExternal.GasDemand3P = selectedCapacities.Gas_Capacity1P;
-							}else{
+							}
+							else
+							{
 								facilityStructExternal.GasDemand1P = selectedCapacities.NAG_Capacity1P +
-								selectedCapacities.AG_Capacity1P;
-								facilityStructExternal.GasDemand2P = selectedCapacities.NAG_Capacity1P + 
-								selectedCapacities.AG_Capacity1P;
-								facilityStructExternal.GasDemand3P = selectedCapacities.NAG_Capacity1P + 
-								selectedCapacities.AG_Capacity1P;
+																	 selectedCapacities.AG_Capacity1P;
+								facilityStructExternal.GasDemand2P = selectedCapacities.NAG_Capacity1P +
+																	 selectedCapacities.AG_Capacity1P;
+								facilityStructExternal.GasDemand3P = selectedCapacities.NAG_Capacity1P +
+																	 selectedCapacities.AG_Capacity1P;
 							}
 						}
 
@@ -1112,7 +1131,7 @@ tuple<vector<FacilityStructExternal>,vector<Date>> ReportJSON2::GetFacilitiesShe
 						facilitiesDataX.push_back(facilityStructExternal);
 					}
 
-					//facilitiesDataX.push_back(facilityStructExternal);
+					// facilitiesDataX.push_back(facilityStructExternal);
 					check = true;
 					break;
 				}
@@ -1144,17 +1163,19 @@ tuple<vector<FacilityStructExternal>,vector<Date>> ReportJSON2::GetFacilitiesShe
 			bool check = false;
 			for (i = 0; i < nDeferments; i++)
 			{
-				//dates[k].day == deferments[i].FacilityDate1P.day &&
-				if (facilityInEquipementConnections[j].facilityName == deferments[i].Primary_Facility && 
-				dateCreation.EqualTo2(dates[k], deferments[i].FacilityDate1P, isMonthly))
+				// dates[k].day == deferments[i].FacilityDate1P.day &&
+				if (facilityInEquipementConnections[j].facilityName == deferments[i].Primary_Facility &&
+					dateCreation.EqualTo2(dates[k], deferments[i].FacilityDate1P, isMonthly))
 				{
 					int kk = 0;
 					int nMultipleConnections = facilityInEquipementConnections[j].multipleConnections.size();
-					for (kk = 0; kk < nMultipleConnections; kk++){
+					for (kk = 0; kk < nMultipleConnections; kk++)
+					{
 						FacilityStructExternal selectedDeferement = GetMinimumSelectedEquipmentsDefermentByDate(deferments,
-						facilityInEquipementConnections[j].multipleConnections[kk], dates[k]);
+																												facilityInEquipementConnections[j].multipleConnections[kk], dates[k]);
 
-						if(k < facilitiesMatrixData[j].size()){
+						if (k < facilitiesMatrixData[j].size())
+						{
 							if (selectedDeferement.Scheduled_Deferment1P > 0)
 							{
 								facilitiesMatrixData[j][k].Scheduled_Deferment1P = selectedDeferement.Scheduled_Deferment1P;
@@ -1175,11 +1196,9 @@ tuple<vector<FacilityStructExternal>,vector<Date>> ReportJSON2::GetFacilitiesShe
 								facilitiesMatrixData[j][k].Thirdparty_Deferment2P = selectedDeferement.Thirdparty_Deferment1P;
 								facilitiesMatrixData[j][k].Thirdparty_Deferment3P = selectedDeferement.Thirdparty_Deferment1P;
 							}
-
 						}
-
 					}
-					
+
 					check = true;
 					break;
 				}
@@ -1213,17 +1232,19 @@ tuple<vector<FacilityStructExternal>,vector<Date>> ReportJSON2::GetFacilitiesShe
 			bool check = false;
 			for (i = 0; i < nCrudeOilLosses; i++)
 			{
-				//dates[k].day == crudeOilLosses[i].FacilityDate1P.day &&
-				if (facilityInEquipementConnections[j].facilityName == crudeOilLosses[i].Primary_Facility && 
+				// dates[k].day == crudeOilLosses[i].FacilityDate1P.day &&
+				if (facilityInEquipementConnections[j].facilityName == crudeOilLosses[i].Primary_Facility &&
 					dateCreation.EqualTo2(dates[k], crudeOilLosses[i].FacilityDate1P, isMonthly))
 				{
 					int kk = 0;
 					int nMultipleConnections = facilityInEquipementConnections[j].multipleConnections.size();
-					for (kk = 0; kk < nMultipleConnections; kk++){
+					for (kk = 0; kk < nMultipleConnections; kk++)
+					{
 						FacilityStructExternal selectedCrudeOilLosses = GetMinimumSelectedEquipmentsCrudeOilLossesByDate(
-						crudeOilLosses, facilityInEquipementConnections[j].multipleConnections[kk], dates[k]);
+							crudeOilLosses, facilityInEquipementConnections[j].multipleConnections[kk], dates[k]);
 
-						if(k < facilitiesMatrixData[j].size()){
+						if (k < facilitiesMatrixData[j].size())
+						{
 							if (selectedCrudeOilLosses.Crudeoil_Lossess1P > 0)
 							{
 								facilitiesMatrixData[j][k].Crudeoil_Lossess1P = selectedCrudeOilLosses.Crudeoil_Lossess1P;
@@ -1260,17 +1281,19 @@ tuple<vector<FacilityStructExternal>,vector<Date>> ReportJSON2::GetFacilitiesShe
 			bool check = false;
 			for (i = 0; i < nGasOwnUse; i++)
 			{
-				//dates[k].day == gasOwnUse[i].FacilityDate1P.day &&
-				if (facilityInEquipementConnections[j].facilityName == gasOwnUse[i].Primary_Facility && 
+				// dates[k].day == gasOwnUse[i].FacilityDate1P.day &&
+				if (facilityInEquipementConnections[j].facilityName == gasOwnUse[i].Primary_Facility &&
 					dateCreation.EqualTo2(dates[k], gasOwnUse[i].FacilityDate1P, isMonthly))
 				{
 					int kk = 0;
 					int nMultipleConnections = facilityInEquipementConnections[j].multipleConnections.size();
-					for (kk = 0; kk < nMultipleConnections; kk++){
+					for (kk = 0; kk < nMultipleConnections; kk++)
+					{
 						FacilityStructExternal selectedGasOwnuse = GetMinimumSelectedEquipmentsGasOwnUseByDate(
-						gasOwnUse, facilityInEquipementConnections[j].multipleConnections[kk], dates[k]);
+							gasOwnUse, facilityInEquipementConnections[j].multipleConnections[kk], dates[k]);
 
-						if(k < facilitiesMatrixData[j].size()){
+						if (k < facilitiesMatrixData[j].size())
+						{
 							if (selectedGasOwnuse.GasOwnUse1P > 0)
 							{
 								facilitiesMatrixData[j][k].GasOwnUse1P = selectedGasOwnuse.GasOwnUse1P;
@@ -1307,17 +1330,19 @@ tuple<vector<FacilityStructExternal>,vector<Date>> ReportJSON2::GetFacilitiesShe
 			bool check = false;
 			for (i = 0; i < nGasFlared; i++)
 			{
-				//dates[k].day == gasFlared[i].FacilityDate1P.day &&
-				if (facilityInEquipementConnections[j].facilityName == gasFlared[i].Primary_Facility && 
+				// dates[k].day == gasFlared[i].FacilityDate1P.day &&
+				if (facilityInEquipementConnections[j].facilityName == gasFlared[i].Primary_Facility &&
 					dateCreation.EqualTo2(dates[k], gasFlared[i].FacilityDate1P, isMonthly))
 				{
 					int kk = 0;
 					int nMultipleConnections = facilityInEquipementConnections[j].multipleConnections.size();
-					for (kk = 0; kk < nMultipleConnections; kk++){
+					for (kk = 0; kk < nMultipleConnections; kk++)
+					{
 						FacilityStructExternal selectedGasFlared = GetMinimumSelectedEquipmentsGasFlaredByDate(
-						gasFlared, facilityInEquipementConnections[j].multipleConnections[kk], dates[k]);
+							gasFlared, facilityInEquipementConnections[j].multipleConnections[kk], dates[k]);
 
-						if(k < facilitiesMatrixData[j].size()){
+						if (k < facilitiesMatrixData[j].size())
+						{
 							if (selectedGasFlared.GasFlared1P > 0)
 							{
 								facilitiesMatrixData[j][k].GasFlared1P = selectedGasFlared.GasFlared1P;
@@ -1357,7 +1382,8 @@ tuple<vector<FacilityStructExternal>,vector<Date>> ReportJSON2::GetFacilitiesShe
 		}
 	}
 
-	for(auto& innerVec : facilitiesMatrixData){
+	for (auto &innerVec : facilitiesMatrixData)
+	{
 		innerVec.clear();
 	}
 
@@ -1391,39 +1417,41 @@ vector<FacilityInEquipementConnection> ReportJSON2::GetFacilitiesInEquipmentConn
 				facilityInEquipementConnection.facilityName = internalExternalFacilitiesNames[i].externalEquipmentName;
 				facilityInEquipementConnection.equipmentType = internalExternalFacilitiesNames[i].equipmentType;
 
-				//if (nodeIndex + 1 < nCols)
+				// if (nodeIndex + 1 < nCols)
 				//{
-					vector<string> connections;
-					int counter = -1;
-					string parentNode;
-					for (kk = nodeIndex; kk < nCols; kk++)
+				vector<string> connections;
+				int counter = -1;
+				string parentNode;
+				for (kk = nodeIndex; kk < nCols; kk++)
+				{
+					counter++;
+					if (counter == 0)
 					{
-						counter++;
-						if (counter == 0)
-						{
-							facilityInEquipementConnection.fromNodes.push_back(equipmentConnections[j][kk]);
-						}
-
-						if(nodeIndex == nCols - 1){
-							facilityInEquipementConnection.toNodes.push_back(equipmentConnections[j][kk]);
-						}
-
-						if (counter == 1)
-						{
-							//facilityInEquipementConnection.toNodes.push_back(parentNode = equipmentConnections[j][kk]);
-							facilityInEquipementConnection.toNodes.push_back(equipmentConnections[j][kk]);
-						}
-						connections.push_back(equipmentConnections[j][kk]);
+						facilityInEquipementConnection.fromNodes.push_back(equipmentConnections[j][kk]);
 					}
-					string nodesConnectionKey = "";
-					for (kk = 0; kk < nodeIndex + 1; kk++)
+
+					if (nodeIndex == nCols - 1)
 					{
-						if(k < nCols - 1){
-							nodesConnectionKey = nodesConnectionKey + equipmentConnections[j][kk] + "===";
-						}
+						facilityInEquipementConnection.toNodes.push_back(equipmentConnections[j][kk]);
 					}
-					facilityInEquipementConnection.multipleConnections.push_back(connections);
-					facilityInEquipementConnection.nodesConnectionKeys.push_back(nodesConnectionKey);
+
+					if (counter == 1)
+					{
+						// facilityInEquipementConnection.toNodes.push_back(parentNode = equipmentConnections[j][kk]);
+						facilityInEquipementConnection.toNodes.push_back(equipmentConnections[j][kk]);
+					}
+					connections.push_back(equipmentConnections[j][kk]);
+				}
+				string nodesConnectionKey = "";
+				for (kk = 0; kk < nodeIndex + 1; kk++)
+				{
+					if (k < nCols - 1)
+					{
+						nodesConnectionKey = nodesConnectionKey + equipmentConnections[j][kk] + "===";
+					}
+				}
+				facilityInEquipementConnection.multipleConnections.push_back(connections);
+				facilityInEquipementConnection.nodesConnectionKeys.push_back(nodesConnectionKey);
 				//}
 			}
 		}
@@ -1435,7 +1463,6 @@ vector<FacilityInEquipementConnection> ReportJSON2::GetFacilitiesInEquipmentConn
 
 	return facilityInEquipementConnections;
 }
-
 
 vector<Node> ReportJSON2::GetNodes(
 	vector<InternalExternalEquipmentName> &internalExternalFacilitiesNames,
@@ -1458,11 +1485,11 @@ vector<Node> ReportJSON2::GetNodes(
 
 tuple<vector<Node>, vector<Date>> ReportJSON2::GetNodesSheetData(
 	vector<Node> &nodes,
-	vector<FacilityStructExternal> &equipmentCapacities, 
+	vector<FacilityStructExternal> &equipmentCapacities,
 	vector<FacilityStructExternal> &deferments,
 	vector<FacilityStructExternal> &crudeOilLosses,
-	vector<FacilityStructExternal>& gasOwnUse, 
-	vector<FacilityStructExternal>& gasFlared)
+	vector<FacilityStructExternal> &gasOwnUse,
+	vector<FacilityStructExternal> &gasFlared)
 {
 
 	vector<Node> updatesNodes;
@@ -1474,8 +1501,8 @@ tuple<vector<Node>, vector<Date>> ReportJSON2::GetNodesSheetData(
 		Node node;
 		node.nodeName = nodes[i].nodeName;
 		node.equipmentInEquipementConnections = nodes[i].equipmentInEquipementConnections;
-		//make_tuple(facilitiesData2, dates)
-		tuple<vector<FacilityStructExternal>,vector<Date>> tupleResult =
+		// make_tuple(facilitiesData2, dates)
+		tuple<vector<FacilityStructExternal>, vector<Date>> tupleResult =
 			GetFacilitiesSheetData(nodes[i].equipmentInEquipementConnections,
 								   equipmentCapacities, deferments, crudeOilLosses,
 								   gasOwnUse, gasFlared);
@@ -1483,7 +1510,8 @@ tuple<vector<Node>, vector<Date>> ReportJSON2::GetNodesSheetData(
 		vector<Date> dates2 = get<1>(tupleResult);
 		updatesNodes.push_back(node);
 		int nDates2 = dates2.size();
-		for(j = 0; j < nDates2; j++){
+		for (j = 0; j < nDates2; j++)
+		{
 			bool check = isContainDate(dates, dates2[j]);
 			if (check == false)
 			{
@@ -1496,30 +1524,31 @@ tuple<vector<Node>, vector<Date>> ReportJSON2::GetNodesSheetData(
 	return make_tuple(updatesNodes, dates);
 }
 
-//Use IP_IC date for the calculations
-//Get the gasDemand of the consumer node per date (gasDemandConsumerNode)
-//Get All facilities connected to consumer node (last node of equipentType = gas_asset) per date
-// Summ all the gas capcities of the these facilities (totalGasCacity)
-// calculate the gas demand of each facility by = (facilityGasCapacity/totalGasCacity)*gasDemandConsumerNode
+// Use IP_IC date for the calculations
+// Get the gasDemand of the consumer node per date (gasDemandConsumerNode)
+// Get All facilities connected to consumer node (last node of equipentType = gas_asset) per date
+//  Summ all the gas capcities of the these facilities (totalGasCacity)
+//  calculate the gas demand of each facility by = (facilityGasCapacity/totalGasCacity)*gasDemandConsumerNode
 
-
-vector<FacilityInEquipementConnection> ReportJSON2::LastNodeGasConsumers(Node& lastNode) {
+vector<FacilityInEquipementConnection> ReportJSON2::LastNodeGasConsumers(Node &lastNode)
+{
 	vector<FacilityInEquipementConnection> equipmentInEquipementConnections = lastNode.equipmentInEquipementConnections;
 	vector<FacilityInEquipementConnection> gasConsumers;
 	int nEquipmentInEquipementConnections = equipmentInEquipementConnections.size();
 	int i = 0;
 
-	for(i = 0; i < nEquipmentInEquipementConnections; i++){
-		if(equipmentInEquipementConnections[i].equipmentType == "gas asset"){
+	for (i = 0; i < nEquipmentInEquipementConnections; i++)
+	{
+		if (equipmentInEquipementConnections[i].equipmentType == "gas asset")
+		{
 			gasConsumers.push_back(equipmentInEquipementConnections[i]);
 		}
 	}
 
 	return gasConsumers;
-
 }
 
-bool ReportJSON2::isContainString(vector<string>& xs, string& x)
+bool ReportJSON2::isContainString(vector<string> &xs, string &x)
 {
 	bool check = false;
 	int i = 0, n = xs.size();
@@ -1534,33 +1563,36 @@ bool ReportJSON2::isContainString(vector<string>& xs, string& x)
 	return check;
 }
 
-vector<string> ReportJSON2::LastFacilitiesConnectedToAGasConsumer(Node& lastNode, FacilityInEquipementConnection& gasConsumer) {
+vector<string> ReportJSON2::LastFacilitiesConnectedToAGasConsumer(Node &lastNode, FacilityInEquipementConnection &gasConsumer)
+{
 	vector<FacilityStructExternal> equipmentDataInEquipementConnections = lastNode.equipmentDataInEquipementConnections;
 	int nEquipmentDataInEquipementConnections = equipmentDataInEquipementConnections.size();
 	int i = 0;
 	vector<string> facilityNames;
 
-	for(i = 0; i < nEquipmentDataInEquipementConnections; i++){
-		if(equipmentDataInEquipementConnections[i].Primary_Facility == 
-		gasConsumer.facilityName){
+	for (i = 0; i < nEquipmentDataInEquipementConnections; i++)
+	{
+		if (equipmentDataInEquipementConnections[i].Primary_Facility ==
+			gasConsumer.facilityName)
+		{
 			vector<string> nodeNames;
 			string delimeter = "===";
 			string nodeConnectionKeys = equipmentDataInEquipementConnections[i].nodesConnectionKey;
-			inputdeck.tokenize(nodeConnectionKeys, delimeter, nodeNames); 
+			inputdeck.tokenize(nodeConnectionKeys, delimeter, nodeNames);
 			bool check = isContainString(facilityNames, nodeNames[0]);
-			if(check == false){
+			if (check == false)
+			{
 				facilityNames.push_back(nodeNames[0]);
 			}
 		}
-
 	}
 	return facilityNames;
 }
 
 double ReportJSON2::GetTotalFacilitiesGasCapacitiesPerGasConsumer(
-	FacilityStructExternal gasConsumerPerDate, Node& firstNode,
-	vector<string> facilityNamesPerGasConsumer
-) {
+	FacilityStructExternal gasConsumerPerDate, Node &firstNode,
+	vector<string> facilityNamesPerGasConsumer)
+{
 
 	double totalGasCapacity = 0;
 	vector<FacilityStructExternal> equipmentDataInEquipementConnections = firstNode.equipmentDataInEquipementConnections;
@@ -1568,13 +1600,17 @@ double ReportJSON2::GetTotalFacilitiesGasCapacitiesPerGasConsumer(
 	int nFacilityNamesPerGasConsumer = facilityNamesPerGasConsumer.size();
 	int i = 0, j = 0;
 
-	for(i = 0; i < nEquipmentDataInEquipementConnections; i++){
-		for(j = 0; j < nFacilityNamesPerGasConsumer; j++){
-			if(facilityNamesPerGasConsumer[j] == equipmentDataInEquipementConnections[i].Primary_Facility){
-				if(dateCreation.IsMinimumDate(equipmentDataInEquipementConnections[i].FacilityDate1P,
-				gasConsumerPerDate.FacilityDate1P) || 
-				dateCreation.EqualTo(equipmentDataInEquipementConnections[i].FacilityDate1P,
-				gasConsumerPerDate.FacilityDate1P)){
+	for (i = 0; i < nEquipmentDataInEquipementConnections; i++)
+	{
+		for (j = 0; j < nFacilityNamesPerGasConsumer; j++)
+		{
+			if (facilityNamesPerGasConsumer[j] == equipmentDataInEquipementConnections[i].Primary_Facility)
+			{
+				if (dateCreation.IsMinimumDate(equipmentDataInEquipementConnections[i].FacilityDate1P,
+											   gasConsumerPerDate.FacilityDate1P) ||
+					dateCreation.EqualTo(equipmentDataInEquipementConnections[i].FacilityDate1P,
+										 gasConsumerPerDate.FacilityDate1P))
+				{
 					totalGasCapacity = totalGasCapacity + equipmentDataInEquipementConnections[i].Gas_Capacity1P;
 				}
 			}
@@ -1584,26 +1620,30 @@ double ReportJSON2::GetTotalFacilitiesGasCapacitiesPerGasConsumer(
 }
 
 vector<FacilityStructExternal> ReportJSON2::GetFacilitiesGasDemandPerGasConsumer(
-	FacilityStructExternal gasConsumerPerDate, Node& firstNode,
+	FacilityStructExternal gasConsumerPerDate, Node &firstNode,
 	vector<string> facilityNamesPerGasConsumer,
-	vector<Node>& updatesNodes
-) {
+	vector<Node> &updatesNodes)
+{
 
 	double totalGasCapacity = GetTotalFacilitiesGasCapacitiesPerGasConsumer(
-		gasConsumerPerDate, firstNode,facilityNamesPerGasConsumer);
+		gasConsumerPerDate, firstNode, facilityNamesPerGasConsumer);
 
 	vector<FacilityStructExternal> equipmentDataInEquipementConnections = firstNode.equipmentDataInEquipementConnections;
 	int nEquipmentDataInEquipementConnections = equipmentDataInEquipementConnections.size();
 	int nFacilityNamesPerGasConsumer = facilityNamesPerGasConsumer.size();
 	int i = 0, j = 0;
 
-	for(i = 0; i < nEquipmentDataInEquipementConnections; i++){
-		for(j = 0; j < nFacilityNamesPerGasConsumer; j++){
-			if(facilityNamesPerGasConsumer[j] == equipmentDataInEquipementConnections[i].Primary_Facility){
-				if(dateCreation.IsMinimumDate(equipmentDataInEquipementConnections[i].FacilityDate1P,
-				gasConsumerPerDate.FacilityDate1P) || 
-				dateCreation.EqualTo(equipmentDataInEquipementConnections[i].FacilityDate1P,
-				gasConsumerPerDate.FacilityDate1P)){
+	for (i = 0; i < nEquipmentDataInEquipementConnections; i++)
+	{
+		for (j = 0; j < nFacilityNamesPerGasConsumer; j++)
+		{
+			if (facilityNamesPerGasConsumer[j] == equipmentDataInEquipementConnections[i].Primary_Facility)
+			{
+				if (dateCreation.IsMinimumDate(equipmentDataInEquipementConnections[i].FacilityDate1P,
+											   gasConsumerPerDate.FacilityDate1P) ||
+					dateCreation.EqualTo(equipmentDataInEquipementConnections[i].FacilityDate1P,
+										 gasConsumerPerDate.FacilityDate1P))
+				{
 					double frac = equipmentDataInEquipementConnections[i].Gas_Capacity1P / totalGasCapacity;
 					equipmentDataInEquipementConnections[i].GasDemand1P = frac * gasConsumerPerDate.GasDemand1P;
 					equipmentDataInEquipementConnections[i].GasDemand2P = frac * gasConsumerPerDate.GasDemand1P;
@@ -1612,14 +1652,14 @@ vector<FacilityStructExternal> ReportJSON2::GetFacilitiesGasDemandPerGasConsumer
 			}
 		}
 	}
-	
+
 	return equipmentDataInEquipementConnections;
-	
 }
 
-void ReportJSON2::GetFacilitiesGasDemand(vector<Node>& updatesNode){
+void ReportJSON2::GetFacilitiesGasDemand(vector<Node> &updatesNode)
+{
 	int nUpdatesNode = updatesNode.size();
-	Node lastNode = updatesNode[nUpdatesNode-1];
+	Node lastNode = updatesNode[nUpdatesNode - 1];
 	Node firstNode = updatesNode[0];
 	vector<FacilityInEquipementConnection> gasConsumers = LastNodeGasConsumers(lastNode);
 	int nGasConsumers = gasConsumers.size();
@@ -1628,31 +1668,31 @@ void ReportJSON2::GetFacilitiesGasDemand(vector<Node>& updatesNode){
 
 	int i = 0, j = 0;
 
-	for(i = 0; i < nGasConsumers; i++){
-		for(j = 0; j < nEquipmentDataInEquipementConnections; j++){
+	for (i = 0; i < nGasConsumers; i++)
+	{
+		for (j = 0; j < nEquipmentDataInEquipementConnections; j++)
+		{
 			vector<string> facilityNamesPerGasConsumer =
-			LastFacilitiesConnectedToAGasConsumer(lastNode, gasConsumers[i]);
+				LastFacilitiesConnectedToAGasConsumer(lastNode, gasConsumers[i]);
 			FacilityStructExternal gasConsumerPerDate = equipmentDataInEquipementConnections[j];
-			if(facilityNamesPerGasConsumer.size() > 0){	
+			if (facilityNamesPerGasConsumer.size() > 0)
+			{
 				vector<FacilityStructExternal> equipmentDataInEquipementConnections_firstNode =
-				GetFacilitiesGasDemandPerGasConsumer(gasConsumerPerDate, firstNode,
-					facilityNamesPerGasConsumer,updatesNode);
+					GetFacilitiesGasDemandPerGasConsumer(gasConsumerPerDate, firstNode,
+														 facilityNamesPerGasConsumer, updatesNode);
 
-				if(gasConsumerPerDate.GasDemand1P > 0){
+				if (gasConsumerPerDate.GasDemand1P > 0)
+				{
 					updatesNode[0].equipmentDataInEquipementConnections = equipmentDataInEquipementConnections_firstNode;
 				}
-				
 			}
-			
 		}
 	}
 }
 
-
-
-vector<WellSchedule> ReportJSON2::GetWellSchedulesSheetData(vector<WellReroute>& wellRerouteDecks,
-vector<WellRampUp>& wellRampUpDecks, vector<ShutInOpenUp>& wellShutInOpenDecks,
-Date& StopDate)
+vector<WellSchedule> ReportJSON2::GetWellSchedulesSheetData(vector<WellReroute> &wellRerouteDecks,
+															vector<WellRampUp> &wellRampUpDecks, vector<ShutInOpenUp> &wellShutInOpenDecks,
+															Date &StopDate)
 {
 
 	vector<WellSchedule> wellSchedules;
@@ -1680,83 +1720,103 @@ Date& StopDate)
 		wellSchedule.hyperbolicExponent = wellRerouteDeck.hyperbolicExponent;
 		wellSchedule.scheduleKey = WellReroute_String;
 
-		if(wellSchedule.ParameterName == "existingStrategy"){
+		if (wellSchedule.ParameterName == "existingStrategy")
+		{
 			wellSchedule.ParameterName2 = existingStrategy;
 		}
 
-		if(wellSchedule.ParameterName == "noExistingStrategy"){
+		if (wellSchedule.ParameterName == "noExistingStrategy")
+		{
 			wellSchedule.ParameterName2 = noExistingStrategy;
 		}
 
-		if(wellSchedule.ParameterName == "Init_Oil_Gas_Rate_1P_1C"){
+		if (wellSchedule.ParameterName == "Init_Oil_Gas_Rate_1P_1C")
+		{
 			wellSchedule.ParameterName2 = Init_Oil_Gas_Rate_1P_1C;
 		}
 
-		if(wellSchedule.ParameterName == "Init_Oil_Gas_Rate_2P_2C"){
+		if (wellSchedule.ParameterName == "Init_Oil_Gas_Rate_2P_2C")
+		{
 			wellSchedule.ParameterName2 = Init_Oil_Gas_Rate_2P_2C;
 		}
 
-		if(wellSchedule.ParameterName == "Init_Oil_Gas_Rate_3P_3C"){
+		if (wellSchedule.ParameterName == "Init_Oil_Gas_Rate_3P_3C")
+		{
 			wellSchedule.ParameterName2 = Init_Oil_Gas_Rate_3P_3C;
 		}
 
-		if(wellSchedule.ParameterName == "Decline_Rate_1P_1C"){
+		if (wellSchedule.ParameterName == "Decline_Rate_1P_1C")
+		{
 			wellSchedule.ParameterName2 = Decline_Rate_1P_1C;
 		}
 
-		if(wellSchedule.ParameterName == "Decline_Rate_2P_2C"){
+		if (wellSchedule.ParameterName == "Decline_Rate_2P_2C")
+		{
 			wellSchedule.ParameterName2 = Decline_Rate_2P_2C;
 		}
 
-		if(wellSchedule.ParameterName == "Decline_Rate_3P_3C"){
+		if (wellSchedule.ParameterName == "Decline_Rate_3P_3C")
+		{
 			wellSchedule.ParameterName2 = Decline_Rate_3P_3C;
 		}
 
-		if(wellSchedule.ParameterName == "Rate_Of_Rate_GOR_CGR_1P1C"){
+		if (wellSchedule.ParameterName == "Rate_Of_Rate_GOR_CGR_1P1C")
+		{
 			wellSchedule.ParameterName2 = Rate_Of_Rate_GOR_CGR_1P1C;
 		}
 
-		if(wellSchedule.ParameterName == "Rate_Of_Rate_GOR_CGR_2P2C"){
+		if (wellSchedule.ParameterName == "Rate_Of_Rate_GOR_CGR_2P2C")
+		{
 			wellSchedule.ParameterName2 = Rate_Of_Rate_GOR_CGR_2P2C;
 		}
 
-		if(wellSchedule.ParameterName == "Rate_Of_Rate_GOR_CGR_3P3C"){
+		if (wellSchedule.ParameterName == "Rate_Of_Rate_GOR_CGR_3P3C")
+		{
 			wellSchedule.ParameterName2 = Rate_Of_Rate_GOR_CGR_3P3C;
 		}
 
-		if(wellSchedule.ParameterName == "Rate_Of_Rate_BSW_WGR_1P1C"){
+		if (wellSchedule.ParameterName == "Rate_Of_Rate_BSW_WGR_1P1C")
+		{
 			wellSchedule.ParameterName2 = Rate_Of_Rate_BSW_WGR_1P1C;
 		}
 
-		if(wellSchedule.ParameterName == "Rate_Of_Rate_BSW_WGR_2P2C"){
+		if (wellSchedule.ParameterName == "Rate_Of_Rate_BSW_WGR_2P2C")
+		{
 			wellSchedule.ParameterName2 = Rate_Of_Rate_BSW_WGR_2P2C;
 		}
 
-		if(wellSchedule.ParameterName == "Rate_Of_Rate_BSW_WGR_3P3C"){
+		if (wellSchedule.ParameterName == "Rate_Of_Rate_BSW_WGR_3P3C")
+		{
 			wellSchedule.ParameterName2 = Rate_Of_Rate_BSW_WGR_3P3C;
 		}
 
-		if(wellSchedule.ParameterName == "Decline_Exponent_1P1C"){
+		if (wellSchedule.ParameterName == "Decline_Exponent_1P1C")
+		{
 			wellSchedule.ParameterName2 = Decline_Exponent_1P1C;
 		}
 
-		if(wellSchedule.ParameterName == "Decline_Exponent_2P2C"){
+		if (wellSchedule.ParameterName == "Decline_Exponent_2P2C")
+		{
 			wellSchedule.ParameterName2 = Decline_Exponent_2P2C;
 		}
 
-		if(wellSchedule.ParameterName == "Decline_Exponent_3P3C"){
+		if (wellSchedule.ParameterName == "Decline_Exponent_3P3C")
+		{
 			wellSchedule.ParameterName2 = Decline_Exponent_3P3C;
 		}
 
-		if(wellSchedule.ParameterName == "PlateauUR_1P_1C"){
+		if (wellSchedule.ParameterName == "PlateauUR_1P_1C")
+		{
 			wellSchedule.ParameterName2 = PlateauUR_1P_1C;
 		}
 
-		if(wellSchedule.ParameterName == "PlateauUR_2P_2C"){
+		if (wellSchedule.ParameterName == "PlateauUR_2P_2C")
+		{
 			wellSchedule.ParameterName2 = PlateauUR_2P_2C;
 		}
 
-		if(wellSchedule.ParameterName == "PlateauUR_3P_3C"){
+		if (wellSchedule.ParameterName == "PlateauUR_3P_3C")
+		{
 			wellSchedule.ParameterName2 = PlateauUR_3P_3C;
 		}
 
@@ -1771,95 +1831,114 @@ Date& StopDate)
 		wellSchedule.FromDate = wellRampUp.rampUpDate_1P_1C;
 		int numberOfMonths = 1;
 		wellSchedule.ToDate = dateCreation.DateIncrementByMonth(wellSchedule.FromDate, numberOfMonths);
-		wellSchedule.ParameterName = existingStrategy_String;//wellRampUp.dcaStrategy;
+		wellSchedule.ParameterName = existingStrategy_String; // wellRampUp.dcaStrategy;
 		wellSchedule.declineType = wellRampUp.declineType;
 		wellSchedule.startupRate = wellRampUp.maximumPotential;
-		wellSchedule.percentOfMaximumPotential = wellRampUp.percentOfMaximumPotential/100.0;
+		wellSchedule.percentOfMaximumPotential = wellRampUp.percentOfMaximumPotential / 100.0;
 		wellSchedule.startupRatePlateau = 0;
 		wellSchedule.PlateauDate = wellRampUp.rampUpDate_1P_1C; // dateCreation.DateIncrementByMonth(wellSchedule.FromDate, numberOfMonths);
 		wellSchedule.declineRate = wellRampUp.declineRate;
 		wellSchedule.hyperbolicExponent = wellRampUp.hyperbolicExponent;
-		wellSchedule.declineType2  = wellRampUp.declineType2;
+		wellSchedule.declineType2 = wellRampUp.declineType2;
 		wellSchedule.scheduleKey = WellRampUp_String;
 
-		if(wellSchedule.ParameterName == "existingStrategy"){
+		if (wellSchedule.ParameterName == "existingStrategy")
+		{
 			wellSchedule.ParameterName2 = existingStrategy;
 		}
-		
 
-		if(wellSchedule.ParameterName == "noExistingStrategy"){
+		if (wellSchedule.ParameterName == "noExistingStrategy")
+		{
 			wellSchedule.ParameterName2 = noExistingStrategy;
 		}
 
-		if(wellSchedule.ParameterName == "Init_Oil_Gas_Rate_1P_1C"){
+		if (wellSchedule.ParameterName == "Init_Oil_Gas_Rate_1P_1C")
+		{
 			wellSchedule.ParameterName2 = Init_Oil_Gas_Rate_1P_1C;
 		}
 
-		if(wellSchedule.ParameterName == "Init_Oil_Gas_Rate_2P_2C"){
+		if (wellSchedule.ParameterName == "Init_Oil_Gas_Rate_2P_2C")
+		{
 			wellSchedule.ParameterName2 = Init_Oil_Gas_Rate_2P_2C;
 		}
 
-		if(wellSchedule.ParameterName == "Init_Oil_Gas_Rate_3P_3C"){
+		if (wellSchedule.ParameterName == "Init_Oil_Gas_Rate_3P_3C")
+		{
 			wellSchedule.ParameterName2 = Init_Oil_Gas_Rate_3P_3C;
 		}
 
-		if(wellSchedule.ParameterName == "Decline_Rate_1P_1C"){
+		if (wellSchedule.ParameterName == "Decline_Rate_1P_1C")
+		{
 			wellSchedule.ParameterName2 = Decline_Rate_1P_1C;
 		}
 
-		if(wellSchedule.ParameterName == "Decline_Rate_2P_2C"){
+		if (wellSchedule.ParameterName == "Decline_Rate_2P_2C")
+		{
 			wellSchedule.ParameterName2 = Decline_Rate_2P_2C;
 		}
 
-		if(wellSchedule.ParameterName == "Decline_Rate_3P_3C"){
+		if (wellSchedule.ParameterName == "Decline_Rate_3P_3C")
+		{
 			wellSchedule.ParameterName2 = Decline_Rate_3P_3C;
 		}
 
-		if(wellSchedule.ParameterName == "Rate_Of_Rate_GOR_CGR_1P1C"){
+		if (wellSchedule.ParameterName == "Rate_Of_Rate_GOR_CGR_1P1C")
+		{
 			wellSchedule.ParameterName2 = Rate_Of_Rate_GOR_CGR_1P1C;
 		}
 
-		if(wellSchedule.ParameterName == "Rate_Of_Rate_GOR_CGR_2P2C"){
+		if (wellSchedule.ParameterName == "Rate_Of_Rate_GOR_CGR_2P2C")
+		{
 			wellSchedule.ParameterName2 = Rate_Of_Rate_GOR_CGR_2P2C;
 		}
 
-		if(wellSchedule.ParameterName == "Rate_Of_Rate_GOR_CGR_3P3C"){
+		if (wellSchedule.ParameterName == "Rate_Of_Rate_GOR_CGR_3P3C")
+		{
 			wellSchedule.ParameterName2 = Rate_Of_Rate_GOR_CGR_3P3C;
 		}
 
-		if(wellSchedule.ParameterName == "Rate_Of_Rate_BSW_WGR_1P1C"){
+		if (wellSchedule.ParameterName == "Rate_Of_Rate_BSW_WGR_1P1C")
+		{
 			wellSchedule.ParameterName2 = Rate_Of_Rate_BSW_WGR_1P1C;
 		}
 
-		if(wellSchedule.ParameterName == "Rate_Of_Rate_BSW_WGR_2P2C"){
+		if (wellSchedule.ParameterName == "Rate_Of_Rate_BSW_WGR_2P2C")
+		{
 			wellSchedule.ParameterName2 = Rate_Of_Rate_BSW_WGR_2P2C;
 		}
 
-		if(wellSchedule.ParameterName == "Rate_Of_Rate_BSW_WGR_3P3C"){
+		if (wellSchedule.ParameterName == "Rate_Of_Rate_BSW_WGR_3P3C")
+		{
 			wellSchedule.ParameterName2 = Rate_Of_Rate_BSW_WGR_3P3C;
 		}
 
-		if(wellSchedule.ParameterName == "Decline_Exponent_1P1C"){
+		if (wellSchedule.ParameterName == "Decline_Exponent_1P1C")
+		{
 			wellSchedule.ParameterName2 = Decline_Exponent_1P1C;
 		}
 
-		if(wellSchedule.ParameterName == "Decline_Exponent_2P2C"){
+		if (wellSchedule.ParameterName == "Decline_Exponent_2P2C")
+		{
 			wellSchedule.ParameterName2 = Decline_Exponent_2P2C;
 		}
 
-		if(wellSchedule.ParameterName == "Decline_Exponent_3P3C"){
+		if (wellSchedule.ParameterName == "Decline_Exponent_3P3C")
+		{
 			wellSchedule.ParameterName2 = Decline_Exponent_3P3C;
 		}
 
-		if(wellSchedule.ParameterName == "PlateauUR_1P_1C"){
+		if (wellSchedule.ParameterName == "PlateauUR_1P_1C")
+		{
 			wellSchedule.ParameterName2 = PlateauUR_1P_1C;
 		}
 
-		if(wellSchedule.ParameterName == "PlateauUR_2P_2C"){
+		if (wellSchedule.ParameterName == "PlateauUR_2P_2C")
+		{
 			wellSchedule.ParameterName2 = PlateauUR_2P_2C;
 		}
 
-		if(wellSchedule.ParameterName == "PlateauUR_3P_3C"){
+		if (wellSchedule.ParameterName == "PlateauUR_3P_3C")
+		{
 			wellSchedule.ParameterName2 = PlateauUR_3P_3C;
 		}
 
@@ -1870,7 +1949,8 @@ Date& StopDate)
 	for (j = 0; j < nWellShutInOpenDecks; j++)
 	{
 		ShutInOpenUp wellShutInOpenDeck = wellShutInOpenDecks[j];
-		if(wellShutInOpenDeck.event == WellShutIn_String){
+		if (wellShutInOpenDeck.event == WellShutIn_String)
+		{
 			WellSchedule wellSchedule;
 			wellSchedule.Module = wellShutInOpenDeck.Module;
 			wellSchedule.FromDate = wellShutInOpenDeck.eventDate_1P_1C;
@@ -1884,99 +1964,118 @@ Date& StopDate)
 			wellSchedule.declineRate = 0;
 			wellSchedule.hyperbolicExponent = wellShutInOpenDeck.hyperbolicExponent;
 			wellSchedule.scheduleKey = WellShutIn_String;
-			wellSchedule.declineType2  = wellShutInOpenDeck.declineType2;
+			wellSchedule.declineType2 = wellShutInOpenDeck.declineType2;
 
-			if(wellSchedule.ParameterName == "existingStrategy"){
+			if (wellSchedule.ParameterName == "existingStrategy")
+			{
 				wellSchedule.ParameterName2 = existingStrategy;
 			}
 
-			if(wellSchedule.ParameterName == "noExistingStrategy"){
+			if (wellSchedule.ParameterName == "noExistingStrategy")
+			{
 				wellSchedule.ParameterName2 = noExistingStrategy;
 			}
 
-			if(wellSchedule.ParameterName == "Init_Oil_Gas_Rate_1P_1C"){
+			if (wellSchedule.ParameterName == "Init_Oil_Gas_Rate_1P_1C")
+			{
 				wellSchedule.ParameterName2 = Init_Oil_Gas_Rate_1P_1C;
 			}
 
-			if(wellSchedule.ParameterName == "Init_Oil_Gas_Rate_2P_2C"){
+			if (wellSchedule.ParameterName == "Init_Oil_Gas_Rate_2P_2C")
+			{
 				wellSchedule.ParameterName2 = Init_Oil_Gas_Rate_2P_2C;
 			}
 
-			if(wellSchedule.ParameterName == "Init_Oil_Gas_Rate_3P_3C"){
+			if (wellSchedule.ParameterName == "Init_Oil_Gas_Rate_3P_3C")
+			{
 				wellSchedule.ParameterName2 = Init_Oil_Gas_Rate_3P_3C;
 			}
 
-			if(wellSchedule.ParameterName == "Decline_Rate_1P_1C"){
+			if (wellSchedule.ParameterName == "Decline_Rate_1P_1C")
+			{
 				wellSchedule.ParameterName2 = Decline_Rate_1P_1C;
 			}
 
-			if(wellSchedule.ParameterName == "Decline_Rate_2P_2C"){
+			if (wellSchedule.ParameterName == "Decline_Rate_2P_2C")
+			{
 				wellSchedule.ParameterName2 = Decline_Rate_2P_2C;
 			}
 
-			if(wellSchedule.ParameterName == "Decline_Rate_3P_3C"){
+			if (wellSchedule.ParameterName == "Decline_Rate_3P_3C")
+			{
 				wellSchedule.ParameterName2 = Decline_Rate_3P_3C;
 			}
 
-			if(wellSchedule.ParameterName == "Rate_Of_Rate_GOR_CGR_1P1C"){
+			if (wellSchedule.ParameterName == "Rate_Of_Rate_GOR_CGR_1P1C")
+			{
 				wellSchedule.ParameterName2 = Rate_Of_Rate_GOR_CGR_1P1C;
 			}
 
-			if(wellSchedule.ParameterName == "Rate_Of_Rate_GOR_CGR_2P2C"){
+			if (wellSchedule.ParameterName == "Rate_Of_Rate_GOR_CGR_2P2C")
+			{
 				wellSchedule.ParameterName2 = Rate_Of_Rate_GOR_CGR_2P2C;
 			}
 
-			if(wellSchedule.ParameterName == "Rate_Of_Rate_GOR_CGR_3P3C"){
+			if (wellSchedule.ParameterName == "Rate_Of_Rate_GOR_CGR_3P3C")
+			{
 				wellSchedule.ParameterName2 = Rate_Of_Rate_GOR_CGR_3P3C;
 			}
 
-			if(wellSchedule.ParameterName == "Rate_Of_Rate_BSW_WGR_1P1C"){
+			if (wellSchedule.ParameterName == "Rate_Of_Rate_BSW_WGR_1P1C")
+			{
 				wellSchedule.ParameterName2 = Rate_Of_Rate_BSW_WGR_1P1C;
 			}
 
-			if(wellSchedule.ParameterName == "Rate_Of_Rate_BSW_WGR_2P2C"){
+			if (wellSchedule.ParameterName == "Rate_Of_Rate_BSW_WGR_2P2C")
+			{
 				wellSchedule.ParameterName2 = Rate_Of_Rate_BSW_WGR_2P2C;
 			}
 
-			if(wellSchedule.ParameterName == "Rate_Of_Rate_BSW_WGR_3P3C"){
+			if (wellSchedule.ParameterName == "Rate_Of_Rate_BSW_WGR_3P3C")
+			{
 				wellSchedule.ParameterName2 = Rate_Of_Rate_BSW_WGR_3P3C;
 			}
 
-			if(wellSchedule.ParameterName == "Decline_Exponent_1P1C"){
+			if (wellSchedule.ParameterName == "Decline_Exponent_1P1C")
+			{
 				wellSchedule.ParameterName2 = Decline_Exponent_1P1C;
 			}
 
-			if(wellSchedule.ParameterName == "Decline_Exponent_2P2C"){
+			if (wellSchedule.ParameterName == "Decline_Exponent_2P2C")
+			{
 				wellSchedule.ParameterName2 = Decline_Exponent_2P2C;
 			}
 
-			if(wellSchedule.ParameterName == "Decline_Exponent_3P3C"){
+			if (wellSchedule.ParameterName == "Decline_Exponent_3P3C")
+			{
 				wellSchedule.ParameterName2 = Decline_Exponent_3P3C;
 			}
 
-			if(wellSchedule.ParameterName == "PlateauUR_1P_1C"){
+			if (wellSchedule.ParameterName == "PlateauUR_1P_1C")
+			{
 				wellSchedule.ParameterName2 = PlateauUR_1P_1C;
 			}
 
-			if(wellSchedule.ParameterName == "PlateauUR_2P_2C"){
+			if (wellSchedule.ParameterName == "PlateauUR_2P_2C")
+			{
 				wellSchedule.ParameterName2 = PlateauUR_2P_2C;
 			}
 
-			if(wellSchedule.ParameterName == "PlateauUR_3P_3C"){
+			if (wellSchedule.ParameterName == "PlateauUR_3P_3C")
+			{
 				wellSchedule.ParameterName2 = PlateauUR_3P_3C;
 			}
 
 			wellSchedules.push_back(wellSchedule);
-
 		}
 	}
-
 
 	//==============Well OpenUp Schedules
 	for (j = 0; j < nWellShutInOpenDecks; j++)
 	{
 		ShutInOpenUp wellShutInOpenDeck = wellShutInOpenDecks[j];
-		if(wellShutInOpenDeck.event == WellOpenUp_String){
+		if (wellShutInOpenDeck.event == WellOpenUp_String)
+		{
 			WellSchedule wellSchedule;
 			wellSchedule.Module = wellShutInOpenDeck.Module;
 			wellSchedule.FromDate = wellShutInOpenDeck.eventDate_1P_1C;
@@ -1990,97 +2089,115 @@ Date& StopDate)
 			wellSchedule.declineRate = wellShutInOpenDeck.declineRate;
 			wellSchedule.hyperbolicExponent = wellShutInOpenDeck.hyperbolicExponent;
 			wellSchedule.scheduleKey = WellOpenUp_String;
-			wellSchedule.declineType2  = wellShutInOpenDeck.declineType2;
+			wellSchedule.declineType2 = wellShutInOpenDeck.declineType2;
 
-			if(wellSchedule.ParameterName == "existingStrategy"){
+			if (wellSchedule.ParameterName == "existingStrategy")
+			{
 				wellSchedule.ParameterName2 = existingStrategy;
 			}
 
-			if(wellSchedule.ParameterName == "noExistingStrategy"){
+			if (wellSchedule.ParameterName == "noExistingStrategy")
+			{
 				wellSchedule.ParameterName2 = noExistingStrategy;
 			}
 
-			if(wellSchedule.ParameterName == "Init_Oil_Gas_Rate_1P_1C"){
+			if (wellSchedule.ParameterName == "Init_Oil_Gas_Rate_1P_1C")
+			{
 				wellSchedule.ParameterName2 = Init_Oil_Gas_Rate_1P_1C;
 			}
 
-			if(wellSchedule.ParameterName == "Init_Oil_Gas_Rate_2P_2C"){
+			if (wellSchedule.ParameterName == "Init_Oil_Gas_Rate_2P_2C")
+			{
 				wellSchedule.ParameterName2 = Init_Oil_Gas_Rate_2P_2C;
 			}
 
-			if(wellSchedule.ParameterName == "Init_Oil_Gas_Rate_3P_3C"){
+			if (wellSchedule.ParameterName == "Init_Oil_Gas_Rate_3P_3C")
+			{
 				wellSchedule.ParameterName2 = Init_Oil_Gas_Rate_3P_3C;
 			}
 
-			if(wellSchedule.ParameterName == "Decline_Rate_1P_1C"){
+			if (wellSchedule.ParameterName == "Decline_Rate_1P_1C")
+			{
 				wellSchedule.ParameterName2 = Decline_Rate_1P_1C;
 			}
 
-			if(wellSchedule.ParameterName == "Decline_Rate_2P_2C"){
+			if (wellSchedule.ParameterName == "Decline_Rate_2P_2C")
+			{
 				wellSchedule.ParameterName2 = Decline_Rate_2P_2C;
 			}
 
-			if(wellSchedule.ParameterName == "Decline_Rate_3P_3C"){
+			if (wellSchedule.ParameterName == "Decline_Rate_3P_3C")
+			{
 				wellSchedule.ParameterName2 = Decline_Rate_3P_3C;
 			}
 
-			if(wellSchedule.ParameterName == "Rate_Of_Rate_GOR_CGR_1P1C"){
+			if (wellSchedule.ParameterName == "Rate_Of_Rate_GOR_CGR_1P1C")
+			{
 				wellSchedule.ParameterName2 = Rate_Of_Rate_GOR_CGR_1P1C;
 			}
 
-			if(wellSchedule.ParameterName == "Rate_Of_Rate_GOR_CGR_2P2C"){
+			if (wellSchedule.ParameterName == "Rate_Of_Rate_GOR_CGR_2P2C")
+			{
 				wellSchedule.ParameterName2 = Rate_Of_Rate_GOR_CGR_2P2C;
 			}
 
-			if(wellSchedule.ParameterName == "Rate_Of_Rate_GOR_CGR_3P3C"){
+			if (wellSchedule.ParameterName == "Rate_Of_Rate_GOR_CGR_3P3C")
+			{
 				wellSchedule.ParameterName2 = Rate_Of_Rate_GOR_CGR_3P3C;
 			}
 
-			if(wellSchedule.ParameterName == "Rate_Of_Rate_BSW_WGR_1P1C"){
+			if (wellSchedule.ParameterName == "Rate_Of_Rate_BSW_WGR_1P1C")
+			{
 				wellSchedule.ParameterName2 = Rate_Of_Rate_BSW_WGR_1P1C;
 			}
 
-			if(wellSchedule.ParameterName == "Rate_Of_Rate_BSW_WGR_2P2C"){
+			if (wellSchedule.ParameterName == "Rate_Of_Rate_BSW_WGR_2P2C")
+			{
 				wellSchedule.ParameterName2 = Rate_Of_Rate_BSW_WGR_2P2C;
 			}
 
-			if(wellSchedule.ParameterName == "Rate_Of_Rate_BSW_WGR_3P3C"){
+			if (wellSchedule.ParameterName == "Rate_Of_Rate_BSW_WGR_3P3C")
+			{
 				wellSchedule.ParameterName2 = Rate_Of_Rate_BSW_WGR_3P3C;
 			}
 
-			if(wellSchedule.ParameterName == "Decline_Exponent_1P1C"){
+			if (wellSchedule.ParameterName == "Decline_Exponent_1P1C")
+			{
 				wellSchedule.ParameterName2 = Decline_Exponent_1P1C;
 			}
 
-			if(wellSchedule.ParameterName == "Decline_Exponent_2P2C"){
+			if (wellSchedule.ParameterName == "Decline_Exponent_2P2C")
+			{
 				wellSchedule.ParameterName2 = Decline_Exponent_2P2C;
 			}
 
-			if(wellSchedule.ParameterName == "Decline_Exponent_3P3C"){
+			if (wellSchedule.ParameterName == "Decline_Exponent_3P3C")
+			{
 				wellSchedule.ParameterName2 = Decline_Exponent_3P3C;
 			}
 
-			if(wellSchedule.ParameterName == "PlateauUR_1P_1C"){
+			if (wellSchedule.ParameterName == "PlateauUR_1P_1C")
+			{
 				wellSchedule.ParameterName2 = PlateauUR_1P_1C;
 			}
 
-			if(wellSchedule.ParameterName == "PlateauUR_2P_2C"){
+			if (wellSchedule.ParameterName == "PlateauUR_2P_2C")
+			{
 				wellSchedule.ParameterName2 = PlateauUR_2P_2C;
 			}
 
-			if(wellSchedule.ParameterName == "PlateauUR_3P_3C"){
+			if (wellSchedule.ParameterName == "PlateauUR_3P_3C")
+			{
 				wellSchedule.ParameterName2 = PlateauUR_3P_3C;
 			}
 
 			wellSchedules.push_back(wellSchedule);
-
 		}
 	}
 
 	wellSchedules = SortWellSchedules(wellSchedules);
 	return wellSchedules;
 }
-
 
 vector<WellSchedule> ReportJSON2::SortWellSchedules(vector<WellSchedule> &wellSchedules)
 {
@@ -2105,26 +2222,26 @@ vector<WellSchedule> ReportJSON2::SortWellSchedules(vector<WellSchedule> &wellSc
 	return wellSchedules;
 }
 
-void ReportJSON2::GetForecastWellYearlyOutput(string& tableYearly, vector<ForecastResult>& resultsWellNew,
-			vector<Date>& datesNew, string& ModuleName, string& FacilityName, int& scenario)
+void ReportJSON2::GetForecastWellYearlyOutput(string &tableYearly, vector<ForecastResult> &resultsWellNew,
+											  vector<Date> &datesNew, string &ModuleName, string &FacilityName, int &scenario)
 {
 	bool isForChart = false;
 	bool isByYear = !isMonthly;
 	int timeSteps = resultsWellNew.size();
 
-	if(timeSteps > 0){
-		
-		vector<ForecastResult> resultsWellYearly 
-		= _dataPivoting.GetYearlyForcastResultModuleLevel(resultsWellNew, 
-		datesNew, isForChart, isByYear);
-	
+	if (timeSteps > 0)
+	{
+
+		vector<ForecastResult> resultsWellYearly = _dataPivoting.GetYearlyForcastResultModuleLevel(resultsWellNew,
+																								   datesNew, isForChart, isByYear);
 
 		int nresultsWell = resultsWellYearly.size();
 
-		for (int ii = 0; ii < nresultsWell; ii++) {
-		
+		for (int ii = 0; ii < nresultsWell; ii++)
+		{
+
 			bool isLastRow = false;
-			if(ii == nresultsWell - 1)
+			if (ii == nresultsWell - 1)
 			{
 				isLastRow = true;
 			}
@@ -2132,22 +2249,20 @@ void ReportJSON2::GetForecastWellYearlyOutput(string& tableYearly, vector<Foreca
 			tableYearly = tableYearly + GetRow(resultsWellYearly[ii], scenario, ii, isLastRow);
 			ModuleName = resultsWellYearly[ii].ModuleName;
 			FacilityName = resultsWellYearly[ii].Flow_station;
-
 		}
-
 	}
 }
 
-void ReportJSON2::GetForecastWellMonthOutput(int& k, int& j, int& scenario,
- string& table, vector<ForecastResult>& resultsWellNew)
+void ReportJSON2::GetForecastWellMonthOutput(int &k, int &j, int &scenario,
+											 string &table, vector<ForecastResult> &resultsWellNew)
 {
 
 	int lastRow = results[k][j].size();
 
 	int ij = -1;
 
-	
-	for (int ii = 0; ii < lastRow; ii++) {
+	for (int ii = 0; ii < lastRow; ii++)
+	{
 
 		Date startDate;
 		startDate.day = results[k][j][ii].startDay;
@@ -2155,194 +2270,113 @@ void ReportJSON2::GetForecastWellMonthOutput(int& k, int& j, int& scenario,
 		startDate.year = results[k][j][ii].StartYear;
 
 		bool isLastRow = false;
-		if(ii == lastRow-1){
+		if (ii == lastRow - 1)
+		{
 			isLastRow = true;
 		}
 
-		if(startDate.year != 2900) // (dateCreation.IsMaximumDate(date, startDate)  || dateCreation.EqualTo(date, startDate)) 
+		if (startDate.year != 2900) // (dateCreation.IsMaximumDate(date, startDate)  || dateCreation.EqualTo(date, startDate))
 		{
 			ij++;
 			table = table + GetRow(results[k][j][ii], scenario, ij, isLastRow);
 			resultsWellNew.push_back(results[k][j][ii]);
-			
 		}
-
 	}
 }
 
-string ReportJSON2::GetRow(ForecastResult& r, int& scenario, int& ii, bool& isLastRow){
+string ReportJSON2::GetRow(ForecastResult &r, int &scenario, int &ii, bool &isLastRow)
+{
 
-string row = "";
-string columnDelimeter = "@#$%";
-string rowDelimeter = "@#*$%";
+	string row = "";
+	string columnDelimeter = "@#$%";
+	string rowDelimeter = "@#*$%";
 
-std::string uniqueId = r.ModuleName + r.Flow_station + to_string(scenario) + "P" + to_string(scenario) + "C" +  to_string(ii);
+	std::string uniqueId = r.ModuleName + r.Flow_station + to_string(scenario) + "P" + to_string(scenario) + "C" + to_string(ii);
 
-double oilRate = 0, condensateRate = 0;
-oilRate = r.Oil_rate;
-condensateRate = r.Condensate_Rate;
-
-/* if(r.HyrocarbonStream == "oil"){
+	double oilRate = 0, condensateRate = 0;
 	oilRate = r.Oil_rate;
-	condensateRate = 0;
-}else{
 	condensateRate = r.Condensate_Rate;
-	oilRate = 0;
-} */
 
-double liquid =  r.Liquid_Rate;
+	/* if(r.HyrocarbonStream == "oil"){
+		oilRate = r.Oil_rate;
+		condensateRate = 0;
+	}else{
+		condensateRate = r.Condensate_Rate;
+		oilRate = 0;
+	} */
 
-/* if(r.HyrocarbonStream == "oil"){
-	liquid =  oilRate + r.Water_Rate;
-}else{
-	liquid =  condensateRate + r.Water_Rate;
-} */
+	double liquid = r.Liquid_Rate;
 
-string lastrow = std::to_string(r.DeclineRate) +  rowDelimeter;
-if(isLastRow == true){
-	lastrow = std::to_string(r.DeclineRate); // no new line
+	/* if(r.HyrocarbonStream == "oil"){
+		liquid =  oilRate + r.Water_Rate;
+	}else{
+		liquid =  condensateRate + r.Water_Rate;
+	} */
+
+	string lastrow = std::to_string(r.DeclineRate) + rowDelimeter;
+	if (isLastRow == true)
+	{
+		lastrow = std::to_string(r.DeclineRate); // no new line
+	}
+
+	// isLastRow
+	row = uniqueId + columnDelimeter + r.Version_Name + columnDelimeter + r.Field + columnDelimeter + r.Reservoir + columnDelimeter + r.Drainage_Point + columnDelimeter + r.Production_String + columnDelimeter + r.TRANCHE + columnDelimeter + r.Asset_Team + columnDelimeter + r.Flow_station + columnDelimeter + r.ModuleName + columnDelimeter + std::to_string(r.Day) + columnDelimeter + std::to_string(r.Month) + columnDelimeter + std::to_string(r.Year) + columnDelimeter + std::to_string(oilRate) + columnDelimeter + std::to_string(r.Gas_Rate) + columnDelimeter + std::to_string(r.Water_Rate) + columnDelimeter + std::to_string(liquid) + columnDelimeter + std::to_string(r.Cum_Oil_Prod) + columnDelimeter + std::to_string(r.Cum_Gas_Prod) + columnDelimeter + std::to_string(r.Cum_Water_Prod) + columnDelimeter + std::to_string(r.GOR) + columnDelimeter + std::to_string(r.BSW) + columnDelimeter + std::to_string(r.CGR) + columnDelimeter + std::to_string(r.WGR) + columnDelimeter + std::to_string(r.CutBack) + columnDelimeter + r.HyrocarbonStream + columnDelimeter + r.hydrocarbonType + columnDelimeter + r.terminal + columnDelimeter + std::to_string(r.URo) + columnDelimeter + std::to_string(r.URg) + columnDelimeter + std::to_string(r.Gas_Own_Use) + columnDelimeter + std::to_string(r.Gas_Demand) + columnDelimeter + std::to_string(r.Gas_Flared) + columnDelimeter + std::to_string(r.Crude_Oil_Lossess) + columnDelimeter + std::to_string(r.CutBack) + columnDelimeter + r.projectCode + columnDelimeter + r.projectName + columnDelimeter + std::to_string(0) + columnDelimeter + std::to_string(r.OptimalSolution) + columnDelimeter + std::to_string(r.AllWellsLiquidCapacity) + columnDelimeter + std::to_string(r.AllWellsGasCapacity) + columnDelimeter + r.resourceClass + columnDelimeter + std::to_string(condensateRate) + columnDelimeter + r.reasonForTermination + columnDelimeter + lastrow;
+
+	return row;
 }
 
-//isLastRow
-row = uniqueId +  columnDelimeter
-		+ r.Version_Name +  columnDelimeter
-		+ r.Field +  columnDelimeter
-		+ r.Reservoir +  columnDelimeter
-		+ r.Drainage_Point +  columnDelimeter
-		+ r.Production_String +  columnDelimeter
-		+ r.TRANCHE +  columnDelimeter
-		+ r.Asset_Team +  columnDelimeter
-		+ r.Flow_station +  columnDelimeter
-		+ r.ModuleName +  columnDelimeter
-		+ std::to_string(r.Day) +  columnDelimeter
-		+ std::to_string(r.Month) +  columnDelimeter
-		+ std::to_string(r.Year) +  columnDelimeter
-		+ std::to_string(oilRate) +  columnDelimeter
-		+ std::to_string(r.Gas_Rate) +  columnDelimeter
-		+ std::to_string(r.Water_Rate) +  columnDelimeter
-		+ std::to_string(liquid) +  columnDelimeter
-		+ std::to_string(r.Cum_Oil_Prod) +  columnDelimeter
-		+ std::to_string(r.Cum_Gas_Prod) +  columnDelimeter
-		+ std::to_string(r.Cum_Water_Prod) +  columnDelimeter
-		+ std::to_string(r.GOR) +  columnDelimeter
-		+ std::to_string(r.BSW) +  columnDelimeter
-		+ std::to_string(r.CGR) +  columnDelimeter
-		+ std::to_string(r.WGR) +  columnDelimeter
-		+ std::to_string(r.CutBack) +  columnDelimeter
-		+ r.HyrocarbonStream +  columnDelimeter
-		+ r.hydrocarbonType +  columnDelimeter
-		+ r.terminal +  columnDelimeter
-		+ std::to_string(r.URo) +  columnDelimeter
-		+ std::to_string(r.URg) +  columnDelimeter
-		+ std::to_string(r.Gas_Own_Use) +  columnDelimeter
-		+ std::to_string(r.Gas_Demand) +  columnDelimeter
-		+ std::to_string(r.Gas_Flared) +  columnDelimeter
-		+ std::to_string(r.Crude_Oil_Lossess) +  columnDelimeter
-		+ std::to_string(r.CutBack) +  columnDelimeter
-		+ r.projectCode +  columnDelimeter
-		+ r.projectName +  columnDelimeter
-		+ std::to_string(0) +  columnDelimeter
-		+  std::to_string(r.OptimalSolution) +  columnDelimeter
-		+  std::to_string(r.AllWellsLiquidCapacity) +  columnDelimeter
-		+  std::to_string(r.AllWellsGasCapacity) +  columnDelimeter
-		+ r.resourceClass +  columnDelimeter
-		+ std::to_string(condensateRate) +  columnDelimeter
-		+ r.reasonForTermination +  columnDelimeter
-		+ lastrow;
+string ReportJSON2::GetRow(ForecastResult &r, int &scenario, int &ii, vector<Date> &dateTimes)
+{
 
-		return row;
+	string row = "";
+	string columnDelimeter = "@#$%";
+	string rowDelimeter = "@#*$%";
+	int days = dateCreation.DateDiff_TotalDays(dateTimes[ii], dateTimes[0]);
 
-}
+	std::string uniqueId = r.ModuleName + r.Flow_station + to_string(scenario) + "P" + to_string(scenario) + "C" + to_string(ii);
 
-string ReportJSON2::GetRow(ForecastResult& r, int& scenario, int& ii, vector<Date>& dateTimes){
+	double oilRate = 0, condensateRate = 0;
+	if (r.HyrocarbonStream == "oil")
+	{
+		oilRate = r.Oil_rate;
+		condensateRate = 0;
+	}
+	else
+	{
+		condensateRate = r.Oil_rate;
+		oilRate = 0;
+	}
 
-string row = "";
-string columnDelimeter = "@#$%";
-string rowDelimeter = "@#*$%";
-int days = dateCreation.DateDiff_TotalDays(dateTimes[ii], dateTimes[0]);
+	if (r.isOilTerminated == true)
+	{
+		oilRate = 0;
+		condensateRate = 0;
+	}
 
-std::string uniqueId = r.ModuleName + r.Flow_station + to_string(scenario) + "P" + to_string(scenario) + "C" +  to_string(ii);
+	if (r.isGasTerminated == true)
+	{
+		r.Gas_Rate = 0;
+	}
 
-double oilRate = 0, condensateRate = 0;
-if(r.HyrocarbonStream == "oil"){
-	oilRate = r.Oil_rate;
-	condensateRate = 0;
-}else{
-	condensateRate = r.Oil_rate;
-	oilRate = 0;
-}
+	if (r.isWaterTerminated == true)
+	{
+		r.Water_Rate = 0;
+	}
 
-if(r.isOilTerminated == true){
-	 oilRate = 0;
-	 condensateRate = 0;
-}
+	double liquid = 0;
+	if (r.HyrocarbonStream == "oil")
+	{
+		liquid = oilRate + r.Water_Rate;
+	}
+	else
+	{
+		liquid = condensateRate + r.Water_Rate;
+	}
 
-if(r.isGasTerminated == true){
-	 r.Gas_Rate = 0;
-}
+	string lastrow = std::to_string(r.DeclineRate) + rowDelimeter;
 
-if(r.isWaterTerminated == true){
-	 r.Water_Rate = 0;
-}
+	// isLastRow
+	row = uniqueId + columnDelimeter + r.Version_Name + columnDelimeter + r.Field + columnDelimeter + r.Reservoir + columnDelimeter + r.Drainage_Point + columnDelimeter + r.Production_String + columnDelimeter + r.TRANCHE + columnDelimeter + r.Asset_Team + columnDelimeter + r.Flow_station + columnDelimeter + r.ModuleName + columnDelimeter + std::to_string(r.Day) + columnDelimeter + std::to_string(r.Month) + columnDelimeter + std::to_string(r.Year) + columnDelimeter + std::to_string(oilRate) + columnDelimeter + std::to_string(r.Gas_Rate) + columnDelimeter + std::to_string(r.Water_Rate) + columnDelimeter + std::to_string(liquid) + columnDelimeter + std::to_string(r.Cum_Oil_Prod) + columnDelimeter + std::to_string(r.Cum_Gas_Prod) + columnDelimeter + std::to_string(r.Cum_Water_Prod) + columnDelimeter + std::to_string(r.GOR) + columnDelimeter + std::to_string(r.BSW) + columnDelimeter + std::to_string(r.CGR) + columnDelimeter + std::to_string(r.WGR) + columnDelimeter + std::to_string(r.CutBack) + columnDelimeter + r.HyrocarbonStream + columnDelimeter + r.hydrocarbonType + columnDelimeter + r.terminal + columnDelimeter + std::to_string(r.URo) + columnDelimeter + std::to_string(r.URg) + columnDelimeter + std::to_string(r.Gas_Own_Use) + columnDelimeter + std::to_string(r.Gas_Demand) + columnDelimeter + std::to_string(r.Gas_Flared) + columnDelimeter + std::to_string(r.Crude_Oil_Lossess) + columnDelimeter + std::to_string(r.CutBack) + columnDelimeter + r.projectCode + columnDelimeter + r.projectName + columnDelimeter + std::to_string(days) + columnDelimeter + std::to_string(r.OptimalSolution) + columnDelimeter + std::to_string(r.AllWellsLiquidCapacity) + columnDelimeter + std::to_string(r.AllWellsGasCapacity) + columnDelimeter + r.resourceClass + columnDelimeter + std::to_string(condensateRate) + columnDelimeter + r.reasonForTermination + columnDelimeter + lastrow;
 
-
-double liquid =  0;
-if(r.HyrocarbonStream == "oil"){
-	liquid =  oilRate + r.Water_Rate;
-}else{
-	liquid =  condensateRate + r.Water_Rate;
-}
-
-string lastrow = std::to_string(r.DeclineRate) +  rowDelimeter;
-
-
-//isLastRow
-row = uniqueId +  columnDelimeter
-		+ r.Version_Name +  columnDelimeter
-		+ r.Field +  columnDelimeter
-		+ r.Reservoir +  columnDelimeter
-		+ r.Drainage_Point +  columnDelimeter
-		+ r.Production_String +  columnDelimeter
-		+ r.TRANCHE +  columnDelimeter
-		+ r.Asset_Team +  columnDelimeter
-		+ r.Flow_station +  columnDelimeter
-		+ r.ModuleName +  columnDelimeter
-		+ std::to_string(r.Day) +  columnDelimeter
-		+ std::to_string(r.Month) +  columnDelimeter
-		+ std::to_string(r.Year) +  columnDelimeter
-		+ std::to_string(oilRate) +  columnDelimeter
-		+ std::to_string(r.Gas_Rate) +  columnDelimeter
-		+ std::to_string(r.Water_Rate) +  columnDelimeter
-		+ std::to_string(liquid) +  columnDelimeter
-		+ std::to_string(r.Cum_Oil_Prod) +  columnDelimeter
-		+ std::to_string(r.Cum_Gas_Prod) +  columnDelimeter
-		+ std::to_string(r.Cum_Water_Prod) +  columnDelimeter
-		+ std::to_string(r.GOR) +  columnDelimeter
-		+ std::to_string(r.BSW) +  columnDelimeter
-		+ std::to_string(r.CGR) +  columnDelimeter
-		+ std::to_string(r.WGR) +  columnDelimeter
-		+ std::to_string(r.CutBack) +  columnDelimeter
-		+ r.HyrocarbonStream +  columnDelimeter
-		+ r.hydrocarbonType +  columnDelimeter
-		+ r.terminal +  columnDelimeter
-		+ std::to_string(r.URo) +  columnDelimeter
-		+ std::to_string(r.URg) +  columnDelimeter
-		+ std::to_string(r.Gas_Own_Use) +  columnDelimeter
-		+ std::to_string(r.Gas_Demand) +  columnDelimeter
-		+ std::to_string(r.Gas_Flared) +  columnDelimeter
-		+ std::to_string(r.Crude_Oil_Lossess) +  columnDelimeter
-		+ std::to_string(r.CutBack) +  columnDelimeter
-		+ r.projectCode +  columnDelimeter
-		+ r.projectName +  columnDelimeter
-		+ std::to_string(days) +  columnDelimeter
-		+  std::to_string(r.OptimalSolution) +  columnDelimeter
-		+  std::to_string(r.AllWellsLiquidCapacity) +  columnDelimeter
-		+  std::to_string(r.AllWellsGasCapacity) +  columnDelimeter
-		+ r.resourceClass +  columnDelimeter
-		+ std::to_string(condensateRate) +  columnDelimeter
-		+ r.reasonForTermination +  columnDelimeter
-		+ lastrow;
-
-		return row;
-
+	return row;
 }

@@ -6,9 +6,9 @@
 using namespace std;
 using json = nlohmann::json;
 
-
 // Free functions for JSON conversion
-void from_json(const json& j, Address& addr) {
+void from_json(const json &j, Address &addr)
+{
     j.at("city").get_to(addr.city);
     j.at("zip").get_to(addr.zip);
 }

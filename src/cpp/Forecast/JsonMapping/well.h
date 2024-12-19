@@ -26,7 +26,7 @@
 using namespace std;
 using json = nlohmann::json;
 
-void from_json(const json& j, Well& payload) {
+void from_json(const json &j, Well &payload)
+{
     j.at("resultWells").get_to(payload.resultWells);
-
 }

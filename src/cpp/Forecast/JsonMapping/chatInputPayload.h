@@ -25,7 +25,8 @@
 using namespace std;
 using json = nlohmann::json;
 
-ChatInputPayload chatInputPayload_to_json(const json& j) {
+ChatInputPayload chatInputPayload_to_json(const json &j)
+{
     ChatInputPayload payload;
     payload.forecastResultsIds = j.at("forecastResultsIds").get<vector<string>>();
     payload.selectedModulePaths = j.at("selectedModulePaths").get<vector<string>>();

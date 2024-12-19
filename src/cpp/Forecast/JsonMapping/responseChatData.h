@@ -16,14 +16,17 @@
 using namespace std;
 using json = nlohmann::json;
 
-json to_json(const ResponseChatData& responseChatData) {
+json to_json(const ResponseChatData &responseChatData)
+{
     json j;
 
-    for (const auto& outer1 : responseChatData.response) {
-        const string& key1 = outer1.first;
-        for (const auto& outer2 : outer1.second) {
-            const string& key2 = outer2.first;
-            const string& value = outer2.second;
+    for (const auto &outer1 : responseChatData.response)
+    {
+        const string &key1 = outer1.first;
+        for (const auto &outer2 : outer1.second)
+        {
+            const string &key2 = outer2.first;
+            const string &value = outer2.second;
             j["response"][key1][key2] = value;
         }
     }

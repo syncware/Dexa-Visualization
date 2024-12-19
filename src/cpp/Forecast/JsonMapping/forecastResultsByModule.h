@@ -25,11 +25,12 @@
 using namespace std;
 using json = nlohmann::json;
 
-
-std::vector<ForecastResultsByModule> parseForecastResults(const json& j) {
+std::vector<ForecastResultsByModule> parseForecastResults(const json &j)
+{
     std::vector<ForecastResultsByModule> results;
 
-    for (const auto& item : j) {
+    for (const auto &item : j)
+    {
         ForecastResultsByModule result;
 
         result.forecastResultsId = item["forecastResultsId"].get<std::string>();

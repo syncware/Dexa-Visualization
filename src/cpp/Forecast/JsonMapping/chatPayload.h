@@ -26,10 +26,10 @@
 using namespace std;
 using json = nlohmann::json;
 
-void from_json(const json& j, ChatPayload& payload) {
+void from_json(const json &j, ChatPayload &payload)
+{
     j.at("wells").get_to(payload.wells);
     j.at("isByYear").get_to(payload.isByYear);
     j.at("isForChart").get_to(payload.isForChart);
-    j.at("nWells").get_to(payload.nWells); 
-
+    j.at("nWells").get_to(payload.nWells);
 }

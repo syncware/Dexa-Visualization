@@ -19,8 +19,8 @@ Inputdeck inputdeckWellRoute;
 using namespace std;
 using json = nlohmann::json;
 
-
-void from_json(const json& j, WellReroute& deck) {
+void from_json(const json &j, WellReroute &deck)
+{
     j.at("module").get_to(deck.Module);
     j.at("rerouteDestination").get_to(deck.Flow_station);
     j.at("dcaStrategy").get_to(deck.dcaStrategy);
@@ -33,7 +33,7 @@ void from_json(const json& j, WellReroute& deck) {
     j.at("hyperbolicExponent").get_to(deck.hyperbolicExponent);
     string rerouteDate;
     j.at("rerouteDate").get_to(rerouteDate);
-    
+
     tm tm1;
     sscanf(rerouteDate.c_str(), "%d/%d/%d", &tm1.tm_mday, &tm1.tm_mon, &tm1.tm_year);
 

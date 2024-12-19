@@ -17,8 +17,8 @@
 using namespace std;
 using json = nlohmann::json;
 
-
-void from_json(const json& j, RunParameter& deck) {
+void from_json(const json &j, RunParameter &deck)
+{
     j.at("stopDay").get_to(deck.StopDay);
     j.at("stopMonth").get_to(deck.StopMonth);
     j.at("stopYear").get_to(deck.StopYear);

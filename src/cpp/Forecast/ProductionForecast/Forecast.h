@@ -14,16 +14,14 @@
 
 using namespace std;
 
-
 // DateCreation dateCreation;
 // Inputdeck deckobj;
-
 
 typedef struct _Address
 {
     string city;
     string zip;
-}Address;
+} Address;
 
 typedef struct _Person
 {
@@ -32,16 +30,14 @@ typedef struct _Person
     int year;
     Address address;
     vector<string> hobbies;
-}Person;
-
-
+} Person;
 
 typedef struct _Date
 {
     int day;
     int month;
     int year;
-}Date;
+} Date;
 
 typedef enum _DeclineMethod
 {
@@ -49,7 +45,7 @@ typedef enum _DeclineMethod
     harmonic,
     hyperbolic
 
-}DeclineMethod;
+} DeclineMethod;
 
 typedef enum ForecastProfileEnum
 {
@@ -65,7 +61,7 @@ typedef struct _InterpParams
     vector<double> Xs2;
     vector<double> Ys2;
 
-}InterpParams;
+} InterpParams;
 
 typedef struct _WellFacilityData
 {
@@ -75,7 +71,7 @@ typedef struct _WellFacilityData
     string ModuleName;
     double UR;
     double CumProd;
-}WellFacilityData;
+} WellFacilityData;
 
 typedef struct _ForecastResult
 {
@@ -118,7 +114,7 @@ typedef struct _ForecastResult
     double URg;
     bool IsFlowing;
     double CutBackUpperBound;
-    bool  isPlateau;
+    bool isPlateau;
     double DeclineRate;
     double Liquid_Rate;
     double optimizationWeight;
@@ -147,7 +143,7 @@ typedef struct _ForecastResult
     int wellIndex;
     string optimizationWeight2;
     double AllWellsLiquidCapacity;
-	double AllWellsGasCapacity;
+    double AllWellsGasCapacity;
     string dcaStrategy;
     string declineType;
     double startupRate;
@@ -158,7 +154,7 @@ typedef struct _ForecastResult
     string scheduleKey;
     int declineType2;
     Date FromDate;
-	Date ToDate;
+    Date ToDate;
     Date PlateauDate;
     double oilRateAbandonment;
     double gasRateAbandonment;
@@ -169,17 +165,26 @@ typedef struct _ForecastResult
     double deltaDay;
     double cumDays;
 
-    double getVariableByName(const std::string& variableName) const {
-        if (variableName == "oilRate") return Oil_rate;
-        if (variableName == "gasRate") return Gas_Rate;
-        if (variableName == "waterRate") return Water_Rate;
-        if (variableName == "liquidRate") return Liquid_Rate;
-        if (variableName == "condensateRate") return Condensate_Rate;
-        if (variableName == "ownUseGas") return Gas_Own_Use;
-        if (variableName == "gasDemand") return Gas_Demand;
-        if (variableName == "flareGas") return Gas_Flared;
-        if (variableName == "crudeOilLossess") return Crude_Oil_Lossess;
-     
+    double getVariableByName(const std::string &variableName) const
+    {
+        if (variableName == "oilRate")
+            return Oil_rate;
+        if (variableName == "gasRate")
+            return Gas_Rate;
+        if (variableName == "waterRate")
+            return Water_Rate;
+        if (variableName == "liquidRate")
+            return Liquid_Rate;
+        if (variableName == "condensateRate")
+            return Condensate_Rate;
+        if (variableName == "ownUseGas")
+            return Gas_Own_Use;
+        if (variableName == "gasDemand")
+            return Gas_Demand;
+        if (variableName == "flareGas")
+            return Gas_Flared;
+        if (variableName == "crudeOilLossess")
+            return Crude_Oil_Lossess;
 
         throw std::invalid_argument("Invalid variable name");
     }
@@ -238,7 +243,7 @@ typedef struct _ForecastResult
         index = 0;
         OptimalSolution = 0;
         AllWellsLiquidCapacity = 0;
-	    AllWellsGasCapacity = 0;
+        AllWellsGasCapacity = 0;
         optimizationWeight2 = "Normal";
         declineType = "";
         startupRate = 0;
@@ -253,7 +258,6 @@ typedef struct _ForecastResult
         Gas_Rate_NotTerminated = 0;
         Water_Rate_NotTerminated = 0;
         Liquid_rate_NotTerminated = 0;
-
     }
 
     void InitailizeData2()
@@ -288,7 +292,7 @@ typedef struct _ForecastResult
         index = 0;
         OptimalSolution = 0;
         AllWellsLiquidCapacity = 0;
-	    AllWellsGasCapacity = 0;
+        AllWellsGasCapacity = 0;
         optimizationWeight2 = "Normal";
         declineType = "";
         startupRate = 0;
@@ -303,10 +307,9 @@ typedef struct _ForecastResult
         Gas_Rate_NotTerminated = 0;
         Water_Rate_NotTerminated = 0;
         Liquid_rate_NotTerminated = 0;
-
     }
 
-}ForecastResult;
+} ForecastResult;
 
 typedef struct ForecastResultForChart
 {
@@ -323,7 +326,7 @@ typedef struct ForecastResultForChart
         data = 0;
     }
 
-}ForecastResultForChart;
+} ForecastResultForChart;
 
 typedef struct _InputDeckStruct
 {
@@ -343,35 +346,35 @@ typedef struct _InputDeckStruct
     string Resource_Class;
     string Change_Category;
     string Technique_1P;
-    double URo_1P_1C; //MMSTB
-    double URo_Low;   //MMSTB
-    double URo_2P_2C; //MMSTB
-    double URo_3P_3C; //MMSTB
-    double Np;        //MMSTB
-    double Cum_Liq_Prod; //MMSTB
-    double Cum_Water_Prod; //MMSTB
-    double URg_1P_1C; //BSCF
-    double URg_Low;   //BSCF
-    double URg_2P_2C; //BSCF
-    double URg_3P_3C; //BSCF
-    double Gp;        //BSCF
-    double Init_Liquid_Gas_Rate_1P_1C; //STB/day or MMSCF/day
-    double Init_Liquid_Gas_Rate_Low;   //STB/day or MMSCF/day
-    double Init_Liquid_Gas_Rate_2P_2C; //STB/ady or MMSCF/day
-    double Init_Liquid_Gas_Rate_3P_3C; //STB/day or MMSCF/day
-    double Aband_Liquid_Gas_Rate_1P_1C; //STB/day or MMSCF/day
-    double Aband_Liquid_Gas_Rate_2P_2C; //STB/day or MMSCF/day
-    double Aband_Liquid_Gas_Rate_3P_3C; //STB/day or MMSCF/day
-    double Init_BSW_WGR;             //Fraction or STB/MMSCF
-    double Aband_BSW_WGR_1P_1C;      //Fracion  or STB/MMSCF
-    double Aband_BSW_WGR_2P_2C;      //Fraction or STB/MMSCF
-    double Aband_BSW_WGR_3P_3C;      //Fraction or STB/MMSCF
-    double Init_GOR_CGR;             //SCF/STB or STB/MMSCF
-    double Aband_GOR_CGR_1P_1C;      //SCF/STB or STB/MMSCF
-    double Aband_GOR_CGR_2P_2C;      //SCF/STB or STB/MMSCF
-    double Aband_GOR_CGR_3P_3C;      //SCF/STB or STB/MMSCF
+    double URo_1P_1C;                   // MMSTB
+    double URo_Low;                     // MMSTB
+    double URo_2P_2C;                   // MMSTB
+    double URo_3P_3C;                   // MMSTB
+    double Np;                          // MMSTB
+    double Cum_Liq_Prod;                // MMSTB
+    double Cum_Water_Prod;              // MMSTB
+    double URg_1P_1C;                   // BSCF
+    double URg_Low;                     // BSCF
+    double URg_2P_2C;                   // BSCF
+    double URg_3P_3C;                   // BSCF
+    double Gp;                          // BSCF
+    double Init_Liquid_Gas_Rate_1P_1C;  // STB/day or MMSCF/day
+    double Init_Liquid_Gas_Rate_Low;    // STB/day or MMSCF/day
+    double Init_Liquid_Gas_Rate_2P_2C;  // STB/ady or MMSCF/day
+    double Init_Liquid_Gas_Rate_3P_3C;  // STB/day or MMSCF/day
+    double Aband_Liquid_Gas_Rate_1P_1C; // STB/day or MMSCF/day
+    double Aband_Liquid_Gas_Rate_2P_2C; // STB/day or MMSCF/day
+    double Aband_Liquid_Gas_Rate_3P_3C; // STB/day or MMSCF/day
+    double Init_BSW_WGR;                // Fraction or STB/MMSCF
+    double Aband_BSW_WGR_1P_1C;         // Fracion  or STB/MMSCF
+    double Aband_BSW_WGR_2P_2C;         // Fraction or STB/MMSCF
+    double Aband_BSW_WGR_3P_3C;         // Fraction or STB/MMSCF
+    double Init_GOR_CGR;                // SCF/STB or STB/MMSCF
+    double Aband_GOR_CGR_1P_1C;         // SCF/STB or STB/MMSCF
+    double Aband_GOR_CGR_2P_2C;         // SCF/STB or STB/MMSCF
+    double Aband_GOR_CGR_3P_3C;         // SCF/STB or STB/MMSCF
     double lift_Gas_Rate;
-    double Plateau_Oil_Gas;         // 1.0 means one year
+    double Plateau_Oil_Gas; // 1.0 means one year
     string In_year_Booking;
     string LE_LV;
     string PRCS;
@@ -383,7 +386,7 @@ typedef struct _InputDeckStruct
 
     string Description;
 
-    //Calculated Variables
+    // Calculated Variables
 
     double Rate_Of_Rate_GOR_CGR_1P1C;
     double Rate_Of_Rate_GOR_CGR_2P2C;
@@ -446,27 +449,27 @@ typedef struct _InputDeckStruct
     int nWrappedProdPrioritization;
 } InputDeckStruct;
 
-
-typedef struct _FacilityWellsIndicies {
+typedef struct _FacilityWellsIndicies
+{
     vector<string> WellNames;
     vector<int> WellIndicies;
     vector<string> tables;
     vector<string> rows;
     string Facility;
-}FacilityWellsIndicies;
+} FacilityWellsIndicies;
 
 typedef struct _FacilityStruct
 {
     string Primary_Facility;
     string Secondary_Facility;
-    double Liquid_Capacity;  //STB/day
-    double Gas_Capacity; // SCF/day
-    double AG_Capacity; // SCF/day
-    double NAG_Capacity; // SCF/day
-    double Scheduled_Deferment; //%
+    double Liquid_Capacity;       // STB/day
+    double Gas_Capacity;          // SCF/day
+    double AG_Capacity;           // SCF/day
+    double NAG_Capacity;          // SCF/day
+    double Scheduled_Deferment;   //%
     double Unscheduled_Deferment; //%
-    double Thirdparty_Deferment; //%
-    double Crudeoil_Lossess; //%
+    double Thirdparty_Deferment;  //%
+    double Crudeoil_Lossess;      //%
     double GasOwnUse;
     double GasDemand;
     double GasFlared;
@@ -492,40 +495,40 @@ typedef struct _FacilityStructExternal
     string equipmentType;
     string Primary_Facility;
     string Secondary_Facility;
-    double Liquid_Capacity1P;  //STB/day
-    double Gas_Capacity1P; // SCF/day
-    double AG_Capacity1P; // SCF/day
-    double NAG_Capacity1P; // SCF/day
-    double Scheduled_Deferment1P; //%
+    double Liquid_Capacity1P;       // STB/day
+    double Gas_Capacity1P;          // SCF/day
+    double AG_Capacity1P;           // SCF/day
+    double NAG_Capacity1P;          // SCF/day
+    double Scheduled_Deferment1P;   //%
     double Unscheduled_Deferment1P; //%
-    double Thirdparty_Deferment1P; //%
-    double Crudeoil_Lossess1P; //%
+    double Thirdparty_Deferment1P;  //%
+    double Crudeoil_Lossess1P;      //%
     double GasOwnUse1P;
     double GasDemand1P;
     double GasFlared1P;
     string FDate1P;
     Date FacilityDate1P;
-    double Liquid_Capacity2P;  //STB/day
-    double Gas_Capacity2P; // SCF/day
-    double AG_Capacity2P; // SCF/day
-    double NAG_Capacity2P; // SCF/day
-    double Scheduled_Deferment2P; //%
+    double Liquid_Capacity2P;       // STB/day
+    double Gas_Capacity2P;          // SCF/day
+    double AG_Capacity2P;           // SCF/day
+    double NAG_Capacity2P;          // SCF/day
+    double Scheduled_Deferment2P;   //%
     double Unscheduled_Deferment2P; //%
-    double Thirdparty_Deferment2P; //%
-    double Crudeoil_Lossess2P; //%
+    double Thirdparty_Deferment2P;  //%
+    double Crudeoil_Lossess2P;      //%
     double GasOwnUse2P;
     double GasDemand2P;
     double GasFlared2P;
     string FDate2P;
     Date FacilityDate2P;
-    double Liquid_Capacity3P;  //STB/day
-    double Gas_Capacity3P; // SCF/day
-    double AG_Capacity3P; // SCF/day
-    double NAG_Capacity3P; // SCF/day
-    double Scheduled_Deferment3P; //%
+    double Liquid_Capacity3P;       // STB/day
+    double Gas_Capacity3P;          // SCF/day
+    double AG_Capacity3P;           // SCF/day
+    double NAG_Capacity3P;          // SCF/day
+    double Scheduled_Deferment3P;   //%
     double Unscheduled_Deferment3P; //%
-    double Thirdparty_Deferment3P; //%
-    double Crudeoil_Lossess3P; //%
+    double Thirdparty_Deferment3P;  //%
+    double Crudeoil_Lossess3P;      //%
     double GasOwnUse3P;
     double GasDemand3P;
     double GasFlared3P;
@@ -534,11 +537,11 @@ typedef struct _FacilityStructExternal
     double equityPercentage;
     double FacilityOiProduced;
     double FacilityWaterProduced;
-	double FacilityGasProduced;
+    double FacilityGasProduced;
     double FacilityAGProduced;
     double FacilityNAGProduced;
     double FacilityComdensateProduced;
-	double FacilityLiquidProduced;
+    double FacilityLiquidProduced;
     double cutBack;
     string ParentNodes;
     bool isGasFlow;
@@ -596,7 +599,7 @@ typedef struct _MBALForecastModel
         numberOfWells = 0;
     }
 
-}MBALForecastModel;
+} MBALForecastModel;
 
 typedef struct _WellActivityResult
 {
@@ -607,14 +610,14 @@ typedef struct _WellActivityResult
     vector<MBALForecastModel> mBALForecastProfile;
     int startRowIndex;
 
-     void InitializeData(){
+    void InitializeData()
+    {
         ModuleName = "";
         table = "";
         startRowIndex = 0;
     }
-    
-}WellActivityResult;
 
+} WellActivityResult;
 
 typedef struct _DeclineCureParameters
 {
@@ -625,9 +628,9 @@ typedef struct _DeclineCureParameters
     string drainagePoint;
     string productionString;
     string module;
-    double initLiquidGasRate1P1C; //STB/day or MMSCF/day
-    double initLiquidGasRate2P2C; //STB/ady or MMSCF/day
-    double initLiquidGasRate3P3C; //STB/day or MMSCF/day
+    double initLiquidGasRate1P1C; // STB/day or MMSCF/day
+    double initLiquidGasRate2P2C; // STB/ady or MMSCF/day
+    double initLiquidGasRate3P3C; // STB/day or MMSCF/day
     double rateofChangeRate1P1C;
     double rateofChangeRate2P2C;
     double rateofChangeRate3P3C;
@@ -652,13 +655,13 @@ typedef struct _PrioritizationModel
 {
     vector<string> ParameterNames;
     vector<double> ParameterWeights;
-}PrioritizationModel;
+} PrioritizationModel;
 
 typedef struct _Priotization
 {
     string targetFluid;
     string methodOfPrioritization;
-    string typeOfPrioritization; //None by default
+    string typeOfPrioritization; // None by default
     string typeOfStream;
     string useSecondaryFacility;
     string FacilityName;
@@ -667,26 +670,25 @@ typedef struct _Priotization
     PrioritizationModel prioritizationModel;
     string ochestrationVariable;
     string ochestrationMethod;
-}Priotization;
+} Priotization;
 
 typedef struct _WellPrioritizationModel
 {
     string module;
     string optimizationWeight;
-}WellPrioritizationModel;
+} WellPrioritizationModel;
 
-
-typedef struct _FacilityActivityResult  {
-	string FacilityName;
-	vector<WellActivityResult> WellActivityResults;
-}FacilityActivityResult;
+typedef struct _FacilityActivityResult
+{
+    string FacilityName;
+    vector<WellActivityResult> WellActivityResults;
+} FacilityActivityResult;
 
 typedef struct _ScenarioModel
 {
     string scenarioName;
     vector<FacilityActivityResult> result;
-}ScenarioModel;
-
+} ScenarioModel;
 
 typedef struct _MBALVariableHeaders
 {
@@ -737,7 +739,7 @@ typedef struct _MBALVariableHeaders
         numberOfWells = "Number Of Wells";
     }
 
-}MBALVariableHeaders;
+} MBALVariableHeaders;
 
 typedef struct _WellReroute
 {
@@ -799,14 +801,14 @@ typedef struct _ShutInOpenUp
 
 typedef struct _WellSchedule
 {
-   //Module	From Date	To Date	Parameter	Value	Unit
-   string Module;
-   string FromDate2;
-   string ToDate2;
-   string ParameterName;
-   int ParameterName2;
-   double ParameterValue;
-   string declineType;
+    // Module	From Date	To Date	Parameter	Value	Unit
+    string Module;
+    string FromDate2;
+    string ToDate2;
+    string ParameterName;
+    int ParameterName2;
+    double ParameterValue;
+    string declineType;
     double startupRate;
     double startupRatePlateau;
     double declineRate;
@@ -815,15 +817,15 @@ typedef struct _WellSchedule
     string scheduleKey;
     string dcaStrategy;
     int declineType2;
-   Date FromDate;
-   Date ToDate;
-   Date PlateauDate;
-   string Reroute_Fluid_Type;
- 
-}WellSchedule;
+    Date FromDate;
+    Date ToDate;
+    Date PlateauDate;
+    string Reroute_Fluid_Type;
 
+} WellSchedule;
 
-typedef struct _FacilityInEquipementConnection {
+typedef struct _FacilityInEquipementConnection
+{
     string facilityName;
     double equityPercentage;
     vector<string> connections;
@@ -833,33 +835,38 @@ typedef struct _FacilityInEquipementConnection {
     vector<string> toNodes;
     string equipmentType;
 
-    void InitailizeData(){
+    void InitailizeData()
+    {
         equityPercentage = 100.0;
     }
-}FacilityInEquipementConnection;
+} FacilityInEquipementConnection;
 
-typedef struct _InternalExternalEquipmentName {
+typedef struct _InternalExternalEquipmentName
+{
     string internalEquipmentName;
     string externalEquipmentName;
     string equipmentType;
-}InternalExternalEquipmentName;
+} InternalExternalEquipmentName;
 
-typedef struct _FacilityReroute {
+typedef struct _FacilityReroute
+{
     string FacilityFrom;
     string FacilityTo;
     string Reroute_Date_String;
     Date Reroute_Date;
     string Reroute_Fluid_Type;
-}FacilityReroute;
+} FacilityReroute;
 
-typedef struct _Node {
+typedef struct _Node
+{
     string nodeName;
     vector<FacilityInEquipementConnection> equipmentInEquipementConnections;
     vector<FacilityStructExternal> equipmentDataInEquipementConnections;
     vector<Priotization> priotizations;
-}Node;
+} Node;
 
-typedef struct _FacilityThreadParams {
+typedef struct _FacilityThreadParams
+{
     int ij;
     int i;
     vector<vector<vector<InputDeckStruct>>> Faclities;
@@ -867,24 +874,27 @@ typedef struct _FacilityThreadParams {
     int scenario;
     vector<FacilityStruct> FacilityTable;
     vector<string> FaclitiesNames;
-    vector<WellReroute> routedWells; 
+    vector<WellReroute> routedWells;
     string forecastCase;
     vector<vector<Priotization>> priotizationsFacilities;
     vector<Node> updatesNodes;
-}FacilityThreadParams;
+} FacilityThreadParams;
 
-typedef struct _Well {
+typedef struct _Well
+{
     vector<ForecastResult> resultWells;
-}Well;
+} Well;
 
-typedef struct _ChatPayload {
+typedef struct _ChatPayload
+{
     vector<Well> wells;
     bool isByYear;
     bool isForChart;
     int nWells;
-}ChatPayload;
+} ChatPayload;
 
-typedef struct _Payload {
+typedef struct _Payload
+{
     vector<InputDeckStruct> decks;
     vector<InternalExternalEquipmentName> internalExternalFacilitiesNames;
     int nInternalExternalFacilitiesNames;
@@ -921,7 +931,7 @@ typedef struct _Payload {
     int nNodalPriotizations;
     vector<InputDeckStruct> productionPrioritization;
     int nProductionPrioritization;
-}Payload;
+} Payload;
 
 /* typedef struct _ResponseData4 {
     map<string, string> wells;
@@ -939,44 +949,52 @@ typedef struct _ResponseData1 {
     map<string, map<string, map<string, map<string, string>>>> solutionSpaces;
 }ResponseData1; */
 
-typedef struct _ResponseData {
+typedef struct _ResponseData
+{
     map<string, map<string, map<string, map<string, map<string, string>>>>> monthlyReport;
-}ResponseData;
+} ResponseData;
 
-typedef struct _ResponseChatData {
+typedef struct _ResponseChatData
+{
     map<string, map<string, string>> response;
-}ResponseChatData;
+} ResponseChatData;
 
-typedef struct _MonthlyReport{
+typedef struct _MonthlyReport
+{
 
-}MonthlyReport;
+} MonthlyReport;
 
-typedef struct _StoredForecastResult {
+typedef struct _StoredForecastResult
+{
     MonthlyReport monthlyReport;
-}StoredForecastResult;
+} StoredForecastResult;
 
-typedef struct _ModuleResultMonthly {
+typedef struct _ModuleResultMonthly
+{
     vector<ForecastResult> resultWells;
-}ModuleResultMonthly;
+} ModuleResultMonthly;
 
-typedef struct _InputObject {
+typedef struct _InputObject
+{
     vector<ModuleResultMonthly> wells;
     bool isByYear;
     bool isForChart;
     int nWells;
-}InputObject;
+} InputObject;
 
-typedef struct _YObj {
+typedef struct _YObj
+{
     string forecastResultId;
     string id;
     string name;
     string title;
     string path;
-    vector<double> y;  // Assuming `y` is a vector of doubles
-    vector<string> x;  // Assuming `x` is a vector of strings
-}YObj;
+    vector<double> y; // Assuming `y` is a vector of doubles
+    vector<string> x; // Assuming `x` is a vector of strings
+} YObj;
 
-typedef struct _ForecastResultsByModule {
+typedef struct _ForecastResultsByModule
+{
     string forecastResultsId;
     string ModuleName;
     string FacilityName;
@@ -985,23 +1003,22 @@ typedef struct _ForecastResultsByModule {
     string SolutionSpace;
     string forecastResults;
     string forecastInputId;
-}ForecastResultsByModule;
+} ForecastResultsByModule;
 
-
-typedef struct _ForecastResultsPayload {
+typedef struct _ForecastResultsPayload
+{
     vector<ForecastResultsByModule> moduleResults;
-}ForecastResultsPayload;
+} ForecastResultsPayload;
 
-typedef struct _ChatInputPayload {
+typedef struct _ChatInputPayload
+{
     vector<string> forecastResultsIds;
     vector<string> selectedModulePaths;
     vector<string> selectedVariables;
     bool shouldAggregate;
     vector<string> forecastSolutionSpaces;
     bool isMonthly;
-}ChatInputPayload;
-
-
+} ChatInputPayload;
 
 const int Init_Oil_Gas_Rate_1P_1C = 0;
 const int Init_Oil_Gas_Rate_2P_2C = 1;
@@ -1037,7 +1054,7 @@ const string sequential = "sequential";
 const string condensate = "condensate";
 const string oil = "oil";
 const string gas = "gas";
-const string  ag = "ag";
+const string ag = "ag";
 const string nag = "nag";
 const string water = "water";
 const string liquid = "liquid";
@@ -1050,13 +1067,13 @@ const string Normal = "normal";
 const string Low = "low";
 const string external = "external";
 const string potential = "potential";
-//const string None = "None";
+// const string None = "None";
 const string internal = "internal";
 const string availability = "availability";
 const string delivered = "deliverability";
 const string offtake = "offtake";
 const string oil_water_gas = "oil_water_gas";
-const string oil_water = "oil_water";   
+const string oil_water = "oil_water";
 const string water_gas = "water_gas";
 const string oil_gas = "oil_gas";
 const string gas_plant = "gas plant";
@@ -1066,6 +1083,6 @@ const string gas_asset = "gas asset";
 const string ag_asset = "ag asset";
 const string nag_asset = "nag asset";
 const string condensate_asset = "condensate asset";
-//const string exponential = "exponential";
-//const string hyperbolic = "hyperbolic";
-//const string harmonic = "harmonic";
+// const string exponential = "exponential";
+// const string hyperbolic = "hyperbolic";
+// const string harmonic = "harmonic";

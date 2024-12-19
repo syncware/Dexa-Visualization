@@ -29,10 +29,9 @@
 
 using namespace std;
 using namespace std::placeholders;
-//const char* RESULT_KEY = "wrappedInstance";
+// const char* RESULT_KEY = "wrappedInstance";
 
-
-class RunForecastAsyncWorker : public Napi::AsyncWorker 
+class RunForecastAsyncWorker : public Napi::AsyncWorker
 {
     ReportJSON reportJSON;
     Inputdeck deckobj;
@@ -40,288 +39,277 @@ class RunForecastAsyncWorker : public Napi::AsyncWorker
     ConfigurePrioritization configurePrioritization;
     ReportJSON2 reportJSON2;
 
-    //Napi::Array wellDeckList; 
+    // Napi::Array wellDeckList;
 
-    public:
-        RunForecastAsyncWorker(Napi::Object& wrappedInstance, Napi::Function callback)
-            : AsyncWorker(callback)
+public:
+    RunForecastAsyncWorker(Napi::Object &wrappedInstance, Napi::Function callback)
+        : AsyncWorker(callback)
+    {
+
+        Receiver().Set("wrappedInstance", wrappedInstance);
+    }
+
+protected:
+    void Execute() override
+    {
+    }
+
+private:
+    void OnOK() override
+    {
+        string msg = "runForecastAsync returning after 'working' ";
+        Napi::Env env = Env();
+        Napi::HandleScope scope(env);
+        Napi::Value value = Receiver().Get("wrappedInstance");
+        Napi::Object wrappedInstance = value.As<Napi::Object>();
+        // Convert wrappedInstance to JSON
+        json jsonData = reportJSON.NapiObjectToJson(wrappedInstance);
+
+        std::cout << msg << "\n";
+        Payload payload = ConvertJsonToPayload(jsonData);
+        int nDecks = payload.decks.size();
+        for (int i = 0; i < nDecks; i++)
         {
-           
-           Receiver().Set("wrappedInstance", wrappedInstance);
-           
+            if (payload.decks[i].Description == "no error")
+            {
+                InputDeckStruct newDeck;
+                deckobj.inputdecks.push_back(payload.decks[i]);
+            }
         }
 
-    protected:
-        void Execute() override {
-
-            
+        vector<InputDeckStruct> productionPrioritization = payload.productionPrioritization;
+        if (productionPrioritization.size() > 0)
+        {
+            for (int i = 0; i < nDecks; i++)
+            {
+                deckobj.inputdecks[i].optimizationWeight2 = productionPrioritization[i].optimizationWeight2;
+            }
         }
 
-    private:
-        void OnOK() override {
-            string msg = "runForecastAsync returning after 'working' ";
-            Napi::Env env = Env();
-            Napi::HandleScope scope(env);
-            Napi::Value value = Receiver().Get("wrappedInstance");
-            Napi::Object wrappedInstance = value.As<Napi::Object>();
-            //Convert wrappedInstance to JSON
-            json jsonData = reportJSON.NapiObjectToJson(wrappedInstance);
-            
-            std::cout << msg << "\n";
-            Payload payload = ConvertJsonToPayload(jsonData);
-            int nDecks = payload.decks.size();
-            for(int i = 0; i < nDecks; i++){
-                if(payload.decks[i].Description == "no error"){
-                    InputDeckStruct newDeck;
-                    deckobj.inputdecks.push_back(payload.decks[i]);
-                }
-            }
-
-            vector<InputDeckStruct> productionPrioritization = payload.productionPrioritization;
-            if(productionPrioritization.size() > 0){
-                for(int i = 0; i < nDecks; i++){
-                    deckobj.inputdecks[i].optimizationWeight2 = productionPrioritization[i].optimizationWeight2;
-                }
-            }
-            
-            vector<InternalExternalEquipmentName> internalExternalFacilitiesNames =
+        vector<InternalExternalEquipmentName> internalExternalFacilitiesNames =
             payload.internalExternalFacilitiesNames;
 
-            vector<vector<string>> equipmentConnections = payload.equipmentConnections;
+        vector<vector<string>> equipmentConnections = payload.equipmentConnections;
 
-            vector<FacilityStructExternal> deferments = payload.deferments;
+        vector<FacilityStructExternal> deferments = payload.deferments;
 
-            vector<FacilityStructExternal> crudeOilLosses = payload.crudeOilLosses;
+        vector<FacilityStructExternal> crudeOilLosses = payload.crudeOilLosses;
 
-            vector<FacilityStructExternal> equipmentCapacities =payload.equipmentCapacities;
+        vector<FacilityStructExternal> equipmentCapacities = payload.equipmentCapacities;
 
-            vector<FacilityStructExternal> gasOwnUse = payload.gasOwnUse;
+        vector<FacilityStructExternal> gasOwnUse = payload.gasOwnUse;
 
-            vector<FacilityStructExternal> gasFlared = payload.flaredGases;
+        vector<FacilityStructExternal> gasFlared = payload.flaredGases;
 
         Priotization priotization = payload.prioritization;
 
-            vector<Priotization> nodalPriotizations = payload.nodalPriotizations;
+        vector<Priotization> nodalPriotizations = payload.nodalPriotizations;
 
-            DateCreation dateCreation;
+        DateCreation dateCreation;
 
-            Date StopDate;
+        Date StopDate;
 
-            StopDate.year = deckobj.runParameter.StopYear;
-            StopDate.month = deckobj.runParameter.StopMonth;
-            StopDate.day = deckobj.runParameter.StopDay;
-            bool isMonthly = deckobj.runParameter.isMonthly;
-            reportJSON2.isMonthly = isMonthly;
+        StopDate.year = deckobj.runParameter.StopYear;
+        StopDate.month = deckobj.runParameter.StopMonth;
+        StopDate.day = deckobj.runParameter.StopDay;
+        bool isMonthly = deckobj.runParameter.isMonthly;
+        reportJSON2.isMonthly = isMonthly;
 
+        deckobj.inputdecks = payload.decks;
+        ;
+        deckobj.InitilizeModules();
 
-            deckobj.inputdecks = payload.decks;;
-            deckobj.InitilizeModules();
+        deckobj.wellRerouteDecks = payload.wellRerouteDecks;
 
-            
-            deckobj.wellRerouteDecks = payload.wellRerouteDecks;
-            
-            deckobj.wellRampUpDecks = payload.wellRampUpDecks;
-            
-            deckobj.wellShutInOpenUpDecks = payload.wellShutInOpenUpDecks;
+        deckobj.wellRampUpDecks = payload.wellRampUpDecks;
 
-            vector<ForecastResult> forecastProfiles = payload.forecastProfiles;
+        deckobj.wellShutInOpenUpDecks = payload.wellShutInOpenUpDecks;
 
-            reportJSON2.runParameter = payload.runparameters;
-            deckobj.runParameter = reportJSON2.runParameter;
+        vector<ForecastResult> forecastProfiles = payload.forecastProfiles;
 
-            string isForecastProfiles = payload.isForecastProfiles;
+        reportJSON2.runParameter = payload.runparameters;
+        deckobj.runParameter = reportJSON2.runParameter;
 
-            vector<string> forecastSolutionSpaces = payload.forecastSolutionSpaces;
-            int nForecastSolutionSpaces = payload.nForecastSolutionSpaces;
+        string isForecastProfiles = payload.isForecastProfiles;
 
-            vector<bool> forecastSolutionSpacesIsDURConstrained = payload.forecastSolutionSpacesIsDURConstrained;
-            int nForecastSolutionSpacesIsDURConstrained = payload.nForecastSolutionSpacesIsDURConstrained;
+        vector<string> forecastSolutionSpaces = payload.forecastSolutionSpaces;
+        int nForecastSolutionSpaces = payload.nForecastSolutionSpaces;
 
-            int idx = 0;
+        vector<bool> forecastSolutionSpacesIsDURConstrained = payload.forecastSolutionSpacesIsDURConstrained;
+        int nForecastSolutionSpacesIsDURConstrained = payload.nForecastSolutionSpacesIsDURConstrained;
 
-            vector<Node> nodes =
+        int idx = 0;
+
+        vector<Node> nodes =
             reportJSON2.GetNodes(internalExternalFacilitiesNames, equipmentConnections);
 
-            tuple<vector<Node>, vector<Date>> tupleResults = reportJSON2.GetNodesSheetData(nodes, equipmentCapacities,
-                                                  deferments, crudeOilLosses, gasOwnUse, gasFlared);
+        tuple<vector<Node>, vector<Date>> tupleResults = reportJSON2.GetNodesSheetData(nodes, equipmentCapacities,
+                                                                                       deferments, crudeOilLosses, gasOwnUse, gasFlared);
 
-            vector<Node> updatesNodes = get<0>(tupleResults);
-            vector<Date> equipmentsScheduleDates = get<1>(tupleResults);
-            std::cout << "GetNodesSheetData completed\n";
+        vector<Node> updatesNodes = get<0>(tupleResults);
+        vector<Date> equipmentsScheduleDates = get<1>(tupleResults);
+        std::cout << "GetNodesSheetData completed\n";
 
-            nodes.clear();
-            nodes.shrink_to_fit();
+        nodes.clear();
+        nodes.shrink_to_fit();
 
-            vector<FacilityStructExternal> FacilityTable = updatesNodes[0].equipmentDataInEquipementConnections;
-            updatesNodes[0].equipmentDataInEquipementConnections;
-            
-            //reportJSON.GetFacilityList(FacilityTable);
-            reportJSON2.FacilityTable = FacilityTable;
-            const int nFacilityTable = reportJSON2.FacilityTable.size();
-            for(int j = 0; j < nFacilityTable; j++)
+        vector<FacilityStructExternal> FacilityTable = updatesNodes[0].equipmentDataInEquipementConnections;
+        updatesNodes[0].equipmentDataInEquipementConnections;
+
+        // reportJSON.GetFacilityList(FacilityTable);
+        reportJSON2.FacilityTable = FacilityTable;
+        const int nFacilityTable = reportJSON2.FacilityTable.size();
+        for (int j = 0; j < nFacilityTable; j++)
+        {
+            deckobj.FacilityTable.push_back(FacilityTable[j]);
+        }
+
+        int ndecks = deckobj.inputdecks.size();
+
+        std::cout << "Get_InputDeckStructList done completely" << std::endl;
+
+        dateCreation.GetDateList(deckobj.inputdecks, StopDate, equipmentsScheduleDates, isMonthly);
+        std::cout << "GetDateList done completely\n";
+
+        dateCreation.GetDaysList(dateCreation.dateTimes[0]);
+        std::cout << "GetDaysList done completely\n";
+
+        int scenario = 1;
+        CalculateDeckVariables calculateDeckVariables;
+
+        int nth = dateCreation.dateTimes.size();
+
+        int i = 0;
+        if (nth > 0)
+        {
+
+            vector<WellActivityResult> wellActivities;
+            bool isForecastProfilesAndDecksMatched = true;
+            if (isForecastProfiles == "external")
             {
-                deckobj.FacilityTable.push_back(FacilityTable[j]);
-            }
-            
-
-            int ndecks = deckobj.inputdecks.size();
-
-
-            std::cout << "Get_InputDeckStructList done completely" << std::endl;
-
-            
-            
-            dateCreation.GetDateList(deckobj.inputdecks,  StopDate, equipmentsScheduleDates, isMonthly);
-            std::cout << "GetDateList done completely\n";
-
-            dateCreation.GetDaysList(dateCreation.dateTimes[0]);
-            std::cout << "GetDaysList done completely\n";
-
-            int scenario = 1;
-            CalculateDeckVariables calculateDeckVariables;
-
-            int nth =  dateCreation.dateTimes.size();
-            
-             int i = 0;
-            if(nth > 0)
-            {
-
-
-                vector<WellActivityResult> wellActivities;
-                bool isForecastProfilesAndDecksMatched = true;
-                if(isForecastProfiles == "external"){
-                    vector<vector<ForecastResult>> forecastProfilesList = 
+                vector<vector<ForecastResult>> forecastProfilesList =
 
                     externalForecast.GetUniqueForecastProfiles(forecastProfiles, deckobj.inputdecks);
-                    vector<string> uniqueModuleNames = 
+                vector<string> uniqueModuleNames =
                     externalForecast.GetUniqueModuleNames(forecastProfilesList);
-                    wellActivities = 
+                wellActivities =
                     externalForecast.GetWellActivities(forecastProfilesList, deckobj.inputdecks,
-                    uniqueModuleNames);
+                                                       uniqueModuleNames);
 
-                    isForecastProfilesAndDecksMatched = 
-                    externalForecast.MatchForecastProfilesAndDecks(uniqueModuleNames, 
-                        deckobj.inputdecks);
-                }
+                isForecastProfilesAndDecksMatched =
+                    externalForecast.MatchForecastProfilesAndDecks(uniqueModuleNames,
+                                                                   deckobj.inputdecks);
+            }
 
-                int fSSIndex = 0;
-                int nForecastSolutionSpaces = forecastSolutionSpaces.size();
-                int scenarios = 4; 
-                Napi::Object inputObjectAll = Napi::Object::New(env);
-                Napi::Object inputObjectFSS = Napi::Object::New(env);
-                vector<WellSchedule> wellSchedules = reportJSON2.GetWellSchedulesSheetData(deckobj.wellRerouteDecks,
-                                deckobj.wellRampUpDecks, deckobj.wellShutInOpenUpDecks, StopDate);
+            int fSSIndex = 0;
+            int nForecastSolutionSpaces = forecastSolutionSpaces.size();
+            int scenarios = 4;
+            Napi::Object inputObjectAll = Napi::Object::New(env);
+            Napi::Object inputObjectFSS = Napi::Object::New(env);
+            vector<WellSchedule> wellSchedules = reportJSON2.GetWellSchedulesSheetData(deckobj.wellRerouteDecks,
+                                                                                       deckobj.wellRampUpDecks, deckobj.wellShutInOpenUpDecks, StopDate);
 
-                int nUpdatesNodes = updatesNodes.size();
-                for (i = 0; i < nUpdatesNodes; i++)
+            int nUpdatesNodes = updatesNodes.size();
+            for (i = 0; i < nUpdatesNodes; i++)
+            {
+
+                if (i > 0)
                 {
-
-                    if (i > 0)
-                    {
-                        priotization.typeOfPrioritization = "streamPrioritization";
-                    }
-                    updatesNodes[i].priotizations =
-                    configurePrioritization.SetUpPrioritization(updatesNodes[i].equipmentDataInEquipementConnections, 
-                    dateCreation.dateTimes[0], StopDate, priotization, nodalPriotizations);
+                    priotization.typeOfPrioritization = "streamPrioritization";
                 }
-                vector<Priotization> priotizations = updatesNodes[0].priotizations;
+                updatesNodes[i].priotizations =
+                    configurePrioritization.SetUpPrioritization(updatesNodes[i].equipmentDataInEquipementConnections,
+                                                                dateCreation.dateTimes[0], StopDate, priotization, nodalPriotizations);
+            }
+            vector<Priotization> priotizations = updatesNodes[0].priotizations;
 
-                for(fSSIndex = 0; fSSIndex < nForecastSolutionSpaces; fSSIndex++)
+            for (fSSIndex = 0; fSSIndex < nForecastSolutionSpaces; fSSIndex++)
+            {
+                Napi::Object inputObject = Napi::Object::New(env);
+                Napi::Object inputObjectYearly = Napi::Object::New(env);
+                calculateDeckVariables.dURConstrained = forecastSolutionSpacesIsDURConstrained[fSSIndex];
+
+                for (i = 1; i < scenarios; i++)
                 {
-                    Napi::Object inputObject = Napi::Object::New(env);
-                    Napi::Object inputObjectYearly = Napi::Object::New(env);
-                    calculateDeckVariables.dURConstrained = forecastSolutionSpacesIsDURConstrained[fSSIndex];
-                    
-                    for(i = 1;  i < scenarios; i++){
-                        scenario = i;
-                        vector<string> Facilities = deckobj.GetFacilities(deckobj.inputdecks, ndecks, dateCreation.dateTimes, scenario);
-                        std::cout << "GetFacilities completed\n";
-                
-                        vector<vector<vector<InputDeckStruct>>> FacilitiesObj = 
+                    scenario = i;
+                    vector<string> Facilities = deckobj.GetFacilities(deckobj.inputdecks, ndecks, dateCreation.dateTimes, scenario);
+                    std::cout << "GetFacilities completed\n";
+
+                    vector<vector<vector<InputDeckStruct>>> FacilitiesObj =
                         deckobj.GetModulesByFacility(Facilities, deckobj.inputdecks, ndecks,
-                        deckobj.wellRerouteDecks, dateCreation.dateTimes, scenario,
-                        wellSchedules, priotizations);
-                        std::cout << "GetModulesByFacility completed\n";
+                                                     deckobj.wellRerouteDecks, dateCreation.dateTimes, scenario,
+                                                     wellSchedules, priotizations);
+                    std::cout << "GetModulesByFacility completed\n";
 
-                        vector<vector<Priotization>> priotizationsFacilities = deckobj.priotizationsFacilities;
+                    vector<vector<Priotization>> priotizationsFacilities = deckobj.priotizationsFacilities;
 
-
-
-                        CalculateDeckVariables calculateDeckVariables;
-                        calculateDeckVariables.UseExternalForecastprofile = isForecastProfiles;
-                        if( calculateDeckVariables.UseExternalForecastprofile == "external"){
-                            calculateDeckVariables.WellActivities = wellActivities;
-                        }
-                        
-                        calculateDeckVariables.dates = dateCreation.dateTimes;
-                        calculateDeckVariables.FacilityTables_Actual = deckobj.FacilityTables_Actual;
-                        calculateDeckVariables.isDefered = false;
-
-                        deckobj.runParameter.forecastCase = forecastSolutionSpaces[fSSIndex];
-
-
-                        if(deckobj.runParameter.forecastCase == potential)
-                        {
-                            calculateDeckVariables.isFacilityDefered = false;
-                            calculateDeckVariables.isDefered = false;
-                        }
-
-                        if(deckobj.runParameter.forecastCase == delivered)
-                        {
-                            calculateDeckVariables.isFacilityDefered = false;
-                            calculateDeckVariables.isDefered = false;
-                        }
-
-                        if(deckobj.runParameter.forecastCase == availability)
-                        {
-                            calculateDeckVariables.isFacilityDefered = true;
-                            calculateDeckVariables.isDefered = true;
-                        }
-
-                        if(deckobj.runParameter.forecastCase == offtake)
-                        {
-                            calculateDeckVariables.isFacilityDefered = true;
-                            calculateDeckVariables.isDefered = true;
-                        }
-
-                        calculateDeckVariables.startFrom = nth * (i-1);
-                        
-                       
-                        calculateDeckVariables.GetDeckVariables(FacilitiesObj, dateCreation.daysList, scenario,
-                        deckobj.FacilityTable_Actual, Facilities, dateCreation, deckobj.wellRerouteDecks,
-                        deckobj.runParameter.forecastCase, priotizationsFacilities, updatesNodes, isMonthly);
-
-
-
-                        std::cout << "GetDeckVariables completed\n";
-                        reportJSON.results = calculateDeckVariables.results;
-
-                        vector<vector<FacilityWellsIndicies>>& facilityWellsIndicies = deckobj.facilityWellsIndicies;
-                        reportJSON.GetForecastOutputAllFacilities(scenario, facilityWellsIndicies, 
-                        dateCreation.dateTimes, env);
-
-                        std::cout << "GetForecastOutput completed\n";
-                        
-
-                        string scenarioName =  to_string(scenario) + "P_" + to_string(scenario) + "C";
-                        inputObject.Set(Napi::String::New(env, scenarioName), reportJSON.FaclitiesObject);
-
-                        std::cout << "Scenario created for " << scenarioName << forecastSolutionSpaces[fSSIndex] << '\n';
-                    //
+                    CalculateDeckVariables calculateDeckVariables;
+                    calculateDeckVariables.UseExternalForecastprofile = isForecastProfiles;
+                    if (calculateDeckVariables.UseExternalForecastprofile == "external")
+                    {
+                        calculateDeckVariables.WellActivities = wellActivities;
                     }
-                    inputObjectFSS.Set(Napi::String::New(env, forecastSolutionSpaces[fSSIndex]), inputObject);
 
+                    calculateDeckVariables.dates = dateCreation.dateTimes;
+                    calculateDeckVariables.FacilityTables_Actual = deckobj.FacilityTables_Actual;
+                    calculateDeckVariables.isDefered = false;
+
+                    deckobj.runParameter.forecastCase = forecastSolutionSpaces[fSSIndex];
+
+                    if (deckobj.runParameter.forecastCase == potential)
+                    {
+                        calculateDeckVariables.isFacilityDefered = false;
+                        calculateDeckVariables.isDefered = false;
+                    }
+
+                    if (deckobj.runParameter.forecastCase == delivered)
+                    {
+                        calculateDeckVariables.isFacilityDefered = false;
+                        calculateDeckVariables.isDefered = false;
+                    }
+
+                    if (deckobj.runParameter.forecastCase == availability)
+                    {
+                        calculateDeckVariables.isFacilityDefered = true;
+                        calculateDeckVariables.isDefered = true;
+                    }
+
+                    if (deckobj.runParameter.forecastCase == offtake)
+                    {
+                        calculateDeckVariables.isFacilityDefered = true;
+                        calculateDeckVariables.isDefered = true;
+                    }
+
+                    calculateDeckVariables.startFrom = nth * (i - 1);
+
+                    calculateDeckVariables.GetDeckVariables(FacilitiesObj, dateCreation.daysList, scenario,
+                                                            deckobj.FacilityTable_Actual, Facilities, dateCreation, deckobj.wellRerouteDecks,
+                                                            deckobj.runParameter.forecastCase, priotizationsFacilities, updatesNodes, isMonthly);
+
+                    std::cout << "GetDeckVariables completed\n";
+                    reportJSON.results = calculateDeckVariables.results;
+
+                    vector<vector<FacilityWellsIndicies>> &facilityWellsIndicies = deckobj.facilityWellsIndicies;
+                    reportJSON.GetForecastOutputAllFacilities(scenario, facilityWellsIndicies,
+                                                              dateCreation.dateTimes, env);
+
+                    std::cout << "GetForecastOutput completed\n";
+
+                    string scenarioName = to_string(scenario) + "P_" + to_string(scenario) + "C";
+                    inputObject.Set(Napi::String::New(env, scenarioName), reportJSON.FaclitiesObject);
+
+                    std::cout << "Scenario created for " << scenarioName << forecastSolutionSpaces[fSSIndex] << '\n';
+                    //
                 }
-                inputObjectAll.Set(Napi::String::New(env, "monthlyReport"), inputObjectFSS);
-                std::cout << "monthlyReport created\n";
-                inputObjectAll.Set(Napi::String::New(env, "inputObjectAll"), 
-                Napi::Boolean::New(env, isForecastProfilesAndDecksMatched));
-            
-                Callback().MakeCallback(Receiver().Value(), std::initializer_list<napi_value>{
-                    env.Null(), inputObjectAll
-                });
-            
+                inputObjectFSS.Set(Napi::String::New(env, forecastSolutionSpaces[fSSIndex]), inputObject);
+            }
+            inputObjectAll.Set(Napi::String::New(env, "monthlyReport"), inputObjectFSS);
+            std::cout << "monthlyReport created\n";
+            inputObjectAll.Set(Napi::String::New(env, "inputObjectAll"),
+                               Napi::Boolean::New(env, isForecastProfilesAndDecksMatched));
+
+            Callback().MakeCallback(Receiver().Value(), std::initializer_list<napi_value>{
+                                                            env.Null(), inputObjectAll});
         }
     }
-        
 };

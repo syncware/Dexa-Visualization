@@ -34,17 +34,20 @@
 using namespace std;
 using json = nlohmann::json;
 
-void from_json(const json& j, Payload& payload) {
-    j.at("decks").get_to(payload.decks); 
+void from_json(const json &j, Payload &payload)
+{
+    j.at("decks").get_to(payload.decks);
     j.at("nDecks").get_to(payload.nDecks);
     j.at("isForecastProfiles").get_to(payload.isForecastProfiles);
     j.at("internalExternalFacilitiesNames").get_to(payload.internalExternalFacilitiesNames);
     j.at("nInternalExternalFacilitiesNames").get_to(payload.nInternalExternalFacilitiesNames);
     j.at("nEquipmentConnections").get_to(payload.nEquipmentConnections);
-    for (const auto& connection : j.at("equipmentConnections")) {
+    for (const auto &connection : j.at("equipmentConnections"))
+    {
         map<string, string> nodeMap;
         vector<string> row;
-        for (auto it = connection.begin(); it != connection.end(); ++it) {
+        for (auto it = connection.begin(); it != connection.end(); ++it)
+        {
             row.push_back(it.value());
         }
         payload.equipmentConnections.push_back(row);
@@ -52,7 +55,7 @@ void from_json(const json& j, Payload& payload) {
 
     j.at("nDeferments").get_to(payload.nDeferments);
     j.at("nCrudeOilLosses").get_to(payload.nCrudeOilLosses);
-     j.at("nEquipmentCapacities").get_to(payload.nEquipmentCapacities);
+    j.at("nEquipmentCapacities").get_to(payload.nEquipmentCapacities);
     j.at("numberOfNodes").get_to(payload.numberOfNodes);
     j.at("nGasOwnUse").get_to(payload.nGasOwnUse);
     j.at("nFlaredGases").get_to(payload.nFlaredGases);
@@ -61,27 +64,32 @@ void from_json(const json& j, Payload& payload) {
     j.at("forecastSolutionSpacesIsDURConstrained").get_to(payload.forecastSolutionSpacesIsDURConstrained);
     j.at("nForecastSolutionSpacesIsDURConstrained").get_to(payload.nForecastSolutionSpacesIsDURConstrained);
 
-    for (const auto& item : j.at("deferments")) {
+    for (const auto &item : j.at("deferments"))
+    {
         FacilityStructExternal fse;
         from_json(item, fse);
         payload.deferments.push_back(fse);
     }
-    for (const auto& item : j.at("crudeOilLosses")) {
+    for (const auto &item : j.at("crudeOilLosses"))
+    {
         FacilityStructExternal fse;
         from_json(item, fse);
         payload.crudeOilLosses.push_back(fse);
     }
-    for (const auto& item : j.at("equipmentCapacities")) {
+    for (const auto &item : j.at("equipmentCapacities"))
+    {
         FacilityStructExternal fse;
         from_json(item, fse);
         payload.equipmentCapacities.push_back(fse);
     }
-    for (const auto& item : j.at("gasOwnUse")) {
+    for (const auto &item : j.at("gasOwnUse"))
+    {
         FacilityStructExternal fse;
         from_json(item, fse);
         payload.gasOwnUse.push_back(fse);
     }
-    for (const auto& item : j.at("flaredGases")) {
+    for (const auto &item : j.at("flaredGases"))
+    {
         FacilityStructExternal fse;
         from_json(item, fse);
         payload.flaredGases.push_back(fse);
@@ -100,5 +108,4 @@ void from_json(const json& j, Payload& payload) {
     j.at("nNodalPriotizations").get_to(payload.nNodalPriotizations);
     payload.prioritization = j.at("prioritization").get<Priotization>();
     payload.nodalPriotizations = j.at("nodalPriotizations").get<vector<Priotization>>();
-    
 }
