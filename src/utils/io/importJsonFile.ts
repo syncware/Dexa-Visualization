@@ -2,28 +2,26 @@ const fs = require('fs').promises;
 import fss from 'fs';
 import * as path from 'path';
 
-export const importJsonFile = async (fileName:string) => {
+export const importJsonFile = async (fileName: string) => {
+  // Define the path to your JSON file
 
-    // Define the path to your JSON file
+  const projectRoot = process.cwd();
+  const jsonFilePath = path.join(projectRoot, fileName);
 
-    const projectRoot = process.cwd();
-    const jsonFilePath = path.join(projectRoot, fileName);
+  // Read the file asynchronously
+  const jsonData = await fs.readFile(jsonFilePath, 'utf-8');
 
-    // Read the file asynchronously
-    const jsonData = await fs.readFile(jsonFilePath, 'utf-8');
+  return JSON.parse(jsonData);
+};
 
-    return JSON.parse(jsonData);
-}
+export const importJsonFile2 = (fileName: string) => {
+  // Define the path to your JSON file
 
-export const importJsonFile2 = (fileName:string) => {
+  const projectRoot = process.cwd();
+  const jsonFilePath = path.join(projectRoot, fileName);
 
-    // Define the path to your JSON file
+  // Read the file asynchronously
+  const jsonData = fss.readFileSync(jsonFilePath, 'utf-8');
 
-    const projectRoot = process.cwd();
-    const jsonFilePath = path.join(projectRoot, fileName);
-
-    // Read the file asynchronously
-    const jsonData = fss.readFileSync(jsonFilePath, 'utf-8');
-
-    return JSON.parse(jsonData);
-}
+  return JSON.parse(jsonData);
+};

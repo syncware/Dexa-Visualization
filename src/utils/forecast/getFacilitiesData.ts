@@ -32,7 +32,8 @@ const getFacilitiesData = async ({
       equipmentCapacitiesId
     )) as EquipmentCapacitiesProperties;
     facilitiesData['equipmentCapacitiesMap'] =
-      equipmentCapacities?.equipmentCapacitiesModel?.equipmentCapacitiesMap || {};
+      equipmentCapacities?.equipmentCapacitiesModel?.equipmentCapacitiesMap ||
+      {};
   }
 
   /**
@@ -43,7 +44,8 @@ const getFacilitiesData = async ({
       equipmentDefermentsId
     )) as EquipmentDefermentsProperties;
     facilitiesData['equipmentDefermentsMap'] =
-      equipmentDeferments?.equipmentDefermentsModel?.equipmentDefermentsMap || {};
+      equipmentDeferments?.equipmentDefermentsModel?.equipmentDefermentsMap ||
+      {};
   }
 
   /**
@@ -54,8 +56,8 @@ const getFacilitiesData = async ({
       equipmentCrudeLossesId
     )) as EquipmentCrudeLossesProperties;
     facilitiesData['equipmentCrudeLossesMap'] =
-      equipmentCrudeLosses?.equipmentCrudeLossesModel?.equipmentCrudeLossesMap ||
-      [];
+      equipmentCrudeLosses?.equipmentCrudeLossesModel
+        ?.equipmentCrudeLossesMap || [];
   }
 
   /**

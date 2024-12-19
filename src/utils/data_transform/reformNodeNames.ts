@@ -1,37 +1,36 @@
-
 import {
   EquipmentCapacitiesModel,
   IEquipmentCapacitiesRow,
   TEquipmentCapacitiesDateRow,
-  TEquipmentCapacitiesInput
+  TEquipmentCapacitiesInput,
 } from '../../models/equipmentCapacities';
 
 import {
   EquipmentCrudeLossesModel,
   TEquipmentCrudeLossesDateRow,
   TEquipmentCrudeLossesInput,
-  TEquipmentCrudeLossesRow
+  TEquipmentCrudeLossesRow,
 } from '../../models/equipmentCrudeLosses';
 
 import {
   EquipmentDefermentsModel,
   TEquipmentDefermentsDateRow,
   TEquipmentDefermentsInput,
-  TEquipmentDefermentsRow
+  TEquipmentDefermentsRow,
 } from '../../models/equipmentDeferments';
 
 import {
   FlareGasModel,
   TFlareGasDateRow,
   TFlareGasInput,
-  TFlareGasRow
+  TFlareGasRow,
 } from '../../models/flareGas';
 
 import {
   OwnUseGasModel,
   TOwnUseGasDateRow,
   TOwnUseGasInput,
-  TOwnUseGasRow
+  TOwnUseGasRow,
 } from '../../models/ownUseGas';
 
 import { ISelectOption } from '../../types';
@@ -54,13 +53,11 @@ const getNodeInternalName = (
     return 'Gas Asset';
   }
 
-  if (
-    productionEquipmentType.includes('oilpipeline')) {
+  if (productionEquipmentType.includes('oilpipeline')) {
     return 'Oil Asset';
   }
 
-  if (
-    productionEquipmentType.includes('gaspipeline')) {
+  if (productionEquipmentType.includes('gaspipeline')) {
     return 'Gas Asset';
   }
 
@@ -179,10 +176,12 @@ export const GetEquipmentsCapacitiesSheetData = (
     const equipmentCapacities = equipmentCapacitiesMap[
       equipmentName
     ] as TEquipmentCapacitiesInput;
-    const inputTypeOption = equipmentCapacities.inputTypeOption as ISelectOption;
+    const inputTypeOption =
+      equipmentCapacities.inputTypeOption as ISelectOption;
     const datesInput =
       equipmentCapacities.datesInput as TEquipmentCapacitiesDateRow[];
-    const inputDeck = equipmentCapacities.inputDeck as IEquipmentCapacitiesRow[];
+    const inputDeck =
+      equipmentCapacities.inputDeck as IEquipmentCapacitiesRow[];
     let equipmentObject = internalExternalFacilitiesNamesModified.find(
       (e) => e.originalExternalEquipmentName == equipmentName
     );
@@ -403,7 +402,7 @@ export const GetEquipmentsCapacitiesSheetData = (
         break;
       case 'inputDeck':
         for (let i = 1; i < inputDeck.length; i++) {
-         /*  if (
+          /*  if (
             equipmentType == 'Flow Station' ||
             (equipmentType == 'Gas Plant' &&
               !inputDeck[i].liquidCapacityBase &&
@@ -594,10 +593,12 @@ export const GetEquipmentsDefermentsSheetData = (
     const equipmentCapacities = equipmentCapacitiesMap[
       equipmentName
     ] as TEquipmentDefermentsInput;
-    const inputTypeOption = equipmentCapacities.inputTypeOption as ISelectOption;
+    const inputTypeOption =
+      equipmentCapacities.inputTypeOption as ISelectOption;
     const datesInput =
       equipmentCapacities.datesInput as TEquipmentDefermentsDateRow[];
-    const inputDeck = equipmentCapacities.inputDeck as TEquipmentDefermentsRow[];
+    const inputDeck =
+      equipmentCapacities.inputDeck as TEquipmentDefermentsRow[];
 
     switch (inputTypeOption.value) {
       case 'datesInput':

@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include <iostream>
 #include <fstream>
 #include <stdio.h>
@@ -12,17 +11,14 @@
 
 using namespace std;
 
-
 class SimplexIndexResult
 {
 private:
-
 public:
     tuple<int, int> index;
     SimplexResult result;
 
     SimplexIndexResult(tuple<int, int> _index, SimplexResult _result);
-
 };
 
 SimplexIndexResult::SimplexIndexResult(tuple<int, int> _index, SimplexResult _result)

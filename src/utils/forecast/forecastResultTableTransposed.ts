@@ -159,7 +159,7 @@ const getModuleResultsParameters = (moduleForecastResult: any) => {
       const variableName = columnsKeys[Y_column_indicies[j]] as string;
       const value = Number(columns[variableName]) * y_variables_Multipliers[j];
       yRow[j] = value;
-      
+
       /* if (
         variableName == columnsKeys[oil_rate_column_index] &&
         columns[columnsKeys[hydrocarbon_stream_column_index]] == 'oil'
@@ -270,7 +270,7 @@ const createAllForecastResultsTable = (
   for (let i = 0; i < nWells; i++) {
     uu = uu + 1;
     if (uu > nSolutionSpacesType) {
-      uu = 0; 
+      uu = 0;
     }
 
     const solution_space = solutionSpacesType[uu];
@@ -379,7 +379,7 @@ const createAllForecastResultsTable = (
         rowKeyIndex = rowKeyIndex + 1;
         const rowKey = rowKeyIndex.toString();
         //table[rowKey] = createColumns(concatenatedTableColumns, line, tab);
-        table2.push(createColumns(concatenatedTableColumns, line, tab))
+        table2.push(createColumns(concatenatedTableColumns, line, tab));
       }
     }
   }

@@ -1,4 +1,4 @@
-import { ForecastIInputDeckEntity } from "../../models/forecastInputDeck";
+import { ForecastIInputDeckEntity } from '../../models/forecastInputDeck';
 
 export function GetForecastStartDate(
   forecastInputDecks: ForecastIInputDeckEntity[]

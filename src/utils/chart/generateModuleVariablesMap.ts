@@ -1,13 +1,13 @@
-import { IFilterChartData } from "./filterChartData";
+import { IFilterChartData } from './filterChartData';
 
-const get = require("lodash/get");
-const objectScan = require("object-scan");
+const get = require('lodash/get');
+const objectScan = require('object-scan');
 
 export const generateModuleVariablesMap = (
-  chartData: IFilterChartData["chartData"],
-  paths: IFilterChartData["paths"]
+  chartData: IFilterChartData['chartData'],
+  paths: IFilterChartData['paths']
 ) => {
-  let delimeter = "@#$%";
+  let delimeter = '@#$%';
   const modulePathVariablesMap = {} as Record<string, any[]>;
 
   for (const path of paths) {
@@ -26,7 +26,7 @@ export const generateModuleVariablesMap = (
 
     const moduleVariableArr = [];
     for (const modulePath of selectedModulePaths.reverse()) {
-      const lastIndex = modulePath.lastIndexOf(".");
+      const lastIndex = modulePath.lastIndexOf('.');
       const moduleVariablesPath = modulePath.substring(0, lastIndex);
 
       const moduleVariables = get(chartData, moduleVariablesPath);

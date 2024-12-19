@@ -98,7 +98,8 @@ export const getNodalPrioritization = (
       /* 
         To be modified when Sir Giddy standardize nodal prioritization
       */
-      const _productionPrioritizationModel = {} as ProductionPrioritizationModel;
+      const _productionPrioritizationModel =
+        {} as ProductionPrioritizationModel;
       _productionPrioritizationModel.typeOfPrioritization =
         'projectPrioritization';
       const projectOptions =

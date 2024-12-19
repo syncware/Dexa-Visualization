@@ -4,16 +4,17 @@
 #define LINKEDNODE_H
 #endif
 
-
 #include <iostream>
 
-class LinkedNode {
-    public:
-        int data;
-        LinkedNode* next;
+class LinkedNode
+{
+public:
+    int data;
+    LinkedNode *next;
 
-        LinkedNode(int val){
-            data = val;
-            next = nullptr;
-        }
+    LinkedNode(int val)
+    {
+        data = val;
+        next = nullptr;
+    }
 };

@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include <iostream>
 #include <fstream>
 #include <stdio.h>
@@ -12,14 +11,10 @@
 
 using namespace std;
 
-
-
 class SimplexSnap
 {
 private:
-
 public:
-    
     vector<double> b;
     vector<vector<double>> matrix;
     vector<double> M;
@@ -31,8 +26,8 @@ public:
     vector<bool> m;
 
     SimplexSnap();
-    SimplexSnap(vector<double>, vector<vector<double>> matrix, vector<double> M, vector<double> F, 
-        vector<int> CC, vector<double> fVars, bool isMDone, vector<bool> m);
+    SimplexSnap(vector<double>, vector<vector<double>> matrix, vector<double> M, vector<double> F,
+                vector<int> CC, vector<double> fVars, bool isMDone, vector<bool> m);
 
     vector<double> Copy(vector<double> arrayData);
 
@@ -41,15 +36,13 @@ public:
     vector<bool> bCopy(vector<bool> arrayData);
 
     vector<vector<double>> Copy(vector<vector<double>> matrix);
-
 };
 
 SimplexSnap::SimplexSnap()
 {
-
 }
 SimplexSnap::SimplexSnap(vector<double> _b, vector<vector<double>> _matrix, vector<double> _M, vector<double> _F,
-    vector<int> _CC, vector<double> _fVars, bool _isMDone, vector<bool> _m)
+                         vector<int> _CC, vector<double> _fVars, bool _isMDone, vector<bool> _m)
 {
     b = Copy(_b);
     matrix = Copy(_matrix);
@@ -63,10 +56,9 @@ SimplexSnap::SimplexSnap(vector<double> _b, vector<vector<double>> _matrix, vect
     int CCCount = CC.size();
     for (int i = 0; i < CCCount; i++)
     {
-        fValue +=  fVars[CC[i]] * b[i];
+        fValue += fVars[CC[i]] * b[i];
     }
 }
-
 
 vector<double> SimplexSnap::Copy(vector<double> arrayData)
 {
@@ -79,7 +71,6 @@ vector<double> SimplexSnap::Copy(vector<double> arrayData)
     return newArr;
 }
 
-
 vector<int> SimplexSnap::iCopy(vector<int> arrayData)
 {
     vector<int> newArr;
@@ -90,7 +81,6 @@ vector<int> SimplexSnap::iCopy(vector<int> arrayData)
     }
     return newArr;
 }
-
 
 vector<bool> SimplexSnap::bCopy(vector<bool> arrayData)
 {
@@ -103,7 +93,7 @@ vector<bool> SimplexSnap::bCopy(vector<bool> arrayData)
     return newArr;
 }
 
-vector<vector<double>>  SimplexSnap::Copy(vector<vector<double>> matrix)
+vector<vector<double>> SimplexSnap::Copy(vector<vector<double>> matrix)
 {
     vector<vector<double>> newMatr;
     const int cols = matrix.size();

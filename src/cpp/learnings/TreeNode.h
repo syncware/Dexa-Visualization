@@ -6,29 +6,32 @@
 
 #include <iostream>
 
-class TreeNode {
+class TreeNode
+{
 public:
     int data;
-    TreeNode* left;
-    TreeNode* right;
+    TreeNode *left;
+    TreeNode *right;
 
-    TreeNode(int val) {
+    TreeNode(int val)
+    {
         data = val;
         left = nullptr;
-        right = nullptr; 
+        right = nullptr;
     }
 };
 
+class TreeNodeBinarySearch
+{
+public:
+    double data;
+    TreeNodeBinarySearch *left;
+    TreeNodeBinarySearch *right;
 
-class TreeNodeBinarySearch {
-    public:
-        double data;
-        TreeNodeBinarySearch* left;
-        TreeNodeBinarySearch* right;
-
-        TreeNodeBinarySearch(double val){
-            data = val;
-            left = nullptr;
-            right = nullptr;
-        }
+    TreeNodeBinarySearch(double val)
+    {
+        data = val;
+        left = nullptr;
+        right = nullptr;
+    }
 };

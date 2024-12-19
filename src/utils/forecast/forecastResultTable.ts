@@ -1,12 +1,12 @@
-import { evaluate } from "mathjs";
-import { ForecastIInputDeckEntity } from "../../models/forecastInputDeck";
-import { volumeforecastModule } from "../../productionforecast/optimizer";
+import { evaluate } from 'mathjs';
+import { ForecastIInputDeckEntity } from '../../models/forecastInputDeck';
+import { volumeforecastModule } from '../../productionforecast/optimizer';
 import {
   Convert_to_Display_Unit_No_Variableunit,
   Get_GlobalVariableUnits,
   Get_Units,
-} from "../unit/unitService";
-import * as reformForecastResult from "./reformForecastResult";
+} from '../unit/unitService';
+import * as reformForecastResult from './reformForecastResult';
 
 function GetActualWells(data: [], moduleNames: string[]): any {
   const result = {} as any;
@@ -29,36 +29,36 @@ function GetActualWells(data: [], moduleNames: string[]): any {
 function GetVariables(): any {
   const variableNames: object = {
     Oil: {
-      hydrocarbonStream: "oil",
-      pointerName: "oilRate",
-      unitVariable: "oilRate",
+      hydrocarbonStream: 'oil',
+      pointerName: 'oilRate',
+      unitVariable: 'oilRate',
     },
     Condensate: {
-      hydrocarbonStream: "gas",
-      pointerName: "gasRate",
-      unitVariable: "gasRate",
+      hydrocarbonStream: 'gas',
+      pointerName: 'gasRate',
+      unitVariable: 'gasRate',
     },
     Gross: {
-      pointerName: "liquidRate",
-      unitVariable: "liquidRate",
+      pointerName: 'liquidRate',
+      unitVariable: 'liquidRate',
     },
-    "Prod/Inj Gas": {
-      pointerName: "gasRate",
-      unitVariable: "gasRate",
+    'Prod/Inj Gas': {
+      pointerName: 'gasRate',
+      unitVariable: 'gasRate',
     },
-    "Sales Gas": {
-      pointerName: "gasDemand",
-      unitVariable: "gasDemand",
+    'Sales Gas': {
+      pointerName: 'gasDemand',
+      unitVariable: 'gasDemand',
     },
-    "Flare Gas": {
+    'Flare Gas': {
       // Flare Gas = Prod Gas - (Sales Gas + Ownuse Gas)
-      variables: ["gasRate", "gasDemand", "ownUseGas"],
-      pointerName: "gasRate - gasDemand + ownUseGas",
-      unitVariable: "gasRate",
+      variables: ['gasRate', 'gasDemand', 'ownUseGas'],
+      pointerName: 'gasRate - gasDemand + ownUseGas',
+      unitVariable: 'gasRate',
     },
-    "OwnUse Gas": {
-      pointerName: "ownUseGas",
-      unitVariable: "ownUseGas",
+    'OwnUse Gas': {
+      pointerName: 'ownUseGas',
+      unitVariable: 'ownUseGas',
     },
 
     // "Reserves": {
@@ -85,7 +85,7 @@ export async function Get_ForecastResult_Table_Data(
   let forecastTables: object[] = [];
 
   try {
-    const errMsg = "Error in applying unit conversion to facilities deck.";
+    const errMsg = 'Error in applying unit conversion to facilities deck.';
     const _forecastInputDecks = await Convert_to_Display_Unit_No_Variableunit(
       forecastInputDecks,
       errMsg
@@ -150,7 +150,7 @@ export async function Get_ForecastResult_Table_Data(
           wells: forecastWells,
           isByYear: true,
           isForChart: false,
-          nWells: forecastWells.length
+          nWells: forecastWells.length,
         };
 
         forecastTables = await new Promise((resolve, reject) => {
@@ -160,7 +160,6 @@ export async function Get_ForecastResult_Table_Data(
           );
           function AllWellsYearlyResult(err: any, aggregatedResult: any) {
             if (err) {
-              
               return reject(err);
             } else {
               const _aggregateWell = GetActualWells(
@@ -178,32 +177,34 @@ export async function Get_ForecastResult_Table_Data(
                   const variable = variableNames[va] as any;
                   forecastTables.push(forecastTable);
 
-                  forecastTable["Scenario"] = scenarioName;
-                  forecastTable["Field"] = forecastResultsByModule[module].field;
-                  forecastTable["Reservoir"] = forecastResultsByModule[module].reservoir;
-                  forecastTable["Drainage Point"] =
+                  forecastTable['Scenario'] = scenarioName;
+                  forecastTable['Field'] =
+                    forecastResultsByModule[module].field;
+                  forecastTable['Reservoir'] =
+                    forecastResultsByModule[module].reservoir;
+                  forecastTable['Drainage Point'] =
                     forecastResultsByModule[module].drainagePoint;
-                  forecastTable["Facilities"] = facilityName;
-                  forecastTable["Module"] = module;
+                  forecastTable['Facilities'] = facilityName;
+                  forecastTable['Module'] = module;
                   // forecastTable["Profile Type"] = va  // Add unit
-                  forecastTable["Profile Type"] = `${va} (${
+                  forecastTable['Profile Type'] = `${va} (${
                     variableUnits[variable.unitVariable]
                   })`;
 
-                  forecastTable["Project Code"] =
+                  forecastTable['Project Code'] =
                     forecastResultsByModule[module].projectCode;
-                  forecastTable["Project Name"] =
+                  forecastTable['Project Name'] =
                     forecastResultsByModule[module].projectName;
-                  forecastTable["Np"] = forecastResultsByModule[module].Np;
-                  forecastTable["Gp"] = forecastResultsByModule[module].Gp;
+                  forecastTable['Np'] = forecastResultsByModule[module].Np;
+                  forecastTable['Gp'] = forecastResultsByModule[module].Gp;
 
                   wells.forEach((x) => {
-                    const yearName = "Y" + x.year;
+                    const yearName = 'Y' + x.year;
                     let originalEquation = variable.pointerName;
                     //NAG
-                    forecastTable["Hydrocarbon Stream"] = x.hydrocarbonStream;
-                    forecastTable["Hydrocarbon Type"] =
-                      x.hydrocarbonStream == "oil" ? "Oil/AG" : "NAG";
+                    forecastTable['Hydrocarbon Stream'] = x.hydrocarbonStream;
+                    forecastTable['Hydrocarbon Type'] =
+                      x.hydrocarbonStream == 'oil' ? 'Oil/AG' : 'NAG';
                     forecastTable[yearName] = 0;
                     if (variable.hydrocarbonStream) {
                       if (x.hydrocarbonStream == variable.hydrocarbonStream) {
@@ -233,9 +234,7 @@ export async function Get_ForecastResult_Table_Data(
         });
       }
     }
-  } catch (err) {
-    
-  }
+  } catch (err) {}
   // exportJson(forecastTables, 'forecast_Table_Data.xlsx')
   return forecastTables;
 }
@@ -253,15 +252,13 @@ export async function Get_ForecastResult_Table_Data_By_ScenarioName(
     const facilities: object[] = [];
     Object.keys(forecastResultScenario).forEach((facilityName) => {
       const forecastResultFacility = forecastResultScenario[facilityName];
-      const forecastWells = Object.keys(forecastResultFacility).map(
-        (i) => {
-          return {
-            innerWells: forecastResultFacility[i].wells,
-            nInnerWells: forecastResultFacility[i].wells.length
-            //forecastResultFacility[i]
-          }
-        }
-      );
+      const forecastWells = Object.keys(forecastResultFacility).map((i) => {
+        return {
+          innerWells: forecastResultFacility[i].wells,
+          nInnerWells: forecastResultFacility[i].wells.length,
+          //forecastResultFacility[i]
+        };
+      });
       facilities.push(forecastWells);
     });
 
@@ -269,9 +266,7 @@ export async function Get_ForecastResult_Table_Data_By_ScenarioName(
       facilities
     );
     return result;
-  } catch (err) {
-    
-  }
+  } catch (err) {}
 }
 
 export async function Get_Yearly_ForecastResult_By_Scenario_Level(
@@ -284,7 +279,7 @@ export async function Get_Yearly_ForecastResult_By_Scenario_Level(
       facilities: facilities,
       isByYear: true,
       isForChart: false,
-      nFacilities: facilities.length
+      nFacilities: facilities.length,
     };
     result = await new Promise((resolve, reject) => {
       volumeforecastModule.GetYearlyForcastResultScenarioLevelAsync(
@@ -293,7 +288,6 @@ export async function Get_Yearly_ForecastResult_By_Scenario_Level(
       );
       function ScenarioYearlyResult(err: any, aggregatedResult: any): any {
         if (err) {
-          
           return reject(err);
         } else {
           const table = (aggregatedResult as any).resultWells as string;
@@ -302,9 +296,7 @@ export async function Get_Yearly_ForecastResult_By_Scenario_Level(
         }
       }
     });
-  } catch (err: any) {
-    
-  }
+  } catch (err: any) {}
 
   return result;
 }

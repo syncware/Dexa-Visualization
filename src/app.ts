@@ -35,4 +35,3 @@ app.all('*', () => {
 app.use(error);
 
 export { app };
-

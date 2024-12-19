@@ -4,37 +4,42 @@
 #define SINGLETON_H
 #endif
 
-class Singleton {
-    private:
-        static Singleton* instance;
-        int value;
+class Singleton
+{
+private:
+    static Singleton *instance;
+    int value;
 
-        //Private constructor prevents instantiation
-        Singleton(){
-             value = 0;
+    // Private constructor prevents instantiation
+    Singleton()
+    {
+        value = 0;
+    }
+
+public:
+    // Delete copy constructor and assign operator
+    Singleton(const Singleton &) = delete;
+    Singleton &operator=(const Singleton &) = delete;
+
+    static Singleton *getInstance()
+    {
+        if (instance == nullptr)
+        {
+            instance = new Singleton();
         }
 
-    public:
-        //Delete copy constructor and assign operator
-        Singleton(const Singleton&) = delete;
-        Singleton& operator=(const Singleton&) = delete;
+        return instance;
+    }
 
-        static Singleton* getInstance() {
-            if(instance == nullptr) {
-                instance = new Singleton();
-            }
+    void setValue(int val)
+    {
+        value = val;
+    }
 
-            return instance;
-        }
-
-        void setValue(int val) { 
-            value = val; 
-        }
-
-        int getValue() const {
-            return value;
-        }
-
+    int getValue() const
+    {
+        return value;
+    }
 };
 
-Singleton* Singleton::instance = nullptr;
+Singleton *Singleton::instance = nullptr;

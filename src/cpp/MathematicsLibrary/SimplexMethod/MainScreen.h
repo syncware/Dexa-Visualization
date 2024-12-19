@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include <iostream>
 #include <fstream>
 #include <stdio.h>
@@ -34,26 +33,25 @@ public:
     vector<double> functionGridView;
     vector<vector<string>> resultsGridView;
     string resultsLblText;
-   void okBtn_Click();
-   void fillConstraintsGrid();
-   void fillFunctionGrid();
-   void defaultBtn_Click();
-   void fillDefaultsConstraints(vector<vector<double>>& consMatrx, vector<string>& signs, vector<double>& freeVars);
-   void fillDefaultsFunction(vector<double>& funcVars, const double& c, const bool& isExtrMax);
-   void Proceed();
-   void ShowResultsGrid(vector<SimplexSnap2>& snaps);
-   double Round(double a);
-   void Solve(Problem2 p);
+    void okBtn_Click();
+    void fillConstraintsGrid();
+    void fillFunctionGrid();
+    void defaultBtn_Click();
+    void fillDefaultsConstraints(vector<vector<double>> &consMatrx, vector<string> &signs, vector<double> &freeVars);
+    void fillDefaultsFunction(vector<double> &funcVars, const double &c, const bool &isExtrMax);
+    void Proceed();
+    void ShowResultsGrid(vector<SimplexSnap2> &snaps);
+    double Round(double a);
+    void Solve(Problem2 p);
 };
 
 void MainScreen::okBtn_Click()
 {
- 
-    //constraintsCount = Convert.ToInt32(nOfContraintsTextBox.Text);
-    //variablesCount = Convert.ToInt32(nOfVariablesTextBox.Text);
+
+    // constraintsCount = Convert.ToInt32(nOfContraintsTextBox.Text);
+    // variablesCount = Convert.ToInt32(nOfVariablesTextBox.Text);
     fillConstraintsGrid();
     fillFunctionGrid();
-    
 }
 
 void MainScreen::fillConstraintsGrid()
@@ -64,11 +62,10 @@ void MainScreen::fillConstraintsGrid()
 void MainScreen::fillFunctionGrid()
 {
 
-   functionGridView = matrixOperations.createVector(variablesCount + 2);
-    
+    functionGridView = matrixOperations.createVector(variablesCount + 2);
 }
 
-void MainScreen::fillDefaultsFunction(vector<double>& funcVars, const double& c, const bool& isExtrMax)
+void MainScreen::fillDefaultsFunction(vector<double> &funcVars, const double &c, const bool &isExtrMax)
 {
     fillFunctionGrid();
     for (int i = 0; i < variablesCount + 1; i++)
@@ -86,7 +83,7 @@ void MainScreen::fillDefaultsFunction(vector<double>& funcVars, const double& c,
     extrComboBoxSelectedIndex = isExtrMax ? 0 : 1;
 }
 
-void MainScreen::fillDefaultsConstraints(vector<vector<double>>& consMatrx, vector<string>& signs, vector<double>& freeVars)
+void MainScreen::fillDefaultsConstraints(vector<vector<double>> &consMatrx, vector<string> &signs, vector<double> &freeVars)
 {
 
     constraintsCount = signs.size();
@@ -109,7 +106,6 @@ void MainScreen::fillDefaultsConstraints(vector<vector<double>>& consMatrx, vect
             {
                 constraintsGridView[i][j] = to_string(freeVars[i]);
             }
-
         }
     }
 }
@@ -147,56 +143,59 @@ void MainScreen::Proceed()
 
     optimalSolution = 0;
 
-    if(tupleItem2 == Found2){
+    if (tupleItem2 == Found2)
+    {
         string extrStr = isExtrMax ? "max" : "min";
         vector<SimplexSnap2> finalResult = get<0>(result);
         int finalResultCount = finalResult.size();
-        double fValue = finalResult[finalResultCount-1].fValue;
+        double fValue = finalResult[finalResultCount - 1].fValue;
         optimalSolution = fValue;
         resultsLblText = "The optimal solution is found: F" + extrStr + " =  " + to_string(fValue);
     }
 
-    if(tupleItem2 == Unbounded2){
+    if (tupleItem2 == Unbounded2)
+    {
         resultsLblText = "The domain of admissible solutions is unbounded";
     }
 
-    if(tupleItem2 == NotYetFound2){
+    if (tupleItem2 == NotYetFound2)
+    {
         resultsLblText = "Algorithm has made 100 cycles and hasn't found any optimal solution.";
     }
 
     optimalSolutionMessage = resultsLblText;
 
     ShowResultsGrid(get<0>(result));
-    
 }
 
-void MainScreen::ShowResultsGrid(vector<SimplexSnap2>& snaps)
+void MainScreen::ShowResultsGrid(vector<SimplexSnap2> &snaps)
 {
     resultsGridView.clear();
-    //vector<LinearProgrammingResult> linearProgrammingResults;
-    //LinearProgrammingResult linearProgrammingResult;
+    // vector<LinearProgrammingResult> linearProgrammingResults;
+    // LinearProgrammingResult linearProgrammingResult;
     vector<int> CCs;
     int snapsSize = snaps.size();
-    for (int k = 0; k <  snapsSize; k++)
+    for (int k = 0; k < snapsSize; k++)
     {
-        for(int j = 0; j < snaps[k].C.size(); j++){
-             CCs.push_back(snaps[k].C[j]);
+        for (int j = 0; j < snaps[k].C.size(); j++)
+        {
+            CCs.push_back(snaps[k].C[j]);
         }
-    } 
+    }
 
     int maxCC = 0;
     maxCC = matrixOperations.VectorMaximumInt(CCs);
-        
+
     int variablesCountPlusSlacks = snaps[0].b.size();
     vector<double> decisonVariablesAndSlacks = matrixOperations.createVector(maxCC + 1);
-    
 
-    for (int k = 0; k <  snapsSize; k++)
+    for (int k = 0; k < snapsSize; k++)
     {
-        if(k == snapsSize - 1){
+        if (k == snapsSize - 1)
+        {
             decisonVariablesAndSlacks = matrixOperations.ZeroVector(decisonVariablesAndSlacks);
         }
-        
+
         SimplexSnap2 snap = snaps[k];
         vector<string> firstRow = matrixOperations.createVectorString(snap.matrix.size() + 4);
 
@@ -205,7 +204,7 @@ void MainScreen::ShowResultsGrid(vector<SimplexSnap2>& snaps)
         firstRow[2] = "C";
         firstRow[3] = "B";
 
-        //linearProgrammingResult.refined = matrixOperations.createVector(variablesCount);
+        // linearProgrammingResult.refined = matrixOperations.createVector(variablesCount);
         for (int i = 4; i < snap.matrix.size() + 4; i++)
         {
             firstRow[i] = "A" + to_string(i - 3);
@@ -215,8 +214,7 @@ void MainScreen::ShowResultsGrid(vector<SimplexSnap2>& snaps)
 
         /* linearProgrammingResult.raw = matrixOperations.CopyVector(snap.b);
         linearProgrammingResult.refined = matrixOperations.createVector(variablesCount); */
-        
-        
+
         for (int i = 0; i < snap.C.size(); i++)
         {
             vector<string> row = matrixOperations.createVectorString(snap.matrix.size() + 4);
@@ -229,11 +227,12 @@ void MainScreen::ShowResultsGrid(vector<SimplexSnap2>& snaps)
                 else if (j == 1)
                 {
                     row[j] = "A" + to_string(snap.C[i] + 1);
-                    //linearProgrammingResult.indices.push_back(snap.C[i]);
-                    //linearProgrammingResult.variables.push_back(row[j]);
-                    if(k == snapsSize - 1){
+                    // linearProgrammingResult.indices.push_back(snap.C[i]);
+                    // linearProgrammingResult.variables.push_back(row[j]);
+                    if (k == snapsSize - 1)
+                    {
                         decisonVariablesAndSlacks[snap.C[i]] = snap.b[i];
-                    } 
+                    }
                 }
                 else if (j == 2)
                 {
@@ -277,11 +276,12 @@ void MainScreen::ShowResultsGrid(vector<SimplexSnap2>& snaps)
         vector<string> emptyRow = matrixOperations.createVectorString(snap.matrix.size() + 4);
         resultsGridView.push_back(emptyRow);
     }
-    //decisonVariables
+    // decisonVariables
 
-    //decisonVariables = linearProgrammingResult.refined;
+    // decisonVariables = linearProgrammingResult.refined;
     decisonVariables = matrixOperations.createVector(variablesCount);
-    for(int k = 0; k < variablesCount; k++){
+    for (int k = 0; k < variablesCount; k++)
+    {
         decisonVariables[k] = decisonVariablesAndSlacks[k];
     }
 }
@@ -291,7 +291,8 @@ double MainScreen::Round(double a)
     return a; // round(a, 2);
 }
 
-void MainScreen::defaultBtn_Click(){
+void MainScreen::defaultBtn_Click()
+{
     ProblemsService2 problemsService;
     int currentProblemIndex = 4;
     Problem2 p = problemsService.GetNext(currentProblemIndex);
@@ -300,7 +301,8 @@ void MainScreen::defaultBtn_Click(){
     Proceed();
 }
 
-void MainScreen::Solve(Problem2 p){
+void MainScreen::Solve(Problem2 p)
+{
     fillDefaultsConstraints(p.consMatrx, p.signs, p.freeVars);
     fillDefaultsFunction(p.funcVars, p.c, p.isExtrMax);
     Proceed();

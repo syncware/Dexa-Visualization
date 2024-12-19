@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include <iostream>
 #include <fstream>
 #include <stdio.h>
@@ -20,7 +19,6 @@ using namespace std;
 class Simplex
 {
 private:
-
     Funct function;
 
     vector<double> functionVariables;
@@ -34,52 +32,48 @@ private:
     SimplexResult _Unbounded = Unbounded;
     SimplexResult _Found = Found;
     SimplexResult _NotYetFound = NotYetFound;
-    
 
 public:
-
     Simplex();
 
-    Simplex(Funct& _function, vector<Constraint>& _constraints);
+    Simplex(Funct &_function, vector<Constraint> &_constraints);
 
-    int getIndexOfNegativeElementWithMaxAbsoluteValue(vector<double>& arrayData);
+    int getIndexOfNegativeElementWithMaxAbsoluteValue(vector<double> &arrayData);
 
-    int getIndexOfMinimalRatio(vector<double>& column, vector<double>& b);
+    int getIndexOfMinimalRatio(vector<double> &column, vector<double> &b);
 
     void getFunctionArray();
 
     Funct Canonize(Funct function);
 
-    vector<vector<double>> appendColumn(vector<vector<double>>& matrix, vector<double>& column);
+    vector<vector<double>> appendColumn(vector<vector<double>> &matrix, vector<double> &column);
 
-    vector<double> append(vector<double>& arrayData, double& element);
+    vector<double> append(vector<double> &arrayData, double &element);
 
-    vector<bool> appendBool(vector<bool>& arrayData, bool& element);
+    vector<bool> appendBool(vector<bool> &arrayData, bool &element);
 
-    vector<double> getColumn(double& value, int& place, int& length);
+    vector<double> getColumn(double &value, int &place, int &length);
 
-    vector<vector<double>> createMatrix(const int& rows, const int& cols);
+    vector<vector<double>> createMatrix(const int &rows, const int &cols);
 
-    vector<double> createVector(const int& rows);
+    vector<double> createVector(const int &rows);
 
-    void getMatrix(vector<Constraint>& constraints);
+    void getMatrix(vector<Constraint> &constraints);
 
-    void calculateSimplexTableau(tuple<int,int>& Xij);
+    void calculateSimplexTableau(tuple<int, int> &Xij);
 
     void getMandF();
 
     SimplexIndexResult nextStep();
 
     tuple<vector<SimplexSnap>, SimplexResult> GetResult();
-
 };
 
 Simplex::Simplex()
 {
-
 }
 
-Simplex::Simplex(Funct& _function, vector<Constraint>& _constraints)
+Simplex::Simplex(Funct &_function, vector<Constraint> &_constraints)
 {
     if (_function.isExtrMax)
     {
@@ -93,7 +87,7 @@ Simplex::Simplex(Funct& _function, vector<Constraint>& _constraints)
     getMatrix(_constraints);
     getFunctionArray();
     getMandF();
-    
+
     int FSize = F.size();
     for (int i = 0; i < FSize; i++)
     {
@@ -101,8 +95,7 @@ Simplex::Simplex(Funct& _function, vector<Constraint>& _constraints)
     }
 }
 
-
-int Simplex::getIndexOfNegativeElementWithMaxAbsoluteValue(vector<double>& arrayData)
+int Simplex::getIndexOfNegativeElementWithMaxAbsoluteValue(vector<double> &arrayData)
 {
     int index = -1;
     int arrayDataSize = arrayData.size();
@@ -110,7 +103,7 @@ int Simplex::getIndexOfNegativeElementWithMaxAbsoluteValue(vector<double>& array
     {
         if (arrayData[i] < 0)
         {
-            //if (!isMDone || isMDone && !m[i])
+            // if (!isMDone || isMDone && !m[i])
             if (!isMDone || (isMDone && !m[i]))
             {
                 if (index == -1)
@@ -122,14 +115,12 @@ int Simplex::getIndexOfNegativeElementWithMaxAbsoluteValue(vector<double>& array
                     index = i;
                 }
             }
-
         }
     }
     return index;
 }
 
-
-int Simplex::getIndexOfMinimalRatio(vector<double>& column, vector<double>& b)
+int Simplex::getIndexOfMinimalRatio(vector<double> &column, vector<double> &b)
 {
     int index = -1;
     int columnsize = column.size();
@@ -143,7 +134,7 @@ int Simplex::getIndexOfMinimalRatio(vector<double>& column, vector<double>& b)
             }
             else if (b[i] / column[i] < b[index] / column[index])
             {
-            index = i;
+                index = i;
             }
         }
     }
@@ -151,18 +142,19 @@ int Simplex::getIndexOfMinimalRatio(vector<double>& column, vector<double>& b)
     return index;
 }
 
-void Simplex::getFunctionArray() {
+void Simplex::getFunctionArray()
+{
 
     int matrixsize = matrix.size();
-    vector<double> funcVars =createVector(matrixsize);
+    vector<double> funcVars = createVector(matrixsize);
     int functionvariablessize = function.variables.size();
-    for (int i = 0; i < matrixsize; i++) {
+    for (int i = 0; i < matrixsize; i++)
+    {
         funcVars[i] = i < functionvariablessize ? function.variables[i] : 0;
     }
 
     functionVariables = funcVars;
 }
-
 
 Funct Simplex::Canonize(Funct _function)
 {
@@ -180,8 +172,7 @@ Funct Simplex::Canonize(Funct _function)
     return ans;
 }
 
-
-vector<vector<double>>  Simplex::appendColumn(vector<vector<double>>& matrix, vector<double>& column)
+vector<vector<double>> Simplex::appendColumn(vector<vector<double>> &matrix, vector<double> &column)
 {
     vector<vector<double>> newMatrix;
     const int cols = matrix.size();
@@ -195,8 +186,7 @@ vector<vector<double>>  Simplex::appendColumn(vector<vector<double>>& matrix, ve
     return newMatrix;
 }
 
-
-vector<double> Simplex::append(vector<double>& arrayData, double& element)
+vector<double> Simplex::append(vector<double> &arrayData, double &element)
 {
     vector<double> newArray;
     int arrayDatasize = arrayData.size();
@@ -209,7 +199,7 @@ vector<double> Simplex::append(vector<double>& arrayData, double& element)
     return newArray;
 }
 
-vector<bool> Simplex::appendBool(vector<bool>& arrayData, bool& element)
+vector<bool> Simplex::appendBool(vector<bool> &arrayData, bool &element)
 {
     vector<bool> newArray;
     int arrayDatasize = arrayData.size();
@@ -222,7 +212,7 @@ vector<bool> Simplex::appendBool(vector<bool>& arrayData, bool& element)
     return newArray;
 }
 
-vector<double> Simplex::getColumn(double& value, int& place, int& length)
+vector<double> Simplex::getColumn(double &value, int &place, int &length)
 {
     vector<double> newColumn;
 
@@ -236,8 +226,7 @@ vector<double> Simplex::getColumn(double& value, int& place, int& length)
     return newColumn;
 }
 
-
-vector<vector<double>> Simplex::createMatrix(const int& rows, const int& cols)
+vector<vector<double>> Simplex::createMatrix(const int &rows, const int &cols)
 {
     vector<vector<double>> ans;
     for (int j = 0; j < cols; j++)
@@ -254,9 +243,8 @@ vector<vector<double>> Simplex::createMatrix(const int& rows, const int& cols)
     return ans;
 }
 
-
-vector<double> Simplex::createVector(const int& rows)
- {
+vector<double> Simplex::createVector(const int &rows)
+{
     vector<double> ans;
 
     for (int i = 0; i < rows; i++)
@@ -267,8 +255,7 @@ vector<double> Simplex::createVector(const int& rows)
     return ans;
 }
 
-
-void Simplex::getMatrix(vector<Constraint>& constraints)
+void Simplex::getMatrix(vector<Constraint> &constraints)
 {
     int constraintssize = constraints.size();
     int constraintsvariablessize = 0;
@@ -312,7 +299,7 @@ void Simplex::getMatrix(vector<Constraint>& constraints)
         }
     }
 
-    vector<vector<double>> appendixMatrix;// = createMatrix(constraints.size(), 1);
+    vector<vector<double>> appendixMatrix; // = createMatrix(constraints.size(), 1);
     vector<double> Bs = createVector(constraintssize);
     for (int i = 0; i < constraintssize; i++)
     {
@@ -350,30 +337,34 @@ void Simplex::getMatrix(vector<Constraint>& constraints)
     vector<bool> hasBasicVar;
 
     constraintssize = constraints.size();
-    for (int i = 0; i < constraintssize; i++) {
+    for (int i = 0; i < constraintssize; i++)
+    {
         hasBasicVar.push_back(false);
     }
 
     CC.clear();
 
     int newMatrixsize = newMatrix.size();
-    for (int i = 0; i < newMatrixsize; i++) {
+    for (int i = 0; i < newMatrixsize; i++)
+    {
 
         bool hasOnlyNulls = true;
         bool hasOne = false;
-        tuple<int, int> onePosition= make_tuple(0, 0);
-        for (int j = 0; j < constraintssize; j++) {
-
+        tuple<int, int> onePosition = make_tuple(0, 0);
+        for (int j = 0; j < constraintssize; j++)
+        {
 
             if (newMatrix[i][j] == 1)
             {
-                if (hasOne) {
+                if (hasOne)
+                {
                     hasOnlyNulls = false;
                     break;
                 }
-                else {
+                else
+                {
                     hasOne = true;
-                    onePosition=make_tuple(i, j);
+                    onePosition = make_tuple(i, j);
                 }
             }
             else if (newMatrix[i][j] != 0)
@@ -381,16 +372,14 @@ void Simplex::getMatrix(vector<Constraint>& constraints)
                 hasOnlyNulls = false;
                 break;
             }
-
-
         }
 
-        if (hasOnlyNulls && hasOne) {
+        if (hasOnlyNulls && hasOne)
+        {
             hasBasicVar[get<1>(onePosition)] = true;
             CC.push_back(get<0>(onePosition));
-            //ci++;
+            // ci++;
         }
-
     }
 
     m.clear();
@@ -400,13 +389,16 @@ void Simplex::getMatrix(vector<Constraint>& constraints)
         m.push_back(false);
     }
 
-    for (int i = 0; i < constraintssize; i++) {
+    for (int i = 0; i < constraintssize; i++)
+    {
 
-        if (!hasBasicVar[i]) {
+        if (!hasBasicVar[i])
+        {
 
             vector<double> basicColumn = createVector(constraintssize);
 
-            for (int j = 0; j < constraintssize; j++) {
+            for (int j = 0; j < constraintssize; j++)
+            {
                 basicColumn[j] = j == i ? 1 : 0;
             }
 
@@ -414,19 +406,17 @@ void Simplex::getMatrix(vector<Constraint>& constraints)
             bool tru = true;
             m = appendBool(m, tru);
             CC.push_back(newMatrix.size() - 1);
-           // ci++;
+            // ci++;
         }
-
     }
 
     this->b = Bs;
     this->matrix = newMatrix;
 }
 
- 
-void Simplex::calculateSimplexTableau(tuple<int,int>& Xij)
+void Simplex::calculateSimplexTableau(tuple<int, int> &Xij)
 {
-    
+
     const int J = get<1>(Xij);
     const int I = get<0>(Xij);
     int matrixsize = matrix.size();
@@ -478,7 +468,6 @@ void Simplex::calculateSimplexTableau(tuple<int,int>& Xij)
     getMandF();
 }
 
-
 void Simplex::getMandF()
 {
     int matrixsize = matrix.size();
@@ -510,15 +499,15 @@ SimplexIndexResult Simplex::nextStep()
 {
 
     int columnM = getIndexOfNegativeElementWithMaxAbsoluteValue(M);
-    tuple <int, int> tupleObject;
+    tuple<int, int> tupleObject;
 
     if (isMDone || columnM == -1)
     {
-        //M doesn't have negative values
+        // M doesn't have negative values
         isMDone = true;
         int columnF = getIndexOfNegativeElementWithMaxAbsoluteValue(F);
 
-        if (columnF != -1) //Has at least 1 negative value
+        if (columnF != -1) // Has at least 1 negative value
         {
             int row = getIndexOfMinimalRatio(matrix[columnF], b);
 
@@ -539,10 +528,9 @@ SimplexIndexResult Simplex::nextStep()
         else
         {
             tupleObject = make_tuple(0, 0);
-                SimplexIndexResult simplexIndexResult(tupleObject, _Found);
+            SimplexIndexResult simplexIndexResult(tupleObject, _Found);
             return simplexIndexResult;
         }
-
     }
     else
     {

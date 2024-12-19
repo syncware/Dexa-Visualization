@@ -1,7 +1,7 @@
-import { volumeforecastModule } from "../../productionforecast/optimizer";
-import { getForecastResult } from "../forecast/reformForecastResult";
-import { generateModuleVariablesMap } from "./generateModuleVariablesMap";
-const merge = require("lodash/merge");
+import { volumeforecastModule } from '../../productionforecast/optimizer';
+import { getForecastResult } from '../forecast/reformForecastResult';
+import { generateModuleVariablesMap } from './generateModuleVariablesMap';
+const merge = require('lodash/merge');
 
 export interface IFilterChartData {
   chartData: any;
@@ -10,13 +10,13 @@ export interface IFilterChartData {
   paths: string[];
 }
 
-let delimeter = "@#$%";
+let delimeter = '@#$%';
 
 export async function filterChartData(
   forecastResultsId: string,
-  chartData: IFilterChartData["chartData"],
-  selectedVariable: IFilterChartData["selectedVariable"],
-  paths: IFilterChartData["paths"]
+  chartData: IFilterChartData['chartData'],
+  selectedVariable: IFilterChartData['selectedVariable'],
+  paths: IFilterChartData['paths']
 ) {
   let lstWells = [];
 
@@ -44,7 +44,6 @@ export async function filterChartData(
     );
     function ModuleYearlyResult(err: any, aggregatedResult: []) {
       if (err) {
-        
         return reject(err);
       } else {
         resolve(aggregatedResult);
@@ -74,26 +73,26 @@ export async function filterChartData(
       resultWells = getForecastResult(table) as [];
       const rowData = resultWells[i] as any;
       if (rowData != undefined) {
-        if (uniqueYears.indexOf(rowData["year"]) === -1) {
-          uniqueYears.push(rowData["year"]);
+        if (uniqueYears.indexOf(rowData['year']) === -1) {
+          uniqueYears.push(rowData['year']);
         }
         xData[filterdPaths[j]] = rowData[selectedVariable];
-        monthData[filterdPaths[j]] = rowData["month"];
+        monthData[filterdPaths[j]] = rowData['month'];
       }
     }
     xAxesData.push(xData);
     monthsData.push(monthData);
   }
 
-  const xAxisDataType = "date";
+  const xAxisDataType = 'date';
   return { xAxesData, uniqueYears, monthsData, xAxisDataType };
 }
 
 export async function filterChartData2(
   forecastResultsId: string,
-  chartData: IFilterChartData["chartData"],
-  selectedVariable: IFilterChartData["selectedVariable"],
-  paths: IFilterChartData["paths"]
+  chartData: IFilterChartData['chartData'],
+  selectedVariable: IFilterChartData['selectedVariable'],
+  paths: IFilterChartData['paths']
 ) {
   let lstWells = [];
 
@@ -122,7 +121,6 @@ export async function filterChartData2(
     );
     function ModuleYearlyResult(err: any, aggregatedResult: []) {
       if (err) {
-        
         return reject(err);
       } else {
         resolve(aggregatedResult);
@@ -152,17 +150,17 @@ export async function filterChartData2(
       resultWells = getForecastResult(table) as [];
       const rowData = resultWells[i] as any;
       if (rowData != undefined) {
-        if (uniqueYears.indexOf(rowData["year"]) === -1) {
-          uniqueYears.push(rowData["year"]);
+        if (uniqueYears.indexOf(rowData['year']) === -1) {
+          uniqueYears.push(rowData['year']);
         }
         xData[filterdPaths[j]] = rowData[selectedVariable];
-        monthData[filterdPaths[j]] = rowData["month"];
+        monthData[filterdPaths[j]] = rowData['month'];
       }
     }
     xAxesData.push(xData);
     monthsData.push(monthData);
   }
 
-  const xAxisDataType = "date";
+  const xAxisDataType = 'date';
   return { xAxesData, uniqueYears, monthsData, xAxisDataType };
 }

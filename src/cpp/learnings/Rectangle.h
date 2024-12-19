@@ -4,44 +4,50 @@
 
 using namespace std;
 
-class Rectangle : public Shape {
-    private:
-        double lenght, width;
-    
-    public:
-        Rectangle(string n, double l, double w);
+class Rectangle : public Shape
+{
+private:
+    double lenght, width;
 
-        double area() const override;
+public:
+    Rectangle(string n, double l, double w);
 
-        double getLength() const; 
+    double area() const override;
 
-        double getWidth() const;
+    double getLength() const;
 
-        // Setter methods to modify private data
-        void setLength(double l);
+    double getWidth() const;
 
-        void setWidth(double w);
+    // Setter methods to modify private data
+    void setLength(double l);
+
+    void setWidth(double w);
 };
 
-Rectangle::Rectangle(string n, double l, double w): Shape(n) {
+Rectangle::Rectangle(string n, double l, double w) : Shape(n)
+{
     lenght = l;
     width = w;
 }
 
-double Rectangle::area() const {
+double Rectangle::area() const
+{
     return lenght * width;
 }
 
-double Rectangle::getLength() const {
+double Rectangle::getLength() const
+{
     return lenght;
 }
 
-void Rectangle::setLength(double l) {
-    if(l > 0)
+void Rectangle::setLength(double l)
+{
+    if (l > 0)
         lenght = l;
 }
 
-void Rectangle::setWidth(double w){
-    if(w > 0)
+void Rectangle::setWidth(double w)
+{
+    if (w > 0)
         width = w;
 }

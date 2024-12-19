@@ -6,15 +6,17 @@ import {
   GetForecastResultsByScenario2,
 } from '../forecast/forecastExtension';
 import { getForecastResult } from '../forecast/reformForecastResult';
-import { 
-  forecastResultsVariableUnits
- } from "../../utils/constants/wellsDeckBaseUnits";
-import { exportToJsonFile, streamToJsonFile, streamToJsonFile2 } from '../io/exportToJsonFile';
+import { forecastResultsVariableUnits } from '../../utils/constants/wellsDeckBaseUnits';
+import {
+  exportToJsonFile,
+  streamToJsonFile,
+  streamToJsonFile2,
+} from '../io/exportToJsonFile';
 import { importJsonFile, importJsonFile2 } from '../io/importJsonFile';
 
 const delimeter = '@#$%';
-const forecastChatInputDataFileName = "forecast_chat_data_input.json";
-const forecastOutputDataFileName = "forecast_chat_data_output.json";
+const forecastChatInputDataFileName = 'forecast_chat_data_input.json';
+const forecastOutputDataFileName = 'forecast_chat_data_output.json';
 
 function GetScenarioNames(selectedModulePaths: string[]): string[] {
   const scenarioNames: string[] = [];
@@ -42,9 +44,10 @@ function GetFacilityNames(selectedModulePaths: string[]): string[] {
 
 export function getForecastResultsVariableUnits(selectedVariables: string[]) {
   const units = {} as any;
-  for(const selectedVariable of selectedVariables){
+  for (const selectedVariable of selectedVariables) {
     let forecastResultsVariableUnit = selectedVariable as any;
-    units[forecastResultsVariableUnit] = forecastResultsVariableUnits[forecastResultsVariableUnit];
+    units[forecastResultsVariableUnit] =
+      forecastResultsVariableUnits[forecastResultsVariableUnit];
   }
   return units;
 }
@@ -117,8 +120,8 @@ export async function chartDataByModulesOrAggregate(
       "chatPayload": inputOjbect
     } */
 
-  //const jsonStream = new (JSONStreamStringify as any).default(chatPayload);
-  //await exportToJsonFile(inputOjbect, forecastChatInputDataFileName);
+    //const jsonStream = new (JSONStreamStringify as any).default(chatPayload);
+    //await exportToJsonFile(inputOjbect, forecastChatInputDataFileName);
 
     const result_Output = await new Promise((resolve, reject) => {
       volumeforecastModule.GetYearlyForcastResultModulesNewAsync(
@@ -132,11 +135,10 @@ export async function chartDataByModulesOrAggregate(
           resolve(aggregatedResult);
         }
       }
-    }); 
+    });
 
     //const result_Output = GetYearlyForcastResultModulesNewAsync(inputOjbect);
     const results_Output: any[] = result_Output as [];
-   
 
     //======================For Debugging=====================//
 

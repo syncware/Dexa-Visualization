@@ -12,9 +12,8 @@ import {
   ForecastResultsProperties,
 } from '../models/forecastResults';
 import {
-  chartDataByModulesOrAggregate,
   chartDataByModulesOrAggregate2,
-  getForecastResultsVariableUnits,
+  getForecastResultsVariableUnits
 } from '../utils/chart/reformChartData';
 import { GetForecastTreeview } from '../utils/forecast/forecastUtils';
 
@@ -69,7 +68,7 @@ import {
 import {
   ProductionPrioritizationModel,
   WellPrioritization,
-  WellPrioritizationProperties
+  WellPrioritizationProperties,
 } from '../models/wellPrioritization';
 
 import {
@@ -132,8 +131,8 @@ let globalForecastResultsById = {} as Record<string, any>;
 // Store forecast results payload after forecast results is generated
 let globalForecastResultsPayload = {} as Record<string, any>;
 //
-let forecastInputDataFileName = "files/forecast_input_data.json";
-let forecastOutputDataFileName = "files/forecast_output_data.json";
+let forecastInputDataFileName = 'files/forecast_input_data.json';
+let forecastOutputDataFileName = 'files/forecast_output_data.json';
 
 forecastResultsRouter.get(
   '/forecast-result-headers',
@@ -227,12 +226,7 @@ forecastResultsRouter.get(
       'offtake',
     ];
 
-    const forecastSolutionSpacesIsDURConstrained = [
-      false, 
-      false, 
-      false, 
-      true
-      ];
+    const forecastSolutionSpacesIsDURConstrained = [false, false, false, true];
 
     //=====================================================================================//
 
@@ -641,12 +635,12 @@ forecastResultsRouter.get(
         nForecastSolutionSpaces: forecastSolutionSpaces.length,
         forecastSolutionSpacesIsDURConstrained,
         nForecastSolutionSpacesIsDURConstrained:
-          forecastSolutionSpacesIsDURConstrained.length
-      }
+          forecastSolutionSpacesIsDURConstrained.length,
+      };
 
       var payload = {
-        "payload" : inputData
-      }
+        payload: inputData,
+      };
 
       await exportToJsonFile(payload, forecastInputDataFileName);
 
@@ -781,7 +775,6 @@ forecastResultsRouter.get(
 forecastResultsRouter.post(
   '/save-json',
   async (req: Request, res: Response) => {
-
     const {
       projectId,
       title,
@@ -792,7 +785,7 @@ forecastResultsRouter.post(
       forecastParametersId,
       facilitiesInputTitle,
       forecastInputTitle,
-      forecastingParametersTitle
+      forecastingParametersTitle,
     } = req.body;
 
     const forecastResultsPayload = {
@@ -805,14 +798,15 @@ forecastResultsRouter.post(
       forecastParametersId,
       facilitiesInputTitle,
       forecastInputTitle,
-      forecastingParametersTitle
+      forecastingParametersTitle,
     } as ForecastResultsProperties;
 
-    
     const forecastResultsModel = ForecastResults.build(forecastResultsPayload);
 
     // Compute Forecast Results Tree
-    const localforecastResults = await importJsonFile(forecastOutputDataFileName);
+    const localforecastResults = await importJsonFile(
+      forecastOutputDataFileName
+    );
     const monthlyForecastResults = localforecastResults.monthlyReport;
     const treeModel = GetForecastTreeview(monthlyForecastResults);
     forecastResultsModel.treeResult = {
@@ -893,12 +887,11 @@ forecastResultsRouter.post(
           }).lean();
           globalForecastResultsById[forecastResultsId] = forecastResults;
           forecastResultsByModule = forecastResults;
-        } 
+        }
 
         // Get chart data
         // TODO: Gabriel also return an object with variable as key and unit as value
         // like this: {oilRate: bbl/d, condensateRate: bbl/d, gasRate: MMscf/d, etc}
-
 
         const inputData = {
           forecastResults: forecastResultsByModule,
@@ -908,9 +901,9 @@ forecastResultsRouter.post(
             isMonthly,
             forecastSolutionSpaces,
             forecastResultsIds,
-            shouldAggregate
-          }
-        }
+            shouldAggregate,
+          },
+        };
 
         const result = await new Promise((resolve, reject) => {
           volumeforecastModule.plotChartAsync(
@@ -927,10 +920,10 @@ forecastResultsRouter.post(
               resolve(plotChatResult);
             }
           }
-        }); 
+        });
 
         // Reset forecastResultsByModule to free memory
-        forecastResultsByModule = {} 
+        forecastResultsByModule = {};
 
         // Add result to resultMap
         resultMap[String(i)] = result;
@@ -1029,7 +1022,7 @@ forecastResultsRouter.get(
       forecastResultsByForecastId,
       isMonthly
     );
-    
+
     const pagedForecastResultsById = transposedResult.slice(startIndex, limit);
 
     res.send(

@@ -6,111 +6,134 @@
 
 #include <iostream>
 
-class Stack {
+class Stack
+{
 private:
-    int* arr;
+    int *arr;
     int top;
     int capacity;
 
 public:
-    Stack(int size) : capacity(size), top(-1) {
+    Stack(int size) : capacity(size), top(-1)
+    {
         arr = new int[capacity];
     }
 
-    ~Stack() {
+    ~Stack()
+    {
         delete[] arr;
     }
 
-    void push(int val) {
-        if (top == capacity - 1) {
+    void push(int val)
+    {
+        if (top == capacity - 1)
+        {
             std::cout << "Stack Overflow" << std::endl;
             return;
         }
         arr[++top] = val;
     }
 
-    void pop() {
-        if (top == -1) {
+    void pop()
+    {
+        if (top == -1)
+        {
             std::cout << "Stack Underflow" << std::endl;
             return;
         }
         --top;
     }
 
-    int peek() const {
-        if (top == -1) {
+    int peek() const
+    {
+        if (top == -1)
+        {
             std::cout << "Stack is empty" << std::endl;
             return -1;
         }
         return arr[top];
     }
 
-    bool isEmpty() const {
+    bool isEmpty() const
+    {
         return top == -1;
     }
 
-    void display() const {
-        for (int i = 0; i <= top; ++i) {
+    void display() const
+    {
+        for (int i = 0; i <= top; ++i)
+        {
             std::cout << arr[i] << " ";
         }
         std::cout << std::endl;
     }
 };
 
+class StackDouble
+{
+private:
+    double *arr;
+    int top;
+    int capacity;
 
-class StackDouble {
-    private:
-        double* arr;
-        int top;
-        int capacity;
-    
-    public:
-        StackDouble(int size): capacity(size), top(-1) {
-            //capacity = size;
-            //top = -1;
-            arr = new double[capacity];
+public:
+    StackDouble(int size) : capacity(size), top(-1)
+    {
+        // capacity = size;
+        // top = -1;
+        arr = new double[capacity];
+    }
+
+    ~StackDouble()
+    {
+        delete[] arr;
+    }
+
+    void push(double x)
+    {
+        if (top == capacity - 1)
+        {
+            std::cout << "Index out of range";
+            return;
         }
 
-        ~StackDouble() {
-            delete []arr;
+        arr[++top] = x;
+    }
+
+    void pop()
+    {
+        if (top == -1)
+        {
+            std::cout << "The stack is empty";
+            return;
         }
 
-        void push(double x) {
-            if(top == capacity - 1) {
-                std::cout << "Index out of range";
-                return;
-            }
+        --top;
+    }
 
-            arr[++top] = x;
+    double peek() const
+    {
+        if (top == -1)
+        {
+            std::cout << "The stack is empty";
+            return -1;
         }
 
-        void pop() {
-            if(top == -1){
-                std::cout << "The stack is empty";
-                return;
-            }
+        return arr[top];
+    }
 
-            --top;
+    bool isEmpty() const
+    {
+        return top == -1;
+    }
+
+    void display() const
+    {
+        for (int i = 0; i <= top; i++)
+        {
+            std::cout << arr[i] << " ";
         }
 
-        double peek() const {
-            if(top == -1){
-                std::cout << "The stack is empty";
-                return -1;
-            }
-
-            return arr[top];
-        }
-
-        bool isEmpty() const{
-            return top == -1;
-        }
-
-        void display() const {
-            for(int i = 0; i <= top; i++){
-                std::cout << arr[i] << " ";
-            }
-
-            std::cout << std::endl;
-        }
+        std::cout << std::endl;
+    }
 };

@@ -12,34 +12,30 @@
 
 using namespace std;
 
-class  Differentiation
+class Differentiation
 {
 private:
-
 public:
-	Differentiation();
-    double Central(function<double(double)>& fun, double& x, double& stepsize);
-	~Differentiation();
-
+    Differentiation();
+    double Central(function<double(double)> &fun, double &x, double &stepsize);
+    ~Differentiation();
 };
 
 Differentiation::Differentiation()
 {
-
 }
 
 Differentiation::~Differentiation()
 {
-
 }
 
- double Differentiation::Central(function<double(double)>& fun, double& x, double& stepsize)
+double Differentiation::Central(function<double(double)> &fun, double &x, double &stepsize)
 {
     double Av, x1 = 0, x2 = 0;
     x1 = x + stepsize;
     x2 = x - stepsize;
-    //std::cout << "x1 " << x1 << std::endl;
-    //std::cout << "x2 " << x2 << std::endl;
+    // std::cout << "x1 " << x1 << std::endl;
+    // std::cout << "x2 " << x2 << std::endl;
     Av = (fun(x1) - fun(x2)) / (2 * stepsize);
     return Av;
 }

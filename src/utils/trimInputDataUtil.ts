@@ -112,14 +112,16 @@ export function trimLineForecastIInputDeckData(
     }
     if (!isNumber(x.initOilGasRate1P1C)) {
       payloadinputDeck[index].initOilGasRate1P1C = 0;
-      variableUnitTitles.initOilGasRate1P1C = variableUnitTitles.initOilGasRate2P2C;
+      variableUnitTitles.initOilGasRate1P1C =
+        variableUnitTitles.initOilGasRate2P2C;
     }
     if (!isNumber(x.initOilGasRate2P2C)) {
       payloadinputDeck[index].initOilGasRate2P2C = 0;
     }
     if (!isNumber(x.initOilGasRate3P3C)) {
       payloadinputDeck[index].initOilGasRate3P3C = 0;
-      variableUnitTitles.initOilGasRate3P3C = variableUnitTitles.initOilGasRate2P2C;
+      variableUnitTitles.initOilGasRate3P3C =
+        variableUnitTitles.initOilGasRate2P2C;
     }
     if (!isNumber(x.abandBSWWGR1P1C)) {
       payloadinputDeck[index].abandBSWWGR1P1C = 0;
@@ -145,14 +147,16 @@ export function trimLineForecastIInputDeckData(
     }
     if (!isNumber(x.abandOilGasRate1P1C)) {
       payloadinputDeck[index].abandOilGasRate1P1C = 0;
-      variableUnitTitles.abandOilGasRate1P1C = variableUnitTitles.abandOilGasRate2P2C;
+      variableUnitTitles.abandOilGasRate1P1C =
+        variableUnitTitles.abandOilGasRate2P2C;
     }
     if (!isNumber(x.abandOilGasRate2P2C)) {
       payloadinputDeck[index].abandOilGasRate2P2C = 0;
     }
     if (!isNumber(x.abandOilGasRate3P3C)) {
       payloadinputDeck[index].abandOilGasRate3P3C = 0;
-      variableUnitTitles.abandOilGasRate3P3C = variableUnitTitles.abandOilGasRate2P2C;
+      variableUnitTitles.abandOilGasRate3P3C =
+        variableUnitTitles.abandOilGasRate2P2C;
     }
     if (!isNumber(x.plateauPeriod)) {
       payloadinputDeck[index].plateauPeriod = 0;
@@ -354,7 +358,7 @@ export function TrimLineShutInOpenUpInputDeckData(
 // export function TrimLineEquipmentCapacitiesInputDeckData(
 //   equipmentCapacitiesProperties: EquipmentCapacitiesProperties
 // ) {
-  
+
 //   const equipmentCapacitiesMapKeys = Object.keys(
 //     equipmentCapacitiesProperties.equipmentCapacitiesModel
 //       .equipmentCapacitiesMap

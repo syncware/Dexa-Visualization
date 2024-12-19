@@ -1,10 +1,10 @@
-import { AnyKindOfDictionary } from "lodash";
-import { ForecastScenarioCase } from "../../models/resultModel/ForecastResult";
+import { AnyKindOfDictionary } from 'lodash';
+import { ForecastScenarioCase } from '../../models/resultModel/ForecastResult';
 import {
   ReConstructFacilityModel,
   GetChartTreeModel,
   GetChartOrganizedModel,
-} from "../forecast/forecastUtils";
+} from '../forecast/forecastUtils';
 
 export function Get_Tree_UniqueYear_Model(
   forecastResult: any,
@@ -36,8 +36,6 @@ export function Get_Tree_UniqueYear_Model(
       }
     }
   } catch (er) {
-    
-    
     throw er;
   }
 
@@ -68,8 +66,6 @@ export function Generate_Chart_Model(forecastResult: any, networkId: any): any {
       chartModel[fcase] = chartTreeResult.chart;
     }
   } catch (er) {
-    
-    
     throw er;
   }
 

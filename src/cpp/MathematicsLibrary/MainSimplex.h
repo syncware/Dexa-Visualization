@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include <iostream>
 #include <fstream>
 #include <stdio.h>
@@ -18,9 +17,7 @@
 #include "Simplex.h"
 #include "Enums.h"
 
-
 using namespace std;
-
 
 class MainSimplex
 {
@@ -28,8 +25,8 @@ private:
     SimplexSnap simplexSnap;
     Funct func;
     Simplex simplex;
-	int constraintsCount = 0;
-	int variablesCount = 0;
+    int constraintsCount = 0;
+    int variablesCount = 0;
     SimplexResult _Unbounded = Unbounded;
     SimplexResult _Found = Found;
     SimplexResult _NotYetFound = NotYetFound;
@@ -40,30 +37,28 @@ public:
     double optimalSolution = 0;
     string optimalSolutionMessage = "";
     MainSimplex();
-    MainSimplex(int& _constraintsCount, int& _variablesCount, vector<string>& _variableNames);
+    MainSimplex(int &_constraintsCount, int &_variablesCount, vector<string> &_variableNames);
     vector<vector<string>> constraintsGridView;
     vector<string> functionGridView;
     vector<vector<string>> resultsGridView;
     void fillConstraintsGrid();
-    vector<string> createVector(int& rows);
-    vector<double> createVectorOfT(int& rows);
+    vector<string> createVector(int &rows);
+    vector<double> createVectorOfT(int &rows);
     void fillFunctionGrid();
-    void ShowResultsGrid(vector<SimplexSnap>& snaps);
+    void ShowResultsGrid(vector<SimplexSnap> &snaps);
     void Proceed();
-    double ToDouble(string& x);
-    vector<vector<string>> createMatrix(int& rows, int& cols);
+    double ToDouble(string &x);
+    vector<vector<string>> createMatrix(int &rows, int &cols);
     void getDecisonVariables();
-    int getVariableNameRowIndex(string& variableName);
-    void GetSolution(SimplexSnap& snap);
-
+    int getVariableNameRowIndex(string &variableName);
+    void GetSolution(SimplexSnap &snap);
 };
 
 MainSimplex::MainSimplex()
 {
-
 }
 
-MainSimplex::MainSimplex(int& _constraintsCount, int& _variablesCount, vector<string>& _variableNames)
+MainSimplex::MainSimplex(int &_constraintsCount, int &_variablesCount, vector<string> &_variableNames)
 {
     constraintsCount = _constraintsCount;
     variablesCount = _variablesCount;
@@ -74,15 +69,13 @@ MainSimplex::MainSimplex(int& _constraintsCount, int& _variablesCount, vector<st
     fillFunctionGrid();
 }
 
-
-double MainSimplex::ToDouble(string& x)
+double MainSimplex::ToDouble(string &x)
 {
     double ans = strtod(x.c_str(), NULL);
     return ans;
 }
 
- 
-vector<string> MainSimplex::createVector(int& rows)
+vector<string> MainSimplex::createVector(int &rows)
 {
     vector<string> ans;
     for (int i = 0; i < rows; i++)
@@ -93,8 +86,7 @@ vector<string> MainSimplex::createVector(int& rows)
     return ans;
 }
 
-
-vector<double> MainSimplex::createVectorOfT(int& rows)
+vector<double> MainSimplex::createVectorOfT(int &rows)
 {
     vector<double> ans;
     for (int i = 0; i < rows; i++)
@@ -108,13 +100,13 @@ vector<double> MainSimplex::createVectorOfT(int& rows)
 
 void MainSimplex::fillConstraintsGrid()
 {
-    
+
     constraintsGridView.clear();
 
     int variablesCountPlusTwo = variablesCount + 2;
     for (int i = 0; i < constraintsCount; i++)
     {
-        
+
         vector<string> row = createVector(variablesCountPlusTwo);
         constraintsGridView.push_back(row);
     }
@@ -123,17 +115,16 @@ void MainSimplex::fillConstraintsGrid()
 void MainSimplex::fillFunctionGrid()
 {
     functionGridView.clear();
-   
+
     int variablesCountPlusOne = variablesCount + 1;
     functionGridView = createVector(variablesCountPlusOne);
 
-    int variablesCountPlusTwo =  variablesCount + 2;
+    int variablesCountPlusTwo = variablesCount + 2;
     vector<string> row = createVector(variablesCountPlusTwo);
     constraintsGridView.push_back(row);
-
 }
 
-vector<vector<string>> MainSimplex::createMatrix(int& rows, int& cols)
+vector<vector<string>> MainSimplex::createMatrix(int &rows, int &cols)
 {
     vector<vector<string>> ans;
     for (int j = 0; j < cols; j++)
@@ -150,14 +141,13 @@ vector<vector<string>> MainSimplex::createMatrix(int& rows, int& cols)
     return ans;
 }
 
-
-void MainSimplex::ShowResultsGrid(vector<SimplexSnap>& snaps)
+void MainSimplex::ShowResultsGrid(vector<SimplexSnap> &snaps)
 {
     resultsGridView.clear();
 
     int snaps_0_matrixsize = snaps[0].matrix.size();
     int snaps_0_matrixsizePlusnum = 0;
-    for(SimplexSnap snap : snaps)
+    for (SimplexSnap snap : snaps)
     {
         snaps_0_matrixsize = snaps[0].matrix.size();
         snaps_0_matrixsizePlusnum = snaps_0_matrixsize + 4;
@@ -244,7 +234,7 @@ void MainSimplex::ShowResultsGrid(vector<SimplexSnap>& snaps)
     }
 }
 
-void MainSimplex::GetSolution(SimplexSnap& snap)
+void MainSimplex::GetSolution(SimplexSnap &snap)
 {
     resultsGridView.clear();
 
@@ -263,7 +253,6 @@ void MainSimplex::GetSolution(SimplexSnap& snap)
             else if (j == 1)
             {
                 row[j] = "A" + to_string(snap.CC[i] + 1);
-
             }
             else if (j == 2)
             {
@@ -290,9 +279,6 @@ void MainSimplex::GetSolution(SimplexSnap& snap)
     }
 }
 
-
-
-
 void MainSimplex::Proceed()
 {
     vector<Constraint> constraints;
@@ -306,7 +292,7 @@ void MainSimplex::Proceed()
             variables[j] = ToDouble(constraintsGridView[i][j]);
         }
 
-        Constraint  constraintTemp(variables, b, sign);
+        Constraint constraintTemp(variables, b, sign);
 
         constraints.push_back(constraintTemp);
     }
@@ -318,7 +304,7 @@ void MainSimplex::Proceed()
     }
     double cc = ToDouble(functionGridView[variablesCount]);
 
-    bool isExtrMax = true;// extrComboBox.SelectedIndex == 0;
+    bool isExtrMax = true; // extrComboBox.SelectedIndex == 0;
 
     Funct function(functionVariables, cc, isExtrMax);
 
@@ -331,8 +317,8 @@ void MainSimplex::Proceed()
     if (get<1>(result) == _Found)
     {
         string extrStr = isExtrMax ? "max" : "min";
-        optimalSolution = snaps[lent-1].fValue;
-        optimalSolutionMessage = "The optimal solution: P = " +  to_string(optimalSolution);
+        optimalSolution = snaps[lent - 1].fValue;
+        optimalSolutionMessage = "The optimal solution: P = " + to_string(optimalSolution);
     }
 
     if (get<1>(result) == _Unbounded)
@@ -345,22 +331,18 @@ void MainSimplex::Proceed()
         optimalSolutionMessage = "Algorithm has made 100 cycles and hasn't found any optimal solution.";
     }
 
-   
+    // ShowResultsGrid(get<0>(result));
 
-    //ShowResultsGrid(get<0>(result));
-    
     int snapssizeMinus1 = snaps.size() - 1;
     SimplexSnap simplexSnap = snaps[snapssizeMinus1];
     GetSolution(simplexSnap);
-    //getDecisonVariables();
-
+    // getDecisonVariables();
 }
 
-
-int MainSimplex::getVariableNameRowIndex(string& variableName)
+int MainSimplex::getVariableNameRowIndex(string &variableName)
 {
     int variableNamelengthPlus1 = variableName.length() + 1;
-    char* tab2 = new char[variableNamelengthPlus1];
+    char *tab2 = new char[variableNamelengthPlus1];
     // strcpy_s(tab2, variableName.length() + 1,variableName.c_str());
     strncpy(tab2, variableName.c_str(), variableNamelengthPlus1);
 
@@ -379,7 +361,7 @@ int MainSimplex::getVariableNameRowIndex(string& variableName)
     {
         return -1;
     }
-         
+
     delete tab2;
 
     return 0;
@@ -390,7 +372,7 @@ void MainSimplex::getDecisonVariables()
     int rows = resultsGridView.size();
     int variableNamessize = variableNames.size();
 
-    for (int  j = 0; j < variableNamessize; j++)
+    for (int j = 0; j < variableNamessize; j++)
     {
         for (int i = rows - 7; i < rows; i++)
         {
@@ -404,9 +386,4 @@ void MainSimplex::getDecisonVariables()
             }
         }
     }
-    
 }
-
-
-
-

@@ -11,32 +11,37 @@
 using namespace std;
 
 // Base class (Parent class)
-class Shape {
-    protected:
-        string name;
-    public:
-        Shape(string n);
+class Shape
+{
+protected:
+    string name;
 
-        void setName(string n);
+public:
+    Shape(string n);
 
-        string getName() const;
+    void setName(string n);
 
-        virtual double area() const;
+    string getName() const;
+
+    virtual double area() const;
 };
 
-
-Shape::Shape(string n) {
+Shape::Shape(string n)
+{
     name = n;
 }
 
-void Shape::setName(string n) {
+void Shape::setName(string n)
+{
     name = n;
 }
 
-string Shape::getName() const {
+string Shape::getName() const
+{
     return name;
 }
 
-double Shape::area() const {
+double Shape::area() const
+{
     return 0.0;
 }

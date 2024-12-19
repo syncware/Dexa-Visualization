@@ -11,11 +11,10 @@
 
 using namespace std;
 
-
 typedef struct _LinearProgrammingResult
 {
     vector<double> raw;
     vector<double> refined;
     vector<string> variables;
     vector<int> indices;
-}LinearProgrammingResult;
+} LinearProgrammingResult;
