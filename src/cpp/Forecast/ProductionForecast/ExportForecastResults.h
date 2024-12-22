@@ -311,9 +311,9 @@ vector<FacilityActivityResult> ExportForecastResults::GetForecastOutput(int &sce
 	int k = -1;
 	vector<FacilityActivityResult> wellActivities;
 
-	int FaclitiesSize = results.size();
+	int FacilitiesSize = results.size();
 
-	for (k = 0; k < FaclitiesSize; k++)
+	for (k = 0; k < FacilitiesSize; k++)
 	{
 		vector<WellActivityResult> wellActivitiesByFacility =
 			GetForecastFacilityOutput(k, scenario);
@@ -418,7 +418,7 @@ void ExportForecastResults::GetForecastOutput(int &scenario,
 		if (results[j][facilityIndex][wellIndex].IsFlowing == false)
 		{
 			// Clean up unwanted data
-			results[j][facilityIndex][wellIndex].InitailizeData();
+			results[j][facilityIndex][wellIndex].InitializeData();
 		}
 
 		wellResultsForAggregation.push_back(results[j][facilityIndex][wellIndex]);

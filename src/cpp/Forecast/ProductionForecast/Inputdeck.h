@@ -33,18 +33,18 @@ public:
 	void tokenize(string const &str, const string &delimeter,
 				  vector<string> &out);
 	void GetFacilityTablePointer(const char *filepath, const char delimeter);
-	bool IsContains(vector<string> &Faclities, string &Facility);
+	bool IsContains(vector<string> &Facilities, string &Facility);
 	vector<FacilityStruct> SortFacilities(vector<FacilityStruct> &facilityRows);
 	vector<string> GetFacilities(vector<InputDeckStruct> &_inputdeckss, int size, vector<Date> &dateList, int &scenario);
 	void GetRunParameters(const char *filepath, const char delimeter);
-	vector<vector<vector<InputDeckStruct>>> GetModulesByFacility(vector<string> &Faclities,
+	vector<vector<vector<InputDeckStruct>>> GetModulesByFacility(vector<string> &Facilities,
 																 vector<InputDeckStruct> &decks,
 																 int size, vector<WellReroute> wellRerouteDecks, vector<Date> dates, int scenario,
-																 vector<WellSchedule> &wellSchedules, vector<Priotization> &priotizations);
-	vector<vector<vector<InputDeckStruct>>> GetModulesByFacility_Obsolete(vector<string> &Faclities,
+																 vector<WellSchedule> &wellSchedules, vector<Prioritization> &prioritizations);
+	vector<vector<vector<InputDeckStruct>>> GetModulesByFacility_Obsolete(vector<string> &Facilities,
 																		  vector<InputDeckStruct> &decks,
 																		  int size, vector<WellReroute> wellRerouteDecks, vector<Date> dates, int scenario,
-																		  vector<WellSchedule> &wellSchedules, vector<Priotization> &priotizations);
+																		  vector<WellSchedule> &wellSchedules, vector<Prioritization> &prioritizations);
 	void ValidateDeck(InputDeckStruct &extendedInputDeck);
 	vector<FacilityStruct> ResizeTempFacilities(vector<FacilityStruct> &tempFacilities, vector<Date> &dateList);
 	vector<string> GetUniqueReroutedWells(vector<WellReroute> &inputdecks, int size);
@@ -62,7 +62,7 @@ public:
 	vector<vector<vector<InputDeckStruct>>> FacilitiesAllIndicies;
 	bool CheckWellName(vector<string> wellNames, string wellName);
 	vector<vector<FacilityWellsIndicies>> facilityWellsIndicies;
-	vector<vector<Priotization>> priotizationsFacilities;
+	vector<vector<Prioritization>> prioritizationsFacilities;
 	void InitilizeModule(InputDeckStruct &extendedInputDeck);
 	void InitilizeModules();
 	void CalculateDeclineParameters(InputDeckStruct &extendedInputDeck);
@@ -804,13 +804,13 @@ void Inputdeck::InitilizeModule(InputDeckStruct &extendedInputDeck)
 	}
 }
 
-bool Inputdeck::IsContains(vector<string> &Faclities, string &Facility)
+bool Inputdeck::IsContains(vector<string> &Facilities, string &Facility)
 {
 	bool check = false;
-	int Faclitiessize = Faclities.size();
-	for (int i = 0; i < Faclitiessize; i++)
+	int facilitiesSize = Facilities.size();
+	for (int i = 0; i < facilitiesSize; i++)
 	{
-		if (Faclities[i] == Facility)
+		if (Facilities[i] == Facility)
 		{
 			check = true;
 			break;
@@ -891,7 +891,7 @@ vector<FacilityStruct> Inputdeck::ResizeTempFacilities(vector<FacilityStruct> &t
 vector<string> Inputdeck::GetFacilities(vector<InputDeckStruct> &inputdecks, int size, vector<Date> &dateList, int &scenario)
 {
 	// std::cout << "GetFacilities Called " << std::endl;
-	vector<string> Faclities;
+	vector<string> Facilities;
 	FacilityStruct FacilityStructTemp;
 	FacilityTable_Actual.clear();
 	FacilityTables_Actual.clear();
@@ -900,7 +900,7 @@ vector<string> Inputdeck::GetFacilities(vector<InputDeckStruct> &inputdecks, int
 	for (int i = 0; i < size; i++)
 	{
 
-		if (IsContains(Faclities, inputdecks[i].Flow_station) == false)
+		if (IsContains(Facilities, inputdecks[i].Flow_station) == false)
 		{
 			// std::cout << "Condition 1 Seen" << std::endl;
 			vector<FacilityStruct> tempFacilities;
@@ -1049,7 +1049,7 @@ vector<string> Inputdeck::GetFacilities(vector<InputDeckStruct> &inputdecks, int
 			if (check == true)
 			{
 				FacilityTables_Actual.push_back(tempFacilities2);
-				Faclities.push_back(inputdecks[i].Flow_station);
+				Facilities.push_back(inputdecks[i].Flow_station);
 				tempFacilities.clear();
 				tempFacilities2.clear();
 				tempFacilities.shrink_to_fit();
@@ -1058,7 +1058,7 @@ vector<string> Inputdeck::GetFacilities(vector<InputDeckStruct> &inputdecks, int
 		}
 	}
 
-	return Faclities;
+	return Facilities;
 }
 
 bool Inputdeck::CheckWellName(vector<string> wellNames, string wellName)
@@ -1076,32 +1076,32 @@ bool Inputdeck::CheckWellName(vector<string> wellNames, string wellName)
 	return check;
 }
 
-vector<vector<vector<InputDeckStruct>>> Inputdeck::GetModulesByFacility_Obsolete(vector<string> &Faclities,
+vector<vector<vector<InputDeckStruct>>> Inputdeck::GetModulesByFacility_Obsolete(vector<string> &Facilities,
 																				 vector<InputDeckStruct> &_inputdecks, int size,
 																				 vector<WellReroute> wellRerouteDecks, vector<Date> dates, int scenario,
-																				 vector<WellSchedule> &wellSchedules, vector<Priotization> &priotizations)
+																				 vector<WellSchedule> &wellSchedules, vector<Prioritization> &prioritizations)
 {
 	vector<vector<vector<InputDeckStruct>>> FacilitiesAll;
 	vector<vector<InputDeckStruct>> Facilities;
 	vector<vector<InputDeckStruct>> FacilitiesOld;
 	vector<InputDeckStruct> Facility;
 
-	int Faclitiessize = Faclities.size();
+	int facilitiesSize = Facilities.size();
 	int nWellRerouteDecks = wellRerouteDecks.size();
 	int nDates = dates.size();
 	int i, j, k, jj, ii, kk, nFacility;
 	int nWellSchedules = wellSchedules.size();
-	int nFacilities, nPriotizations = priotizations.size();
+	int nFacilities, nPrioritizations = prioritizations.size();
 	bool check;
 
-	vector<Priotization> priotizationFacilities;
-	for (j = 0; j < Faclitiessize; j++)
+	vector<Prioritization> prioritizationFacilities;
+	for (j = 0; j < facilitiesSize; j++)
 	{
 
 		Facility.clear();
 		for (i = 0; i < size; i++)
 		{
-			if (Faclities[j] == _inputdecks[i].Flow_station)
+			if (Facilities[j] == _inputdecks[i].Flow_station)
 			{
 				InputDeckStruct newDeck = _inputdecks[i];
 				newDeck.isTerminated = false;
@@ -1129,17 +1129,17 @@ vector<vector<vector<InputDeckStruct>>> Inputdeck::GetModulesByFacility_Obsolete
 			Facilities.push_back(Facility);
 		}
 
-		/* Priotization priotization;
-		priotization.FacilityName = Faclities[j];
-		priotization.typeOfPrioritization = "None"; */
+		/* Prioritization prioritization;
+		prioritization.FacilityName = Facilities[j];
+		prioritization.typeOfPrioritization = "None"; */
 
-		priotizationFacilities.push_back(priotizations[j]);
-		/* for(i = 0; i < nPriotizations; i++){
-			if(priotizations[i].FacilityName == Faclities[j]){
-				if(dateCreation.IsMaximumDate(dates[0], priotizations[i].FromDate) &&
-				dateCreation.IsMinimumDate(dates[0],  priotizations[i].ToDate))
+		prioritizationFacilities.push_back(prioritizations[j]);
+		/* for(i = 0; i < nPrioritizations; i++){
+			if(prioritizations[i].FacilityName == Facilities[j]){
+				if(dateCreation.IsMaximumDate(dates[0], prioritizations[i].FromDate) &&
+				dateCreation.IsMinimumDate(dates[0],  prioritizations[i].ToDate))
 				{
-					priotizationFacilities[j] = priotizations[i];
+					prioritizationFacilities[j] = prioritizations[i];
 					break;
 				}
 			}
@@ -1147,7 +1147,7 @@ vector<vector<vector<InputDeckStruct>>> Inputdeck::GetModulesByFacility_Obsolete
 	}
 
 	FacilitiesAll.push_back(Facilities);
-	priotizationsFacilities.push_back(priotizationFacilities);
+	prioritizationsFacilities.push_back(prioritizationFacilities);
 
 	for (jj = 1; jj < nDates; jj++)
 	{
@@ -1334,7 +1334,7 @@ vector<vector<vector<InputDeckStruct>>> Inputdeck::GetModulesByFacility_Obsolete
 			}
 		}
 
-		priotizationFacilities.clear();
+		prioritizationFacilities.clear();
 		for (j = 0; j < nFacilities; j++)
 		{
 			int nWells = Facilities[j].size();
@@ -1518,17 +1518,17 @@ vector<vector<vector<InputDeckStruct>>> Inputdeck::GetModulesByFacility_Obsolete
 				}
 			}
 
-			/* Priotization priotization;
-			priotization.FacilityName = Faclities[j];
-			priotization.typeOfPrioritization = "None"; */
+			/* Prioritization prioritization;
+			prioritization.FacilityName = Facilities[j];
+			prioritization.typeOfPrioritization = "None"; */
 
-			priotizationFacilities.push_back(priotizations[j]);
-			/* for(i = 0; i < nPriotizations; i++){
-				if(priotizations[i].FacilityName == Faclities[j]){
-					if(dateCreation.IsMaximumDate(dates[jj], priotizations[i].FromDate) &&
-					dateCreation.IsMinimumDate(dates[jj],  priotizations[i].ToDate))
+			prioritizationFacilities.push_back(prioritizations[j]);
+			/* for(i = 0; i < nPrioritizations; i++){
+				if(prioritizations[i].FacilityName == Facilities[j]){
+					if(dateCreation.IsMaximumDate(dates[jj], prioritizations[i].FromDate) &&
+					dateCreation.IsMinimumDate(dates[jj],  prioritizations[i].ToDate))
 					{
-						priotizationFacilities[j] = priotizations[i];
+						prioritizationFacilities[j] = prioritizations[i];
 						break;
 					}
 				}
@@ -1536,7 +1536,7 @@ vector<vector<vector<InputDeckStruct>>> Inputdeck::GetModulesByFacility_Obsolete
 		}
 
 		FacilitiesAll.push_back(Facilities);
-		priotizationsFacilities.push_back(priotizationFacilities);
+		prioritizationsFacilities.push_back(prioritizationFacilities);
 	}
 
 	for (j = 0; j < nDates; j++)
@@ -1575,32 +1575,32 @@ vector<vector<vector<InputDeckStruct>>> Inputdeck::GetModulesByFacility_Obsolete
 	return FacilitiesAll;
 }
 
-vector<vector<vector<InputDeckStruct>>> Inputdeck::GetModulesByFacility(vector<string> &Faclities,
+vector<vector<vector<InputDeckStruct>>> Inputdeck::GetModulesByFacility(vector<string> &Facilities,
 																		vector<InputDeckStruct> &_inputdecks, int size,
 																		vector<WellReroute> wellRerouteDecks, vector<Date> dates, int scenario,
-																		vector<WellSchedule> &wellSchedules, vector<Priotization> &priotizations)
+																		vector<WellSchedule> &wellSchedules, vector<Prioritization> &prioritizations)
 {
 	vector<vector<vector<InputDeckStruct>>> FacilitiesAll;
 	vector<vector<InputDeckStruct>> Facilities;
 	vector<vector<InputDeckStruct>> FacilitiesOld;
 	vector<InputDeckStruct> Facility;
 
-	int Faclitiessize = Faclities.size();
+	int facilitiesSize = Facilities.size();
 	int nWellRerouteDecks = wellRerouteDecks.size();
 	int nDates = dates.size();
 	int i, j, k, jj, ii, kk, nFacility;
 	int nWellSchedules = wellSchedules.size();
-	int nFacilities, nPriotizations = priotizations.size();
+	int nFacilities, nPrioritizations = prioritizations.size();
 	bool check;
 
-	vector<Priotization> priotizationFacilities;
-	for (j = 0; j < Faclitiessize; j++)
+	vector<Prioritization> prioritizationFacilities;
+	for (j = 0; j < facilitiesSize; j++)
 	{
 
 		Facility.clear();
 		for (i = 0; i < size; i++)
 		{
-			if (Faclities[j] == _inputdecks[i].Flow_station)
+			if (Facilities[j] == _inputdecks[i].Flow_station)
 			{
 				InputDeckStruct newDeck = _inputdecks[i];
 				newDeck.isTerminated = false;
@@ -1628,17 +1628,17 @@ vector<vector<vector<InputDeckStruct>>> Inputdeck::GetModulesByFacility(vector<s
 			Facilities.push_back(Facility);
 		}
 
-		/* Priotization priotization;
-		priotization.FacilityName = Faclities[j];
-		priotization.typeOfPrioritization = "None"; */
+		/* Prioritization prioritization;
+		prioritization.FacilityName = Facilities[j];
+		prioritization.typeOfPrioritization = "None"; */
 
-		priotizationFacilities.push_back(priotizations[j]);
-		/* for(i = 0; i < nPriotizations; i++){
-			if(priotizations[i].FacilityName == Faclities[j]){
-				if(dateCreation.IsMaximumDate(dates[0], priotizations[i].FromDate) &&
-				dateCreation.IsMinimumDate(dates[0],  priotizations[i].ToDate))
+		prioritizationFacilities.push_back(prioritizations[j]);
+		/* for(i = 0; i < nPrioritizations; i++){
+			if(prioritizations[i].FacilityName == Facilities[j]){
+				if(dateCreation.IsMaximumDate(dates[0], prioritizations[i].FromDate) &&
+				dateCreation.IsMinimumDate(dates[0],  prioritizations[i].ToDate))
 				{
-					priotizationFacilities[j] = priotizations[i];
+					prioritizationFacilities[j] = prioritizations[i];
 					break;
 				}
 			}
@@ -2011,7 +2011,7 @@ vector<vector<vector<InputDeckStruct>>> Inputdeck::GetModulesByFacility(vector<s
 		}
 	}
 
-	priotizationFacilities.clear();
+	prioritizationFacilities.clear();
 	for (j = 0; j < nFacilities; j++)
 	{
 		int nWells = Facilities[j].size();
@@ -2195,11 +2195,11 @@ vector<vector<vector<InputDeckStruct>>> Inputdeck::GetModulesByFacility(vector<s
 			}
 		}
 
-		priotizationFacilities.push_back(priotizations[j]);
+		prioritizationFacilities.push_back(prioritizations[j]);
 	}
 
 	FacilitiesAll.push_back(Facilities);
-	priotizationsFacilities.push_back(priotizationFacilities);
+	prioritizationsFacilities.push_back(prioritizationFacilities);
 
 	//====================================================================//
 	for (jj = 1; jj < nDates; jj++)
@@ -2569,7 +2569,7 @@ vector<vector<vector<InputDeckStruct>>> Inputdeck::GetModulesByFacility(vector<s
 			}
 		}
 
-		priotizationFacilities.clear();
+		prioritizationFacilities.clear();
 		for (j = 0; j < nFacilities; j++)
 		{
 			int nWells = Facilities[j].size();
@@ -2753,17 +2753,17 @@ vector<vector<vector<InputDeckStruct>>> Inputdeck::GetModulesByFacility(vector<s
 				}
 			}
 
-			/* Priotization priotization;
-			priotization.FacilityName = Faclities[j];
-			priotization.typeOfPrioritization = "None"; */
+			/* Prioritization prioritization;
+			prioritization.FacilityName = Facilities[j];
+			prioritization.typeOfPrioritization = "None"; */
 
-			priotizationFacilities.push_back(priotizations[j]);
-			/* for(i = 0; i < nPriotizations; i++){
-				if(priotizations[i].FacilityName == Faclities[j]){
-					if(dateCreation.IsMaximumDate(dates[jj], priotizations[i].FromDate) &&
-					dateCreation.IsMinimumDate(dates[jj],  priotizations[i].ToDate))
+			prioritizationFacilities.push_back(prioritizations[j]);
+			/* for(i = 0; i < nPrioritizations; i++){
+				if(prioritizations[i].FacilityName == Facilities[j]){
+					if(dateCreation.IsMaximumDate(dates[jj], prioritizations[i].FromDate) &&
+					dateCreation.IsMinimumDate(dates[jj],  prioritizations[i].ToDate))
 					{
-						priotizationFacilities[j] = priotizations[i];
+						prioritizationFacilities[j] = prioritizations[i];
 						break;
 					}
 				}
@@ -2771,7 +2771,7 @@ vector<vector<vector<InputDeckStruct>>> Inputdeck::GetModulesByFacility(vector<s
 		}
 
 		FacilitiesAll.push_back(Facilities);
-		priotizationsFacilities.push_back(priotizationFacilities);
+		prioritizationsFacilities.push_back(prioritizationFacilities);
 	}
 
 	for (j = 0; j < nDates; j++)
@@ -2910,7 +2910,7 @@ void Inputdeck::GetRunParameters(const char *filepath, const char delimeter)
 				i++;
 				runParameter.TargetFluid = strings[i];
 				i++;
-				runParameter.isDefered = stoi(strings[i]);
+				runParameter.isDeferred = stoi(strings[i]);
 			}
 		} */
 

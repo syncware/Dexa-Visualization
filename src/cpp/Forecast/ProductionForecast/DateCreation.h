@@ -168,8 +168,8 @@ bool DateCreation::IsMaximumDate(Date &d1, Date &d2)
 bool DateCreation::IsContains(vector<Date> &dates, Date &d1)
 {
 	bool check = false;
-	int datessize = dates.size();
-	for (int i = 0; i < datessize; i++)
+	int datesSize = dates.size();
+	for (int i = 0; i < datesSize; i++)
 	{
 		if (dates[i].year == d1.year && dates[i].month == d1.month && dates[i].day == d1.day)
 		{
@@ -315,11 +315,11 @@ Date DateCreation::DateIncrementByYears(Date &d1)
 
 void DateCreation::SortDate(vector<Date> &dates)
 {
-	int datessize = dates.size();
+	int datesSize = dates.size();
 
-	for (int i = 0; i < datessize - 1; i++)
+	for (int i = 0; i < datesSize - 1; i++)
 	{
-		for (int j = i + 1; j < datessize; j++)
+		for (int j = i + 1; j < datesSize; j++)
 		{
 			if (IsMaximumDate(dates[i], dates[j]) == true)
 			{

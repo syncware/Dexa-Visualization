@@ -8,8 +8,7 @@
       "include_dirs": [
       "./node_modules/node-addon-api"
       ],
-      'defines': [
-      'NAPI_CPP_EXCEPTIONS'],
+      'defines': ['NAPI_CPP_EXCEPTIONS'],
       "conditions": [
           [ "OS=='linux'", {
               "cflags+": [ "-std=c++17", "-fexceptions" ],

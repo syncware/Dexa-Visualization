@@ -87,7 +87,7 @@ vector<ForecastResult> ImportMBALForecastResults::GetMBALForecastResult(vector<s
     int j = 0, nj = ColumHeaders.size();
     int startRowIndex = 11;
     MBALVariableHeaders mBALVariableHeaders;
-    mBALVariableHeaders.InitailizeData();
+    mBALVariableHeaders.InitializeData();
     vector<ForecastResult> mBALForecasts;
 
     for (i = startRowIndex; i < ni - 2; i++)
@@ -95,7 +95,7 @@ vector<ForecastResult> ImportMBALForecastResults::GetMBALForecastResult(vector<s
         vector<string> strings;
         inputdeck.customGetline(rows[i], delimeter, strings);
         ForecastResult mBALForecastModel;
-        mBALForecastModel.InitailizeData();
+        mBALForecastModel.InitializeData();
 
         mBALForecastModel.ModuleName = wellName;
         mBALForecastModel.CGR = stod(strings[13]);

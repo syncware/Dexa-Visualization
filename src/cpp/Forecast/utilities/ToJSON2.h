@@ -217,7 +217,7 @@ map<string, map<string, map<string, string>>> ReportJSON2::GetForecastOutputAllF
 	int j = nDates - 1, facilityIndex = 0;
 	int wellIndex = 0;
 	int nFacilities = facilityWellsIndicies[j].size();
-	map<string, map<string, map<string, string>>> FaclitiesObject;
+	map<string, map<string, map<string, string>>> FacilitiesObject;
 	for (facilityIndex = 0; facilityIndex < nFacilities; facilityIndex++)
 	{
 		facilityWellsIndicies[j][facilityIndex].Facility;
@@ -237,10 +237,10 @@ map<string, map<string, map<string, string>>> ReportJSON2::GetForecastOutputAllF
 			decksPerFacility[facilityWellsIndicies[j][facilityIndex].WellNames[wellIndex]] = deckObject;
 		}
 
-		FaclitiesObject[facilityWellsIndicies[j][facilityIndex].Facility] = decksPerFacility;
+		FacilitiesObject[facilityWellsIndicies[j][facilityIndex].Facility] = decksPerFacility;
 	}
 
-	return FaclitiesObject;
+	return FacilitiesObject;
 }
 
 string ReportJSON2::GetForecastOutput(int &scenario,
@@ -276,7 +276,7 @@ string ReportJSON2::GetForecastOutput(int &scenario,
 		if (results[j][facilityIndex][wellIndex].IsFlowing == false)
 		{
 			// Clean up unwanted data
-			results[j][facilityIndex][wellIndex].InitailizeData2();
+			results[j][facilityIndex][wellIndex].InitializeData2();
 		}
 
 		wellResultsForAggregation.push_back(results[j][facilityIndex][wellIndex]);
@@ -1408,7 +1408,7 @@ vector<FacilityInEquipementConnection> ReportJSON2::GetFacilitiesInEquipmentConn
 	for (i = 0; i < nInternalExternalFacilitiesNames; i++)
 	{
 		FacilityInEquipementConnection facilityInEquipementConnection;
-		facilityInEquipementConnection.InitailizeData();
+		facilityInEquipementConnection.InitializeData();
 		facilityInEquipementConnection.facilityName = "Not Exist";
 		for (j = 0; j < nRows; j++)
 		{

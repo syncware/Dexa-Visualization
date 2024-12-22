@@ -540,7 +540,7 @@ forecastResultsRouter.get(
         productionPrioritizationModel
       );
       const prioritization = getPrioritization(productionPrioritizationModel);
-      const nodalPriotizations = getNodalPrioritization(
+      const nodalPrioritizations = getNodalPrioritization(
         productionPrioritizationModel
       );
 
@@ -601,8 +601,8 @@ forecastResultsRouter.get(
         runparameters: forecastingParameterModel.parametersEntity,
         productionPrioritization,
         prioritization,
-        nodalPriotizations,
-        nNodalPriotizations: nodalPriotizations.length,
+        nodalPrioritizations,
+        nNodalPrioritizations: nodalPrioritizations.length,
         forecastProfiles: forecastProfiles.inputDeckData,
         isForecastProfiles,
         nDecks: forecastInputDeck.inputDeckData.length,

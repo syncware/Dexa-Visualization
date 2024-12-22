@@ -49,8 +49,8 @@ ExternalForecast::~ExternalForecast()
 bool ExternalForecast::IsContainsModuleName(vector<string> &uniqueModuleNames, ForecastResult &forecastResult)
 {
     bool check = false;
-    int datessize = uniqueModuleNames.size();
-    for (int i = 0; i < datessize; i++)
+    int datesSize = uniqueModuleNames.size();
+    for (int i = 0; i < datesSize; i++)
     {
         if (uniqueModuleNames[i] == forecastResult.ModuleName)
         {
@@ -180,7 +180,7 @@ vector<WellActivityResult> ExternalForecast::GetWellActivities(vector<vector<For
         for (i = 0; i < lent2; i++)
         {
             ForecastResult temp;
-            temp.InitailizeData();
+            temp.InitializeData();
             if (wellsHydrocarbonStream[j] == "oil")
             {
                 if (forecastProfilesList[j][i].Oil_rate > 0)

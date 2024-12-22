@@ -35,8 +35,8 @@ class ReportJSON
 
 public:
 	dataPivoting _dataPivoting2;
-	Napi::Object FaclitiesObject;
-	Napi::Object FaclitiesObjectYealy;
+	Napi::Object FacilitiesObject;
+	Napi::Object FacilitiesObjectYealy;
 	DateCreation dateCreation2;
 	vector<FacilityStructExternal> FacilityTable2;
 	double myZero2 = 0.00000001;
@@ -108,7 +108,7 @@ public:
 														  int nInternalExternalFacilitiesNames, Napi::Env &env);
 	vector<FacilityStructExternal> GetCrudeOilLossesSheetData(Napi::Array &wrappedDecks,
 															  int nCrudeOilLosses, Napi::Env &env);
-	Priotization getWrappedTypeOfPrioritization(Napi::Object wrappedTypeOfPrioritization,
+	Prioritization getWrappedTypeOfPrioritization(Napi::Object wrappedTypeOfPrioritization,
 												Napi::Env &env);
 	vector<vector<string>> GetEquipmentConnections(Napi::Array &wrappedDecks,
 												   int nEquipmentConnections, int numberOfNodes, Napi::Env &env);
@@ -122,7 +122,7 @@ public:
 	void GetFacilityList(vector<FacilityStructExternal> &wrappedFacilities);
 	vector<InputDeckStruct> getUpdatedInputDecks2(Napi::Array &wrappedDecks, Napi::Env &env,
 												  int nWrappedDecks);
-	vector<Priotization> getWrappedNodalPrioritization(Napi::Array wrappedNodalPrioritization,
+	vector<Prioritization> getWrappedNodalPrioritization(Napi::Array wrappedNodalPrioritization,
 													   int nWrappedNodalPrioritization, Napi::Env &env);
 	vector<string> GetForecastSolutionSpaces(Napi::Array &wrappedForecastSolutionSpaces,
 											 int nForecastSolutionSpaces, Napi::Env &env);
@@ -507,14 +507,14 @@ json ReportJSON::NapiObjectToJson(const Napi::Object &obj)
 	return jsonObj;
 }
 
-Priotization ReportJSON::getWrappedTypeOfPrioritization(Napi::Object wrappedTypeOfPrioritization,
+Prioritization ReportJSON::getWrappedTypeOfPrioritization(Napi::Object wrappedTypeOfPrioritization,
 														Napi::Env &env)
 {
 
-	Priotization priotization;
-	priotization.typeOfPrioritization = (wrappedTypeOfPrioritization.Get(Napi::String::New(env, "typeOfPrioritization"))).As<Napi::String>();
-	priotization.methodOfPrioritization = (wrappedTypeOfPrioritization.Get(Napi::String::New(env, "methodOfPrioritization"))).As<Napi::String>();
-	priotization.targetFluid = (wrappedTypeOfPrioritization.Get(Napi::String::New(env, "targetFluid"))).As<Napi::String>();
+	Prioritization prioritization;
+	prioritization.typeOfPrioritization = (wrappedTypeOfPrioritization.Get(Napi::String::New(env, "typeOfPrioritization"))).As<Napi::String>();
+	prioritization.methodOfPrioritization = (wrappedTypeOfPrioritization.Get(Napi::String::New(env, "methodOfPrioritization"))).As<Napi::String>();
+	prioritization.targetFluid = (wrappedTypeOfPrioritization.Get(Napi::String::New(env, "targetFluid"))).As<Napi::String>();
 	Napi::Array parameterNamesWeights = (wrappedTypeOfPrioritization.Get(Napi::String::New(env, "parameterNamesWeights"))).As<Napi::Array>();
 	Napi::Number nParameterNamesWeights = (wrappedTypeOfPrioritization.Get(Napi::String::New(env, "nParameterNamesWeights"))).As<Napi::Number>();
 	int count = (int)nParameterNamesWeights;
@@ -524,32 +524,32 @@ Priotization ReportJSON::getWrappedTypeOfPrioritization(Napi::Object wrappedType
 		Napi::Object parameterNamesWeightsObject = ((Napi::Value)parameterNamesWeights[i]).As<Napi::Object>();
 		string parameterName = (parameterNamesWeightsObject.Get(Napi::String::New(env, "parameterName"))).As<Napi::String>();
 		double parameterWeight = (parameterNamesWeightsObject.Get(Napi::String::New(env, "parameterWeight"))).As<Napi::Number>();
-		priotization.prioritizationModel.ParameterNames.push_back(parameterName);
-		priotization.prioritizationModel.ParameterWeights.push_back(parameterWeight);
+		prioritization.prioritizationModel.ParameterNames.push_back(parameterName);
+		prioritization.prioritizationModel.ParameterWeights.push_back(parameterWeight);
 	}
 
 	std::cout << "getWrappedTypeOfPrioritization completed " << "\n";
 
-	return priotization;
+	return prioritization;
 }
 
-vector<Priotization> ReportJSON::getWrappedNodalPrioritization(Napi::Array wrappedNodalPrioritization,
+vector<Prioritization> ReportJSON::getWrappedNodalPrioritization(Napi::Array wrappedNodalPrioritization,
 															   int nWrappedNodalPrioritization, Napi::Env &env)
 {
 
 	int lent = nWrappedNodalPrioritization;
 	std::cout << "getWrappedNodalPrioritization started" << std::endl;
 
-	vector<Priotization> nodalPriotizations;
+	vector<Prioritization> nodalPrioritizations;
 
 	for (int j = 0; j < lent; j++)
 	{
 		Napi::Object wrappedTypeOfPrioritization = ((Napi::Value)wrappedNodalPrioritization[j]).As<Napi::Object>();
-		Priotization priotization;
-		priotization.FacilityName = (wrappedTypeOfPrioritization.Get(Napi::String::New(env, "productionEquipment"))).As<Napi::String>();
-		priotization.typeOfPrioritization = (wrappedTypeOfPrioritization.Get(Napi::String::New(env, "typeOfPrioritization"))).As<Napi::String>();
-		priotization.methodOfPrioritization = (wrappedTypeOfPrioritization.Get(Napi::String::New(env, "methodOfPrioritization"))).As<Napi::String>();
-		priotization.targetFluid = (wrappedTypeOfPrioritization.Get(Napi::String::New(env, "targetFluid"))).As<Napi::String>();
+		Prioritization prioritization;
+		prioritization.FacilityName = (wrappedTypeOfPrioritization.Get(Napi::String::New(env, "productionEquipment"))).As<Napi::String>();
+		prioritization.typeOfPrioritization = (wrappedTypeOfPrioritization.Get(Napi::String::New(env, "typeOfPrioritization"))).As<Napi::String>();
+		prioritization.methodOfPrioritization = (wrappedTypeOfPrioritization.Get(Napi::String::New(env, "methodOfPrioritization"))).As<Napi::String>();
+		prioritization.targetFluid = (wrappedTypeOfPrioritization.Get(Napi::String::New(env, "targetFluid"))).As<Napi::String>();
 		Napi::Array parameterNamesWeights = (wrappedTypeOfPrioritization.Get(Napi::String::New(env, "parameterNamesWeights"))).As<Napi::Array>();
 		Napi::Number nParameterNamesWeights = (wrappedTypeOfPrioritization.Get(Napi::String::New(env, "nParameterNamesWeights"))).As<Napi::Number>();
 		int count = (int)nParameterNamesWeights;
@@ -559,15 +559,15 @@ vector<Priotization> ReportJSON::getWrappedNodalPrioritization(Napi::Array wrapp
 			Napi::Object parameterNamesWeightsObject = ((Napi::Value)parameterNamesWeights[i]).As<Napi::Object>();
 			string parameterName = (parameterNamesWeightsObject.Get(Napi::String::New(env, "parameterName"))).As<Napi::String>();
 			double parameterWeight = (parameterNamesWeightsObject.Get(Napi::String::New(env, "parameterWeight"))).As<Napi::Number>();
-			priotization.prioritizationModel.ParameterNames.push_back(parameterName);
-			priotization.prioritizationModel.ParameterWeights.push_back(parameterWeight);
+			prioritization.prioritizationModel.ParameterNames.push_back(parameterName);
+			prioritization.prioritizationModel.ParameterWeights.push_back(parameterWeight);
 		}
-		nodalPriotizations.push_back(priotization);
+		nodalPrioritizations.push_back(prioritization);
 	}
 
 	std::cout << "getWrappedNodalPrioritization completed " << "\n";
 
-	return nodalPriotizations;
+	return nodalPrioritizations;
 }
 
 vector<InputDeckStruct> ReportJSON::getDecks(Napi::Array &wrappedDecks,
@@ -1198,7 +1198,7 @@ void ReportJSON::GetRunParameters(Napi::Object &wrappedRunParameters, Napi::Env 
 	runParameter2.StopYear = (wrappedRunParameters.Get(Napi::String::New(env, "stopYear"))).As<Napi::Number>();
 	// runParameter.TimeFrequency = (wrappedRunParameters.Get(Napi::String::New(env, "timeFrequency"))).As<Napi::String>();
 	// runParameter.TargetFluid = (wrappedRunParameters.Get(Napi::String::New(env, "targetFluid"))).As<Napi::String>();
-	// runParameter.isDefered = (wrappedRunParameters.Get(Napi::String::New(env, "isDefered"))).As<Napi::Number>();
+	// runParameter.isDeferred = (wrappedRunParameters.Get(Napi::String::New(env, "isDeferred"))).As<Napi::Number>();
 }
 
 string ReportJSON::GetRow(Napi::Object &wrappedDeck, Napi::Env &env, bool &isLastRow)
@@ -1298,8 +1298,8 @@ void ReportJSON::GetForecastFacilityOutput(int &k, int &scenario, vector<Date> &
 	if (nKeys > 0)
 	{
 		// std::cout << "FACILITY: " << FacilityName << std::endl;
-		FaclitiesObject.Set(Napi::String::New(env, FacilityName), decksPerFacility);
-		FaclitiesObjectYealy.Set(Napi::String::New(env, FacilityName), decksPerFacilityYearly);
+		FacilitiesObject.Set(Napi::String::New(env, FacilityName), decksPerFacility);
+		FacilitiesObjectYealy.Set(Napi::String::New(env, FacilityName), decksPerFacilityYearly);
 	}
 }
 
@@ -1308,16 +1308,16 @@ void ReportJSON::GetForecastOutput(Napi::Env &env, int &scenario, Date &stopDate
 
 	int k = -1;
 
-	FaclitiesObject = Napi::Object::New(env);
-	FaclitiesObjectYealy = Napi::Object::New(env);
+	FacilitiesObject = Napi::Object::New(env);
+	FacilitiesObjectYealy = Napi::Object::New(env);
 	bool isByYear = true;
 	vector<Date> datesNew = _dataPivoting2.GetListOfYears(results, isByYear);
 
 	// try {
 
-	int FaclitiesSize = results.size();
+	int FacilitiesSize = results.size();
 
-	for (k = 0; k < FaclitiesSize; k++)
+	for (k = 0; k < FacilitiesSize; k++)
 	{
 		GetForecastFacilityOutput(k, scenario, datesNew, env);
 	}
@@ -1338,7 +1338,7 @@ void ReportJSON::GetForecastOutputAllFacilities(int &scenario,
 	int j = nDates - 1, facilityIndex = 0;
 	int wellIndex = 0;
 	int nFacilities = facilityWellsIndicies[j].size();
-	FaclitiesObject = Napi::Object::New(env);
+	FacilitiesObject = Napi::Object::New(env);
 	for (facilityIndex = 0; facilityIndex < nFacilities; facilityIndex++)
 	{
 		facilityWellsIndicies[j][facilityIndex].Facility;
@@ -1360,7 +1360,7 @@ void ReportJSON::GetForecastOutputAllFacilities(int &scenario,
 								 deckObject);
 		}
 
-		FaclitiesObject.Set(Napi::String::New(env,
+		FacilitiesObject.Set(Napi::String::New(env,
 											  facilityWellsIndicies[j][facilityIndex].Facility),
 							decksPerFacility);
 	}
@@ -1375,8 +1375,8 @@ void ReportJSON::GetForecastOutput(int &scenario,
 	int nFacilities = 0, nWells = 0;
 	// string FolderName = "./Demo Data";
 	// string filePath = FolderName + "/Reroute Wells Result/Scenarios";
-	FaclitiesObject = Napi::Object::New(env);
-	FaclitiesObjectYealy = Napi::Object::New(env);
+	FacilitiesObject = Napi::Object::New(env);
+	FacilitiesObjectYealy = Napi::Object::New(env);
 
 	int nDates = dateTimes.size();
 	for (j = 0; j < nDates; j++)
@@ -1440,7 +1440,7 @@ void ReportJSON::GetForecastOutput(int &scenario,
 						   Napi::String::New(env, facilityWellsIndicies[j][ii].tables[k]));
 			decksPerFacility.Set(Napi::String::New(env, wellNames[k]), deckObject);
 		}
-		FaclitiesObject.Set(Napi::String::New(env, FacilityName), decksPerFacility);
+		FacilitiesObject.Set(Napi::String::New(env, FacilityName), decksPerFacility);
 	}
 }
 

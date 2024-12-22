@@ -28,7 +28,7 @@ void from_json(const json &j, PrioritizationModel &p)
     }
 }
 
-void from_json(const json &j, Priotization &p)
+void from_json(const json &j, Prioritization &p)
 {
     p.targetFluid = j.at("targetFluid").get<string>();
     p.methodOfPrioritization = j.at("methodOfPrioritization").get<string>();

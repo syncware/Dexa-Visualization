@@ -45,8 +45,8 @@ DateCreation dateCreation;
 int main()
 {
     // getDays();
-    //  runForecast();
-    plotChat2();
+    runForecast();
+    // plotChat2();
     // testInheritance();
     // testPolymorphism();
     // testEncapsulation();

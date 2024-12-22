@@ -149,7 +149,7 @@ export async function importForecastResults() {
       let scenarioDirectoryPath = `${parentDirectoryPath}/${forecastCase}/${scenariosKeys[j]}`;
       const facilitiesNames = getSubDirectoriesSync(scenarioDirectoryPath); // Read facilities folder names
       k = 0;
-      let FaclitiesObject = {} as any;
+      let FacilitiesObject = {} as any;
       for (k = 0; k < facilitiesNames.length; k++) {
         let facilityDirectoryPath = `${parentDirectoryPath}/${forecastCase}/${scenariosKeys[j]}/${facilitiesNames[k]}`;
         if (k == 0 && j == 0 && i == 0) {
@@ -167,10 +167,10 @@ export async function importForecastResults() {
           } as any;
           decksPerFacility[wellNames[ii]] = deckObject;
         }
-        FaclitiesObject[facilitiesNames[k]] = decksPerFacility;
+        FacilitiesObject[facilitiesNames[k]] = decksPerFacility;
       }
       let scenarioName = scenariosKeys[j];
-      inputObject[scenarioName] = FaclitiesObject;
+      inputObject[scenarioName] = FacilitiesObject;
     }
     inputObjectFSS[forecastSolutionSpaces[i]] = inputObject;
   }

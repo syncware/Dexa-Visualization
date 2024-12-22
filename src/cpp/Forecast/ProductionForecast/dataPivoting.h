@@ -452,7 +452,7 @@ vector<ForecastResult> dataPivoting::GetYearlyForcastResultModuleLevel(vector<Fo
     for (i = 0; i < lent; i++)
     {
         ForecastResult forecastResult; // = forecastResults[startFlowIndex];
-        forecastResult.InitailizeData();
+        forecastResult.InitializeData();
         forecastResult.Day = dates[i].day;
         forecastResult.Month = dates[i].month;
         forecastResult.Year = dates[i].year;
@@ -648,7 +648,7 @@ vector<ForecastResultForChart> dataPivoting::GetYearlyForcastResultModuleLevelFo
     for (i = 0; i < lent; i++)
     {
         ForecastResultForChart forecastResult;
-        forecastResult.InitailizeData();
+        forecastResult.InitializeData();
         forecastResult.Day = dates[i].day;
         forecastResult.Month = dates[i].month;
         forecastResult.Year = dates[i].year;
@@ -703,7 +703,7 @@ vector<ForecastResult> dataPivoting::GetYearlyForcastResultModuleLevelMonthly(ve
     for (i = 0; i < lent; i++)
     {
         ForecastResult forecastResult; // = forecastResults[0];
-        forecastResult.InitailizeData();
+        forecastResult.InitializeData();
         forecastResult.Day = dates[i].day;
         forecastResult.Month = dates[i].month;
         forecastResult.Year = dates[i].year;
@@ -875,7 +875,7 @@ vector<ForecastResult> dataPivoting::GetYearlyForcastResultFacilityLevel(vector<
     for (i = 0; i < lent; i++)
     {
         ForecastResult forecastResult; // = forecastResults[0][0];
-        forecastResult.InitailizeData();
+        forecastResult.InitializeData();
         forecastResult.Day = dates[i].day;
         forecastResult.Month = dates[i].month;
         forecastResult.Year = dates[i].year;

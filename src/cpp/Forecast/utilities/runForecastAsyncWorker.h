@@ -101,9 +101,9 @@ private:
 
         vector<FacilityStructExternal> gasFlared = payload.flaredGases;
 
-        Priotization priotization = payload.prioritization;
+        Prioritization prioritization = payload.prioritization;
 
-        vector<Priotization> nodalPriotizations = payload.nodalPriotizations;
+        vector<Prioritization> nodalPrioritizations = payload.nodalPrioritizations;
 
         DateCreation dateCreation;
 
@@ -214,13 +214,13 @@ private:
 
                 if (i > 0)
                 {
-                    priotization.typeOfPrioritization = "streamPrioritization";
+                    prioritization.typeOfPrioritization = "streamPrioritization";
                 }
-                updatesNodes[i].priotizations =
+                updatesNodes[i].prioritizations =
                     configurePrioritization.SetUpPrioritization(updatesNodes[i].equipmentDataInEquipementConnections,
-                                                                dateCreation.dateTimes[0], StopDate, priotization, nodalPriotizations);
+                                                                dateCreation.dateTimes[0], StopDate, prioritization, nodalPrioritizations);
             }
-            vector<Priotization> priotizations = updatesNodes[0].priotizations;
+            vector<Prioritization> prioritizations = updatesNodes[0].prioritizations;
 
             for (fSSIndex = 0; fSSIndex < nForecastSolutionSpaces; fSSIndex++)
             {
@@ -237,10 +237,10 @@ private:
                     vector<vector<vector<InputDeckStruct>>> FacilitiesObj =
                         deckobj.GetModulesByFacility(Facilities, deckobj.inputdecks, ndecks,
                                                      deckobj.wellRerouteDecks, dateCreation.dateTimes, scenario,
-                                                     wellSchedules, priotizations);
+                                                     wellSchedules, prioritizations);
                     std::cout << "GetModulesByFacility completed\n";
 
-                    vector<vector<Priotization>> priotizationsFacilities = deckobj.priotizationsFacilities;
+                    vector<vector<Prioritization>> prioritizationsFacilities = deckobj.prioritizationsFacilities;
 
                     CalculateDeckVariables calculateDeckVariables;
                     calculateDeckVariables.UseExternalForecastprofile = isForecastProfiles;
@@ -251,39 +251,39 @@ private:
 
                     calculateDeckVariables.dates = dateCreation.dateTimes;
                     calculateDeckVariables.FacilityTables_Actual = deckobj.FacilityTables_Actual;
-                    calculateDeckVariables.isDefered = false;
+                    calculateDeckVariables.isDeferred = false;
 
                     deckobj.runParameter.forecastCase = forecastSolutionSpaces[fSSIndex];
 
                     if (deckobj.runParameter.forecastCase == potential)
                     {
-                        calculateDeckVariables.isFacilityDefered = false;
-                        calculateDeckVariables.isDefered = false;
+                        calculateDeckVariables.isFacilityDeferred = false;
+                        calculateDeckVariables.isDeferred = false;
                     }
 
                     if (deckobj.runParameter.forecastCase == delivered)
                     {
-                        calculateDeckVariables.isFacilityDefered = false;
-                        calculateDeckVariables.isDefered = false;
+                        calculateDeckVariables.isFacilityDeferred = false;
+                        calculateDeckVariables.isDeferred = false;
                     }
 
                     if (deckobj.runParameter.forecastCase == availability)
                     {
-                        calculateDeckVariables.isFacilityDefered = true;
-                        calculateDeckVariables.isDefered = true;
+                        calculateDeckVariables.isFacilityDeferred = true;
+                        calculateDeckVariables.isDeferred = true;
                     }
 
                     if (deckobj.runParameter.forecastCase == offtake)
                     {
-                        calculateDeckVariables.isFacilityDefered = true;
-                        calculateDeckVariables.isDefered = true;
+                        calculateDeckVariables.isFacilityDeferred = true;
+                        calculateDeckVariables.isDeferred = true;
                     }
 
                     calculateDeckVariables.startFrom = nth * (i - 1);
 
                     calculateDeckVariables.GetDeckVariables(FacilitiesObj, dateCreation.daysList, scenario,
                                                             deckobj.FacilityTable_Actual, Facilities, dateCreation, deckobj.wellRerouteDecks,
-                                                            deckobj.runParameter.forecastCase, priotizationsFacilities, updatesNodes, isMonthly);
+                                                            deckobj.runParameter.forecastCase, prioritizationsFacilities, updatesNodes, isMonthly);
 
                     std::cout << "GetDeckVariables completed\n";
                     reportJSON.results = calculateDeckVariables.results;
@@ -295,7 +295,7 @@ private:
                     std::cout << "GetForecastOutput completed\n";
 
                     string scenarioName = to_string(scenario) + "P_" + to_string(scenario) + "C";
-                    inputObject.Set(Napi::String::New(env, scenarioName), reportJSON.FaclitiesObject);
+                    inputObject.Set(Napi::String::New(env, scenarioName), reportJSON.FacilitiesObject);
 
                     std::cout << "Scenario created for " << scenarioName << forecastSolutionSpaces[fSSIndex] << '\n';
                     //

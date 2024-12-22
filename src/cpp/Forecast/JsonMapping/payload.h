@@ -29,7 +29,7 @@
 #include "wellShutInOpenUp.h"
 #include "forecastResult.h"
 #include "runparameters.h"
-#include "nodalPriotizations.h"
+#include "nodalPrioritizations.h"
 
 using namespace std;
 using json = nlohmann::json;
@@ -105,7 +105,7 @@ void from_json(const json &j, Payload &payload)
     j.at("runparameters").get_to(payload.runparameters);
     j.at("nProductionPrioritization").get_to(payload.nProductionPrioritization);
     j.at("productionPrioritization").get_to(payload.productionPrioritization);
-    j.at("nNodalPriotizations").get_to(payload.nNodalPriotizations);
-    payload.prioritization = j.at("prioritization").get<Priotization>();
-    payload.nodalPriotizations = j.at("nodalPriotizations").get<vector<Priotization>>();
+    j.at("nNodalPrioritizations").get_to(payload.nNodalPrioritizations);
+    payload.prioritization = j.at("prioritization").get<Prioritization>();
+    payload.nodalPrioritizations = j.at("nodalPrioritizations").get<vector<Prioritization>>();
 }

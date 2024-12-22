@@ -196,7 +196,7 @@ vector<ForecastResult> ImportForecastResults::GetForecastResults(string &forecas
 	vector<ForecastResult> results;
 	vector<string> stringRows;
 	ForecastResult forecastResult2;
-	forecastResult2.InitailizeData();
+	forecastResult2.InitializeData();
 	inputdeck.tokenize(forecastResulttable, rowDelimeter, stringRows);
 	int j = 0, nj = stringRows.size();
 
@@ -225,7 +225,7 @@ vector<ForecastResult> ImportForecastResults::GetForecastResults(string &forecas
 		else
 		{
 			ForecastResult forecastResult;
-			forecastResult.InitailizeData();
+			forecastResult.InitializeData();
 			forecastResult.Day = dates[j].day;
 			forecastResult.Month = dates[j].month;
 			forecastResult.Year = dates[j].year;

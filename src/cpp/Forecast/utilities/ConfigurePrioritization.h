@@ -31,13 +31,13 @@ private:
 public:
   ConfigurePrioritization();
   ~ConfigurePrioritization();
-  vector<Priotization> SetUpPrioritization(vector<FacilityStructExternal> &FacilityTable, Date &startDate, Date &stopDate,
-                                           Priotization &priotization, vector<Priotization> &nodalPriotizations);
-  vector<Priotization> SetUpDefaultPrioritization(vector<FacilityStructExternal> &FacilityTable, Date &startDate, Date &stopDate);
-  void SetWellPrioritization(Priotization &priotization, Priotization &assestPriotization);
-  void SetStreamPrioritization(Priotization &priotization, Priotization &assestPriotization);
-  void SetResourceClassPrioritization(Priotization &priotization, Priotization &assestPriotization);
-  void SetProjectPrioritization(Priotization &priotization, Priotization &assestPriotization);
+  vector<Prioritization> SetUpPrioritization(vector<FacilityStructExternal> &FacilityTable, Date &startDate, Date &stopDate,
+                                           Prioritization &prioritization, vector<Prioritization> &nodalPrioritizations);
+  vector<Prioritization> SetUpDefaultPrioritization(vector<FacilityStructExternal> &FacilityTable, Date &startDate, Date &stopDate);
+  void SetWellPrioritization(Prioritization &prioritization, Prioritization &assestPrioritization);
+  void SetStreamPrioritization(Prioritization &prioritization, Prioritization &assestPrioritization);
+  void SetResourceClassPrioritization(Prioritization &prioritization, Prioritization &assestPrioritization);
+  void SetProjectPrioritization(Prioritization &prioritization, Prioritization &assestPrioritization);
 };
 
 ConfigurePrioritization::ConfigurePrioritization()
@@ -48,9 +48,9 @@ ConfigurePrioritization::~ConfigurePrioritization()
 {
 }
 
-vector<Priotization> ConfigurePrioritization::SetUpDefaultPrioritization(vector<FacilityStructExternal> &FacilityTable, Date &startDate, Date &stopDate)
+vector<Prioritization> ConfigurePrioritization::SetUpDefaultPrioritization(vector<FacilityStructExternal> &FacilityTable, Date &startDate, Date &stopDate)
 {
-  vector<Priotization> priotizations;
+  vector<Prioritization> prioritizations;
 
   vector<string> parameterNames = vector<string>{High, Normal, Low};
   vector<double> parameterWeights = vector<double>{90, 50, 10}; // Create Ratios from this
@@ -59,47 +59,47 @@ vector<Priotization> ConfigurePrioritization::SetUpDefaultPrioritization(vector<
   for (i = 0; i < FacilityTable.size(); i++)
   {
 
-    Priotization priotization;
-    priotization.FromDate = startDate;
+    Prioritization prioritization;
+    prioritization.FromDate = startDate;
 
-    priotization.ToDate = stopDate;
+    prioritization.ToDate = stopDate;
 
-    priotization.FacilityName = FacilityTable[i].Primary_Facility;
-    priotization.typeOfPrioritization = wellPrioritization;
-    priotization.methodOfPrioritization = sequential;
+    prioritization.FacilityName = FacilityTable[i].Primary_Facility;
+    prioritization.typeOfPrioritization = wellPrioritization;
+    prioritization.methodOfPrioritization = sequential;
     if (FacilityTable[i].equipmentType == gas_plant)
     {
-      priotization.targetFluid = gas;
+      prioritization.targetFluid = gas;
     }
 
     if (FacilityTable[i].equipmentType == gas_asset)
     {
-      priotization.targetFluid = gas;
+      prioritization.targetFluid = gas;
     }
 
     if (FacilityTable[i].equipmentType == flow_station)
     {
-      priotization.targetFluid = oil;
+      prioritization.targetFluid = oil;
     }
 
     if (FacilityTable[i].equipmentType == oil_asset)
     {
-      priotization.targetFluid = oil;
+      prioritization.targetFluid = oil;
     }
 
     if (FacilityTable[i].equipmentType == ag_asset)
     {
-      priotization.targetFluid = ag;
+      prioritization.targetFluid = ag;
     }
 
     if (FacilityTable[i].equipmentType == nag_asset)
     {
-      priotization.targetFluid = nag;
+      prioritization.targetFluid = nag;
     }
 
     if (FacilityTable[i].equipmentType == condensate_asset)
     {
-      priotization.targetFluid = condensate;
+      prioritization.targetFluid = condensate;
     }
 
     double sum = 0;
@@ -110,51 +110,51 @@ vector<Priotization> ConfigurePrioritization::SetUpDefaultPrioritization(vector<
 
     for (j = 0; j < parameterNames.size(); j++)
     {
-      priotization.prioritizationModel.ParameterNames.push_back(parameterNames[j]);
-      priotization.prioritizationModel.ParameterWeights.push_back(parameterWeights[j] / sum);
+      prioritization.prioritizationModel.ParameterNames.push_back(parameterNames[j]);
+      prioritization.prioritizationModel.ParameterWeights.push_back(parameterWeights[j] / sum);
     }
 
-    priotizations.push_back(priotization);
+    prioritizations.push_back(prioritization);
   }
 
-  return priotizations;
+  return prioritizations;
 }
 
-void ConfigurePrioritization::SetWellPrioritization(Priotization &priotization, Priotization &assestPriotization)
+void ConfigurePrioritization::SetWellPrioritization(Prioritization &prioritization, Prioritization &assestPrioritization)
 {
 
-  assestPriotization.targetFluid = priotization.targetFluid;
+  assestPrioritization.targetFluid = prioritization.targetFluid;
 
   PrioritizationModel prioritizationModel;
   double sum = 0;
-  if (priotization.methodOfPrioritization == weighted)
+  if (prioritization.methodOfPrioritization == weighted)
   {
-    for (int j = 0; j < priotization.prioritizationModel.ParameterNames.size(); j++)
+    for (int j = 0; j < prioritization.prioritizationModel.ParameterNames.size(); j++)
     {
-      sum = sum + priotization.prioritizationModel.ParameterWeights[j];
+      sum = sum + prioritization.prioritizationModel.ParameterWeights[j];
     }
   }
 
   prioritizationModel.ParameterNames.clear();
   prioritizationModel.ParameterWeights.clear();
-  for (int j = 0; j < priotization.prioritizationModel.ParameterNames.size(); j++)
+  for (int j = 0; j < prioritization.prioritizationModel.ParameterNames.size(); j++)
   {
-    string parameterName = priotization.prioritizationModel.ParameterNames[j];
+    string parameterName = prioritization.prioritizationModel.ParameterNames[j];
     inputdeck.ToLower(parameterName);
     prioritizationModel.ParameterNames.push_back(parameterName);
-    if (priotization.methodOfPrioritization == weighted)
+    if (prioritization.methodOfPrioritization == weighted)
     {
-      prioritizationModel.ParameterWeights.push_back(priotization.prioritizationModel.ParameterWeights[j] / sum);
+      prioritizationModel.ParameterWeights.push_back(prioritization.prioritizationModel.ParameterWeights[j] / sum);
     }
   }
 
-  assestPriotization.prioritizationModel.ParameterNames = prioritizationModel.ParameterNames;
-  assestPriotization.prioritizationModel.ParameterWeights = prioritizationModel.ParameterWeights;
-  assestPriotization.typeOfPrioritization = priotization.typeOfPrioritization;
+  assestPrioritization.prioritizationModel.ParameterNames = prioritizationModel.ParameterNames;
+  assestPrioritization.prioritizationModel.ParameterWeights = prioritizationModel.ParameterWeights;
+  assestPrioritization.typeOfPrioritization = prioritization.typeOfPrioritization;
 }
 
-void ConfigurePrioritization::SetStreamPrioritization(Priotization &priotization,
-                                                      Priotization &assestPriotization)
+void ConfigurePrioritization::SetStreamPrioritization(Prioritization &prioritization,
+                                                      Prioritization &assestPrioritization)
 {
 
   vector<string> streamsOilPrioritized = {"OIL", "CONDENSATE", "GAS", "AG", "NAG"};        // when streamPrioritization.type is oil or ag
@@ -166,17 +166,17 @@ void ConfigurePrioritization::SetStreamPrioritization(Priotization &priotization
   for (int i = 0; i < lent; i++)
   {
     parameterWeights.push_back(1.0);
-    if (priotization.typeOfStream == "gas")
+    if (prioritization.typeOfStream == "gas")
     {
       parameterNames.push_back(streamsGasPrioritized[i]);
     }
 
-    if (priotization.typeOfStream == "oil")
+    if (prioritization.typeOfStream == "oil")
     {
       parameterNames.push_back(streamsOilPrioritized[i]);
     }
 
-    if (priotization.typeOfStream == "condensate")
+    if (prioritization.typeOfStream == "condensate")
     {
       parameterNames.push_back(streamsCondensatePrioritized[i]);
     }
@@ -184,7 +184,7 @@ void ConfigurePrioritization::SetStreamPrioritization(Priotization &priotization
 
   PrioritizationModel prioritizationModel;
   double sum = 0;
-  if (priotization.methodOfPrioritization == weighted)
+  if (prioritization.methodOfPrioritization == weighted)
   {
     for (int j = 0; j < parameterNames.size(); j++)
     {
@@ -199,54 +199,54 @@ void ConfigurePrioritization::SetStreamPrioritization(Priotization &priotization
     string parameterName = parameterNames[j];
     inputdeck.ToLower(parameterName);
     prioritizationModel.ParameterNames.push_back(parameterName);
-    if (priotization.methodOfPrioritization == weighted)
+    if (prioritization.methodOfPrioritization == weighted)
     {
       prioritizationModel.ParameterWeights.push_back(parameterWeights[j] / sum);
     }
   }
 
-  assestPriotization.prioritizationModel.ParameterNames = prioritizationModel.ParameterNames;
-  assestPriotization.prioritizationModel.ParameterWeights = prioritizationModel.ParameterWeights;
-  assestPriotization.typeOfPrioritization = priotization.typeOfPrioritization;
-  assestPriotization.ochestrationVariable = priotization.ochestrationVariable;
-  assestPriotization.ochestrationMethod = priotization.ochestrationMethod;
+  assestPrioritization.prioritizationModel.ParameterNames = prioritizationModel.ParameterNames;
+  assestPrioritization.prioritizationModel.ParameterWeights = prioritizationModel.ParameterWeights;
+  assestPrioritization.typeOfPrioritization = prioritization.typeOfPrioritization;
+  assestPrioritization.ochestrationVariable = prioritization.ochestrationVariable;
+  assestPrioritization.ochestrationMethod = prioritization.ochestrationMethod;
 }
 
-void ConfigurePrioritization::SetResourceClassPrioritization(Priotization &priotization,
-                                                             Priotization &assestPriotization)
+void ConfigurePrioritization::SetResourceClassPrioritization(Prioritization &prioritization,
+                                                             Prioritization &assestPrioritization)
 {
-  assestPriotization.targetFluid = priotization.targetFluid;
+  assestPrioritization.targetFluid = prioritization.targetFluid;
 
   PrioritizationModel prioritizationModel;
   double sum = 0;
-  if (priotization.methodOfPrioritization == weighted)
+  if (prioritization.methodOfPrioritization == weighted)
   {
-    for (int j = 0; j < priotization.prioritizationModel.ParameterNames.size(); j++)
+    for (int j = 0; j < prioritization.prioritizationModel.ParameterNames.size(); j++)
     {
-      sum = sum + priotization.prioritizationModel.ParameterWeights[j];
+      sum = sum + prioritization.prioritizationModel.ParameterWeights[j];
     }
   }
 
   prioritizationModel.ParameterNames.clear();
   prioritizationModel.ParameterWeights.clear();
-  for (int j = 0; j < priotization.prioritizationModel.ParameterNames.size(); j++)
+  for (int j = 0; j < prioritization.prioritizationModel.ParameterNames.size(); j++)
   {
-    string parameterName = priotization.prioritizationModel.ParameterNames[j];
+    string parameterName = prioritization.prioritizationModel.ParameterNames[j];
     inputdeck.ToLower(parameterName);
     prioritizationModel.ParameterNames.push_back(parameterName);
-    if (priotization.methodOfPrioritization == weighted)
+    if (prioritization.methodOfPrioritization == weighted)
     {
-      prioritizationModel.ParameterWeights.push_back(priotization.prioritizationModel.ParameterWeights[j] / sum);
+      prioritizationModel.ParameterWeights.push_back(prioritization.prioritizationModel.ParameterWeights[j] / sum);
     }
   }
 
-  assestPriotization.prioritizationModel.ParameterNames = prioritizationModel.ParameterNames;
-  assestPriotization.prioritizationModel.ParameterWeights = prioritizationModel.ParameterWeights;
-  assestPriotization.typeOfPrioritization = priotization.typeOfPrioritization;
+  assestPrioritization.prioritizationModel.ParameterNames = prioritizationModel.ParameterNames;
+  assestPrioritization.prioritizationModel.ParameterWeights = prioritizationModel.ParameterWeights;
+  assestPrioritization.typeOfPrioritization = prioritization.typeOfPrioritization;
 }
 
-void ConfigurePrioritization::SetProjectPrioritization(Priotization &priotization,
-                                                       Priotization &assestPriotization)
+void ConfigurePrioritization::SetProjectPrioritization(Prioritization &prioritization,
+                                                       Prioritization &assestPrioritization)
 {
 
   vector<string> streams1 = {"OIL", "GAS", "CONDENSATE", "AG", "NAG"}; // when streamPrioritization.type is oil or ag
@@ -257,7 +257,7 @@ void ConfigurePrioritization::SetProjectPrioritization(Priotization &priotizatio
   for (int i = 0; i < lent; i++)
   {
     parameterWeights.push_back(1.0);
-    if (priotization.typeOfStream == "NAGProjects")
+    if (prioritization.typeOfStream == "NAGProjects")
     {
       parameterNames.push_back(streams2[i]);
     }
@@ -269,7 +269,7 @@ void ConfigurePrioritization::SetProjectPrioritization(Priotization &priotizatio
 
   PrioritizationModel prioritizationModel;
   double sum = 0;
-  if (priotization.methodOfPrioritization == weighted)
+  if (prioritization.methodOfPrioritization == weighted)
   {
     for (int j = 0; j < parameterNames.size(); j++)
     {
@@ -284,91 +284,91 @@ void ConfigurePrioritization::SetProjectPrioritization(Priotization &priotizatio
     string parameterName = parameterNames[j];
     inputdeck.ToLower(parameterName);
     prioritizationModel.ParameterNames.push_back(parameterName);
-    if (priotization.methodOfPrioritization == weighted)
+    if (prioritization.methodOfPrioritization == weighted)
     {
       prioritizationModel.ParameterWeights.push_back(parameterWeights[j] / sum);
     }
   }
 
-  assestPriotization.prioritizationModel.ParameterNames = prioritizationModel.ParameterNames;
-  assestPriotization.prioritizationModel.ParameterWeights = prioritizationModel.ParameterWeights;
-  assestPriotization.typeOfPrioritization = priotization.typeOfPrioritization;
+  assestPrioritization.prioritizationModel.ParameterNames = prioritizationModel.ParameterNames;
+  assestPrioritization.prioritizationModel.ParameterWeights = prioritizationModel.ParameterWeights;
+  assestPrioritization.typeOfPrioritization = prioritization.typeOfPrioritization;
 }
 
-vector<Priotization> ConfigurePrioritization::SetUpPrioritization(vector<FacilityStructExternal> &FacilityTable, Date &startDate, Date &stopDate,
-                                                                  Priotization &priotization, vector<Priotization> &nodalPriotizations)
+vector<Prioritization> ConfigurePrioritization::SetUpPrioritization(vector<FacilityStructExternal> &FacilityTable, Date &startDate, Date &stopDate,
+                                                                  Prioritization &prioritization, vector<Prioritization> &nodalPrioritizations)
 {
 
-  vector<Priotization> priotizations = SetUpDefaultPrioritization(FacilityTable, startDate, stopDate);
+  vector<Prioritization> prioritizations = SetUpDefaultPrioritization(FacilityTable, startDate, stopDate);
 
-  if (priotization.typeOfPrioritization == wellPrioritization)
+  if (prioritization.typeOfPrioritization == wellPrioritization)
   {
-    for (int i = 0; i < priotizations.size(); i++)
+    for (int i = 0; i < prioritizations.size(); i++)
     {
-      SetWellPrioritization(priotization, priotizations[i]);
+      SetWellPrioritization(prioritization, prioritizations[i]);
     }
   }
 
-  if (priotization.typeOfPrioritization == streamPrioritization &&
-          priotization.typeOfStream == "oil" ||
-      priotization.typeOfStream == "gas" ||
-      priotization.typeOfStream == "condensate")
+  if (prioritization.typeOfPrioritization == streamPrioritization &&
+          prioritization.typeOfStream == "oil" ||
+      prioritization.typeOfStream == "gas" ||
+      prioritization.typeOfStream == "condensate")
   {
 
-    for (int i = 0; i < priotizations.size(); i++)
+    for (int i = 0; i < prioritizations.size(); i++)
     {
-      SetStreamPrioritization(priotization, priotizations[i]);
+      SetStreamPrioritization(prioritization, prioritizations[i]);
     }
   }
 
-  if (priotization.typeOfPrioritization == resourceClassPrioritization)
+  if (prioritization.typeOfPrioritization == resourceClassPrioritization)
   {
-    for (int i = 0; i < priotizations.size(); i++)
+    for (int i = 0; i < prioritizations.size(); i++)
     {
-      SetResourceClassPrioritization(priotization, priotizations[i]);
+      SetResourceClassPrioritization(prioritization, prioritizations[i]);
     }
   }
 
-  if (priotization.typeOfPrioritization == projectPrioritization)
+  if (prioritization.typeOfPrioritization == projectPrioritization)
   {
-    for (int i = 0; i < priotizations.size(); i++)
+    for (int i = 0; i < prioritizations.size(); i++)
     {
-      SetProjectPrioritization(priotization, priotizations[i]);
+      SetProjectPrioritization(prioritization, prioritizations[i]);
     }
   }
 
-  if (priotization.typeOfPrioritization == nodalPrioritization)
+  if (prioritization.typeOfPrioritization == nodalPrioritization)
   {
-    for (int i = 0; i < priotizations.size(); i++)
+    for (int i = 0; i < prioritizations.size(); i++)
     {
-      for (int j = 0; j < nodalPriotizations.size(); j++)
+      for (int j = 0; j < nodalPrioritizations.size(); j++)
       {
-        string actualTypeOfPrioritization = nodalPriotizations[j].typeOfPrioritization;
+        string actualTypeOfPrioritization = nodalPrioritizations[j].typeOfPrioritization;
 
-        if (priotizations[i].FacilityName == nodalPriotizations[j].FacilityName)
+        if (prioritizations[i].FacilityName == nodalPrioritizations[j].FacilityName)
         {
-          if (nodalPriotizations[j].typeOfPrioritization == wellPrioritization)
+          if (nodalPrioritizations[j].typeOfPrioritization == wellPrioritization)
           {
-            SetWellPrioritization(nodalPriotizations[j], priotizations[i]);
+            SetWellPrioritization(nodalPrioritizations[j], prioritizations[i]);
           }
-          if (nodalPriotizations[j].typeOfPrioritization == streamPrioritization)
+          if (nodalPrioritizations[j].typeOfPrioritization == streamPrioritization)
           {
-            SetStreamPrioritization(nodalPriotizations[j], priotizations[i]);
+            SetStreamPrioritization(nodalPrioritizations[j], prioritizations[i]);
           }
-          if (nodalPriotizations[j].typeOfPrioritization == resourceClassPrioritization)
+          if (nodalPrioritizations[j].typeOfPrioritization == resourceClassPrioritization)
           {
-            SetResourceClassPrioritization(nodalPriotizations[j], priotizations[i]);
+            SetResourceClassPrioritization(nodalPrioritizations[j], prioritizations[i]);
           }
-          if (nodalPriotizations[j].typeOfPrioritization == projectPrioritization)
+          if (nodalPrioritizations[j].typeOfPrioritization == projectPrioritization)
           {
-            SetProjectPrioritization(nodalPriotizations[j], priotizations[i]);
+            SetProjectPrioritization(nodalPrioritizations[j], prioritizations[i]);
           }
 
-          nodalPriotizations[j].typeOfPrioritization = actualTypeOfPrioritization;
+          nodalPrioritizations[j].typeOfPrioritization = actualTypeOfPrioritization;
           break;
         }
       }
     }
   }
-  return priotizations;
+  return prioritizations;
 }

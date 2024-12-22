@@ -55,7 +55,7 @@ RunForecastAsyncWorkerModifiedTest::~RunForecastAsyncWorkerModifiedTest()
 
 json RunForecastAsyncWorkerModifiedTest::RunForecast(const json &jsonData)
 {
-
+    // Fill deckobj input deck with the payload's input deck on a row by row basis
     ResponseData responseData;
     map<string, map<string, map<string, map<string, map<string, map<string, string>>>>>> monthlyReport;
     Payload payload = ConvertJsonToPayload(jsonData);
@@ -69,6 +69,8 @@ json RunForecastAsyncWorkerModifiedTest::RunForecast(const json &jsonData)
         }
     }
 
+    // Fill deckobj input deck's prioritization weights with the payload's
+    // prioritization weights on a row by row basis
     vector<InputDeckStruct> productionPrioritization = payload.productionPrioritization;
     if (productionPrioritization.size() > 0)
     {
@@ -93,12 +95,11 @@ json RunForecastAsyncWorkerModifiedTest::RunForecast(const json &jsonData)
 
     vector<FacilityStructExternal> gasFlared = payload.flaredGases;
 
-    Priotization priotization = payload.prioritization;
+    Prioritization prioritization = payload.prioritization;
 
-    vector<Priotization> nodalPriotizations = payload.nodalPriotizations;
+    vector<Prioritization> nodalPrioritizations = payload.nodalPrioritizations;
 
     deckobj.inputdecks = payload.decks;
-    ;
 
     deckobj.wellRerouteDecks = payload.wellRerouteDecks;
 
@@ -206,14 +207,14 @@ json RunForecastAsyncWorkerModifiedTest::RunForecast(const json &jsonData)
         {
             if (i > 0)
             {
-                priotization.typeOfPrioritization = "streamPrioritization";
+                prioritization.typeOfPrioritization = "streamPrioritization";
             }
-            updatesNodes[i].priotizations =
+            updatesNodes[i].prioritizations =
                 configurePrioritization.SetUpPrioritization(updatesNodes[i].equipmentDataInEquipementConnections,
-                                                            dateCreation.dateTimes[0], StopDate, priotization, nodalPriotizations);
+                                                            dateCreation.dateTimes[0], StopDate, prioritization, nodalPrioritizations);
         }
-        
-        vector<Priotization> priotizations = updatesNodes[0].priotizations;
+
+        vector<Prioritization> prioritizations = updatesNodes[0].prioritizations;
 
         for (fSSIndex = 0; fSSIndex < nForecastSolutionSpaces; fSSIndex++)
         {
@@ -227,9 +228,9 @@ json RunForecastAsyncWorkerModifiedTest::RunForecast(const json &jsonData)
                 vector<vector<vector<InputDeckStruct>>> FacilitiesObj =
                     deckobj.GetModulesByFacility(Facilities, deckobj.inputdecks, ndecks,
                                                  deckobj.wellRerouteDecks, dateCreation.dateTimes, scenario,
-                                                 wellSchedules, priotizations);
+                                                 wellSchedules, prioritizations);
 
-                vector<vector<Priotization>> priotizationsFacilities = deckobj.priotizationsFacilities;
+                vector<vector<Prioritization>> prioritizationsFacilities = deckobj.prioritizationsFacilities;
 
                 calculateDeckVariables.UseExternalForecastprofile = isForecastProfiles;
                 if (calculateDeckVariables.UseExternalForecastprofile == "external")
@@ -239,48 +240,48 @@ json RunForecastAsyncWorkerModifiedTest::RunForecast(const json &jsonData)
 
                 calculateDeckVariables.dates = dateCreation.dateTimes;
                 calculateDeckVariables.FacilityTables_Actual = deckobj.FacilityTables_Actual;
-                calculateDeckVariables.isDefered = false;
+                calculateDeckVariables.isDeferred = false;
 
                 deckobj.runParameter.forecastCase = forecastSolutionSpaces[fSSIndex];
 
                 if (deckobj.runParameter.forecastCase == potential)
                 {
-                    calculateDeckVariables.isFacilityDefered = false;
-                    calculateDeckVariables.isDefered = false;
+                    calculateDeckVariables.isFacilityDeferred = false;
+                    calculateDeckVariables.isDeferred = false;
                 }
 
                 if (deckobj.runParameter.forecastCase == delivered)
                 {
-                    calculateDeckVariables.isFacilityDefered = false;
-                    calculateDeckVariables.isDefered = false;
+                    calculateDeckVariables.isFacilityDeferred = false;
+                    calculateDeckVariables.isDeferred = false;
                 }
 
                 if (deckobj.runParameter.forecastCase == availability)
                 {
-                    calculateDeckVariables.isFacilityDefered = true;
-                    calculateDeckVariables.isDefered = true;
+                    calculateDeckVariables.isFacilityDeferred = true;
+                    calculateDeckVariables.isDeferred = true;
                 }
 
                 if (deckobj.runParameter.forecastCase == offtake)
                 {
-                    calculateDeckVariables.isFacilityDefered = true;
-                    calculateDeckVariables.isDefered = true;
+                    calculateDeckVariables.isFacilityDeferred = true;
+                    calculateDeckVariables.isDeferred = true;
                 }
 
                 calculateDeckVariables.startFrom = nth * (i - 1);
                 calculateDeckVariables.isRateCum = deckobj.isRateCum;
                 calculateDeckVariables.GetDeckVariables(FacilitiesObj, dateCreation.daysList, scenario,
                                                         deckobj.FacilityTable_Actual, Facilities, dateCreation, deckobj.wellRerouteDecks,
-                                                        deckobj.runParameter.forecastCase, priotizationsFacilities, updatesNodes, isMonthly);
+                                                        deckobj.runParameter.forecastCase, prioritizationsFacilities, updatesNodes, isMonthly);
 
                 reportJSON2.results = calculateDeckVariables.results;
 
                 vector<vector<FacilityWellsIndicies>> facilityWellsIndicies = deckobj.facilityWellsIndicies;
-                map<string, map<string, map<string, string>>> FaclitiesObject = reportJSON2.GetForecastOutputAllFacilities(scenario, facilityWellsIndicies,
+                map<string, map<string, map<string, string>>> FacilitiesObject = reportJSON2.GetForecastOutputAllFacilities(scenario, facilityWellsIndicies,
                                                                                                                            dateCreation.dateTimes);
 
                 string scenarioName = to_string(scenario) + "P_" + to_string(scenario) + "C";
-                scenariosResult[scenarioName] = FaclitiesObject;
+                scenariosResult[scenarioName] = FacilitiesObject;
             }
             forecastSolutionSpacesResults[forecastSolutionSpaces[fSSIndex]] = scenariosResult;
         }

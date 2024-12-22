@@ -9,7 +9,7 @@ interface ForecastParametersEntity {
   timeFrequency: string;
   targetFluid: string;
   realtimeResults: string;
-  isDefered: number;
+  isDeferred: number;
 }
 
 // required properties to create a ForecastParameters
@@ -121,7 +121,7 @@ const modelSchema = new mongoose.Schema({
     targetFluid: {
       type: String,
     },
-    isDefered: {
+    isDeferred: {
       type: Schema.Types.Mixed,
     },
     realtimeResults: {
