@@ -25,6 +25,7 @@ private:
 
 public:
 	Inputdeck();
+	
 	vector<FacilityStruct> FacilityTable_Actual;
 	vector<vector<FacilityStruct>> FacilityTables_Actual;
 	void customGetline(string const &str, const char &delimeter,
@@ -51,7 +52,6 @@ public:
 	/* map<string, vector<WellReroute>> GetGrouppedRoutedWells(
 		vector<WellReroute>& inputdecks, vector<string> wellNames); */
 	void ToLower(string &x);
-	~Inputdeck();
 	vector<InputDeckStruct> inputdecks;
 	vector<WellReroute> wellRerouteDecks;
 	vector<WellRampUp> wellRampUpDecks;
@@ -70,6 +70,8 @@ public:
 	bool isRateCum;
 	Date stopDate;
 	Date startDate;
+
+	~Inputdeck();
 };
 
 Inputdeck::Inputdeck()
