@@ -1076,7 +1076,7 @@ bool Inputdeck::CheckWellName(vector<string> wellNames, string wellName)
 	return check;
 }
 
-vector<vector<vector<InputDeckStruct>>> Inputdeck::GetModulesByFacility_Obsolete(vector<string> &Facilities,
+vector<vector<vector<InputDeckStruct>>> Inputdeck::GetModulesByFacility_Obsolete(vector<string> &FacilityNames,
 																				 vector<InputDeckStruct> &_inputdecks, int size,
 																				 vector<WellReroute> wellRerouteDecks, vector<Date> dates, int scenario,
 																				 vector<WellSchedule> &wellSchedules, vector<Prioritization> &prioritizations)
@@ -1101,7 +1101,7 @@ vector<vector<vector<InputDeckStruct>>> Inputdeck::GetModulesByFacility_Obsolete
 		Facility.clear();
 		for (i = 0; i < size; i++)
 		{
-			if (Facilities[j] == _inputdecks[i].Flow_station)
+			if (FacilityNames[j] == _inputdecks[i].Flow_station)
 			{
 				InputDeckStruct newDeck = _inputdecks[i];
 				newDeck.isTerminated = false;
@@ -1575,7 +1575,7 @@ vector<vector<vector<InputDeckStruct>>> Inputdeck::GetModulesByFacility_Obsolete
 	return FacilitiesAll;
 }
 
-vector<vector<vector<InputDeckStruct>>> Inputdeck::GetModulesByFacility(vector<string> &Facilities,
+vector<vector<vector<InputDeckStruct>>> Inputdeck::GetModulesByFacility(vector<string> &FacilityNames,
 																		vector<InputDeckStruct> &_inputdecks, int size,
 																		vector<WellReroute> wellRerouteDecks, vector<Date> dates, int scenario,
 																		vector<WellSchedule> &wellSchedules, vector<Prioritization> &prioritizations)
@@ -1600,7 +1600,7 @@ vector<vector<vector<InputDeckStruct>>> Inputdeck::GetModulesByFacility(vector<s
 		Facility.clear();
 		for (i = 0; i < size; i++)
 		{
-			if (Facilities[j] == _inputdecks[i].Flow_station)
+			if (FacilityNames[j] == _inputdecks[i].Flow_station)
 			{
 				InputDeckStruct newDeck = _inputdecks[i];
 				newDeck.isTerminated = false;
