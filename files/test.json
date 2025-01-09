@@ -1,0 +1,110 @@
+{
+    "UniqueID": [
+        "FO20004L_FO20 E10X_P13",
+        "FOO6009S_FOO6 R60X_P13",
+        "FOO6019L_FOO6 S10X_P13",
+        "FOO6019L_FOO6 S10X_P13",
+        "FOO1AD1T_FOO1 D30X_P12",
+        "FOO1AD1T_FOO1 D30X_P12",
+        "FO12U91T_FO12 U90X_P03",
+        "FO12U91T_FO12 U90X_P03",
+        "FO17017T_FO17 D30X_P09",
+        "FOO6S50V_FOO6 S50X_P12"
+    ],
+    "Facilities": [
+        "ABU_FS5",
+        "ABU_FS5",
+        "ABU_FS2",
+        "ABU_FS1",
+        "ABU_FS3",
+        "ABU_FS6",
+        "ABU_FS5",
+        "ABU_FS7",
+        "ABU_FS1",
+        "ABU_FS2"
+    ],
+    "Case": [
+        "Low Case",
+        "Low Case",
+        "Low Case",
+        "Base Cae",
+        "Base Case",
+        "High Case",
+        "High Case",
+        "High Case",
+        "High Case",
+        "Low Case"
+    ],
+    "TYPE": [
+        "Production",
+        "Production",
+        "Potential",
+        "Potential",
+        "Potential",
+        "Potential",
+        "Potential",
+        "Production",
+        "Production",
+        "Potential"
+    ],
+    "PROFILETYPE": [
+        "Oil (b/d)",
+        "Condensate (b/d)",
+        "Prod/Inj Gas (Mscf/d)",
+        "Flare Gas (Mscf/d)",
+        "OwnUse Gas (Mscf/d)",
+        "Sales Gas (Mscf/d)",
+        "Condensate (b/d)",
+        "Prod/Inj Gas (Mscf/d)",
+        "Condensate (b/d)",
+        "OwnUse Gas (Mscf/d)"
+    ],
+    "Y2024": [
+        300,
+        302,
+        0,
+        0,
+        0,
+        200,
+        400,
+        600,
+        800,
+        0
+    ],
+    "Y2025": [
+        300,
+        302,
+        0,
+        0,
+        0,
+        200,
+        400,
+        600,
+        800,
+        0
+    ],
+    "Y2026": [
+        300,
+        302,
+        0,
+        0,
+        0,
+        200,
+        400,
+        600,
+        800,
+        0
+    ],
+    "Y2027": [
+        300,
+        302,
+        0,
+        0,
+        0,
+        200,
+        400,
+        600,
+        800,
+        0
+    ]
+}
