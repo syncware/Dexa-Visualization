@@ -3,8 +3,8 @@ import matplotlib.pyplot as plt
 from matplotlib.widgets import Button
 from json_data_io import readJsonData
 
-forecast_well_by_well_output_data_file_path = "files/forecast_well_by_well_output_data_yearly.json"
-hfpt_forecastResults_well_by_well_file_path = "files/hfpt_forecastResults_well_by_well.json"
+forecast_well_by_well_output_data_file_path = "forecast_well_by_well_output_data_yearly.json"
+hfpt_forecastResults_well_by_well_file_path = "hfpt_forecastResults_well_by_well.json"
 
 monthly_forecastResults_cpp = readJsonData(forecast_well_by_well_output_data_file_path)
 hfpt_forecastResults = readJsonData(hfpt_forecastResults_well_by_well_file_path)
