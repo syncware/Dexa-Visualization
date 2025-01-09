@@ -14,19 +14,20 @@ module_names = list(hfpt_forecastResults.keys())
 n_module_names = len(module_names)
 
 current_column_index = 0
-variable_name_hfpt = "oilRatesYearly"
-variable_name_dexa = "oilRate"
+variable_name_hfpt = "gasRatesYearly"
+variable_name_dexa = "gasRate"
 x_axis_label = "Days"
-y_axis_label = "Produced Oil (b/d)"
-divisor = 1
+y_axis_label = "Produced Gas (MMscf/d)"
+divisor_dexa = 1000
+divisor_hfpt = 1
 
 # Plotting function
 def plot_columns(index, ax):
     ax.clear()  # Clear the chart area only
     module_name = module_names[index]
 
-    y_values_dexa = [value / (divisor) for value in  monthly_forecastResults_cpp[module_name][variable_name_dexa]]
-    y_values_hfpt = [value / divisor for value in  hfpt_forecastResults[module_name][variable_name_hfpt]]
+    y_values_dexa = [value / (divisor_dexa) for value in  monthly_forecastResults_cpp[module_name][variable_name_dexa]]
+    y_values_hfpt = [value / divisor_hfpt for value in  hfpt_forecastResults[module_name][variable_name_hfpt]]
 
     n_y_values_dexa = len(y_values_dexa)
     n_y_values_hfpt = len(y_values_hfpt)
@@ -50,7 +51,8 @@ def next_column(event):
     global variable_name_dexa
     global x_axis_label
     global y_axis_label
-    global divisor
+    global divisor_dexa
+    global divisor_hfpt
     if current_column_index < n_module_names - 1:
         current_column_index += 1
         plot_columns(current_column_index, ax)
@@ -61,7 +63,8 @@ def prev_column(event):
     global variable_name_dexa
     global x_axis_label
     global y_axis_label
-    global divisor
+    global divisor_dexa
+    global divisor_hfpt
     if current_column_index > 0:
         current_column_index -= 1
         plot_columns(current_column_index, ax)
@@ -107,8 +110,8 @@ def view_data(event):
 
     # Get data for the current module
     module_name = module_names[current_column_index]
-    y_values_dexa = [value / divisor for value in monthly_forecastResults_cpp[module_name][variable_name_dexa]]
-    y_values_hfpt = [value / divisor for value in hfpt_forecastResults[module_name][variable_name_hfpt]]
+    y_values_dexa = [value / divisor_dexa for value in monthly_forecastResults_cpp[module_name][variable_name_dexa]]
+    y_values_hfpt = [value / divisor_hfpt for value in hfpt_forecastResults[module_name][variable_name_hfpt]]
     x_values_dexa = [i * 30 for i in range(len(y_values_dexa))]
     x_values_hfpt = [i * 360 for i in range(len(y_values_hfpt))]
 
