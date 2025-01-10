@@ -10,6 +10,6 @@ pip show matplotlib
 which python
 source venv/bin/activate
 
-unalias python && well_by_well_plotting.py
+unalias python && python3 well_by_well_plotting.py
 OR
 /Users/GSanni/Desktop/myinfo/Dexa-Visualization/venv/bin/python well_by_well_plotting.py

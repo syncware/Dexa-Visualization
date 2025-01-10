@@ -14,11 +14,29 @@ module_names = list(hfpt_forecastResults.keys())
 n_module_names = len(module_names)
 
 current_column_index = 0
+
+# GAS RATE COMPARISON
 variable_name_hfpt = "gasRatesYearly"
 variable_name_dexa = "gasRate"
 x_axis_label = "Days"
 y_axis_label = "Produced Gas (MMscf/d)"
 divisor_dexa = 1000
+divisor_hfpt = 1
+
+# OIL RATE COMPARISON
+variable_name_hfpt = "oilRatesYearly"
+variable_name_dexa = "oilRate"
+x_axis_label = "Days"
+y_axis_label = "Produced Oil (bbls/d)"
+divisor_dexa = 1
+divisor_hfpt = 1
+
+# CONDENSATE RATE COMPARISON
+variable_name_hfpt = "condensateRateYearly"
+variable_name_dexa = "condensateRate"
+x_axis_label = "Days"
+y_axis_label = "Produced Oil (bbls/d)"
+divisor_dexa = 1
 divisor_hfpt = 1
 
 # Plotting function
@@ -39,7 +57,7 @@ def plot_columns(index, ax):
     ax.plot(x_values_hfpt, y_values_hfpt, label="HFPT")
 
 
-    ax.set_title(module_name)
+    ax.set_title(str(index + 1) + ". " + module_names[index])
 
     ax.legend()
     plt.draw()  # Redraw the updated figure
