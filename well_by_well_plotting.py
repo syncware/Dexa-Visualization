@@ -1,3 +1,4 @@
+import tkinter as tk
 from tkinter import Tk, Canvas, Frame, Scrollbar, ttk
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Button
@@ -14,12 +15,12 @@ module_names = list(hfpt_forecastResults.keys())
 n_module_names = len(module_names)
 
 current_column_index = 0
-variable_name_hfpt = "gasRatesYearly"
-variable_name_dexa = "gasRate"
+variable_name_hfpt = "oilRatesYearly"
+variable_name_dexa = "oilRate"
 x_axis_label = "Days"
 y_axis_label = "Produced Gas (MMscf/d)"
 divisor_dexa = 1000
-divisor_hfpt = 1
+divisor_hfpt = 1000
 
 # Plotting function
 def plot_columns(index, ax):
@@ -149,6 +150,39 @@ def view_data(event):
 
     root.mainloop()
 
+def show_dropdown():
+    # Create a Tkinter window
+    dropdown_window = tk.Tk()
+    dropdown_window.title("Select Module")
+    
+    # Variable to store the selected module
+    selected_module = tk.StringVar()
+    selected_module.set(module_names[0])  # Set default value
+
+    # Create dropdown menu
+    dropdown = ttk.Combobox(dropdown_window, textvariable=selected_module, values=module_names)
+    dropdown.pack(pady=10)
+
+    def confirm_selection():
+        global current_column_index
+        global variable_name_hfpt
+        global variable_name_dexa
+        global x_axis_label
+        global y_axis_label
+        global divisor_dexa
+        global divisor_hfpt
+        s_module = selected_module.get()
+        current_column_index = module_names.index(s_module)
+        plot_columns(current_column_index, ax)
+        dropdown_window.destroy()
+
+    # Confirm button
+    confirm_button = ttk.Button(dropdown_window, text="Confirm", command=confirm_selection)
+    confirm_button.pack(pady=10)
+
+    dropdown_window.mainloop()
+
+
 # Initial plot
 fig, ax = plt.subplots()
 plt.subplots_adjust(bottom=0.2)  # Leave space for buttons
@@ -167,5 +201,13 @@ btn_view = Button(axview, "View Data")
 btn_next.on_clicked(next_column)
 btn_prev.on_clicked(prev_column)
 btn_view.on_clicked(view_data)
+
+# Dropdown
+#axdropdown = plt.axes([0.1, 0.05, 0.3, 0.075])  # Position for the dropdown
+
+# Add a button in the matplotlib figure to trigger the dropdown
+axdropdown = plt.axes([0.1, 0.05, 0.2, 0.075])
+btn_dropdown = Button(axdropdown, "Select Module")
+btn_dropdown.on_clicked(lambda event: show_dropdown())
 
 plt.show()
