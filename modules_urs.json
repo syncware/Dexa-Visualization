@@ -1,0 +1,1394 @@
+{
+    "FO10D40T_FO10 D40X_P12": {
+        "ur": 2.7091116,
+        "hydrocarbonStream": "oil"
+    },
+    "FO15002T_FO15 P10X_P12": {
+        "ur": 1.0128959999999998,
+        "hydrocarbonStream": "oil"
+    },
+    "FO15002T_FO15 P10X_P13": {
+        "ur": 1.10751372,
+        "hydrocarbonStream": "oil"
+    },
+    "FO15003L_FO15 P15X_P13": {
+        "ur": 0.333532152,
+        "hydrocarbonStream": "oil"
+    },
+    "FO15003S_FO15 P10X_P13": {
+        "ur": 3.727332,
+        "hydrocarbonStream": "oil"
+    },
+    "FO15004L_FO15 R10X_P01": {
+        "ur": 2.357982,
+        "hydrocarbonStream": "oil"
+    },
+    "FO15004L_FO15 R10X_P12": {
+        "ur": 0.46629107999999997,
+        "hydrocarbonStream": "oil"
+    },
+    "FO15004S_FO15 M10X_P12": {
+        "ur": 0.46629107999999997,
+        "hydrocarbonStream": "oil"
+    },
+    "FO15004S_FO15 M10X_P13": {
+        "ur": 2.2272546600000003,
+        "hydrocarbonStream": "oil"
+    },
+    "FO15005L_FO15 H15X_P12": {
+        "ur": 0.83222244,
+        "hydrocarbonStream": "oil"
+    },
+    "FO15005L_FO15 H15X_P13": {
+        "ur": 1.33264152,
+        "hydrocarbonStream": "oil"
+    },
+    "FO15005S_FO15 H10X_P12": {
+        "ur": 0.7085565360000001,
+        "hydrocarbonStream": "oil"
+    },
+    "FO15005S_FO15 H10X_P13": {
+        "ur": 2.6145,
+        "hydrocarbonStream": "oil"
+    },
+    "FO15006T_FO15 D30X_P01": {
+        "ur": 1.0575648,
+        "hydrocarbonStream": "oil"
+    },
+    "FO15006T_FO15 D30X_P12": {
+        "ur": 1.00881432,
+        "hydrocarbonStream": "oil"
+    },
+    "FO15007L_FO15 O10X_P01": {
+        "ur": 0.9869332679999999,
+        "hydrocarbonStream": "oil"
+    },
+    "FO15007S_FO15 E10X_P01": {
+        "ur": 1.38672612,
+        "hydrocarbonStream": "oil"
+    },
+    "FO15007S_FO15 E10X_P12": {
+        "ur": 0.51384672,
+        "hydrocarbonStream": "oil"
+    },
+    "FO15008T_FO15 N10X_P01": {
+        "ur": 1.6169346,
+        "hydrocarbonStream": "oil"
+    },
+    "FO15010T_FO15 D30X_P12": {
+        "ur": 1.06481862,
+        "hydrocarbonStream": "oil"
+    },
+    "FO15D30L_FO15 Q10X_P12": {
+        "ur": 3.29364,
+        "hydrocarbonStream": "oil"
+    },
+    "FO15D30S_FO15 D30X_P12": {
+        "ur": 4.2147828,
+        "hydrocarbonStream": "oil"
+    },
+    "FO15D30T_FO15 D30X_P12": {
+        "ur": 2.15998776,
+        "hydrocarbonStream": "oil"
+    },
+    "FO15D30V_FO15 M15X_P12": {
+        "ur": 1.47226104,
+        "hydrocarbonStream": "oil"
+    },
+    "FO15DLSL_FO15 H13X_P10": {
+        "ur": 9.9171558,
+        "hydrocarbonStream": "oil"
+    },
+    "FO15DLSS_FO15 E10X_P10": {
+        "ur": 7.281146340000001,
+        "hydrocarbonStream": "oil"
+    },
+    "FO15DLSV_FO15 H12X_P10": {
+        "ur": 5.849415,
+        "hydrocarbonStream": "oil"
+    },
+    "FO15K10L_FO15 P10X_P12": {
+        "ur": 2.1451176000000003,
+        "hydrocarbonStream": "oil"
+    },
+    "FO15K10S_FO15 K10X_P12": {
+        "ur": 1.4696136000000002,
+        "hydrocarbonStream": "oil"
+    },
+    "FO15K10V_FO15 M10X_P12": {
+        "ur": 1.66726944,
+        "hydrocarbonStream": "oil"
+    },
+    "FO15P10T_FO15 P10X_P12": {
+        "ur": 6.096958092,
+        "hydrocarbonStream": "oil"
+    },
+    "FO24T80T_FO24 T80X_P12": {
+        "ur": 2.31666696,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26001T_FO26 G10X_P13": {
+        "ur": 3.8028565800000003,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26002L_FO26 F35X_P01": {
+        "ur": 0.33169392,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26002S_FO26 E60X_P12": {
+        "ur": 0.8445041999999999,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26002S_FO26 E70X_P12": {
+        "ur": 2.4747912000000003,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26002S_FO26 F20X_P01": {
+        "ur": 1.1834650800000002,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26002V_FO26 E80X_P12": {
+        "ur": 4.1020164,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26006T_FO26 F70X_P12": {
+        "ur": 5.082624,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26006T_FO26 G10X_P13": {
+        "ur": 2.03676066,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26007T_FO26 F60X_P01": {
+        "ur": 3.5561134800000005,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26010T_FO26 G30X_P13": {
+        "ur": 8.4842676,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26012L_FO26 F40X_P01": {
+        "ur": 0.95576184,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26012S_FO26 F30X_P01": {
+        "ur": 1.0322085600000002,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26013T_FO26 F80X_P01": {
+        "ur": 0.48819959999999996,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26016T_FO26 F40X_P09": {
+        "ur": 5.69393784,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26018T_FO26 G10X_P09": {
+        "ur": 3.75286608,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26CDRV_FO26 F90X_P09": {
+        "ur": 1.7505032399999998,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26CISL_FO26 G90X_P12": {
+        "ur": 4.87089504,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26CISS_FO26 G70X_P12": {
+        "ur": 6.687171360000001,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26CISV_FO26 G80X_P12": {
+        "ur": 2.405898,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26CKSL_FO26 F60X_P09": {
+        "ur": 3.67159608,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26CKSS_FO26 F20X_P09": {
+        "ur": 8.56885212,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26CKSV_FO26 F35X_P09": {
+        "ur": 2.41263,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26F30T_FO26 F30X_P12": {
+        "ur": 0.08446644,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26F31T_FO26 F30X_P12": {
+        "ur": 0.09108453600000001,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26F35L_FO26 F70X_P12": {
+        "ur": 1.77821316,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26F35S_FO26 F35X_P12": {
+        "ur": 1.9782215999999997,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26F35V_FO26 F40X_P12": {
+        "ur": 2.58992928,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26F37L_FO26 F70X_P12": {
+        "ur": 2.0151377999999998,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26F37T_FO26 F37X_P12": {
+        "ur": 2.45216808,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26F40T_FO26 F40X_P12": {
+        "ur": 0.40435696799999993,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26F70T_FO26 F70X_P12": {
+        "ur": 3.12737292,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26F90T_FO26 F90X_P12": {
+        "ur": 0.18957835799999997,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26G10T_FO26 G10X_P12": {
+        "ur": 0.16211066759999998,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26G62T_FO26 G62X_P12": {
+        "ur": 0.15995908439999998,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26G70T_FO26 G70X_P12": {
+        "ur": 0.15995908439999998,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26G80T_FO26 G80X_P12": {
+        "ur": 0.16211066759999998,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26G90T_FO26 G90X_P12": {
+        "ur": 0.16211066759999998,
+        "hydrocarbonStream": "oil"
+    },
+    "FO15009T_FO15 N10X_P13": {
+        "ur": 8.475595199999999,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26005T_FO26 F40X_P01": {
+        "ur": 2.88906012,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26008T_FO26 F90X_P01": {
+        "ur": 1.33940592,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26010T_FO26 G10X_P01": {
+        "ur": 0.61365564,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26011T_FO26 F70X_P01": {
+        "ur": 0.76650876,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26014L_FO26 F90X_P01": {
+        "ur": 2.9167398,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26014S_FO26 F30X_P01": {
+        "ur": 3.7033599599999993,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26015L_FO26 F70X_P01": {
+        "ur": 4.86402408,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26015S_FO26 F40X_P01": {
+        "ur": 4.165684199999999,
+        "hydrocarbonStream": "oil"
+    },
+    "FO26017T_FO26 F40X_P01": {
+        "ur": 4.03062624,
+        "hydrocarbonStream": "oil"
+    },
+    "FO16D10L_FO16 D30X_P12": {
+        "ur": 11.187559799999997,
+        "hydrocarbonStream": "oil"
+    },
+    "FO16D10S_FO16 D10X_P12": {
+        "ur": 11.187559799999997,
+        "hydrocarbonStream": "oil"
+    },
+    "FO17001T_FO17 D30X_P01": {
+        "ur": 3.39305184,
+        "hydrocarbonStream": "oil"
+    },
+    "FO17001T_FO17 D30X_P12": {
+        "ur": 2.1563625600000003,
+        "hydrocarbonStream": "oil"
+    },
+    "FO17005T_FO17 D30X_P01": {
+        "ur": 0.9867024,
+        "hydrocarbonStream": "oil"
+    },
+    "FO17005T_FO17 D30X_P12": {
+        "ur": 0.9077011199999999,
+        "hydrocarbonStream": "oil"
+    },
+    "FO17008T_FO17 D30X_P01": {
+        "ur": 1.0080770399999999,
+        "hydrocarbonStream": "oil"
+    },
+    "FO17008T_FO17 D30X_P12": {
+        "ur": 1.2587266799999999,
+        "hydrocarbonStream": "oil"
+    },
+    "FO17009T_FO17 D30X_P01": {
+        "ur": 1.5808103999999998,
+        "hydrocarbonStream": "oil"
+    },
+    "FO17009T_FO17 D30X_P12": {
+        "ur": 1.3961501999999997,
+        "hydrocarbonStream": "oil"
+    },
+    "FO17010T_FO17 D30X_P01": {
+        "ur": 1.97892324,
+        "hydrocarbonStream": "oil"
+    },
+    "FO17010T_FO17 D30X_P12": {
+        "ur": 1.442029536,
+        "hydrocarbonStream": "oil"
+    },
+    "FO17011T_FO17 D30X_P01": {
+        "ur": 1.5971727599999999,
+        "hydrocarbonStream": "oil"
+    },
+    "FO17011T_FO17 D30X_P12": {
+        "ur": 1.58089716,
+        "hydrocarbonStream": "oil"
+    },
+    "FO17012T_FO17 D30X_P01": {
+        "ur": 1.0075374,
+        "hydrocarbonStream": "oil"
+    },
+    "FO17012T_FO17 D30X_P12": {
+        "ur": 1.58089716,
+        "hydrocarbonStream": "oil"
+    },
+    "FO17013T_FO17 D30X_P01": {
+        "ur": 2.8176012,
+        "hydrocarbonStream": "oil"
+    },
+    "FO17013T_FO17 D30X_P12": {
+        "ur": 1.8972151199999998,
+        "hydrocarbonStream": "oil"
+    },
+    "FO17014T_FO17 E53X_P01": {
+        "ur": 1.0726883999999999,
+        "hydrocarbonStream": "oil"
+    },
+    "FO17014T_FO17 E53X_P12": {
+        "ur": 1.13674068,
+        "hydrocarbonStream": "oil"
+    },
+    "FO17015T_FO17 E50X_P09": {
+        "ur": 6.36972336,
+        "hydrocarbonStream": "oil"
+    },
+    "FO17016T_FO17 E50X_P09": {
+        "ur": 6.494222880000001,
+        "hydrocarbonStream": "oil"
+    },
+    "FO17017T_FO17 D30X_P09": {
+        "ur": 5.087028600000001,
+        "hydrocarbonStream": "oil"
+    },
+    "FO17018T_FO17 D30X_P09": {
+        "ur": 3.00382668,
+        "hydrocarbonStream": "oil"
+    },
+    "FO17ADTT_FO17 D30X_P10": {
+        "ur": 7.2633006,
+        "hydrocarbonStream": "oil"
+    },
+    "FO17AHTT_FO17 D30X_P10": {
+        "ur": 9.3137976,
+        "hydrocarbonStream": "oil"
+    },
+    "FO17BATL_FO17 E50X_P10": {
+        "ur": 5.88726,
+        "hydrocarbonStream": "oil"
+    },
+    "FO17BATS_FO17 D30X_P10": {
+        "ur": 0.83850516,
+        "hydrocarbonStream": "oil"
+    },
+    "FO17D90L_FO17 E20X_P12": {
+        "ur": 2.24658324,
+        "hydrocarbonStream": "oil"
+    },
+    "FO17D90L_FO17 E53X_P12": {
+        "ur": 4.705778520000001,
+        "hydrocarbonStream": "oil"
+    },
+    "FO17D90S_FO17 D90X_P12": {
+        "ur": 4.705778520000001,
+        "hydrocarbonStream": "oil"
+    },
+    "FO17D90V_FO17 E10X_P12": {
+        "ur": 2.24658324,
+        "hydrocarbonStream": "oil"
+    },
+    "FO17E50T_FO17 E50X_P12": {
+        "ur": 1.7060379840000002,
+        "hydrocarbonStream": "oil"
+    },
+    "FO17E51T_FO17 E50X_P12": {
+        "ur": 4.1290668,
+        "hydrocarbonStream": "oil"
+    },
+    "FO17ZOTT_FO17 D30X_P10": {
+        "ur": 4.166082,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO1001L_FOO1 D60X_P13": {
+        "ur": 5.30881452,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO1001S_FOO1 D30X_P13": {
+        "ur": 2.1991032,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO1ADST_FOO1 D30X_P12": {
+        "ur": 6.9853841999999995,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO1AD1T_FOO1 D30X_P12": {
+        "ur": 8.9001288,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO1D30T_FOO1 D30X_P12": {
+        "ur": 1.0504724399999998,
+        "hydrocarbonStream": "oil"
+    },
+    "FO19001L_FO19 F20X_P01": {
+        "ur": 3.9313792800000003,
+        "hydrocarbonStream": "oil"
+    },
+    "FO19001S_FO19 F10X_P13": {
+        "ur": 1.4003712,
+        "hydrocarbonStream": "oil"
+    },
+    "FO19F10L_FO19 F20X_P12": {
+        "ur": 3.98867688,
+        "hydrocarbonStream": "oil"
+    },
+    "FO19F10S_FO19 F10X_P12": {
+        "ur": 4.067877599999999,
+        "hydrocarbonStream": "oil"
+    },
+    "FO19F10V_FO19 F11X_P12": {
+        "ur": 2.3121507599999997,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO3001S_FOO3 F00X_P13": {
+        "ur": 0.32629212,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO3CRTL_FOO3 F10X_P11": {
+        "ur": 4.87174608,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO3CRTL_FOO3 F30X_P12": {
+        "ur": 5.0053597199999995,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO3CRTS_FOO3 F00X_P11": {
+        "ur": 12.5519868,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO3CRTS_FOO3 F15X_P12": {
+        "ur": 2.66640534,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO3F30T_FOO3 F30X_P12": {
+        "ur": 3.9588094799999998,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6001L_FOO6 S70X_P13": {
+        "ur": 0.84952476,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6001S_FOO6 S10X_P01": {
+        "ur": 1.60499304,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6001S_FOO6 S10X_P12": {
+        "ur": 1.3182913799999998,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6002T_FOO6 S10X_P13": {
+        "ur": 1.2007918800000001,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6003T_FOO6 S10X_P01": {
+        "ur": 1.6778952000000003,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6003T_FOO6 S10X_P12": {
+        "ur": 0.35071668000000006,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6004L_FOO6 S70X_P12": {
+        "ur": 1.1774268,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6004L_FOO6 S70X_P13": {
+        "ur": 0.916767,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6004S_FOO6 S20X_P12": {
+        "ur": 0.6544015200000001,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6004S_FOO6 S20X_P13": {
+        "ur": 1.48240872,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6005T_FOO6 S10X_P01": {
+        "ur": 0.520594884,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6005T_FOO6 S10X_P12": {
+        "ur": 0.8922772800000001,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6006S_FOO6 S80X_P13": {
+        "ur": 1.0982501999999998,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6009L_FOO6 R80X_P13": {
+        "ur": 0.47376,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6009S_FOO6 R60X_P13": {
+        "ur": 2.6942792399999997,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6009S_FOO6 R70X_P12": {
+        "ur": 1.2638253599999998,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6009S_FOO6 R70X_P13": {
+        "ur": 1.03212828,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6010L_FOO6 T30X_P01": {
+        "ur": 1.4359816800000003,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6010L_FOO6 T30X_P12": {
+        "ur": 0.13127364000000002,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6010S_FOO6 S80X_P13": {
+        "ur": 0.465865668,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6011S_FOO6 S10X_P01": {
+        "ur": 2.819745,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6011S_FOO6 S10X_P12": {
+        "ur": 0.45281663999999994,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6013T_FOO6 S10X_P12": {
+        "ur": 1.08656748,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6013T_FOO6 S10X_P13": {
+        "ur": 1.1973797999999998,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6014L_FOO6 S50X_P01": {
+        "ur": 1.8277531200000003,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6014L_FOO6 S50X_P12": {
+        "ur": 0.2108601,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6014S_FOO6 S10X_P01": {
+        "ur": 4.746352320000001,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6014S_FOO6 S10X_P12": {
+        "ur": 0.7730816399999999,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6015S_FOO6 R60X_P13": {
+        "ur": 2.5368926039999997,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6016T_FOO6 S70X_P01": {
+        "ur": 6.837573600000001,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6016T_FOO6 S70X_P12": {
+        "ur": 0.6899684399999999,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6017L_FOO6 S70X_P12": {
+        "ur": 1.41008544,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6017L_FOO6 S70X_P13": {
+        "ur": 2.89441512,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6017S_FOO6 S20X_P01": {
+        "ur": 4.8750894,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6017S_FOO6 S20X_P12": {
+        "ur": 1.6854728399999999,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6018L_FOO6 S10X_P13": {
+        "ur": 2.8836349200000004,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6019L_FOO6 S10X_P13": {
+        "ur": 2.7519498,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6019S_FOO6 R60X_P12": {
+        "ur": 0.281342232,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6019S_FOO6 R60X_P13": {
+        "ur": 0.38983392000000006,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6020T_FOO6 S10X_P01": {
+        "ur": 0.7943223600000001,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6020T_FOO6 S10X_P12": {
+        "ur": 1.3242321000000004,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6021L_FOO6 S10X_P01": {
+        "ur": 2.4656346000000005,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6021L_FOO6 S10X_P12": {
+        "ur": 1.90141344,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6021S_FOO6 R80X_P13": {
+        "ur": 0.7316229599999999,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6022T_FOO6 R70X_P01": {
+        "ur": 1.5112566,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6022T_FOO6 R70X_P12": {
+        "ur": 0.70855632,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6023L_FOO6 S70X_P09": {
+        "ur": 0.19588031999999997,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6023S_FOO6 S10X_P01": {
+        "ur": 1.2274718400000004,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6023V_FOO6 S20X_P09": {
+        "ur": 0.8613219599999999,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6024L_FOO6 T30X_P01": {
+        "ur": 4.8367674,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6024S_FOO6 S10X_P01": {
+        "ur": 1.96230816,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6EAUL_FOO6 S20X_P09": {
+        "ur": 8.845299900000002,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6EAUS_FOO6 R70X_P09": {
+        "ur": 1.63820754,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6ECTT_FOO6 R81X_P09": {
+        "ur": 2.78334504,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6EDTT_FOO6 S20X_P12": {
+        "ur": 3.76944156,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6R81L_FOO6 S70X_P12": {
+        "ur": 10.440989999999998,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6R81L_FOO6 T30X_P12": {
+        "ur": 2.9748337200000003,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6R81V_FOO6 S20X_P12": {
+        "ur": 7.27236612,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6S50V_FOO6 S50X_P12": {
+        "ur": 1.7822743199999997,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO6S80L_FOO6 S80X_P12": {
+        "ur": 6.4379692440000005,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20001T_FO20 H60X_P13": {
+        "ur": 2.9568149640000003,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20002T_FO20 F30X_P01": {
+        "ur": 0.68211252,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20002T_FO20 F30X_P12": {
+        "ur": 0.7638318,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20004L_FO20 E10X_P13": {
+        "ur": 3.413214,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20005L_FO20 F00X_P13": {
+        "ur": 1.71903528,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20005S_FO20 F00X_P01": {
+        "ur": 6.363981000000001,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20006L_FO20 E80X_P13": {
+        "ur": 0.8674138800000001,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20007T_FO20 E30X_P13": {
+        "ur": 2.3872294799999993,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20009T_FO20 E70X_P01": {
+        "ur": 3.5078616000000005,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20010L_FO20 E70X_P13": {
+        "ur": 2.21701104,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20011L_FO20 E10X_P13": {
+        "ur": 1.23568884,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20012L_FO20 E80X_P13": {
+        "ur": 0.5429857680000001,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20012S_FO20 E10X_P13": {
+        "ur": 0.45006624,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20013L_FO20 E70X_P13": {
+        "ur": 0.62853174,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20013S_FO20 E10X_P13": {
+        "ur": 0.54153432,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20014T_FO20 F30X_P13": {
+        "ur": 1.34441586,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20015T_FO20 F30X_P13": {
+        "ur": 1.4916616200000001,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20016T_FO20 F30X_P13": {
+        "ur": 1.83097548,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20018L_FO20 F00X_P01": {
+        "ur": 0.48714804000000006,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20022T_FO20 E73X_P13": {
+        "ur": 1.0278468,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20024T_FO20 E10X_P13": {
+        "ur": 1.12126608,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20025T_FO20 F30X_P13": {
+        "ur": 2.96255232,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20026T_FO20 E10X_P13": {
+        "ur": 1.35722232,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20032T_FO20 E80X_P13": {
+        "ur": 0.5467626,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20033L_FO20 E73X_P13": {
+        "ur": 2.4464559599999998,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20033S_FO20 E10X_P12": {
+        "ur": 5.795890559999998,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20033S_FO20 E10X_P13": {
+        "ur": 0.60925752,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20033S_FO20 E70X_P13": {
+        "ur": 1.7973151200000002,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20033V_FO20 E73X_P12": {
+        "ur": 6.2034867,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20034T_FO20 E30X_P13": {
+        "ur": 1.55032308,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20035T_FO20 F30X_P13": {
+        "ur": 1.25982072,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20036T_FO20 F30X_P13": {
+        "ur": 0.6940283400000001,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20037T_FO20 F30X_P13": {
+        "ur": 1.2392582399999998,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20038T_FO20 F30X_P13": {
+        "ur": 1.992438,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20039T_FO20 E10X_P13": {
+        "ur": 3.1248828000000004,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20040T_FO20 E10X_P01": {
+        "ur": 2.6382902400000003,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20D80T_FO20 D80X_P12": {
+        "ur": 3.0337207200000003,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20E10S_FO20 E10X_P12": {
+        "ur": 1.2998822400000003,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20E11S_FO20 E10X_P12": {
+        "ur": 2.33732664,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20E11T_FO20 E10X_P12": {
+        "ur": 0.6277696199999999,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20E12T_FO20 E10X_P12": {
+        "ur": 14.4994824,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20E13T_FO20 E10X_P12": {
+        "ur": 5.41845396,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20E30L_FO20 F50X_P12": {
+        "ur": 2.52060444,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20E30L_FO20 F60X_P12": {
+        "ur": 6.13308744,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20E30S_FO20 E30X_P12": {
+        "ur": 3.69159048,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20E31S_FO20 E30X_P12": {
+        "ur": 6.28253316,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20E30V_FO20 E80X_P12": {
+        "ur": 1.4907373199999998,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20F31T_FO20 F30X_P12": {
+        "ur": 0.543584052,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20F32T_FO20 F30X_P12": {
+        "ur": 2.3856350399999995,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20F33T_FO20 F30X_P12": {
+        "ur": 3.5028889199999997,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20F34T_FO20 F30X_P12": {
+        "ur": 0.71267436,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20F35T_FO20 F30X_P12": {
+        "ur": 0.0,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20F5PT_FO20 F57X_P12": {
+        "ur": 8.635197600000001,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20F62T_FO20 F62X_P12": {
+        "ur": 0.8271917999999999,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20GKST_FO20 F30X_P12": {
+        "ur": 7.408502964,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20H60T_FO20 H60X_P12": {
+        "ur": 0.543584052,
+        "hydrocarbonStream": "oil"
+    },
+    "FO20H61T_FO20 H60X_P12": {
+        "ur": 7.153638120000001,
+        "hydrocarbonStream": "oil"
+    },
+    "FO21001L_FO21 E10X_P13": {
+        "ur": 1.4300532,
+        "hydrocarbonStream": "oil"
+    },
+    "FO21003L_FO21 E30X_P01": {
+        "ur": 1.8838062000000002,
+        "hydrocarbonStream": "oil"
+    },
+    "FO21003L_FO21 E30X_P12": {
+        "ur": 1.1829425399999995,
+        "hydrocarbonStream": "oil"
+    },
+    "FO21005S_FO21 E30X_P13": {
+        "ur": 1.1422332,
+        "hydrocarbonStream": "oil"
+    },
+    "FO21021T_FO21 E30X_P13": {
+        "ur": 0.41143824000000007,
+        "hydrocarbonStream": "oil"
+    },
+    "FO21028T_FO21 E10X_P13": {
+        "ur": 3.25246716,
+        "hydrocarbonStream": "oil"
+    },
+    "FO21029T_FO21 E10X_P12": {
+        "ur": 0.705087,
+        "hydrocarbonStream": "oil"
+    },
+    "FO21029T_FO21 E10X_P13": {
+        "ur": 0.43221348,
+        "hydrocarbonStream": "oil"
+    },
+    "FO21030S_FO21 E10X_P01": {
+        "ur": 0.5009562000000001,
+        "hydrocarbonStream": "oil"
+    },
+    "FO21E10S_FO21 E10X_P12": {
+        "ur": 0.93313512,
+        "hydrocarbonStream": "oil"
+    },
+    "FO21F00L_FO21 F00X_P12": {
+        "ur": 1.6663039199999998,
+        "hydrocarbonStream": "oil"
+    },
+    "FO25001T_FO25 F10X_P13": {
+        "ur": 2.8276847999999997,
+        "hydrocarbonStream": "oil"
+    },
+    "FO25002L_FO25 F20X_P13": {
+        "ur": 3.14919432,
+        "hydrocarbonStream": "oil"
+    },
+    "FO25002S_FO25 F02X_P13": {
+        "ur": 3.3634803600000005,
+        "hydrocarbonStream": "oil"
+    },
+    "FO25003L_FO25 F20X_P13": {
+        "ur": 2.36566872,
+        "hydrocarbonStream": "oil"
+    },
+    "FO25003S_FO25 F02X_P13": {
+        "ur": 1.599174,
+        "hydrocarbonStream": "oil"
+    },
+    "FO25F01T_FO25 F01X_P12": {
+        "ur": 1.4096556720000002,
+        "hydrocarbonStream": "oil"
+    },
+    "FO25F03T_FO25 F03X_P12": {
+        "ur": 1.4096556720000002,
+        "hydrocarbonStream": "oil"
+    },
+    "FO25F10T_FO25 F10X_P12": {
+        "ur": 1.4096556720000002,
+        "hydrocarbonStream": "oil"
+    },
+    "FO25KNRL_FO25 F10X_P12": {
+        "ur": 1.5079103999999999,
+        "hydrocarbonStream": "oil"
+    },
+    "FO25KNRS_FO25 F01X_P12": {
+        "ur": 6.5377436399999995,
+        "hydrocarbonStream": "oil"
+    },
+    "FO25KRRT_FO25 F03X_P12": {
+        "ur": 6.37477092,
+        "hydrocarbonStream": "oil"
+    },
+    "FO25LCRL_FO25 F20X_P10": {
+        "ur": 10.74258684,
+        "hydrocarbonStream": "oil"
+    },
+    "FO25LCRS_FO25 F02X_P10": {
+        "ur": 12.7876788,
+        "hydrocarbonStream": "oil"
+    },
+    "FO25LCRV_FO25 F01X_P10": {
+        "ur": 4.354005239999999,
+        "hydrocarbonStream": "oil"
+    },
+    "FO25LCRV_FO25 F03X_P10": {
+        "ur": 7.869659400000001,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO2001L_FOO2 F01X_P13": {
+        "ur": 2.2777581600000003,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO2001S_FOO2 E70X_P13": {
+        "ur": 1.22093928,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO2E30L_FOO2 E70X_P12": {
+        "ur": 8.816985,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO2E30S_FOO2 E30X_P12": {
+        "ur": 6.08941368,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO2E30T_FOO2 E30X_P12": {
+        "ur": 1.023903864,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO2E70T_FOO2 E70X_P12": {
+        "ur": 1.011141252,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO2F01T_FOO2 F01X_P12": {
+        "ur": 0.9982470240000001,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO2FSAL_FOO2 E70X_P12": {
+        "ur": 6.32033352,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO2FSAS_FOO2 E30X_P12": {
+        "ur": 6.4501461,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO2IERL_FOO2 F01X_P11": {
+        "ur": 9.505110960000001,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO2IERS_FOO2 E70X_P11": {
+        "ur": 9.63404424,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO4001L_FOO4 F01X_P12": {
+        "ur": 4.8626843399999995,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO4001S_FOO4 E70X_P12": {
+        "ur": 9.275631300000002,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO4E70T_FOO4 E70X_P12": {
+        "ur": 1.785228372,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO4E71T_FOO4 E70X_P12": {
+        "ur": 2.41186572,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO4F01T_FOO4 F01X_P12": {
+        "ur": 2.34355932,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO4F02T_FOO4 F01X_P12": {
+        "ur": 0.5125373999999999,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO4F10T_FOO4 F10X_P12": {
+        "ur": 1.69536456,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO4LVRL_FOO4 F10X_P12": {
+        "ur": 4.22048124,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO4LVRS_FOO4 E30X_P12": {
+        "ur": 2.96268138,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO4LVRV_FOO4 F01X_P12": {
+        "ur": 3.8910834000000003,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO5003T_FOO5 U20X_P11": {
+        "ur": 11.011632839999999,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO5IZUT_FOO5 U20X_P12": {
+        "ur": 24.91497648,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO5KDUT_FOO5 U20X_P11": {
+        "ur": 37.5302592,
+        "hydrocarbonStream": "oil"
+    },
+    "FOO7EAST_FOO7 U60X_P12": {
+        "ur": 7.692505200000001,
+        "hydrocarbonStream": "oil"
+    },
+    "FO10W01T_FO10 C90X_P12": {
+        "ur": 544656.528,
+        "hydrocarbonStream": "gas"
+    },
+    "FO10W01T_FO10 D10X_P12": {
+        "ur": 546912.036,
+        "hydrocarbonStream": "gas"
+    },
+    "FO10W01T_FO10 D30X_P12": {
+        "ur": 522480.61079999997,
+        "hydrocarbonStream": "gas"
+    },
+    "FO17D10T_FO17 D10X_P12": {
+        "ur": 611245.08,
+        "hydrocarbonStream": "gas"
+    },
+    "FO20E10T_FO20 E10X_P12": {
+        "ur": 606740.76,
+        "hydrocarbonStream": "gas"
+    },
+    "FO20F20T_FO20 F20X_P12": {
+        "ur": 331589.2968,
+        "hydrocarbonStream": "gas"
+    },
+    "FO20F20T_FO20 F50X_P12": {
+        "ur": 1082381.76,
+        "hydrocarbonStream": "gas"
+    },
+    "FO20F30T_FO20 F30X_P12": {
+        "ur": 1264549.68,
+        "hydrocarbonStream": "gas"
+    },
+    "FO20F40T_FO20 F40X_P12": {
+        "ur": 398981.124,
+        "hydrocarbonStream": "gas"
+    },
+    "FO20F40T_FO20 F57X_P12": {
+        "ur": 344279.15280000004,
+        "hydrocarbonStream": "gas"
+    },
+    "FO21H20T_FO21 H20X_P12": {
+        "ur": 630779.76,
+        "hydrocarbonStream": "gas"
+    },
+    "FO21H40T_FO21 H40X_P12": {
+        "ur": 627771.6,
+        "hydrocarbonStream": "gas"
+    },
+    "FO21H70T_FO21 H70X_P12": {
+        "ur": 623250.828,
+        "hydrocarbonStream": "gas"
+    },
+    "FO21H7HT_FO21 H50X_P12": {
+        "ur": 626263.2,
+        "hydrocarbonStream": "gas"
+    },
+    "FO22F30T_FO22 F30X_P12": {
+        "ur": 568190.8367999999,
+        "hydrocarbonStream": "gas"
+    },
+    "FO22F30T_FO22 F52X_P12": {
+        "ur": 567310.6368,
+        "hydrocarbonStream": "gas"
+    },
+    "FO22F30T_FO22 F55X_P12": {
+        "ur": 565397.0567999999,
+        "hydrocarbonStream": "gas"
+    },
+    "FO23R60T_FO23 R60X_P12": {
+        "ur": 522553.32,
+        "hydrocarbonStream": "gas"
+    },
+    "FO23R60T_FO23 V40X_P12": {
+        "ur": 565761.24,
+        "hydrocarbonStream": "gas"
+    },
+    "FO25G20T_FO25 G20X_P12": {
+        "ur": 757563.84,
+        "hydrocarbonStream": "gas"
+    },
+    "FO25G20T_FO25 G21X_P12": {
+        "ur": 227269.08,
+        "hydrocarbonStream": "gas"
+    },
+    "FO25G30T_FO25 G30X_P12": {
+        "ur": 252545.04,
+        "hydrocarbonStream": "gas"
+    },
+    "FO25G30T_FO25 G40X_P12": {
+        "ur": 721557.0,
+        "hydrocarbonStream": "gas"
+    },
+    "FO26CERT_FO26 G30X_P12": {
+        "ur": 110208.6,
+        "hydrocarbonStream": "gas"
+    },
+    "FO26CE1T_FO26 G30X_P12": {
+        "ur": 108948.96,
+        "hydrocarbonStream": "gas"
+    },
+    "FO26F2FT_FO26 D30X_P12": {
+        "ur": 252311.76,
+        "hydrocarbonStream": "gas"
+    },
+    "FO26F2FT_FO26 F60X_P12": {
+        "ur": 252311.76,
+        "hydrocarbonStream": "gas"
+    },
+    "FO26F3WT_FO26 F30X_P12": {
+        "ur": 151512.84,
+        "hydrocarbonStream": "gas"
+    },
+    "FOO3F20T_FOO3 F20X_P12": {
+        "ur": 366747.12,
+        "hydrocarbonStream": "gas"
+    },
+    "FOO5U20T_FOO5 U20X_P12": {
+        "ur": 622522.44,
+        "hydrocarbonStream": "gas"
+    },
+    "FOO6T30T_FOO6 T30X_P12": {
+        "ur": 380498.508,
+        "hydrocarbonStream": "gas"
+    },
+    "FOO7003T_FOO7 U50X_P13": {
+        "ur": 463871.88,
+        "hydrocarbonStream": "gas"
+    },
+    "FOO7003T_FOO7 U60X_P01": {
+        "ur": 510388.092,
+        "hydrocarbonStream": "gas"
+    },
+    "FOO7004T_FOO7 U10X_P13": {
+        "ur": 204938.28,
+        "hydrocarbonStream": "gas"
+    },
+    "FOO7U8UT_FOO7 U80X_P12": {
+        "ur": 504623.88,
+        "hydrocarbonStream": "gas"
+    },
+    "FOO7U8UT_FOO7 U90X_P12": {
+        "ur": 504623.88,
+        "hydrocarbonStream": "gas"
+    },
+    "FOO7U8UT_FOO7 V20X_P12": {
+        "ur": 504623.88,
+        "hydrocarbonStream": "gas"
+    },
+    "FOO8F20T_FOO8 F20X_P12": {
+        "ur": 568190.8367999999,
+        "hydrocarbonStream": "gas"
+    },
+    "FOO8F20T_FOO8 G61X_P12": {
+        "ur": 1136381.688,
+        "hydrocarbonStream": "gas"
+    },
+    "FOO9U1UT_FOO9 U10X_P12": {
+        "ur": 773371.008,
+        "hydrocarbonStream": "gas"
+    },
+    "FOO9U11T_FOO9 U10X_P12": {
+        "ur": 773371.008,
+        "hydrocarbonStream": "gas"
+    },
+    "FO18H20T_FO18 D21X_P08": {
+        "ur": 322204.644,
+        "hydrocarbonStream": "gas"
+    },
+    "FO18H21T_FO18 D21X_P08": {
+        "ur": 213297.12,
+        "hydrocarbonStream": "gas"
+    },
+    "FO18H20T_FO18 H20X_P07": {
+        "ur": 518018.076,
+        "hydrocarbonStream": "gas"
+    },
+    "FO18H21T_FO18 H20X_P07": {
+        "ur": 490293.72,
+        "hydrocarbonStream": "gas"
+    },
+    "FO18H22T_FO18 H20X_P07": {
+        "ur": 490293.72,
+        "hydrocarbonStream": "gas"
+    },
+    "FO18H60T_FO18 H60X_P08": {
+        "ur": 225122.4,
+        "hydrocarbonStream": "gas"
+    },
+    "FO18H61T_FO18 H60X_P08": {
+        "ur": 143344.044,
+        "hydrocarbonStream": "gas"
+    },
+    "FO18H62T_FO18 J42X_P08": {
+        "ur": 238665.06,
+        "hydrocarbonStream": "gas"
+    },
+    "FO18H63T_FO18 J42X_P08": {
+        "ur": 577350.72,
+        "hydrocarbonStream": "gas"
+    }
+}

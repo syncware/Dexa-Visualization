@@ -1,5 +1,7 @@
 import tkinter as tk
 from tkinter import Tk, Canvas, Frame, Scrollbar, ttk
+import numpy as np
+#from scipy.integrate import simps, trapz
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Button
 from json_data_io import readJsonData
@@ -15,10 +17,10 @@ module_names = list(hfpt_forecastResults.keys())
 n_module_names = len(module_names)
 
 current_column_index = 0
-variable_name_hfpt = "condensateRateYearly"
-variable_name_dexa = "condensateRate"
+variable_name_hfpt = "oilRatesYearly"
+variable_name_dexa = "oilRate"
 x_axis_label = "Days"
-y_axis_label = "Condensate Prod"
+y_axis_label = "Oil Prod"
 divisor_dexa = 1
 divisor_hfpt = 1
 
@@ -39,7 +41,10 @@ def plot_columns(index, ax):
     ax.plot(x_values_dexa, y_values_dexa, label="Dexa")
     ax.plot(x_values_hfpt, y_values_hfpt, label="HFPT")
 
+    #area_trapz = np.trapz(y_values_hfpt, x_values_hfpt) / pow(10, 6)
 
+
+    #ax.set_title(f'{module_name} UR = {area_trapz}')
     ax.set_title(module_name)
 
     ax.legend()
@@ -113,7 +118,7 @@ def view_data(event):
     module_name = module_names[current_column_index]
     y_values_dexa = [value / divisor_dexa for value in monthly_forecastResults_cpp[module_name][variable_name_dexa]]
     y_values_hfpt = [value / divisor_hfpt for value in hfpt_forecastResults[module_name][variable_name_hfpt]]
-    x_values_dexa = [i * 30 for i in range(len(y_values_dexa))]
+    x_values_dexa = [i * 360 for i in range(len(y_values_dexa))]
     x_values_hfpt = [i * 360 for i in range(len(y_values_hfpt))]
 
     # Create a table
