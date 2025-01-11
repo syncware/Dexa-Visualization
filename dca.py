@@ -16,10 +16,11 @@ def get_decline_factor_exponential(initial_rate, aband_rate, init_cum_prod, ur, 
         float: The calculated decline factor, or -9999 if inputs are invalid.
     """
     decline_factor = -9999  # Default value for invalid input
+    #ur - init_cum_prod
     
     if is_rate_cum:
-        if (ur - init_cum_prod) > 0:
-            decline_factor = (initial_rate - aband_rate) / (ur - init_cum_prod)
+        if (ur) > 0:
+            decline_factor = (initial_rate - aband_rate) / (ur)
     else:
         if aband_rate == 0:
             aband_rate = 10**-8  # Avoid division by zero

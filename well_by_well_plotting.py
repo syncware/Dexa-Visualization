@@ -15,11 +15,11 @@ module_names = list(hfpt_forecastResults.keys())
 n_module_names = len(module_names)
 
 current_column_index = 0
-variable_name_hfpt = "gasRatesYearly"
-variable_name_dexa = "gasRate"
+variable_name_hfpt = "condensateRateYearly"
+variable_name_dexa = "condensateRate"
 x_axis_label = "Days"
-y_axis_label = "Gas Prod"
-divisor_dexa = 1000
+y_axis_label = "Condensate Prod"
+divisor_dexa = 1
 divisor_hfpt = 1
 
 # Plotting function
