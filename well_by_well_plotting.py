@@ -23,20 +23,20 @@ y_axis_label = "Produced Gas (MMscf/d)"
 divisor_dexa = 1000
 divisor_hfpt = 1
 
-# OIL RATE COMPARISON
-variable_name_hfpt = "oilRatesYearly"
-variable_name_dexa = "oilRate"
-x_axis_label = "Days"
-y_axis_label = "Produced Oil (bbls/d)"
-divisor_dexa = 1
-divisor_hfpt = 1
+# # OIL RATE COMPARISON
+# variable_name_hfpt = "oilRatesYearly"
+# variable_name_dexa = "oilRate"
+# x_axis_label = "Days"
+# y_axis_label = "Produced Oil (bbls/d)"
+# divisor_dexa = 1
+# divisor_hfpt = 1
 
-# CONDENSATE RATE COMPARISON
-variable_name_hfpt = "condensateRateYearly"
-variable_name_dexa = "condensateRate"
-x_axis_label = "Days"
-y_axis_label = "Produced Oil (bbls/d)"
-divisor_dexa = 1
+# # CONDENSATE RATE COMPARISON
+# variable_name_hfpt = "condensateRateYearly"
+# variable_name_dexa = "condensateRate"
+# x_axis_label = "Days"
+# y_axis_label = "Produced Oil (bbls/d)"
+# divisor_dexa = 1
 divisor_hfpt = 1
 
 # Plotting function
