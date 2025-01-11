@@ -1,4 +1,7 @@
+import tkinter as tk
 from tkinter import Tk, Canvas, Frame, Scrollbar, ttk
+import numpy as np
+#from scipy.integrate import simps, trapz
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Button
 from json_data_io import readJsonData
@@ -19,8 +22,8 @@ current_column_index = 0
 variable_name_hfpt = "gasRatesYearly"
 variable_name_dexa = "gasRate"
 x_axis_label = "Days"
-y_axis_label = "Produced Gas (MMscf/d)"
-divisor_dexa = 1000
+y_axis_label = "Produced Gas"
+divisor_dexa = 1
 divisor_hfpt = 1
 
 # # OIL RATE COMPARISON
@@ -35,7 +38,7 @@ divisor_hfpt = 1
 # variable_name_hfpt = "condensateRateYearly"
 # variable_name_dexa = "condensateRate"
 # x_axis_label = "Days"
-# y_axis_label = "Produced Oil (bbls/d)"
+# y_axis_label = "Condensate (bbls/d)"
 # divisor_dexa = 1
 divisor_hfpt = 1
 
@@ -56,6 +59,7 @@ def plot_columns(index, ax):
     ax.plot(x_values_dexa, y_values_dexa, label="Dexa")
     ax.plot(x_values_hfpt, y_values_hfpt, label="HFPT")
 
+    #area_trapz = np.trapz(y_values_hfpt, x_values_hfpt) / pow(10, 6)
 
     ax.set_title(str(index + 1) + ". " + module_names[index])
 
@@ -130,7 +134,7 @@ def view_data(event):
     module_name = module_names[current_column_index]
     y_values_dexa = [value / divisor_dexa for value in monthly_forecastResults_cpp[module_name][variable_name_dexa]]
     y_values_hfpt = [value / divisor_hfpt for value in hfpt_forecastResults[module_name][variable_name_hfpt]]
-    x_values_dexa = [i * 30 for i in range(len(y_values_dexa))]
+    x_values_dexa = [i * 360 for i in range(len(y_values_dexa))]
     x_values_hfpt = [i * 360 for i in range(len(y_values_hfpt))]
 
     # Create a table
@@ -167,6 +171,39 @@ def view_data(event):
 
     root.mainloop()
 
+def show_dropdown():
+    # Create a Tkinter window
+    dropdown_window = tk.Tk()
+    dropdown_window.title("Select Module")
+    
+    # Variable to store the selected module
+    selected_module = tk.StringVar()
+    selected_module.set(module_names[0])  # Set default value
+
+    # Create dropdown menu
+    dropdown = ttk.Combobox(dropdown_window, textvariable=selected_module, values=module_names)
+    dropdown.pack(pady=10)
+
+    def confirm_selection():
+        global current_column_index
+        global variable_name_hfpt
+        global variable_name_dexa
+        global x_axis_label
+        global y_axis_label
+        global divisor_dexa
+        global divisor_hfpt
+        s_module = selected_module.get()
+        current_column_index = module_names.index(s_module)
+        plot_columns(current_column_index, ax)
+        dropdown_window.destroy()
+
+    # Confirm button
+    confirm_button = ttk.Button(dropdown_window, text="Confirm", command=confirm_selection)
+    confirm_button.pack(pady=10)
+
+    dropdown_window.mainloop()
+
+
 # Initial plot
 fig, ax = plt.subplots()
 plt.subplots_adjust(bottom=0.2)  # Leave space for buttons
@@ -185,5 +222,13 @@ btn_view = Button(axview, "View Data")
 btn_next.on_clicked(next_column)
 btn_prev.on_clicked(prev_column)
 btn_view.on_clicked(view_data)
+
+# Dropdown
+#axdropdown = plt.axes([0.1, 0.05, 0.3, 0.075])  # Position for the dropdown
+
+# Add a button in the matplotlib figure to trigger the dropdown
+axdropdown = plt.axes([0.1, 0.05, 0.2, 0.075])
+btn_dropdown = Button(axdropdown, "Select Module")
+btn_dropdown.on_clicked(lambda event: show_dropdown())
 
 plt.show()

@@ -13,3 +13,7 @@ source venv/bin/activate
 unalias python && python3 well_by_well_plotting.py
 OR
 /Users/GSanni/Desktop/myinfo/Dexa-Visualization/venv/bin/python well_by_well_plotting.py
+
+
+# To merge from upstream
+git merge upstream/main
