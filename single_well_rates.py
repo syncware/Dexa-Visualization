@@ -7,7 +7,7 @@ from datetime import datetime
 M = pow(10, 3)
 MM = pow(10, 6)
 B = pow(10, 9)
-isRateCum = False
+isRateCum = True
 daysPerYear = 365
 monthlyModuleForecastResults = {}
 yearlyModuleForecastResults = {}
@@ -88,6 +88,7 @@ initGasFraction = 0
 initRate = 0
 AbandRate = 0
 UR = 0
+UR_no_plateau = 0
 initCumProd = 0
 PlateauUR = 0
 abandWaterFraction = 0
@@ -118,25 +119,28 @@ if module["hydrocarbonStream"] == "gas":
     UR = module["gasUR2P2C"] * B
     initCumProd = module["Gp"] * B
     PlateauUR = module["plateauPeriod"] * (UR - initCumProd)
+    UR_no_plateau = UR - PlateauUR
+    if UR_no_plateau < 0 :
+        UR_no_plateau = 0
     abandWaterFraction = module["plateauPeriod"]
     abandGasFraction = module["abandGORCGR2P2C"]
 
     rateDecline = get_decline_factor_exponential(
         initRate, AbandRate,
-        initCumProd, UR,
+        initCumProd, UR_no_plateau,
         cum_days, isRateCum
     )
 
 
     waterFractionSlope = get_decline_factor_exponential(
         initWaterFraction, abandWaterFraction,
-        initCumProd, UR,
+        initCumProd, UR_no_plateau,
         cum_days, isRateCum
     )
 
     gasFractionSlope = get_decline_factor_exponential(
         initGasFraction, abandGasFraction,
-        initCumProd, UR,
+        initCumProd, UR_no_plateau,
         cum_days, isRateCum
     )
 
@@ -150,24 +154,27 @@ else:
     UR = module["oilUR2P2C"] * MM
     initCumProd = module["Np"] * MM
     PlateauUR = module["plateauPeriod"] * daysPerYear * initRate
+    UR_no_plateau = UR - PlateauUR
+    if UR_no_plateau < 0 :
+        UR_no_plateau = 0
     abandWaterFraction = module["plateauPeriod"]
     abandGasFraction = module["abandGORCGR2P2C"]
 
     rateDecline = get_decline_factor_exponential(
         initRate, AbandLiqRate,
-        initCumProd, UR,
-        cum_days, True
+        initCumProd, UR_no_plateau,
+        cum_days, isRateCum
     )
 
     waterFractionSlope = get_decline_factor_exponential(
         initWaterFraction, abandWaterFraction,
-        initCumProd, UR,
+        initCumProd, UR_no_plateau,
         cum_days, isRateCum
     )
 
     gasFractionSlope = get_decline_factor_exponential(
         initGasFraction, abandGasFraction,
-        initCumProd, UR,
+        initCumProd, UR_no_plateau,
         cum_days, isRateCum
     )
 
