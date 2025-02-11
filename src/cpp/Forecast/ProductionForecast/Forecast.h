@@ -68,7 +68,7 @@ typedef struct _WellFacilityData
     Date LastDate;
     double Rate;
     string Flow_station;
-    string ModuleName;
+    string moduleName;
     double UR;
     double CumProd;
 } WellFacilityData;
@@ -104,7 +104,7 @@ typedef struct _ForecastResult
     double Gas_Demand;
     double Gas_Flared;
     double Crude_Oil_Lossess;
-    string ModuleName;
+    string moduleName;
     string CustomDate;
     string HyrocarbonStream;
     string hydrocarbonType;
@@ -164,6 +164,7 @@ typedef struct _ForecastResult
     string reasonForTermination;
     double deltaDay;
     double cumDays;
+    double cumDaysNoPlateau;
 
     double getVariableByName(const std::string &variableName) const
     {
@@ -189,10 +190,11 @@ typedef struct _ForecastResult
         throw std::invalid_argument("Invalid variable name");
     }
 
-    void InitializeData()
+    void InitailizeData()
     {
         deltaDay = 0;
         cumDays = 0;
+        cumDaysNoPlateau = 0;
         reasonForTermination = "";
         prodDays = 0;
         fluidFraction = 0;
@@ -260,11 +262,12 @@ typedef struct _ForecastResult
         Liquid_rate_NotTerminated = 0;
     }
 
-    void InitializeData2()
+    void InitailizeData2()
     {
         oilRateAbandonment = 0;
         gasRateAbandonment = 0;
         liquidRateAbandonmemt = 0;
+        cumDaysNoPlateau = 0;
         wellIndex = 0;
         Oil_rate = 0.0;
         Gas_Rate = 0.0;
@@ -311,6 +314,20 @@ typedef struct _ForecastResult
 
 } ForecastResult;
 
+typedef struct _ForecastResultsVariables
+{
+    vector<double> oilRate;
+    vector<double> gasRate;
+    // vector<double> waterRate;
+    // vector<double> liquidRate;
+    vector<double> condensateRate;
+    // vector<double> ownUseGas;
+    // vector<double> gasDemand;
+    // vector<double> flareGas;
+    // vector<double> crudeOilLossess;
+    vector<string> dates;
+} ForecastResultsVariables;
+
 typedef struct ForecastResultForChart
 {
     double data;
@@ -318,7 +335,7 @@ typedef struct ForecastResultForChart
     int Month;
     int Year;
 
-    void InitializeData()
+    void InitailizeData()
     {
         Day = 0;
         Month = 0;
@@ -449,6 +466,43 @@ typedef struct _InputDeckStruct
     int nWrappedProdPrioritization;
 } InputDeckStruct;
 
+typedef struct _DeclineParameterResult
+{
+
+    string forecastVersion;
+    string asset;
+    string field;
+    string reservoir;
+    string drainagePoint;
+    string productionString;
+    string module;
+    string hydrocarbonStream;
+    string hydrocarbonType;
+    double initOilGasRate1P1C;
+    double initOilGasRate2P2C;
+    double initOilGasRate3P3C;
+    double rateofChangeRate1P1C;
+    double rateofChangeRate2P2C;
+    double rateofChangeRate3P3C;
+    double rateOfChangeGORCGR1P1C;
+    double rateOfChangeGORCGR2P2C;
+    double rateOfChangeGORCGR3P3C;
+    double rateOfChangeBSWWGR1P1C;
+    double rateOfChangeBSWWGR2P2C;
+    double rateOfChangeBSWWGR3P3C;
+    double declineExponent1P1C;
+    double declineExponent2P2C;
+    double declineExponent3P3C;
+    string declineMethod;
+    int DeclineMethod;
+
+} DeclineParameterResult;
+
+typedef struct _DeclineParamsResultObject
+{
+    vector<DeclineParameterResult> declineParameters;
+} DeclineParamsResultObject;
+
 typedef struct _FacilityWellsIndicies
 {
     vector<string> WellNames;
@@ -484,7 +538,7 @@ typedef struct _RunParameter
     int StopYear;
     string TimeFrequency;
     string TargetFluid;
-    int isDeferred;
+    int isDefered;
     string forecastCase;
     bool isMonthly;
 } RunParameter;
@@ -574,7 +628,7 @@ typedef struct _MBALForecastModel
     double cumWaterProduced;
     int numberOfWells;
 
-    void InitializeData()
+    void InitailizeData()
     {
         uniqueId = "";
         time = "";
@@ -603,7 +657,7 @@ typedef struct _MBALForecastModel
 
 typedef struct _WellActivityResult
 {
-    string ModuleName;
+    string moduleName;
     string table;
     ForecastProfileEnum ForecastProfile;
     vector<ForecastResult> externalForecastProfile;
@@ -612,7 +666,7 @@ typedef struct _WellActivityResult
 
     void InitializeData()
     {
-        ModuleName = "";
+        moduleName = "";
         table = "";
         startRowIndex = 0;
     }
@@ -657,20 +711,20 @@ typedef struct _PrioritizationModel
     vector<double> ParameterWeights;
 } PrioritizationModel;
 
-typedef struct _Prioritization
+typedef struct _Priotization
 {
     string targetFluid;
     string methodOfPrioritization;
     string typeOfPrioritization; // None by default
     string typeOfStream;
     string useSecondaryFacility;
-    string FacilityName;
+    string facilityName;
     Date FromDate;
     Date ToDate;
     PrioritizationModel prioritizationModel;
     string ochestrationVariable;
     string ochestrationMethod;
-} Prioritization;
+} Priotization;
 
 typedef struct _WellPrioritizationModel
 {
@@ -680,7 +734,7 @@ typedef struct _WellPrioritizationModel
 
 typedef struct _FacilityActivityResult
 {
-    string FacilityName;
+    string facilityName;
     vector<WellActivityResult> WellActivityResults;
 } FacilityActivityResult;
 
@@ -714,7 +768,7 @@ typedef struct _MBALVariableHeaders
     string cumWaterProduced;
     string numberOfWells;
 
-    void InitializeData()
+    void InitailizeData()
     {
         time = "Time";
         status = "Status";
@@ -835,7 +889,7 @@ typedef struct _FacilityInEquipementConnection
     vector<string> toNodes;
     string equipmentType;
 
-    void InitializeData()
+    void InitailizeData()
     {
         equityPercentage = 100.0;
     }
@@ -862,21 +916,21 @@ typedef struct _Node
     string nodeName;
     vector<FacilityInEquipementConnection> equipmentInEquipementConnections;
     vector<FacilityStructExternal> equipmentDataInEquipementConnections;
-    vector<Prioritization> prioritizations;
+    vector<Priotization> priotizations;
 } Node;
 
 typedef struct _FacilityThreadParams
 {
     int ij;
     int i;
-    vector<vector<vector<InputDeckStruct>>> Facilities;
+    vector<vector<vector<InputDeckStruct>>> Faclities;
     vector<int> daysList;
     int scenario;
     vector<FacilityStruct> FacilityTable;
-    vector<string> FacilitiesNames;
+    vector<string> FaclitiesNames;
     vector<WellReroute> routedWells;
     string forecastCase;
-    vector<vector<Prioritization>> prioritizationsFacilities;
+    vector<vector<Priotization>> priotizationsFacilities;
     vector<Node> updatesNodes;
 } FacilityThreadParams;
 
@@ -926,12 +980,19 @@ typedef struct _Payload
     vector<ShutInOpenUp> wellShutInOpenUpDecks;
     int nWellShutInOpenUpDecks;
     RunParameter runparameters;
-    Prioritization prioritization;
-    vector<Prioritization> nodalPrioritizations;
-    int nNodalPrioritizations;
+    Priotization prioritization;
+    vector<Priotization> nodalPriotizations;
+    int nNodalPriotizations;
     vector<InputDeckStruct> productionPrioritization;
     int nProductionPrioritization;
+    vector<string> scenarios;
 } Payload;
+
+typedef struct _PayloadDeclineParams
+{
+    vector<InputDeckStruct> decks;
+    int nDecks;
+} PayloadDeclineParams;
 
 /* typedef struct _ResponseData4 {
     map<string, string> wells;
@@ -996,11 +1057,11 @@ typedef struct _YObj
 typedef struct _ForecastResultsByModule
 {
     string forecastResultsId;
-    string ModuleName;
-    string FacilityName;
-    string ScenarioName;
-    string ModuleKey;
-    string SolutionSpace;
+    string moduleName;
+    string facilityName;
+    string scenarioName;
+    string moduleKey;
+    string solutionSpace;
     string forecastResults;
     string forecastInputId;
 } ForecastResultsByModule;
@@ -1010,7 +1071,7 @@ typedef struct _ForecastResultsPayload
     vector<ForecastResultsByModule> moduleResults;
 } ForecastResultsPayload;
 
-typedef struct _ChatInputPayload
+typedef struct _ChartInputPayload
 {
     vector<string> forecastResultsIds;
     vector<string> selectedModulePaths;
@@ -1018,7 +1079,7 @@ typedef struct _ChatInputPayload
     bool shouldAggregate;
     vector<string> forecastSolutionSpaces;
     bool isMonthly;
-} ChatInputPayload;
+} ChartInputPayload;
 
 const int Init_Oil_Gas_Rate_1P_1C = 0;
 const int Init_Oil_Gas_Rate_2P_2C = 1;
