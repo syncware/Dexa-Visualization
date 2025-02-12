@@ -300,9 +300,9 @@ void plotChat2()
 {
     json forecastResultsJsonData = ReadJsonFile("/Users/GSanni/Desktop/myinfo/pet_app/files/apex_forecast_db.forecast_forecastresultsbymodules.json");
     AllWellsYearlyResultNewAsyncT allWellsYearlyResultNewAsyncT;
-    json chatInputJsonData = ReadJsonFile("/Users/GSanni/Desktop/myinfo/pet_app/files/forecast_chat_data_input.json");
+    json chartInputJsonData = ReadJsonFile("/Users/GSanni/Desktop/myinfo/pet_app/files/forecast_chat_data_input.json");
     json responseJsonData =
-        allWellsYearlyResultNewAsyncT.PlotChart(forecastResultsJsonData, chatInputJsonData);
+        allWellsYearlyResultNewAsyncT.PlotChart(forecastResultsJsonData, chartInputJsonData);
     export_to_file(responseJsonData,
                    "/Users/GSanni/Desktop/myinfo/pet_app/files/forecast_chat_data_output.json");
 }

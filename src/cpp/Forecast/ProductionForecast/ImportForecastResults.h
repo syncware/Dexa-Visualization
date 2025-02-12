@@ -28,7 +28,7 @@ public:
 	~ImportForecastResults();
 	vector<ForecastResult> GetForecastResults(vector<string> &forecastResultRows);
 	ForecastResult SetRow(vector<string> &forecastColumnsValues);
-	vector<ForecastResult> ImportForecastResultFiles(vector<string> &ModuleNames,
+	vector<ForecastResult> ImportForecastResultFiles(vector<string> &moduleNames,
 													 vector<vector<string>> &files);
 	vector<string> GetSubDirectories(const std::string &parentDirectory);
 	vector<string> GetDirectoryFiles(const string &parentDirectory);
@@ -122,7 +122,7 @@ ForecastResult ImportForecastResults::SetRow(vector<string> &forecastColumnsValu
 	i++;
 	forecastResult.Flow_station = forecastColumnsValues[i];
 	i++;
-	forecastResult.ModuleName = forecastColumnsValues[i];
+	forecastResult.moduleName = forecastColumnsValues[i];
 	i++;
 	forecastResult.Day = stoi(forecastColumnsValues[i]);
 	i++;
@@ -242,7 +242,7 @@ vector<ForecastResult> ImportForecastResults::GetForecastResults(string &forecas
 		results[j].HyrocarbonStream = forecastResult2.HyrocarbonStream;
 		results[j].hydrocarbonType = forecastResult2.hydrocarbonType;
 		results[j].terminal = forecastResult2.terminal;
-		results[j].ModuleName = forecastResult2.ModuleName;
+		results[j].moduleName = forecastResult2.moduleName;
 		results[j].Version_Name = forecastResult2.Version_Name;
 		results[j].Field = forecastResult2.Field;
 		results[j].Reservoir = forecastResult2.Reservoir;
@@ -276,11 +276,11 @@ vector<ForecastResult> ImportForecastResults::GetForecastResults(vector<string> 
 	return results;
 }
 
-vector<ForecastResult> ImportForecastResults::ImportForecastResultFiles(vector<string> &ModuleNames,
+vector<ForecastResult> ImportForecastResults::ImportForecastResultFiles(vector<string> &moduleNames,
 																		vector<vector<string>> &files)
 {
 	vector<ForecastResult> results;
-	int k = 0, nk = ModuleNames.size();
+	int k = 0, nk = moduleNames.size();
 
 	for (k = 0; k < nk; k++)
 	{
@@ -289,7 +289,7 @@ vector<ForecastResult> ImportForecastResults::ImportForecastResultFiles(vector<s
 		inputdeck.tokenize(table[0], rowDelimeter, strings);
 
 		/* WellActivityResult wellActivityResult;
-		wellActivityResult.ModuleName = ModuleNames[k];
+		wellActivityResult.moduleName = moduleNames[k];
 		wellActivityResult.externalForecastProfile =  */
 		vector<ForecastResult> result2 = GetForecastResults(strings);
 		int i = 0;

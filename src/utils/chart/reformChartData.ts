@@ -18,7 +18,7 @@ const delimeter = '@#$%';
 const forecastChatInputDataFileName = 'forecast_chat_data_input.json';
 const forecastOutputDataFileName = 'forecast_chat_data_output.json';
 
-function GetScenarioNames(selectedModulePaths: string[]): string[] {
+function GetscenarioNames(selectedModulePaths: string[]): string[] {
   const scenarioNames: string[] = [];
   for (const path of selectedModulePaths) {
     const parts = path.split(delimeter);
@@ -30,7 +30,7 @@ function GetScenarioNames(selectedModulePaths: string[]): string[] {
   return scenarioNames;
 }
 
-function GetFacilityNames(selectedModulePaths: string[]): string[] {
+function GetfacilityNames(selectedModulePaths: string[]): string[] {
   const facilityNames: string[] = [];
   for (const path of selectedModulePaths) {
     const parts = path.split(delimeter);
@@ -61,23 +61,23 @@ export async function chartDataByModulesOrAggregate(
   forecastResultsId: string,
   shouldAggregate: boolean
 ) {
-  const scenarioNames = GetScenarioNames(selectedModulePaths);
-  const facilityNames = GetFacilityNames(selectedModulePaths);
+  const scenarioNames = GetscenarioNames(selectedModulePaths);
+  const facilityNames = GetfacilityNames(selectedModulePaths);
   const solutionCase_ForecastResult = {} as any;
 
   for (let index2 = 0; index2 < forecastSolutionSpaceNames.length; index2++) {
-    const forecastSolutionSpaceName = forecastSolutionSpaceNames[index2];
+    const forecastsolutionSpaceName = forecastSolutionSpaceNames[index2];
     for (let index = 0; index < scenarioNames.length; index++) {
       const _scenarioName = scenarioNames[index];
 
       const case_scenario_Name = (
-        forecastSolutionSpaceName + _scenarioName
+        forecastsolutionSpaceName + _scenarioName
       ).toUpperCase();
 
       const iforecastResult = GetForecastResultsByScenario(
         forecastResultsByModule,
         _scenarioName,
-        forecastSolutionSpaceName,
+        forecastsolutionSpaceName,
         facilityNames
       );
       solutionCase_ForecastResult[case_scenario_Name] = iforecastResult;
@@ -85,14 +85,14 @@ export async function chartDataByModulesOrAggregate(
   }
 
   const lstWellsObject = {} as any;
-  for (const forecastSolutionSpaceName of forecastSolutionSpaceNames) {
+  for (const forecastsolutionSpaceName of forecastSolutionSpaceNames) {
     const lstWells = [];
     for (const path of selectedModulePaths) {
       const parts = path.split(delimeter);
       const scenario = parts[0] as string;
       const station = parts[1];
       const moduleName = parts[2];
-      const case_senario_name = forecastSolutionSpaceName + scenario;
+      const case_senario_name = forecastsolutionSpaceName + scenario;
       const scenarioResult =
         solutionCase_ForecastResult[case_senario_name.toUpperCase()];
       const facilitiesResult = scenarioResult[station];
@@ -102,7 +102,7 @@ export async function chartDataByModulesOrAggregate(
         lstWells.push(moduleNameResult);
       }
     }
-    lstWellsObject[forecastSolutionSpaceName] = lstWells;
+    lstWellsObject[forecastsolutionSpaceName] = lstWells;
   }
 
   const results_OutputObject = {} as any;
@@ -321,7 +321,7 @@ export async function chartDataByModulesOrAggregate2(
   ];
 
   for (let index2 = 0; index2 < forecastSolutionSpaceNames.length; index2++) {
-    const forecastSolutionSpaceName = forecastSolutionSpaceNames[index2];
+    const forecastsolutionSpaceName = forecastSolutionSpaceNames[index2];
     let scenarios = {} as any;
     for (let index = 0; index < scenarioNames.length; index++) {
       const _scenarioName = scenarioNames[index];
@@ -329,12 +329,12 @@ export async function chartDataByModulesOrAggregate2(
       const iforecastResult = GetForecastResultsByScenario2(
         forecastResultsByModule,
         _scenarioName,
-        forecastSolutionSpaceName,
+        forecastsolutionSpaceName,
         facilityNames
       );
       scenarios[_scenarioName] = iforecastResult;
     }
-    solutionCase_ForecastResult[forecastSolutionSpaceName] = { ...scenarios };
+    solutionCase_ForecastResult[forecastsolutionSpaceName] = { ...scenarios };
   }
 
   return solutionCase_ForecastResult;

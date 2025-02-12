@@ -13,44 +13,48 @@
 using namespace std;
 using namespace std::chrono;
 
-class DateCreation
+class  DateCreation
 {
 private:
+
 public:
 	DateCreation();
-	void GetDateList(vector<InputDeckStruct> &decks, Date &StopDate,
-					 vector<Date> &equipmentsScheduleDates, bool isMonthly);
-	bool Compare(const Date &d1, const Date &d2);
-	bool EqualTo(const Date &d1, const Date &d2);
-	bool EqualTo2(const Date &d1, const Date &d2, const bool &isMonthly);
-	Date GetMinimumDate(const Date &d1, const Date &d2);
-	Date GetMaximumDate(const Date &d1, const Date &d2);
-	bool IsMinimumDate(Date &d1, Date &d2);
-	bool IsMaximumDate(Date &d1, Date &d2);
-	bool IsContains(vector<Date> &dates, Date &d1);
-	Date DateIncrementByMonth(Date &d1);
-	Date DateIncrementByMonth(Date &d, int &numberOfMonths);
-	Date DateIncrementByYears(Date &d1, int &numberOfYears);
-	void SortDate(vector<Date> &dates);
-	int DaysInMonth(int &month);
-	int DateDiff_TotalDays(Date &d1, Date &d2);
-	void GetDaysList(Date &StartDate);
-	Date DateIncrementByYears(Date &d1);
+	void GetDateList(vector<InputDeckStruct>& decks, Date& StopDate, 
+	vector<Date>& equipmentsScheduleDates, bool isMonthly);
+	bool Compare(const Date& d1, const Date& d2);
+	bool EqualTo(const Date& d1, const Date& d2);
+	bool EqualTo2(const Date& d1, const Date& d2, const bool& isMonthly);
+	Date GetMinimumDate(const Date& d1, const Date& d2);
+	Date GetMaximumDate(const Date& d1, const Date& d2);
+	bool IsMinimumDate(Date& d1, Date& d2);
+	bool IsMaximumDate(Date& d1, Date& d2);
+	bool IsContains(vector<Date>& dates, Date& d1);
+	Date DateIncrementByMonth(Date& d1);
+	Date DateIncrementByMonth(Date& d, int& numberOfMonths);
+	Date DateIncrementByYears(Date& d1, int& numberOfYears);
+	void SortDate(vector<Date>& dates);
+	int DaysInMonth(int& month);
+	int DateDiff_TotalDays(Date& d1, Date& d2);
+	void GetDaysList(Date& StartDate);
+	Date DateIncrementByYears(Date& d1);
 	~DateCreation();
 
 	vector<Date> dateTimes;
 	vector<int> daysList;
 };
 
+
 DateCreation::DateCreation()
 {
+
 }
 
 DateCreation::~DateCreation()
 {
+
 }
 
-bool DateCreation::Compare(const Date &d1, const Date &d2)
+bool DateCreation::Compare(const Date& d1, const Date& d2)
 {
 	if (d1.year < d2.year)
 	{
@@ -70,7 +74,7 @@ bool DateCreation::Compare(const Date &d1, const Date &d2)
 	return false;
 }
 
-bool DateCreation::EqualTo(const Date &d1, const Date &d2)
+bool DateCreation::EqualTo(const Date& d1, const Date& d2)
 {
 	if (d1.year == d2.year && d1.month == d2.month && d1.day == d2.day)
 	{
@@ -80,18 +84,15 @@ bool DateCreation::EqualTo(const Date &d1, const Date &d2)
 	return false;
 }
 
-bool DateCreation::EqualTo2(const Date &d1, const Date &d2, const bool &isMonthly)
+bool DateCreation::EqualTo2(const Date& d1, const Date& d2, const bool& isMonthly)
 {
 	//&& d1.day == d2.day
-	if (isMonthly)
-	{
+	if(isMonthly){
 		if (d1.year == d2.year && d1.month == d2.month)
 		{
 			return true;
 		}
-	}
-	else
-	{
+	}else{
 		if (d1.year == d2.year)
 		{
 			return true;
@@ -101,7 +102,7 @@ bool DateCreation::EqualTo2(const Date &d1, const Date &d2, const bool &isMonthl
 	return false;
 }
 
-Date DateCreation::GetMinimumDate(const Date &d1, const Date &d2)
+Date DateCreation::GetMinimumDate(const Date& d1, const Date& d2)
 {
 	bool check = false;
 
@@ -115,9 +116,10 @@ Date DateCreation::GetMinimumDate(const Date &d1, const Date &d2)
 	{
 		return d2;
 	}
+
 }
 
-Date DateCreation::GetMaximumDate(const Date &d1, const Date &d2)
+Date DateCreation::GetMaximumDate(const Date& d1, const Date& d2)
 {
 	bool check = false;
 
@@ -131,9 +133,10 @@ Date DateCreation::GetMaximumDate(const Date &d1, const Date &d2)
 	{
 		return d1;
 	}
+
 }
 
-bool DateCreation::IsMinimumDate(Date &d1, Date &d2)
+bool DateCreation::IsMinimumDate(Date& d1, Date& d2)
 {
 	bool check = false;
 
@@ -149,7 +152,7 @@ bool DateCreation::IsMinimumDate(Date &d1, Date &d2)
 	}
 }
 
-bool DateCreation::IsMaximumDate(Date &d1, Date &d2)
+bool DateCreation::IsMaximumDate(Date& d1, Date& d2)
 {
 	bool check = false;
 
@@ -165,39 +168,37 @@ bool DateCreation::IsMaximumDate(Date &d1, Date &d2)
 	}
 }
 
-bool DateCreation::IsContains(vector<Date> &dates, Date &d1)
+bool DateCreation::IsContains(vector<Date>& dates, Date& d1)
 {
 	bool check = false;
-	int datesSize = dates.size();
-	for (int i = 0; i < datesSize; i++)
+	int datessize = dates.size();
+	for (int i = 0; i < datessize; i++)
 	{
 		if (dates[i].year == d1.year && dates[i].month == d1.month && dates[i].day == d1.day)
 		{
-			check = true;
-			break;
+			check = true; break;
 		}
 	}
 
 	return check;
 }
 
-Date DateCreation::DateIncrementByMonth(Date &d, int &numberOfMonths)
+Date DateCreation::DateIncrementByMonth(Date& d, int& numberOfMonths)
 {
 	Date date;
 	date.day = d.day;
 	date.month = d.month;
 	date.year = d.year;
 	int i = 1;
-	for (i = 1; i <= numberOfMonths; i++)
-	{
+	for(i = 1; i <=  numberOfMonths; i++){
 		date = DateIncrementByMonth(date);
 	}
 	return date;
 }
 
-Date DateCreation::DateIncrementByMonth(Date &d)
+Date DateCreation::DateIncrementByMonth(Date& d)
 {
-
+	
 	Date d2;
 	d2.day = d.day;
 	d2.month = d.month;
@@ -207,77 +208,77 @@ Date DateCreation::DateIncrementByMonth(Date &d)
 	{
 	case 1:
 		d2.month = d2.month + 1;
-		if (d2.day > 28)
+		if(d2.day > 28)
 		{
 			d2.day = 28;
 		}
 		break;
 	case 2:
 		d2.month = d2.month + 1;
-		if (d2.day > 31)
+		if(d2.day > 31)
 		{
 			d2.day = 31;
 		}
 		break;
 	case 3:
 		d2.month = d2.month + 1;
-		if (d2.day > 30)
+		if(d2.day > 30)
 		{
 			d2.day = 30;
 		}
 		break;
 	case 4:
 		d2.month = d2.month + 1;
-		if (d2.day > 31)
+		if(d2.day > 31)
 		{
 			d2.day = 31;
 		}
 		break;
 	case 5:
 		d2.month = d2.month + 1;
-		if (d2.day > 30)
+		if(d2.day > 30)
 		{
 			d2.day = 30;
 		}
 		break;
 	case 6:
 		d2.month = d2.month + 1;
-		if (d2.day > 31)
+		if(d2.day > 31)
 		{
 			d2.day = 31;
 		}
 		break;
 	case 7:
 		d2.month = d2.month + 1;
-		if (d2.day > 31)
+		if(d2.day > 31)
 		{
 			d2.day = 31;
 		}
 		break;
 	case 8:
 		d2.month = d2.month + 1;
-		if (d2.day > 30)
+		if(d2.day > 30)
 		{
 			d2.day = 30;
 		}
 		break;
 	case 9:
 		d2.month = d2.month + 1;
-		if (d2.day > 31)
+		if(d2.day > 31)
 		{
 			d2.day = 31;
 		}
 		break;
 	case 10:
 		d2.month = d2.month + 1;
-		if (d2.day > 30)
+		if(d2.day > 30)
 		{
 			d2.day = 30;
 		}
 		break;
 	case 11:
 		d2.month = d2.month + 1;
-		if (d2.day > 31)
+		if(d2.day > 31)
 		{
 			d2.day = 31;
 		}
@@ -285,7 +286,7 @@ Date DateCreation::DateIncrementByMonth(Date &d)
 	case 12:
 		d2.month = 1;
 		d2.year = d2.year + 1;
-		if (d2.day > 31)
+		if(d2.day > 31)
 		{
 			d2.day = 31;
 		}
@@ -295,31 +296,34 @@ Date DateCreation::DateIncrementByMonth(Date &d)
 	return d2;
 }
 
-Date DateCreation::DateIncrementByYears(Date &d1, int &numberOfYears)
+Date DateCreation::DateIncrementByYears(Date& d1, int& numberOfYears)
 {
 	Date d2;
 	d2.day = d1.day;
 	d2.month = d1.month;
 	d2.year = d1.year + numberOfYears;
 	return d2;
+
 }
 
-Date DateCreation::DateIncrementByYears(Date &d1)
+Date DateCreation::DateIncrementByYears(Date& d1)
 {
 	Date d2;
 	d2.day = 1;
 	d2.month = 1;
 	d2.year = d1.year + 1;
 	return d2;
+
 }
 
-void DateCreation::SortDate(vector<Date> &dates)
-{
-	int datesSize = dates.size();
 
-	for (int i = 0; i < datesSize - 1; i++)
+void DateCreation::SortDate(vector<Date>& dates)
+{
+	int datessize = dates.size();
+
+	for (int i = 0; i < datessize - 1; i++)
 	{
-		for (int j = i + 1; j < datesSize; j++)
+		for (int j = i + 1; j < datessize; j++)
 		{
 			if (IsMaximumDate(dates[i], dates[j]) == true)
 			{
@@ -331,42 +335,45 @@ void DateCreation::SortDate(vector<Date> &dates)
 	}
 }
 
-void DateCreation::GetDateList(vector<InputDeckStruct> &decks,
-							   Date &StopDate, vector<Date> &equipmentsScheduleDates, bool isMonthly)
+
+void DateCreation::GetDateList(vector<InputDeckStruct>& decks,
+Date& StopDate, vector<Date>& equipmentsScheduleDates, bool isMonthly)
 {
 
 	int size = decks.size();
 	Date StartDate;
 	std::vector<Date> dateTimesTemp;
 	int nEquipmentsScheduleDates = equipmentsScheduleDates.size();
-	// int& numberOfYears
-	// std::cout << "size: " << size << std::endl;
+	//int& numberOfYears
+	//std::cout << "size: " << size << std::endl;
 
-	// Well OSDs
+	//Well OSDs
 	for (int i = 0; i < size; i++)
 	{
-		// std::cout << decks->Date_1P_1C.day << "/" << decks->Date_1P_1C.month << "/" << decks->Date_1P_1C.year << std::endl;
+		//std::cout << decks->Date_1P_1C.day << "/" << decks->Date_1P_1C.month << "/" << decks->Date_1P_1C.year << std::endl;
 
 		if (IsContains(dateTimesTemp, decks[i].Date_1P_1C) == false)
 			dateTimesTemp.push_back(decks[i].Date_1P_1C);
 
-		// std::cout << decks->Date_2P_2C.day << "/" << decks->Date_2P_2C.month << "/" << decks->Date_2P_2C.year << std::endl;
+		//std::cout << decks[i].Date_2P_2C.day << "/" << decks[i].Date_2P_2C.month << "/" << decks[i].Date_2P_2C.year << std::endl;
 
 		if (IsContains(dateTimesTemp, decks[i].Date_2P_2C) == false)
 			dateTimesTemp.push_back(decks[i].Date_2P_2C);
 
-		// std::cout << decks->Date_3P_3C.day << "/" << decks->Date_3P_3C.month << "/" << decks->Date_3P_3C.year << std::endl;
+		//std::cout << decks->Date_3P_3C.day << "/" << decks->Date_3P_3C.month << "/" << decks->Date_3P_3C.year << std::endl;
 
 		if (IsContains(dateTimesTemp, decks[i].Date_3P_3C) == false)
 			dateTimesTemp.push_back(decks[i].Date_3P_3C);
-
-		// std::cout << dateTimes[i].day << "/" << dateTimes[i].month << "/" << dateTimes[i].year << std::endl;
+	
+		 //std::cout << dateTimes[i].day << "/" << dateTimes[i].month << "/" << dateTimes[i].year << std::endl;
 	}
 
-	// Equipments Schedules Dates
+	//std::cout << "Level 1" << std::endl;
+
+	//Equipments Schedules Dates
 	/* for (int i = 0; i < nEquipmentsScheduleDates; i++)
 	{
-
+		
 		if (IsContains(dateTimesTemp, equipmentsScheduleDates[i]) == false)
 			dateTimesTemp.push_back(equipmentsScheduleDates[i]);
 	} */
@@ -378,30 +385,30 @@ void DateCreation::GetDateList(vector<InputDeckStruct> &decks,
 		StartDate = GetMinimumDate(StartDate, dateTimesTemp[i]);
 	}
 
+	//std::cout << "Level 2" << std::endl;
+
 	Date d = StartDate;
-	// StopDate = DateIncrementByYears(StartDate,  numberOfYears);
+	//StopDate = DateIncrementByYears(StartDate,  numberOfYears);
 
 	dateTimes.clear();
 
 	int yearIncrement = 1;
 
-	while (IsMinimumDate(d, StopDate) == true)
-	{
+	while (IsMinimumDate(d, StopDate) == true) {
 
-		if (IsContains(dateTimes, d) == false)
-		{
+		if (IsContains(dateTimes, d) == false){
 			dateTimes.push_back(d);
 		}
 
-		if (isMonthly)
-		{
+		if(isMonthly){
 			d = DateIncrementByMonth(d);
-		}
-		else
-		{
+		}else{
 			d = DateIncrementByYears(d);
 		}
+
 	}
+
+	//std::cout << "Level 3" << std::endl;
 
 	/* dateTimesTempsize = dateTimesTemp.size();
 	for (int i = 0; i < dateTimesTempsize; i++)
@@ -411,21 +418,25 @@ void DateCreation::GetDateList(vector<InputDeckStruct> &decks,
 			dateTimes.push_back(dateTimesTemp[i]);
 		}
 	} */
+	
 
 	SortDate(dateTimes);
 
-	dateTimesTempsize = dateTimes.size();
-	std::cout << dateTimes[0].day << "/" << dateTimes[0].month
-			  << "/" << dateTimes[0].year << std::endl;
+	//std::cout << "Level 4" << std::endl;
 
-	std::cout << dateTimes[dateTimesTempsize - 1].day
-			  << "/" << dateTimes[dateTimesTempsize - 1].month << "/"
-			  << dateTimes[dateTimesTempsize - 1].year << std::endl;
+	dateTimesTempsize = dateTimes.size();
+	std::cout << "dateTimesTempsize" << dateTimesTempsize << std::endl;
+	std::cout << to_string(dateTimes[0].day)  << "/" << to_string(dateTimes[0].month)
+	<< "/" << to_string(dateTimes[0].year) << std::endl;
+
+	std::cout << to_string(dateTimes[dateTimesTempsize-1].day) 
+	<< "/" << to_string(dateTimes[dateTimesTempsize-1].month) << "/" 
+	<< to_string(dateTimes[dateTimesTempsize-1].year) << std::endl;
 
 	/* cout << ""  << endl;
 	cout << ""  << endl;
 
-
+	
 	for (int i = 0; i < dateTimesTempsize; i++)
 	{
 		cout << dateTimes[i].day << endl;
@@ -433,9 +444,11 @@ void DateCreation::GetDateList(vector<InputDeckStruct> &decks,
 		cout <<  dateTimes[i].year << endl;
 		cout << dateTimes[i].day << "/" << dateTimes[i].month << "/" << dateTimes[i].year << endl;
 	}  */
+
 }
 
-int DateCreation::DaysInMonth(int &month)
+
+int DateCreation::DaysInMonth(int& month)
 {
 	int days = 0;
 	switch (month)
@@ -481,7 +494,7 @@ int DateCreation::DaysInMonth(int &month)
 	return days;
 }
 
-int DateCreation::DateDiff_TotalDays(Date &d1, Date &d2)
+int DateCreation::DateDiff_TotalDays(Date& d1, Date& d2)
 {
 	/* int days = 0;
 
@@ -528,45 +541,43 @@ int DateCreation::DateDiff_TotalDays(Date &d1, Date &d2)
 	} */
 
 	// Define two dates
-	tm date1 = {0};					// Initialize with all fields set to 0
-	date1.tm_year = d2.year - 1900; // Year since 1900 (2024 - 1900)
-	date1.tm_mon = d2.month - 1;	// Month (0 - 11)
-	date1.tm_mday = d2.day;			// Day of the month (1 - 31)
+    tm date1 = {0}; // Initialize with all fields set to 0
+    date1.tm_year = d2.year - 1900; // Year since 1900 (2024 - 1900)
+    date1.tm_mon = d2.month - 1;    // Month (0 - 11)
+    date1.tm_mday = d2.day;  // Day of the month (1 - 31)
 
-	std::tm date2 = {0};			// Initialize with all fields set to 0
-	date2.tm_year = d1.year - 1900; // Year since 1900 (2024 - 1900)
-	date2.tm_mon = d1.month - 1;	// Month (0 - 11)
-	date2.tm_mday = d1.day;			// Day of the month (1 - 31)
+    std::tm date2 = {0}; // Initialize with all fields set to 0
+    date2.tm_year = d1.year - 1900; // Year since 1900 (2024 - 1900)
+    date2.tm_mon = d1.month - 1;    // Month (0 - 11)
+    date2.tm_mday = d1.day;  // Day of the month (1 - 31)
 
-	// Convert std::tm to time_t
-	std::time_t time1 = std::mktime(&date1);
-	std::time_t time2 = std::mktime(&date2);
+    // Convert std::tm to time_t
+    std::time_t time1 = std::mktime(&date1);
+    std::time_t time2 = std::mktime(&date2);
 
-	// Calculate the difference in seconds
-	double difference = std::difftime(time2, time1);
+    // Calculate the difference in seconds
+    double difference = std::difftime(time2, time1);
 
-	// Convert seconds to days
-	int days_difference = static_cast<int>(difference) / (60 * 60 * 24);
+    // Convert seconds to days
+    int days_difference = static_cast<int>(difference) / (60 * 60 * 24);
 
-	return days_difference;
+	return  days_difference;
 }
 
-void DateCreation::GetDaysList(Date &StartDate)
+void DateCreation::GetDaysList(Date& StartDate)
 {
 	int days = 0;
 	int dateTimessize = dateTimes.size();
 	for (int i = 0; i < dateTimessize; i++)
 	{
 		days = DateDiff_TotalDays(dateTimes[i], StartDate);
-		if (i > 0)
-		{
-			double a = DateDiff_TotalDays(dateTimes[i], dateTimes[i - 1]);
-			if (a <= 0)
-			{
+		if(i > 0){
+			double a =  DateDiff_TotalDays(dateTimes[i], dateTimes[i-1]);
+			if(a <= 0){
 				break;
 			}
 		}
-		// cout << "days: " << days << endl;
+		//cout << "days: " << days << endl;
 		daysList.push_back(days);
 	}
 }

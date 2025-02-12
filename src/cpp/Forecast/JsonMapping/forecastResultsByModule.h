@@ -34,11 +34,11 @@ std::vector<ForecastResultsByModule> parseForecastResults(const json &j)
         ForecastResultsByModule result;
 
         result.forecastResultsId = item["forecastResultsId"].get<std::string>();
-        result.ModuleName = item["ModuleName"].get<std::string>();
-        result.FacilityName = item["FacilityName"].get<std::string>();
-        result.ScenarioName = item["ScenarioName"].get<std::string>();
-        result.ModuleKey = item["ModuleKey"].get<std::string>();
-        result.SolutionSpace = item["SolutionSpace"].get<std::string>();
+        result.moduleName = item["moduleName"].get<std::string>();
+        result.facilityName = item["facilityName"].get<std::string>();
+        result.scenarioName = item["scenarioName"].get<std::string>();
+        result.moduleKey = item["moduleKey"].get<std::string>();
+        result.solutionSpace = item["solutionSpace"].get<std::string>();
         result.forecastResults = item["forecastResults"].get<std::string>();
         result.forecastInputId = item["forecastInputId"].get<std::string>();
 

@@ -17,11 +17,11 @@ export function GetForecastTreeview(forecastResultsByModule: any): any {
   const treeModelList: Object[] = [];
   const delimeter = '@#$%';
 
-  const forecastSolutionSpacesNames = Object.keys(forecastResultsByModule);
-  const forecastSolutionSpace_Potential =
-    forecastResultsByModule[forecastSolutionSpacesNames[0]];
-  const _scenarioObjectNames = Object.keys(forecastSolutionSpace_Potential);
-  const scenarios = forecastSolutionSpace_Potential;
+  const forecastsolutionSpacesNames = Object.keys(forecastResultsByModule);
+  const forecastsolutionSpace_Potential =
+    forecastResultsByModule[forecastsolutionSpacesNames[0]];
+  const _scenarioObjectNames = Object.keys(forecastsolutionSpace_Potential);
+  const scenarios = forecastsolutionSpace_Potential;
   const facilities = Object.keys(scenarios[_scenarioObjectNames[0]]) as any;
   const facilityCount = facilities.length;
 
@@ -113,7 +113,7 @@ export function GetChartTreeModel(
 ): object {
   facScenario.id = v4();
 
-  const { uniqueYears } = GetModuleNamesAndDates(facScenario);
+  const { uniqueYears } = GetmoduleNamesAndDates(facScenario);
 
   const { treeModel } = GetForecastTreeviwModel(scenerioName, facScenario);
 
@@ -130,10 +130,10 @@ export function GetChartOrganizedModel(
   let key_dates: string[] = [];
   facScenario.id = v4();
 
-  const { uniqueModuleNames, uniqueDates, uniqueDates_Year_Month_Day } =
-    GetModuleNamesAndDates(facScenario);
+  const { uniquemoduleNames, uniqueDates, uniqueDates_Year_Month_Day } =
+    GetmoduleNamesAndDates(facScenario);
 
-  const { module_Key_Id } = GetModuleKey(scenerioName, facScenario);
+  const { module_Key_Id } = GetmoduleKey(scenerioName, facScenario);
 
   for (let i = 0; i < facScenario.facilities.length; i++) {
     const fac = facScenario.facilities[i];
@@ -148,8 +148,8 @@ export function GetChartOrganizedModel(
 
       const forecastingObject: object[] = [];
 
-      for (let j = 0; j < uniqueModuleNames.length; j++) {
-        const moduleName = uniqueModuleNames[j];
+      for (let j = 0; j < uniquemoduleNames.length; j++) {
+        const moduleName = uniquemoduleNames[j];
 
         var foundModule = fac.modules.find(
           (x) => x.title === moduleName
@@ -250,8 +250,8 @@ function CloneObject() {
   return model;
 }
 
-function GetModuleNamesAndDates(facScenario: ForecastScenarioCase) {
-  const uniqueModuleNames: string[] = [];
+function GetmoduleNamesAndDates(facScenario: ForecastScenarioCase) {
+  const uniquemoduleNames: string[] = [];
   const uniqueDates: string[] = [];
   const uniqueYears: number[] = [];
   const uniqueDates_Year_Month_Day = {} as any;
@@ -262,8 +262,8 @@ function GetModuleNamesAndDates(facScenario: ForecastScenarioCase) {
 
     for (let k = 0; k < facility.modules.length; k++) {
       const module = facility.modules[k];
-      if (uniqueModuleNames.find((x) => x === module.title) == null) {
-        uniqueModuleNames.push(module.title);
+      if (uniquemoduleNames.find((x) => x === module.title) == null) {
+        uniquemoduleNames.push(module.title);
       }
       if (n == 1) {
         n++;
@@ -287,7 +287,7 @@ function GetModuleNamesAndDates(facScenario: ForecastScenarioCase) {
   }
 
   return {
-    uniqueModuleNames,
+    uniquemoduleNames,
     uniqueDates,
     uniqueDates_Year_Month_Day,
     uniqueYears,
@@ -340,7 +340,7 @@ function GetForecastTreeviwModel(
   return { treeModel, module_Key_Id };
 }
 
-function GetModuleKey(
+function GetmoduleKey(
   scenerioName: string,
   facScenario: ForecastScenarioCase
 ): any {

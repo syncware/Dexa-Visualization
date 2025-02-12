@@ -239,7 +239,7 @@ export async function Get_ForecastResult_Table_Data(
   return forecastTables;
 }
 
-export async function Get_ForecastResult_Table_Data_By_ScenarioName(
+export async function Get_ForecastResult_Table_Data_By_scenarioName(
   scenarioName: string,
   forecastResult: any
 ): Promise<any> {

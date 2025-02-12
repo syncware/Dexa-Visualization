@@ -58,8 +58,8 @@ const ChartData_Validation = (
     if (!req.body.forecastResultsIds) {
       errors.push('Missing forecastResultsIds field');
     }
-    if (!req.body.forecastSolutionSpaces) {
-      errors.push('Missing forecastSolutionSpaces field');
+    if (!req.body.forecastsolutionSpaces) {
+      errors.push('Missing forecastsolutionSpaces field');
     }
     if (!req.body.selectedVariables) {
       errors.push('Missing selectedVariables field');

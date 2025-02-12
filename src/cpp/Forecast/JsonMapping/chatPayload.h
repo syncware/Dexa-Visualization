@@ -1,6 +1,5 @@
 #pragma once
 
-// #include "node_modules/node-addon-api/napi.h"
 #include <iostream>
 #include <fstream>
 #include <stdio.h>

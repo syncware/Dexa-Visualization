@@ -198,16 +198,16 @@ const tabulateWellsSameDirectory = (
   scenarioIndex: number
 ) => {
   const wells = [] as any[];
-  const nSolutionSpaces = solutionSpacesCase.length;
+  const nsolutionSpaces = solutionSpacesCase.length;
   const nFacilities = facilitiesNames.length;
 
   for (let facilityIndex = 0; facilityIndex < nFacilities; facilityIndex++) {
-    const moduleNames = getModuleNames(monthlyReport, facilityIndex);
+    const moduleNames = getmoduleNames(monthlyReport, facilityIndex);
     const nModules = moduleNames.length;
     for (let moduleIndex = 0; moduleIndex < nModules; moduleIndex++) {
       for (
         let solutionSpaceIndex = 0;
-        solutionSpaceIndex < nSolutionSpaces;
+        solutionSpaceIndex < nsolutionSpaces;
         solutionSpaceIndex++
       ) {
         const moduleResults = getModuleResults(
@@ -259,7 +259,7 @@ const createAllForecastResultsTable = (
 ) => {
   const tab = '@#$%';
   const nWells = wells.length;
-  const nSolutionSpacesType = solutionSpacesType.length - 1;
+  const nsolutionSpacesType = solutionSpacesType.length - 1;
 
   const table = {} as any;
   const table2 = [] as any[];
@@ -269,7 +269,7 @@ const createAllForecastResultsTable = (
   let rowKeyIndex = 0;
   for (let i = 0; i < nWells; i++) {
     uu = uu + 1;
-    if (uu > nSolutionSpacesType) {
+    if (uu > nsolutionSpacesType) {
       uu = 0;
     }
 
@@ -394,11 +394,11 @@ const getModuleResults = (
   scenarioIndex: number,
   solutionSpaceIndex: number
 ) => {
-  const forecastSolutionSpacesNames = Object.keys(monthlyReport);
-  const firstSolutionSpace =
-    monthlyReport[forecastSolutionSpacesNames[solutionSpaceIndex]];
-  const scenarioNames = Object.keys(firstSolutionSpace);
-  const facilities = firstSolutionSpace[scenarioNames[scenarioIndex]];
+  const forecastsolutionSpacesNames = Object.keys(monthlyReport);
+  const firstsolutionSpace =
+    monthlyReport[forecastsolutionSpacesNames[solutionSpaceIndex]];
+  const scenarioNames = Object.keys(firstsolutionSpace);
+  const facilities = firstsolutionSpace[scenarioNames[scenarioIndex]];
   const facilitiesNames = Object.keys(facilities);
   const wellNames = Object.keys(facilities[facilitiesNames[facilityIndex]]);
   const facility = facilities[facilitiesNames[facilityIndex]] as any;
@@ -406,11 +406,11 @@ const getModuleResults = (
   return moduleResults;
 };
 
-const getModuleNames = (monthlyReport: any, facilityIndex: number) => {
-  const forecastSolutionSpacesNames = Object.keys(monthlyReport);
-  const firstSolutionSpace = monthlyReport[forecastSolutionSpacesNames[0]];
-  const scenarioNames = Object.keys(firstSolutionSpace);
-  const facilities = firstSolutionSpace[scenarioNames[0]];
+const getmoduleNames = (monthlyReport: any, facilityIndex: number) => {
+  const forecastsolutionSpacesNames = Object.keys(monthlyReport);
+  const firstsolutionSpace = monthlyReport[forecastsolutionSpacesNames[0]];
+  const scenarioNames = Object.keys(firstsolutionSpace);
+  const facilities = firstsolutionSpace[scenarioNames[0]];
   const facilitiesNames = Object.keys(facilities);
   const wellNames = Object.keys(facilities[facilitiesNames[facilityIndex]]);
   return wellNames;
@@ -419,21 +419,21 @@ const getModuleNames = (monthlyReport: any, facilityIndex: number) => {
 const getFacilitiesNames = (modules: any[], scenarioAttribute: string) => {
   const uniqueObjects = fetchUniqueItems(modules, scenarioAttribute);
   return uniqueObjects.map((row: any) => {
-    return row.FacilityName;
+    return row.facilityName;
   });
 };
 
-const getScenarioNames = (modules: any[], scenarioAttribute: string) => {
+const getscenarioNames = (modules: any[], scenarioAttribute: string) => {
   const uniqueObjects = fetchUniqueItems(modules, scenarioAttribute);
   return uniqueObjects.map((row: any) => {
-    return row.ScenarioName;
+    return row.scenarioName;
   });
 };
 
-const getSolutionSpaces = (modules: any[], scenarioAttribute: string) => {
+const getsolutionSpaces = (modules: any[], scenarioAttribute: string) => {
   const uniqueObjects = fetchUniqueItems(modules, scenarioAttribute);
   return uniqueObjects.map((row: any) => {
-    return row.SolutionSpace;
+    return row.solutionSpace;
   });
 };
 
@@ -442,36 +442,36 @@ export const getTransposedForecastReport = async (
   forecastResultsByForecastId: any[],
   isMonthly: boolean
 ) => {
-  const forecastSolutionSpacesNames = getSolutionSpaces(
+  const forecastsolutionSpacesNames = getsolutionSpaces(
     forecastResultsByForecastId,
-    'SolutionSpace'
+    'solutionSpace'
   );
-  const scenarioNames = getScenarioNames(
+  const scenarioNames = getscenarioNames(
     forecastResultsByForecastId,
-    'ScenarioName'
+    'scenarioName'
   );
   const facilitiesNames = getFacilitiesNames(
     forecastResultsByForecastId,
-    'FacilityName'
+    'facilityName'
   );
   const monthlyReport = await GetStructuredForecastResultsByForecastId(
     forecastResultsByForecastId,
     scenarioNames,
-    forecastSolutionSpacesNames,
+    forecastsolutionSpacesNames,
     facilitiesNames,
     isMonthly
   );
   const scenarios = {} as any;
   for (let i = 0; i < scenarioNames.length; i++) {
     const wells = tabulateWellsSameDirectory(
-      forecastSolutionSpacesNames,
+      forecastsolutionSpacesNames,
       facilitiesNames,
       monthlyReport,
       i
     );
     const table = createAllForecastResultsTable(
       wells,
-      forecastSolutionSpacesNames,
+      forecastsolutionSpacesNames,
       scenarioNames[i],
       isMonthly
     );

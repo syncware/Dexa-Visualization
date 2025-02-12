@@ -124,10 +124,10 @@ public:
 												  int nWrappedDecks);
 	vector<Prioritization> getWrappedNodalPrioritization(Napi::Array wrappedNodalPrioritization,
 													   int nWrappedNodalPrioritization, Napi::Env &env);
-	vector<string> GetForecastSolutionSpaces(Napi::Array &wrappedForecastSolutionSpaces,
-											 int nForecastSolutionSpaces, Napi::Env &env);
-	vector<bool> GetForecastSolutionSpacesIsDURConstrained(Napi::Array &wrappedForecastSolutionSpacesIsDURConstrained,
-														   int nForecastSolutionSpacesIsDURConstrained, Napi::Env &env);
+	vector<string> GetForecastsolutionSpaces(Napi::Array &wrappedForecastsolutionSpaces,
+											 int nForecastsolutionSpaces, Napi::Env &env);
+	vector<bool> GetForecastsolutionSpacesIsDURConstrained(Napi::Array &wrappedForecastsolutionSpacesIsDURConstrained,
+														   int nForecastsolutionSpacesIsDURConstrained, Napi::Env &env);
 	vector<FacilityStructExternal> GetCrudeEquipmentCapacitiesSheetData(Napi::Array &wrappedDecks,
 																		int nEquipmentCapacities, Napi::Env &env);
 	json NapiObjectToJson(const Napi::Object &obj);
@@ -144,7 +144,7 @@ public:
 										const map<string, map<string, map<std::string, vector<YObj>>>> &nestedMap);
 	json NapiValueToJson(const Napi::Value &value);
 	json ConvertNapiArrayToJsonString(const Napi::Array &array);
-	ChatInputPayload ConvertToChatInputPayload(const Napi::Object &obj);
+	ChartInputPayload ConvertToChartInputPayload(const Napi::Object &obj);
 	ForecastResultsByModule ConvertToForecastResultsByModule(const Napi::Object &obj);
 	std::vector<ForecastResultsByModule> ConvertArrayToVector(const Napi::Array &arr);
 
@@ -265,9 +265,9 @@ Napi::Object ReportJSON::ConvertMapToNapiObject(Napi::Env env,
 	return result;
 }
 
-ChatInputPayload ReportJSON::ConvertToChatInputPayload(const Napi::Object &obj)
+ChartInputPayload ReportJSON::ConvertToChartInputPayload(const Napi::Object &obj)
 {
-	ChatInputPayload payload;
+	ChartInputPayload payload;
 
 	// Convert forecastResultsIds
 	Napi::Array forecastResultsIdsArray = obj.Get("forecastResultsIds").As<Napi::Array>();
@@ -293,11 +293,11 @@ ChatInputPayload ReportJSON::ConvertToChatInputPayload(const Napi::Object &obj)
 	// Convert shouldAggregate
 	payload.shouldAggregate = obj.Get("shouldAggregate").As<Napi::Boolean>();
 
-	// Convert forecastSolutionSpaces
-	Napi::Array forecastSolutionSpacesArray = obj.Get("forecastSolutionSpaces").As<Napi::Array>();
-	for (size_t i = 0; i < forecastSolutionSpacesArray.Length(); i++)
+	// Convert forecastsolutionSpaces
+	Napi::Array forecastsolutionSpacesArray = obj.Get("forecastsolutionSpaces").As<Napi::Array>();
+	for (size_t i = 0; i < forecastsolutionSpacesArray.Length(); i++)
 	{
-		payload.forecastSolutionSpaces.push_back(forecastSolutionSpacesArray.Get(i).As<Napi::String>());
+		payload.forecastsolutionSpaces.push_back(forecastsolutionSpacesArray.Get(i).As<Napi::String>());
 	}
 
 	return payload;
@@ -307,11 +307,11 @@ ForecastResultsByModule ReportJSON::ConvertToForecastResultsByModule(const Napi:
 {
 	ForecastResultsByModule result;
 	result.forecastResultsId = obj.Get("forecastResultsId").As<Napi::String>();
-	result.ModuleName = obj.Get("ModuleName").As<Napi::String>();
-	result.FacilityName = obj.Get("FacilityName").As<Napi::String>();
-	result.ScenarioName = obj.Get("ScenarioName").As<Napi::String>();
-	result.ModuleKey = obj.Get("ModuleKey").As<Napi::String>();
-	result.SolutionSpace = obj.Get("SolutionSpace").As<Napi::String>();
+	result.moduleName = obj.Get("moduleName").As<Napi::String>();
+	result.facilityName = obj.Get("facilityName").As<Napi::String>();
+	result.scenarioName = obj.Get("scenarioName").As<Napi::String>();
+	result.moduleKey = obj.Get("moduleKey").As<Napi::String>();
+	result.solutionSpace = obj.Get("solutionSpace").As<Napi::String>();
 	result.forecastResults = obj.Get("forecastResults").As<Napi::String>();
 	result.forecastInputId = obj.Get("forecastInputId").As<Napi::String>();
 	return result;
@@ -333,27 +333,27 @@ Napi::Object ReportJSON::PlotChartAsync(Napi::Env env,
 										const Napi::Object &wrappedChatInputData)
 {
 
-	std::cout << "chatInputPayload read befroe " << std::endl;
-	ChatInputPayload chatInputPayload = ConvertToChatInputPayload(wrappedChatInputData);
-	std::cout << "chatInputPayload read after " << std::endl;
+	std::cout << "chartInputPayload read befroe " << std::endl;
+	ChartInputPayload chartInputPayload = ConvertToChartInputPayload(wrappedChatInputData);
+	std::cout << "chartInputPayload read after " << std::endl;
 	std::cout << "forecastResultsByModule read before" << std::endl;
 	vector<ForecastResultsByModule> forecastResultsByModule =
 		ConvertArrayToVector(wrappedForecastResults);
 	std::cout << "forecastResultsByModule read after" << std::endl;
 
-	vector<string> selectedModulePaths = chatInputPayload.selectedModulePaths;
-	vector<string> selectedVariables = chatInputPayload.selectedVariables;
+	vector<string> selectedModulePaths = chartInputPayload.selectedModulePaths;
+	vector<string> selectedVariables = chartInputPayload.selectedVariables;
 	bool isMonthly = false;
-	vector<string> forecastSolutionSpaceNames = chatInputPayload.forecastSolutionSpaces;
-	string forecastResultsId = chatInputPayload.forecastResultsIds[0];
-	bool shouldAggregate = chatInputPayload.shouldAggregate;
+	vector<string> forecastSolutionSpaceNames = chartInputPayload.forecastsolutionSpaces;
+	string forecastResultsId = chartInputPayload.forecastResultsIds[0];
+	bool shouldAggregate = chartInputPayload.shouldAggregate;
 
 	map<string, map<string, map<string, vector<YObj>>>> _scenarioObjects;
 
-	json jsonChatDataOutput;
+	json jsonChartDataOutput;
 	Napi::Object napiObject = Napi::Object::New(env);
 
-	if (chatInputPayload.shouldAggregate == false)
+	if (chartInputPayload.shouldAggregate == false)
 	{
 		_scenarioObjects =
 			allWellsYearlyResultNewAsyncT.chartDataByModulesOrAggregate(
@@ -546,7 +546,7 @@ vector<Prioritization> ReportJSON::getWrappedNodalPrioritization(Napi::Array wra
 	{
 		Napi::Object wrappedTypeOfPrioritization = ((Napi::Value)wrappedNodalPrioritization[j]).As<Napi::Object>();
 		Prioritization prioritization;
-		prioritization.FacilityName = (wrappedTypeOfPrioritization.Get(Napi::String::New(env, "productionEquipment"))).As<Napi::String>();
+		prioritization.facilityName = (wrappedTypeOfPrioritization.Get(Napi::String::New(env, "productionEquipment"))).As<Napi::String>();
 		prioritization.typeOfPrioritization = (wrappedTypeOfPrioritization.Get(Napi::String::New(env, "typeOfPrioritization"))).As<Napi::String>();
 		prioritization.methodOfPrioritization = (wrappedTypeOfPrioritization.Get(Napi::String::New(env, "methodOfPrioritization"))).As<Napi::String>();
 		prioritization.targetFluid = (wrappedTypeOfPrioritization.Get(Napi::String::New(env, "targetFluid"))).As<Napi::String>();
@@ -727,35 +727,35 @@ vector<InputDeckStruct> ReportJSON::getDecks(Napi::Array &wrappedDecks,
 	return InputDecks;
 }
 
-vector<string> ReportJSON::GetForecastSolutionSpaces(Napi::Array &wrappedForecastSolutionSpaces,
-													 int nForecastSolutionSpaces, Napi::Env &env)
+vector<string> ReportJSON::GetForecastsolutionSpaces(Napi::Array &wrappedForecastsolutionSpaces,
+													 int nForecastsolutionSpaces, Napi::Env &env)
 {
 
-	vector<string> forecastSolutionSpaces;
+	vector<string> forecastsolutionSpaces;
 
-	for (int i = 0; i < nForecastSolutionSpaces; i++)
+	for (int i = 0; i < nForecastsolutionSpaces; i++)
 	{
-		string forecastSolutionSpace = ((Napi::Value)wrappedForecastSolutionSpaces[i]).As<Napi::String>();
-		inputdeck.ToLower(forecastSolutionSpace);
-		forecastSolutionSpaces.push_back(forecastSolutionSpace);
+		string forecastsolutionSpace = ((Napi::Value)wrappedForecastsolutionSpaces[i]).As<Napi::String>();
+		inputdeck.ToLower(forecastsolutionSpace);
+		forecastsolutionSpaces.push_back(forecastsolutionSpace);
 	}
 
-	return forecastSolutionSpaces;
+	return forecastsolutionSpaces;
 }
 
-vector<bool> ReportJSON::GetForecastSolutionSpacesIsDURConstrained(Napi::Array &wrappedForecastSolutionSpacesIsDURConstrained,
-																   int nForecastSolutionSpacesIsDURConstrained, Napi::Env &env)
+vector<bool> ReportJSON::GetForecastsolutionSpacesIsDURConstrained(Napi::Array &wrappedForecastsolutionSpacesIsDURConstrained,
+																   int nForecastsolutionSpacesIsDURConstrained, Napi::Env &env)
 {
 
-	vector<bool> forecastSolutionSpacesIsDURConstrained;
+	vector<bool> forecastsolutionSpacesIsDURConstrained;
 
-	for (int i = 0; i < nForecastSolutionSpacesIsDURConstrained; i++)
+	for (int i = 0; i < nForecastsolutionSpacesIsDURConstrained; i++)
 	{
-		bool forecastSolutionSpaceIsDURConstrained = ((Napi::Value)wrappedForecastSolutionSpacesIsDURConstrained[i]).As<Napi::Boolean>();
-		forecastSolutionSpacesIsDURConstrained.push_back(forecastSolutionSpaceIsDURConstrained);
+		bool forecastsolutionSpaceIsDURConstrained = ((Napi::Value)wrappedForecastsolutionSpacesIsDURConstrained[i]).As<Napi::Boolean>();
+		forecastsolutionSpacesIsDURConstrained.push_back(forecastsolutionSpaceIsDURConstrained);
 	}
 
-	return forecastSolutionSpacesIsDURConstrained;
+	return forecastsolutionSpacesIsDURConstrained;
 }
 
 vector<InternalExternalEquipmentName> ReportJSON::GetInternalExternalEquipmentNames(Napi::Array &wrappedDecks,
@@ -1179,7 +1179,7 @@ vector<ForecastResult> ReportJSON::GetForecastProfiles(Napi::Array &wrappedForec
 		deck.WGR = (wrappedForecastProfile.Get(Napi::String::New(env, "WGR"))).As<Napi::Number>();
 		deck.Cum_Oil_Prod = (wrappedForecastProfile.Get(Napi::String::New(env, "cumOilProd"))).As<Napi::Number>();
 		deck.Cum_Gas_Prod = (wrappedForecastProfile.Get(Napi::String::New(env, "cumGasProd"))).As<Napi::Number>();
-		deck.ModuleName = (wrappedForecastProfile.Get(Napi::String::New(env, "moduleName"))).As<Napi::String>();
+		deck.moduleName = (wrappedForecastProfile.Get(Napi::String::New(env, "moduleName"))).As<Napi::String>();
 		deck.Oil_rate = (wrappedForecastProfile.Get(Napi::String::New(env, "oilRate"))).As<Napi::Number>();
 		deck.Gas_Rate = (wrappedForecastProfile.Get(Napi::String::New(env, "gasRate"))).As<Napi::Number>();
 		deck.HyrocarbonStream = (wrappedForecastProfile.Get(Napi::String::New(env, "hydrocarbonStream"))).As<Napi::String>();
@@ -1217,7 +1217,7 @@ string ReportJSON::GetRow(Napi::Object &wrappedDeck, Napi::Env &env, bool &isLas
 	string TRANCHE = (wrappedDeck.Get(Napi::String::New(env, "developmentTranche"))).As<Napi::String>();
 	string Asset_Team = (wrappedDeck.Get(Napi::String::New(env, "asset"))).As<Napi::String>();
 	string Flow_station = (wrappedDeck.Get(Napi::String::New(env, "facilities"))).As<Napi::String>();
-	string ModuleName = (wrappedDeck.Get(Napi::String::New(env, "module"))).As<Napi::String>();
+	string moduleName = (wrappedDeck.Get(Napi::String::New(env, "module"))).As<Napi::String>();
 	double Day = (wrappedDeck.Get(Napi::String::New(env, "day"))).As<Napi::Number>();
 	double Month = (wrappedDeck.Get(Napi::String::New(env, "month"))).As<Napi::Number>();
 	double Year = (wrappedDeck.Get(Napi::String::New(env, "year"))).As<Napi::Number>();
@@ -1253,7 +1253,7 @@ string ReportJSON::GetRow(Napi::Object &wrappedDeck, Napi::Env &env, bool &isLas
 		lastrow = std::to_string(DeclineRate); // no new line
 	}
 
-	row = uniqueId + columnDelimeter + Version_Name + columnDelimeter + Field + columnDelimeter + Reservoir + columnDelimeter + Drainage_Point + columnDelimeter + Production_String + columnDelimeter + TRANCHE + columnDelimeter + Asset_Team + columnDelimeter + Flow_station + columnDelimeter + ModuleName + columnDelimeter + std::to_string(Day) + columnDelimeter + std::to_string(Month) + columnDelimeter + std::to_string(Year) + columnDelimeter + std::to_string(Oil_rate) + columnDelimeter + std::to_string(Gas_Rate) + columnDelimeter + std::to_string(Water_Rate) + columnDelimeter + std::to_string(liquid) + columnDelimeter + std::to_string(Cum_Oil_Prod) + columnDelimeter + std::to_string(Cum_Gas_Prod) + columnDelimeter + std::to_string(Cum_Water_Prod) + columnDelimeter + std::to_string(GOR) + columnDelimeter + std::to_string(BSW) + columnDelimeter + std::to_string(CGR) + columnDelimeter + std::to_string(WGR) + columnDelimeter + std::to_string(CutBack) + columnDelimeter + HyrocarbonStream + columnDelimeter + hydrocarbonType + columnDelimeter + terminal + columnDelimeter + std::to_string(URo) + columnDelimeter + std::to_string(URg) + columnDelimeter + std::to_string(Gas_Own_Use) + columnDelimeter + std::to_string(Gas_Demand) + columnDelimeter + std::to_string(Gas_Flared) + columnDelimeter + std::to_string(Crude_Oil_Lossess) + columnDelimeter + std::to_string(CutBack) + columnDelimeter + projectCode + columnDelimeter + projectName + columnDelimeter + resourceClass + columnDelimeter + lastrow;
+	row = uniqueId + columnDelimeter + Version_Name + columnDelimeter + Field + columnDelimeter + Reservoir + columnDelimeter + Drainage_Point + columnDelimeter + Production_String + columnDelimeter + TRANCHE + columnDelimeter + Asset_Team + columnDelimeter + Flow_station + columnDelimeter + moduleName + columnDelimeter + std::to_string(Day) + columnDelimeter + std::to_string(Month) + columnDelimeter + std::to_string(Year) + columnDelimeter + std::to_string(Oil_rate) + columnDelimeter + std::to_string(Gas_Rate) + columnDelimeter + std::to_string(Water_Rate) + columnDelimeter + std::to_string(liquid) + columnDelimeter + std::to_string(Cum_Oil_Prod) + columnDelimeter + std::to_string(Cum_Gas_Prod) + columnDelimeter + std::to_string(Cum_Water_Prod) + columnDelimeter + std::to_string(GOR) + columnDelimeter + std::to_string(BSW) + columnDelimeter + std::to_string(CGR) + columnDelimeter + std::to_string(WGR) + columnDelimeter + std::to_string(CutBack) + columnDelimeter + HyrocarbonStream + columnDelimeter + hydrocarbonType + columnDelimeter + terminal + columnDelimeter + std::to_string(URo) + columnDelimeter + std::to_string(URg) + columnDelimeter + std::to_string(Gas_Own_Use) + columnDelimeter + std::to_string(Gas_Demand) + columnDelimeter + std::to_string(Gas_Flared) + columnDelimeter + std::to_string(Crude_Oil_Lossess) + columnDelimeter + std::to_string(CutBack) + columnDelimeter + projectCode + columnDelimeter + projectName + columnDelimeter + resourceClass + columnDelimeter + lastrow;
 
 	return row;
 }
@@ -1266,7 +1266,7 @@ void ReportJSON::GetForecastFacilityOutput(int &k, int &scenario, vector<Date> &
 	Napi::Object decksPerFacility = Napi::Object::New(env);
 	Napi::Object decksPerFacilityYearly = Napi::Object::New(env);
 	int noOfWells = results[k].size();
-	string FacilityName = "";
+	string facilityName = "";
 
 	for (j = 0; j < noOfWells; j++)
 	{
@@ -1275,20 +1275,20 @@ void ReportJSON::GetForecastFacilityOutput(int &k, int &scenario, vector<Date> &
 		reportJSON2.GetForecastWellMonthOutput(k, j, scenario, table, resultsWellNew);
 
 		string tableYearly = "";
-		string ModuleName = "";
+		string moduleName = "";
 		reportJSON2.GetForecastWellYearlyOutput(tableYearly, resultsWellNew,
-												datesNew, ModuleName, FacilityName, scenario);
+												datesNew, moduleName, facilityName, scenario);
 
 		Napi::Object deckObject = Napi::Object::New(env);
 		Napi::Object deckObjectYearly = Napi::Object::New(env);
 
 		if (table != "" && tableYearly != "")
 		{
-			// std::cout << "Module: " << ModuleName << std::endl;
+			// std::cout << "Module: " << moduleName << std::endl;
 			deckObject.Set(Napi::String::New(env, "resultWells"), Napi::String::New(env, table));
 			deckObjectYearly.Set(Napi::String::New(env, "resultWells"), Napi::String::New(env, tableYearly));
-			decksPerFacility.Set(Napi::String::New(env, ModuleName), deckObject);
-			decksPerFacilityYearly.Set(Napi::String::New(env, ModuleName), deckObjectYearly);
+			decksPerFacility.Set(Napi::String::New(env, moduleName), deckObject);
+			decksPerFacilityYearly.Set(Napi::String::New(env, moduleName), deckObjectYearly);
 		}
 	}
 
@@ -1297,9 +1297,9 @@ void ReportJSON::GetForecastFacilityOutput(int &k, int &scenario, vector<Date> &
 
 	if (nKeys > 0)
 	{
-		// std::cout << "FACILITY: " << FacilityName << std::endl;
-		FacilitiesObject.Set(Napi::String::New(env, FacilityName), decksPerFacility);
-		FacilitiesObjectYealy.Set(Napi::String::New(env, FacilityName), decksPerFacilityYearly);
+		// std::cout << "FACILITY: " << facilityName << std::endl;
+		FacilitiesObject.Set(Napi::String::New(env, facilityName), decksPerFacility);
+		FacilitiesObjectYealy.Set(Napi::String::New(env, facilityName), decksPerFacilityYearly);
 	}
 }
 
@@ -1424,7 +1424,7 @@ void ReportJSON::GetForecastOutput(int &scenario,
 
 		Napi::Object decksPerFacility = Napi::Object::New(env);
 		Napi::Object decksPerFacilityYearly = Napi::Object::New(env);
-		string FacilityName = Facilities[ii];
+		string facilityName = Facilities[ii];
 
 		vector<string> wellNames = facilityWellsIndicies[j][ii].WellNames;
 		vector<int> WellIndicies = facilityWellsIndicies[j][ii].WellIndicies;
@@ -1440,7 +1440,7 @@ void ReportJSON::GetForecastOutput(int &scenario,
 						   Napi::String::New(env, facilityWellsIndicies[j][ii].tables[k]));
 			decksPerFacility.Set(Napi::String::New(env, wellNames[k]), deckObject);
 		}
-		FacilitiesObject.Set(Napi::String::New(env, FacilityName), decksPerFacility);
+		FacilitiesObject.Set(Napi::String::New(env, facilityName), decksPerFacility);
 	}
 }
 
@@ -2252,7 +2252,7 @@ vector<ForecastResult> ReportJSON::GetYearlyForcastResultModuleLevel(Napi::Objec
 		forecastResult.Crude_Oil_Lossess = (wellForecastResult.Get(Napi::String::New(env, "crudeOilLossess"))).As<Napi::Number>();
 		forecastResult.DeclineRate = 0; //(wellForecastResult.Get(Napi::String::New(env, "declineRate"))).As<Napi::Number>();
 
-		forecastResult.ModuleName = (wellForecastResult.Get(Napi::String::New(env, "module"))).As<Napi::String>();
+		forecastResult.moduleName = (wellForecastResult.Get(Napi::String::New(env, "module"))).As<Napi::String>();
 		forecastResult.Version_Name = (wellForecastResult.Get(Napi::String::New(env, "forecastVersion"))).As<Napi::String>();
 		forecastResult.Field = (wellForecastResult.Get(Napi::String::New(env, "field"))).As<Napi::String>();
 		forecastResult.Reservoir = (wellForecastResult.Get(Napi::String::New(env, "reservoir"))).As<Napi::String>();
@@ -2367,7 +2367,7 @@ Napi::Object ReportJSON::SetRowResult(ForecastResult &r, Napi::Env &env)
 	resultWell.Set(Napi::String::New(env, "cutBackRatio"), Napi::Number::New(env, r.CutBack));
 	resultWell.Set(Napi::String::New(env, "declineRate"), Napi::Number::New(env, r.DeclineRate));
 
-	resultWell.Set(Napi::String::New(env, "module"), Napi::String::New(env, r.ModuleName));
+	resultWell.Set(Napi::String::New(env, "module"), Napi::String::New(env, r.moduleName));
 	resultWell.Set(Napi::String::New(env, "forecastVersion"), Napi::String::New(env, r.Version_Name));
 	resultWell.Set(Napi::String::New(env, "field"), Napi::String::New(env, r.Field));
 	resultWell.Set(Napi::String::New(env, "reservoir"), Napi::String::New(env, r.Reservoir));

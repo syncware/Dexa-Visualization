@@ -19,7 +19,7 @@ typedef struct _LinSysResult
     vector<vector<double>> UpperTriangularMatrix;
     vector<vector<double>> LowerTriangularMatrix;
     vector<double> Y_BestFit;
-} LinSysResult;
+}LinSysResult;
 
 typedef struct _LMOptData
 {
@@ -34,4 +34,4 @@ typedef struct _LMOptData
     vector<double> Yp;
     int iterations;
     double errorTolerance;
-} LMOptData;
+}LMOptData;

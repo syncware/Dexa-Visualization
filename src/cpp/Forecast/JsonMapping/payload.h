@@ -59,10 +59,10 @@ void from_json(const json &j, Payload &payload)
     j.at("numberOfNodes").get_to(payload.numberOfNodes);
     j.at("nGasOwnUse").get_to(payload.nGasOwnUse);
     j.at("nFlaredGases").get_to(payload.nFlaredGases);
-    j.at("forecastSolutionSpaces").get_to(payload.forecastSolutionSpaces);
-    j.at("nForecastSolutionSpaces").get_to(payload.nForecastSolutionSpaces);
-    j.at("forecastSolutionSpacesIsDURConstrained").get_to(payload.forecastSolutionSpacesIsDURConstrained);
-    j.at("nForecastSolutionSpacesIsDURConstrained").get_to(payload.nForecastSolutionSpacesIsDURConstrained);
+    j.at("forecastsolutionSpaces").get_to(payload.forecastsolutionSpaces);
+    j.at("nForecastsolutionSpaces").get_to(payload.nForecastsolutionSpaces);
+    j.at("forecastsolutionSpacesIsDURConstrained").get_to(payload.forecastsolutionSpacesIsDURConstrained);
+    j.at("nForecastsolutionSpacesIsDURConstrained").get_to(payload.nForecastsolutionSpacesIsDURConstrained);
 
     for (const auto &item : j.at("deferments"))
     {

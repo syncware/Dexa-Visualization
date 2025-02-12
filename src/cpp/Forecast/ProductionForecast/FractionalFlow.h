@@ -59,14 +59,16 @@ double FractionalFlow::Get_Fractional_Rate_Of_Change_Exponential(double &X_init,
         denominator = cumDays;
     }
 
-    if (denominator != 0 && numerator > 0)
-    {
-        Fractional_Rate_Of_Change = log(numerator) / denominator;
-    }
-
-    if (isLinear == true)
+    if (isRateCum == true)
     {
         Fractional_Rate_Of_Change = (Y_last - Y_init) / denominator;
+    }
+    else
+    {
+        if (denominator != 0 && numerator > 0)
+        {
+            Fractional_Rate_Of_Change = log(numerator) / denominator;
+        }
     }
 
     return Fractional_Rate_Of_Change;
@@ -78,7 +80,8 @@ double FractionalFlow::Get_Fractional_Flow(double &Fractional_Rate_Of_Change, do
     double Y = 0;
     if (isRateCum)
     {
-        Y = Y_init * exp(Fractional_Rate_Of_Change * (X_last - X_init));
+        // Y = Y_init * exp(Fractional_Rate_Of_Change * (X_last - X_init));
+        Y = Y_init + (Fractional_Rate_Of_Change * (X_last - X_init));
     }
     else
     {

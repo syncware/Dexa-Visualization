@@ -114,11 +114,11 @@ json RunForecastAsyncWorkerModifiedTest::RunForecast(const json &jsonData)
 
     string isForecastProfiles = payload.isForecastProfiles;
 
-    vector<string> forecastSolutionSpaces = payload.forecastSolutionSpaces;
-    int nForecastSolutionSpaces = payload.nForecastSolutionSpaces;
+    vector<string> forecastsolutionSpaces = payload.forecastsolutionSpaces;
+    int nForecastsolutionSpaces = payload.nForecastsolutionSpaces;
 
-    vector<bool> forecastSolutionSpacesIsDURConstrained = payload.forecastSolutionSpacesIsDURConstrained;
-    int nForecastSolutionSpacesIsDURConstrained = payload.nForecastSolutionSpacesIsDURConstrained;
+    vector<bool> forecastsolutionSpacesIsDURConstrained = payload.forecastsolutionSpacesIsDURConstrained;
+    int nForecastsolutionSpacesIsDURConstrained = payload.nForecastsolutionSpacesIsDURConstrained;
 
     DateCreation dateCreation;
 
@@ -176,7 +176,7 @@ json RunForecastAsyncWorkerModifiedTest::RunForecast(const json &jsonData)
     deckobj.InitilizeModules();
 
     int i = 0;
-    map<string, map<string, map<string, map<string, map<string, string>>>>> forecastSolutionSpacesResults;
+    map<string, map<string, map<string, map<string, map<string, string>>>>> forecastsolutionSpacesResults;
     if (nth > 0)
     {
         vector<WellActivityResult> wellActivities;
@@ -185,19 +185,19 @@ json RunForecastAsyncWorkerModifiedTest::RunForecast(const json &jsonData)
         {
             vector<vector<ForecastResult>> forecastProfilesList =
                 externalForecast.GetUniqueForecastProfiles(forecastProfiles, deckobj.inputdecks);
-            vector<string> uniqueModuleNames =
-                externalForecast.GetUniqueModuleNames(forecastProfilesList);
+            vector<string> uniquemoduleNames =
+                externalForecast.GetUniquemoduleNames(forecastProfilesList);
             wellActivities =
                 externalForecast.GetWellActivities(forecastProfilesList, deckobj.inputdecks,
-                                                   uniqueModuleNames);
+                                                   uniquemoduleNames);
 
             isForecastProfilesAndDecksMatched =
-                externalForecast.MatchForecastProfilesAndDecks(uniqueModuleNames,
+                externalForecast.MatchForecastProfilesAndDecks(uniquemoduleNames,
                                                                deckobj.inputdecks);
         }
 
         int fSSIndex = 0;
-        int nForecastSolutionSpaces = forecastSolutionSpaces.size();
+        int nForecastsolutionSpaces = forecastsolutionSpaces.size();
         int scenarios = 3;
         vector<WellSchedule> wellSchedules = reportJSON2.GetWellSchedulesSheetData(deckobj.wellRerouteDecks,
                                                                                    deckobj.wellRampUpDecks, deckobj.wellShutInOpenUpDecks, StopDate);
@@ -216,9 +216,9 @@ json RunForecastAsyncWorkerModifiedTest::RunForecast(const json &jsonData)
 
         vector<Prioritization> prioritizations = updatesNodes[0].prioritizations;
 
-        for (fSSIndex = 0; fSSIndex < nForecastSolutionSpaces; fSSIndex++)
+        for (fSSIndex = 0; fSSIndex < nForecastsolutionSpaces; fSSIndex++)
         {
-            calculateDeckVariables.dURConstrained = forecastSolutionSpacesIsDURConstrained[fSSIndex];
+            calculateDeckVariables.dURConstrained = forecastsolutionSpacesIsDURConstrained[fSSIndex];
             map<string, map<string, map<string, map<string, string>>>> scenariosResult;
             for (i = 2; i < scenarios; i++)
             {
@@ -242,7 +242,7 @@ json RunForecastAsyncWorkerModifiedTest::RunForecast(const json &jsonData)
                 calculateDeckVariables.FacilityTables_Actual = deckobj.FacilityTables_Actual;
                 calculateDeckVariables.isDeferred = false;
 
-                deckobj.runParameter.forecastCase = forecastSolutionSpaces[fSSIndex];
+                deckobj.runParameter.forecastCase = forecastsolutionSpaces[fSSIndex];
 
                 if (deckobj.runParameter.forecastCase == potential)
                 {
@@ -283,11 +283,11 @@ json RunForecastAsyncWorkerModifiedTest::RunForecast(const json &jsonData)
                 string scenarioName = to_string(scenario) + "P_" + to_string(scenario) + "C";
                 scenariosResult[scenarioName] = FacilitiesObject;
             }
-            forecastSolutionSpacesResults[forecastSolutionSpaces[fSSIndex]] = scenariosResult;
+            forecastsolutionSpacesResults[forecastsolutionSpaces[fSSIndex]] = scenariosResult;
         }
     }
 
-    responseData.monthlyReport = forecastSolutionSpacesResults;
+    responseData.monthlyReport = forecastsolutionSpacesResults;
 
     json jsonResponseData = to_json(responseData);
 

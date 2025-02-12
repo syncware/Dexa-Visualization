@@ -23,9 +23,9 @@
 #include "ToJSON.h"
 #include "../JsonMapping/napiToJson.h"
 #include "../JsonMapping/person.h"
-#include "../JsonMapping/responseChatData.h"
+#include "../JsonMapping/responseChartData.h"
 #include "../JsonMapping/forecastResultsByModule.h"
-#include "../JsonMapping/chatInputPayload.h"
+#include "../JsonMapping/chartInputPayload.h"
 #include "AllWellsYearlyResultNewAsyncT.h"
 
 using namespace std;
@@ -64,7 +64,7 @@ private:
         Napi::Array wrappedForecastResults = (wrappedInstance.Get(Napi::String::New(env, "forecastResults"))).As<Napi::Array>();
         Napi::Object wrappedChatInputData = (wrappedInstance.Get(Napi::String::New(env, "chatInputData"))).As<Napi::Object>();
 
-        // json chatInputJsonData = reportJSON.NapiObjectToJson(wrappedChatInputData);
+        // json chartInputJsonData = reportJSON.NapiObjectToJson(wrappedChatInputData);
         // json forecastResultsJsonData = reportJSON.ConvertNapiArrayToJsonString(wrappedForecastResults);
 
         Napi::Object responseNapiObject =

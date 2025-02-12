@@ -19,34 +19,35 @@ class ImportMBALForecastResults
 private:
     Inputdeck inputdeck;
     const char delimeter = '\t';
-
 public:
     ImportMBALForecastResults();
     ~ImportMBALForecastResults();
-    double stod(string &s);
-    vector<string> GetHeaders(vector<string> &rows);
-    vector<string> GetUnits(vector<string> &rows);
-    vector<ForecastResult> GetMBALForecastResult(vector<string> &ColumHeaders,
-                                                 vector<string> &rows, string &wellName);
+    double stod(string& s);
+    vector<string> GetHeaders(vector<string>& rows);
+    vector<string> GetUnits(vector<string>& rows);
+    vector<ForecastResult> GetMBALForecastResult(vector<string>& ColumHeaders,
+    vector<string>& rows, string& wellName);
+
 };
 
 ImportMBALForecastResults::ImportMBALForecastResults()
 {
+
 }
 
 ImportMBALForecastResults::~ImportMBALForecastResults()
 {
+
 }
 
-double ImportMBALForecastResults::stod(string &s)
+double ImportMBALForecastResults::stod(string& s)
 {
     double ans = 0;
-    if (s.empty() == false)
-        ans = std::stod(s);
+    if(s.empty() == false) ans = std::stod(s);
     return ans;
 }
 
-vector<string> ImportMBALForecastResults::GetHeaders(vector<string> &rows)
+vector<string> ImportMBALForecastResults::GetHeaders(vector<string>& rows)
 {
     int HeadersStartRow = 7;
     string FirstRow = rows[HeadersStartRow];
@@ -60,7 +61,7 @@ vector<string> ImportMBALForecastResults::GetHeaders(vector<string> &rows)
 
     vector<string> ColumHeaders;
     int i = 0, ni = FirstRowColumnValues.size();
-    for (i = 0; i < ni; i++)
+    for(i = 0; i < ni; i++)
     {
         string coulumHeader = FirstRowColumnValues[i] + " " + SecondRowColumnValues[i];
         ColumHeaders.push_back(coulumHeader);
@@ -69,7 +70,7 @@ vector<string> ImportMBALForecastResults::GetHeaders(vector<string> &rows)
     return ColumHeaders;
 }
 
-vector<string> ImportMBALForecastResults::GetUnits(vector<string> &rows)
+vector<string> ImportMBALForecastResults::GetUnits(vector<string>& rows)
 {
     int UnitsRowIndex = 9;
     string UnitsRow = rows[UnitsRowIndex];
@@ -79,8 +80,8 @@ vector<string> ImportMBALForecastResults::GetUnits(vector<string> &rows)
     return units;
 }
 
-vector<ForecastResult> ImportMBALForecastResults::GetMBALForecastResult(vector<string> &ColumHeaders,
-                                                                        vector<string> &rows, string &wellName)
+vector<ForecastResult> ImportMBALForecastResults::GetMBALForecastResult(vector<string>& ColumHeaders,
+vector<string>& rows, string& wellName)
 {
 
     int i = 0, ni = rows.size();
@@ -90,14 +91,14 @@ vector<ForecastResult> ImportMBALForecastResults::GetMBALForecastResult(vector<s
     mBALVariableHeaders.InitializeData();
     vector<ForecastResult> mBALForecasts;
 
-    for (i = startRowIndex; i < ni - 2; i++)
+    for(i = startRowIndex; i < ni - 2; i++)
     {
         vector<string> strings;
         inputdeck.customGetline(rows[i], delimeter, strings);
         ForecastResult mBALForecastModel;
         mBALForecastModel.InitializeData();
-
-        mBALForecastModel.ModuleName = wellName;
+        
+        mBALForecastModel.moduleName = wellName;
         mBALForecastModel.CGR = stod(strings[13]);
         mBALForecastModel.GOR = stod(strings[13]);
         mBALForecastModel.BSW = stod(strings[12]);
@@ -109,6 +110,6 @@ vector<ForecastResult> ImportMBALForecastResults::GetMBALForecastResult(vector<s
 
         mBALForecasts.push_back(mBALForecastModel);
     }
-
+    
     return mBALForecasts;
 }

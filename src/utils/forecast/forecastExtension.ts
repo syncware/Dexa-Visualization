@@ -80,7 +80,7 @@ export async function GetYearlyAggregatedForecastResults(
 export async function GetStructuredForecastResultsByForecastId(
   forecastModulessCompleteObject: ForecastResultsByModuleDoc[],
   scenarioNames: string[],
-  SolutionSpaces: string[],
+  solutionSpaces: string[],
   facilityNames: string[],
   isMonthly: boolean
 ) {
@@ -93,16 +93,16 @@ export async function GetStructuredForecastResultsByForecastId(
 
   let solutionSpacesObjects = {} as any;
   let counter = -1;
-  for (let i = 0; i < SolutionSpaces.length; i++) {
+  for (let i = 0; i < solutionSpaces.length; i++) {
     let scenariosObjects = {} as any;
     for (let j = 0; j < scenarioNames.length; j++) {
       let facilitiesObjects = {} as any;
       for (let k = 0; k < facilityNames.length; k++) {
         let modulesList = forecastModulessCompleteObject.filter((x) => {
           return (
-            x.SolutionSpace == SolutionSpaces[i] &&
-            x.ScenarioName == scenarioNames[j] &&
-            x.FacilityName == facilityNames[k]
+            x.solutionSpace == solutionSpaces[i] &&
+            x.scenarioName == scenarioNames[j] &&
+            x.facilityName == facilityNames[k]
           );
         });
 
@@ -118,14 +118,14 @@ export async function GetStructuredForecastResultsByForecastId(
             deckObject = {
               resultWells: getForecastResult(table),
             } as any;
-            wellName = moduleObject.ModuleName as string;
+            wellName = moduleObject.moduleName as string;
           } else {
             table = moduleObject.forecastResults as string;
 
             deckObject = {
               resultWells: getForecastResult(table),
             } as any;
-            wellName = moduleObject.ModuleName as string;
+            wellName = moduleObject.moduleName as string;
           }
           modulesObjects[wellName] = deckObject;
         }
@@ -134,7 +134,7 @@ export async function GetStructuredForecastResultsByForecastId(
       }
       scenariosObjects[scenarioNames[j]] = facilitiesObjects;
     }
-    solutionSpacesObjects[SolutionSpaces[i]] = scenariosObjects;
+    solutionSpacesObjects[solutionSpaces[i]] = scenariosObjects;
   }
 
   return solutionSpacesObjects;
@@ -143,12 +143,12 @@ export async function GetStructuredForecastResultsByForecastId(
 export function GetForecastResultsByScenario(
   forecastModulesCompleteObject: ForecastResultsByModuleDoc[],
   scenarioName: string,
-  SolutionSpace: string,
+  solutionSpace: string,
   facilityNames: string[]
 ) {
   const forecastModulesPerScenario = forecastModulesCompleteObject.filter(
     (x) => {
-      return x.ScenarioName == scenarioName && x.SolutionSpace == SolutionSpace;
+      return x.scenarioName == scenarioName && x.solutionSpace == solutionSpace;
     }
   );
 
@@ -159,7 +159,7 @@ export function GetForecastResultsByScenario(
   for (j = 0; j < nFacilities; j++) {
     const forecastModulesPerFacility = forecastModulesPerScenario.filter(
       (x) => {
-        return x.FacilityName == facilityNames[j];
+        return x.facilityName == facilityNames[j];
       }
     );
 
@@ -173,7 +173,7 @@ export function GetForecastResultsByScenario(
         resultWells: getForecastResult(forecastResults),
       };
 
-      wellsMonthly[forecastModulesPerFacility[i].ModuleName] =
+      wellsMonthly[forecastModulesPerFacility[i].moduleName] =
         moduleResultMonthly;
     }
     facilitiesMonthly[facilityNames[j]] = wellsMonthly;
@@ -185,12 +185,12 @@ export function GetForecastResultsByScenario(
 export function GetForecastResultsByScenario2(
   forecastModulesCompleteObject: ForecastResultsByModuleDoc[],
   scenarioName: string,
-  SolutionSpace: string,
+  solutionSpace: string,
   facilityNames: string[]
 ) {
   const forecastModulesPerScenario = forecastModulesCompleteObject.filter(
     (x) => {
-      return x.ScenarioName == scenarioName && x.SolutionSpace == SolutionSpace;
+      return x.scenarioName == scenarioName && x.solutionSpace == solutionSpace;
     }
   );
 
@@ -201,7 +201,7 @@ export function GetForecastResultsByScenario2(
   for (j = 0; j < nFacilities; j++) {
     const forecastModulesPerFacility = forecastModulesPerScenario.filter(
       (x) => {
-        return x.FacilityName == facilityNames[j];
+        return x.facilityName == facilityNames[j];
       }
     );
 
@@ -213,7 +213,7 @@ export function GetForecastResultsByScenario2(
       const moduleResultMonthly = {
         resultWells: forecastResults,
       };
-      wellsMonthly[forecastModulesPerFacility[i].ModuleName] =
+      wellsMonthly[forecastModulesPerFacility[i].moduleName] =
         moduleResultMonthly;
     }
     facilitiesMonthly[facilityNames[j]] = wellsMonthly;
@@ -324,11 +324,11 @@ export async function SaveForecastResultsByModuleMonthlyData(
           const forecastResultsByModule =
             {} as ForecastResultsByModuleProperties;
           forecastResultsByModule.forecastResultsId = forecastResultsId;
-          forecastResultsByModule.ModuleName = wellKeys[ii];
-          forecastResultsByModule.FacilityName = facilitiesKeys[k];
-          forecastResultsByModule.ScenarioName = scenariosKeys[j];
-          forecastResultsByModule.ModuleKey = `${forecastCaseKeys[i]}/${scenariosKeys[j]}/${facilitiesKeys[k]}/${wellKeys[ii]}`;
-          forecastResultsByModule.SolutionSpace = forecastCaseKeys[i];
+          forecastResultsByModule.moduleName = wellKeys[ii];
+          forecastResultsByModule.facilityName = facilitiesKeys[k];
+          forecastResultsByModule.scenarioName = scenariosKeys[j];
+          forecastResultsByModule.moduleKey = `${forecastCaseKeys[i]}/${scenariosKeys[j]}/${facilitiesKeys[k]}/${wellKeys[ii]}`;
+          forecastResultsByModule.solutionSpace = forecastCaseKeys[i];
           forecastResultsByModule.forecastResults = table;
           forecastResultsByModule.forecastInputId = forecastInputId;
           const forecastModuleModel = ForecastResultsByModule.build(

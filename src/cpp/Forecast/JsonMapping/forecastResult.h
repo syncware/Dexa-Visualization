@@ -47,7 +47,7 @@ void from_json(const json &j, ForecastResult &deck)
     if (j.contains("facilities"))
         j.at("facilities").get_to(deck.Flow_station);
     if (j.contains("module"))
-        j.at("module").get_to(deck.ModuleName);
+        j.at("module").get_to(deck.moduleName);
     if (j.contains("day"))
         j.at("day").get_to(deck.Day);
     if (j.contains("month"))

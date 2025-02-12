@@ -16,11 +16,11 @@
 using namespace std;
 using json = nlohmann::json;
 
-json to_json(const ResponseChatData &responseChatData)
+json to_json(const ResponseChartData &responseChartData)
 {
     json j;
 
-    for (const auto &outer1 : responseChatData.response)
+    for (const auto &outer1 : responseChartData.response)
     {
         const string &key1 = outer1.first;
         for (const auto &outer2 : outer1.second)

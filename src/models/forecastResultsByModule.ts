@@ -3,11 +3,11 @@ import mongoose from "mongoose";
 // required properties to create a ForecastResultsByModule
 interface ForecastResultsByModuleProperties {
   forecastResultsId: string;
-  ModuleName: string;
-  FacilityName: string;
-  ScenarioName: string;
-  ModuleKey: string;
-  SolutionSpace: string;
+  moduleName: string;
+  facilityName: string;
+  scenarioName: string;
+  moduleKey: string;
+  solutionSpace: string;
   forecastResults: string;
   forecastInputId: string; 
 } 
@@ -30,23 +30,23 @@ const modelSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  ModuleName: {
+  moduleName: {
     type: String,
     required: true,
   },
-  FacilityName: {
+  facilityName: {
     type: String,
     required: true,
   },
-  ScenarioName: {
+  scenarioName: {
     type: String,
     required: true,
   },
-  ModuleKey: {
+  moduleKey: {
     type: String,
     required: true,
   },
-  SolutionSpace: {
+  solutionSpace: {
     type: String,
     required: true,
   },

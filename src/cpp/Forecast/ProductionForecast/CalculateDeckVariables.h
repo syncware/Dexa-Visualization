@@ -27,7 +27,7 @@
 #include "./ExportForecastResults.h"
 #include "../../MathematicsLibrary/SimplexMethod/MainScreen.h"
 #include "../../MathematicsLibrary/SimplexMethod/Model/Problem2.h"
-// #include "../utilities/ToJSON.h"
+//#include "../utilities/ToJSON.h"
 
 using namespace std;
 using namespace std::placeholders;
@@ -58,56 +58,57 @@ private:
 	vector<double> wellsOilRates;
 	vector<double> cumProdDays;
 	double avgOilWellsRate;
-	vector<Date> monthlyDate;
+	 vector<Date> monthlyDate;
+	
 
 public:
-	// typedef double func(double x);
+	//typedef double func(double x);
 
 	CalculateDeckVariables();
 
-	void GetDeckVariables(vector<vector<vector<InputDeckStruct>>> &Facilities, vector<int> &daysList,
+	void GetDeckVariables(vector<vector<vector<InputDeckStruct>>> &Faclities, vector<int> &daysList,
 						  int &scenario, vector<FacilityStruct> &FacilityTable,
 						  vector<string> &FacilitiesNames, DateCreation &dateCreationX,
 						  vector<WellReroute> &routedWells, string &forecastCase,
-						  vector<vector<Prioritization>> &prioritizationsFacilities,
+						  vector<vector<Prioritization>> &priotizationsFacilities,
 						  vector<Node> &updatesNodes, bool isMonthly);
 	void GetDeckVariables(vector<InputDeckStruct> &facility, vector<int> &daysList,
 						  int &scenario, int &facilityCounter, FacilityStruct &facilityStruct,
 						  int &dateIndex, int &numberOfFacilities,
-						  vector<vector<vector<InputDeckStruct>>> &Facilities,
-						  string &forecastCase, Prioritization &prioritizationFacility);
+						  vector<vector<vector<InputDeckStruct>>> &Faclities,
+						  string &forecastCase, Prioritization &priotizationFacility);
 
 	void GetDeckVariables2(vector<InputDeckStruct> &facility,
 						   vector<int> &daysList, int &scenario, int &facilityCounter,
 						   FacilityStruct &facilityStruct, int &dateIndex, int &numberOfFacilities,
-						   vector<vector<vector<InputDeckStruct>>> &Facilities,
-						   string &forecastCase, Prioritization &prioritizationFacility,
+						   vector<vector<vector<InputDeckStruct>>> &Faclities,
+						   string &forecastCase, Prioritization &priotizationFacility,
 						   double &gasCutBack, double &liquidCutBack,
-						   string &liquidCutBackText, string &gasCutBackText,
+						   string &liquidCutBackText, string &gasCutBackText, 
 						   string &nodeConnections);
 
 	void GetActiveRate(int &scenario, InputDeckStruct &deck, ForecastResult &forecastResult, ForecastResult &forecastResult_old);
 
 	void GetVariables(int &scenario, InputDeckStruct &deck, ForecastResult &forecastResult, ForecastResult &forecastResult_old,
-					  double &externalCurrentCumProd, bool &isAfterOptimization);
+					  double &externalCurrentCumProd, bool &isAfetrOptimization);
 
 	void GetActiveCumProd(int &scenario, InputDeckStruct &deck, ForecastResult &forecastResult, ForecastResult &forecastResult_old);
 
 	~CalculateDeckVariables();
 
 	void GetGasFractionalFlow(int &scenario, InputDeckStruct &deck, ForecastResult &forecastResult,
-							  ForecastResult &forecastResult_old);
+	ForecastResult &forecastResult_old);
 
 	void GetWaterFractionalFlow(int &scenario, InputDeckStruct &deck, ForecastResult &forecastResult,
-								ForecastResult &forecastResult_old);
+	ForecastResult &forecastResult_old);
 
 	void GetCumProds(int &scenario, InputDeckStruct &deck, ForecastResult &forecastResult, ForecastResult &forecastResult_old);
 
 	void GetRates(int &scenario, InputDeckStruct &deck, ForecastResult &forecastResult);
 
-	void PrintResults(string &BasePath, vector<string> &FacilitiesNames, vector<vector<InputDeckStruct>> &Facilities);
+	void PrintResults(string &BasePath, vector<string> &FaclitiesNames, vector<vector<InputDeckStruct>> &Faclities);
 
-	void CreateFiles(string &BasePath, vector<vector<InputDeckStruct>> &Facilities, vector<string> &FacilitiesNames,
+	void CreateFiles(string &BasePath, vector<vector<InputDeckStruct>> &Faclities, vector<string> &FaclitiesNames,
 					 vector<Date> &dates, vector<int> &daysList, int &scenario);
 
 	bool IsDirectory(const char *dirName);
@@ -133,20 +134,20 @@ public:
 	vector<vector<vector<ForecastResult>>> results;
 
 	void optimize_constraint_by_well(vector<ForecastResult> &onStreamWells,
-									 vector<double> &cutbacks, Prioritization &prioritizationFacility);
+		vector<double> &cutbacks, Prioritization &priotizationFacility);
 
 	void optimize_constraint_no_prioritization(vector<ForecastResult> &onStreamWells,
-											   vector<double> &cutbacks2, Prioritization &prioritizationFacility);
+	vector<double> &cutbacks2, Prioritization &priotizationFacility);
 
 	void optimize_by_stream_prioritization(vector<ForecastResult> &onStreamWells,
-										   vector<double> &cutbacks2, Prioritization &prioritizationFacility);
+		vector<double> &cutbacks2, Prioritization &priotizationFacility);
 
 	void optimize_olderNode_children(vector<Node> &nodes, int &nodeIndex,
 									 vector<int> &actualChildrenNodesIndicies,
-									 Prioritization &prioritizationNode);
+									 Prioritization &priotizationNode);
 
-	void GetOnstreamWells(int &facilityCounter, int &timeStepCounter, int &nWells,
-						  FacilityStruct &facilityStruct, string &forecastCase, Prioritization &prioritizationFacility);
+	void GetOnstreamWells(int &facilityCounter, int &timeStepCounter, int &nWells, 
+	FacilityStruct &facilityStruct, string& forecastCase, Prioritization &priotizationFacility);
 
 	void GetOnstreamWells2(int &facilityCounter, int &timeStepCounter, int &nWells, FacilityStruct &facilityStruct,
 						   string &liquidCutBackText, string &gasCutBackText, string &nodeConnections);
@@ -158,39 +159,39 @@ public:
 							   int &scenario, InputDeckStruct &deck, int &actualWellIndex,
 							   double &gasCutBack, double &liquidCutBack);
 
-	bool isDeferred;
-	bool isFacilityDeferred;
+	bool isDefered;
+	bool isFacilityDefered;
 
-	void GetDeferredParameters(double &InitialRate, double &cumProdData, double &URf, double &AbandRate,
+	void GetDeferedParameters(double &InitialRate, double &cumProdData, double &URf, double &AbandRate,
 							  double &InitialCumProd, string &HCStream, InputDeckStruct &deck, int &scenario);
-	void GetStartCumProdDeferred(Date &FacilityDate, string &HCStream,
+	void GetStartCumProdDefered(Date &FacilityDate, string &HCStream,
 								InputDeckStruct &deck, int &scenario);
 	void GetCurrentFacilityData();
 	void GetActiveRate(int &scenario, InputDeckStruct &deck,
 					   ForecastResult &forecastResult, ForecastResult &forecastResult_old,
 					   ForecastResult &externalResult);
-	bool CheckWellFacility(vector<WellFacilityData> WellFacilityDataList, string ModuleName, string FacilityName);
-	tuple<bool, int> CheckWellFacilityAndGetIndex(vector<WellFacilityData> WellFacilityDataList, string ModuleName);
+	bool CheckWellFacility(vector<WellFacilityData> WellFacilityDataList, string moduleName, string facilityName);
+	tuple<bool, int> CheckWellFacilityAndGetIndex(vector<WellFacilityData> WellFacilityDataList, string moduleName);
 	bool GetIsWellFlowing(bool &isOilTerminated, bool &isGasTerminated, bool &isWaterterminated);
 	void GetFacilityFlowRates(vector<Node> &updatesNodes);
 	void GetDownStreamNodesFlux(vector<Node> &updatesNodes, int &activeNodeIndex);
 	void AdjustWellsFlowRates(vector<Node> &updatesNodes,
 							  vector<int> &daysList, int &scenario, vector<FacilityStruct> &FacilityTable,
-							  string &forecastCase, vector<vector<Prioritization>> &prioritizationsFacilities,
-							  vector<vector<vector<InputDeckStruct>>> &Facilities,
-							  vector<Date> &dateTimes);
-	int isContainText(vector<string> &texts, string &text);
+							  string &forecastCase, vector<vector<Prioritization>> &priotizationsFacilities,
+							  vector<vector<vector<InputDeckStruct>>> &Faclities,
+							  vector<Date>& dateTimes);
+	int isContainText(vector<string>& texts, string& text);
 	void WellAbandonmentConditions(int &scenario, InputDeckStruct &deck, ForecastResult &forecastResult, ForecastResult &forecastResult_old);
 	vector<ForecastResult> SortOnstreamWells(vector<ForecastResult> &onstreamWells);
 	vector<ForecastResult> SortOnstreamWellsByMean(vector<ForecastResult> &onstreamWells);
-	double Percentile(vector<ForecastResult> &onstreamWells, double &p);
+	double Percentile(vector<ForecastResult> &onstreamWells, double& p);
 	vector<ForecastResult> SortOnstreamWellsByProbabilityDistribution(vector<ForecastResult> &onstreamWells);
-	int isContainFluidFractionIndicator(vector<double> &uniqueFluidFractionIndicators, double &fluidFraction);
+	int isContainFluidFractionIndicator(vector<double> &uniqueFluidFractionIndicators, double& fluidFraction);
 	vector<double> GetUniqueFluidFractionIndicators(vector<ForecastResult> &onstreamWells);
 
-	double InitialRate_Deferred;
-	double Rate_of_Change_Deferred;
-	double startCumProdDeferred;
+	double InitialRate_Defered;
+	double Rate_of_Change_Defered;
+	double startCumProdDefered;
 	vector<FacilityStruct> FacilityList;
 	vector<vector<FacilityStruct>> FacilityTables_Actual;
 
@@ -224,7 +225,7 @@ public:
 	bool dURConstrained = false;
 	bool isMonthly = true;
 	bool isRateCum = false;
-	// ReportJSON reportJSON;
+	//ReportJSON reportJSON;
 };
 
 CalculateDeckVariables::CalculateDeckVariables()
@@ -235,51 +236,44 @@ CalculateDeckVariables::~CalculateDeckVariables()
 {
 }
 
-double CalculateDeckVariables::Percentile(vector<ForecastResult> &onstreamWells, double &p)
-{
-
+double CalculateDeckVariables::Percentile(vector<ForecastResult> &onstreamWells, double& p) {
+    
 	// Ensure the data is sorted
 	vector<ForecastResult> onstreamWells2 = SortOnstreamWells(onstreamWells);
+    
+    // Calculate the index for the percentile
+    double n = onstreamWells2.size();
+    double pos = p * (n + 1) / 100.0;
+    int k = static_cast<int>(std::floor(pos));
+    double d = pos - k;
 
-	// Calculate the index for the percentile
-	double n = onstreamWells2.size();
-	double pos = p * (n + 1) / 100.0;
-	int k = static_cast<int>(std::floor(pos));
-	double d = pos - k;
-
-	if (k == 0)
-	{
-		return onstreamWells2[0].fluidFraction;
-	}
-	else if (k >= n)
-	{
-		return onstreamWells2[n - 1].fluidFraction;
-	}
-	else
-	{
-		return onstreamWells2[k - 1].fluidFraction + d * (onstreamWells2[k].fluidFraction - onstreamWells2[k - 1].fluidFraction);
-	}
+    if (k == 0) {
+        return onstreamWells2[0].fluidFraction;
+    } else if (k >= n) {
+        return onstreamWells2[n - 1].fluidFraction;
+    } else {
+        return onstreamWells2[k - 1].fluidFraction + d * (onstreamWells2[k].fluidFraction - onstreamWells2[k - 1].fluidFraction);
+    }
 }
 
 vector<ForecastResult> CalculateDeckVariables::SortOnstreamWellsByProbabilityDistribution(vector<ForecastResult> &onstreamWells)
 {
 
+
 	// Calculate 10th, 50th, and 90th percentiles
-	int n = onstreamWells.size();
+	int n  = onstreamWells.size();
 	double ten = 10.0;
 	double fifty = 50.0;
 	double ninety = 90.0;
-	double p10 = Percentile(onstreamWells, ten);
-	double p50 = Percentile(onstreamWells, fifty);
-	double p90 = Percentile(onstreamWells, ninety);
+    double p10 = Percentile(onstreamWells, ten);
+    double p50 = Percentile(onstreamWells, fifty);
+    double p90 = Percentile(onstreamWells, ninety);
 	vector<double> percentiles = {p10, p50, p90};
 	double minValue = matrixOperations.VectorMinimun(percentiles);
 	double maxValue = matrixOperations.VectorMaximum(percentiles);
 	double meadian = minValue;
-	for (int j = 0; j < percentiles.size(); j++)
-	{
-		if (percentiles[j] != minValue && percentiles[j] != maxValue)
-		{
+	for(int j = 0; j < percentiles.size(); j++){
+		if(percentiles[j] != minValue && percentiles[j] != maxValue){
 			meadian = percentiles[j];
 			break;
 		}
@@ -287,16 +281,11 @@ vector<ForecastResult> CalculateDeckVariables::SortOnstreamWellsByProbabilityDis
 
 	for (int j = 0; j < n; j++)
 	{
-		if (onstreamWells[j].fluidFraction <= minValue)
-		{
+		if(onstreamWells[j].fluidFraction <= minValue){
 			onstreamWells[j].fluidFraction = minValue;
-		}
-		else if (onstreamWells[j].fluidFraction > minValue && onstreamWells[j].fluidFraction <= meadian)
-		{
+		}else if(onstreamWells[j].fluidFraction > minValue && onstreamWells[j].fluidFraction <= meadian){
 			onstreamWells[j].fluidFraction = meadian;
-		}
-		else
-		{
+		}else{
 			onstreamWells[j].fluidFraction = maxValue;
 		}
 	}
@@ -313,24 +302,20 @@ vector<ForecastResult> CalculateDeckVariables::SortOnstreamWellsByMean(vector<Fo
 	ForecastResult temp;
 	int n = onstreamWells.size();
 	double mean = 0;
-	for (int j = 0; j < n; j++)
+	for (int j = 0; j < n ; j++)
 	{
 		mean = mean + onstreamWells[j].fluidFraction;
 	}
 
-	if (n > 0)
-	{
+	if(n > 0){
 		mean = mean / n;
 	}
 
-	for (int j = 0; j < n; j++)
+	for (int j = 0; j < n ; j++)
 	{
-		if (onstreamWells[j].fluidFraction <= mean)
-		{
+		if(onstreamWells[j].fluidFraction <= mean){
 			onstreamWells[j].fluidFraction = 1.0;
-		}
-		else
-		{
+		}else{
 			onstreamWells[j].fluidFraction = 2.0;
 		}
 	}
@@ -349,7 +334,7 @@ vector<ForecastResult> CalculateDeckVariables::SortOnstreamWells(vector<Forecast
 	{
 		for (int i = 0; i <= n - 2; i++)
 		{
-			if (onstreamWells[i].fluidFraction > onstreamWells[i + 1].fluidFraction)
+			if (onstreamWells[i].fluidFraction > onstreamWells[i+1].fluidFraction)
 			{
 				temp = onstreamWells[i + 1];
 				onstreamWells[i + 1] = onstreamWells[i];
@@ -361,14 +346,11 @@ vector<ForecastResult> CalculateDeckVariables::SortOnstreamWells(vector<Forecast
 	return onstreamWells;
 }
 
-int CalculateDeckVariables::isContainFluidFractionIndicator(vector<double> &uniqueFluidFractionIndicators, double &fluidFraction)
-{
+int CalculateDeckVariables::isContainFluidFractionIndicator(vector<double> &uniqueFluidFractionIndicators, double& fluidFraction){
 	int check = -1;
-	int i = 0, n = uniqueFluidFractionIndicators.size();
-	for (i = 0; i < n; i++)
-	{
-		if (uniqueFluidFractionIndicators[i] == fluidFraction)
-		{
+	int  i = 0, n = uniqueFluidFractionIndicators.size();
+	for(i = 0; i < n; i++){
+		if(uniqueFluidFractionIndicators[i] == fluidFraction){
 			check = i;
 			break;
 		}
@@ -377,15 +359,12 @@ int CalculateDeckVariables::isContainFluidFractionIndicator(vector<double> &uniq
 	return check;
 }
 
-vector<double> CalculateDeckVariables::GetUniqueFluidFractionIndicators(vector<ForecastResult> &onstreamWells)
-{
+vector<double> CalculateDeckVariables::GetUniqueFluidFractionIndicators(vector<ForecastResult> &onstreamWells){
 	vector<double> uniqueFluidFractionIndicators;
 	int check = 0;
-	for (int i = 0; i < onstreamWells.size(); i++)
-	{
+	for(int i = 0; i < onstreamWells.size(); i++){
 		check = isContainFluidFractionIndicator(uniqueFluidFractionIndicators, onstreamWells[i].fluidFraction);
-		if (check == -1)
-		{
+		if(check == -1){
 			uniqueFluidFractionIndicators.push_back(onstreamWells[i].fluidFraction);
 		}
 	}
@@ -393,14 +372,13 @@ vector<double> CalculateDeckVariables::GetUniqueFluidFractionIndicators(vector<F
 	return uniqueFluidFractionIndicators;
 }
 
-int CalculateDeckVariables::isContainText(vector<string> &texts, string &text)
-{
+
+
+int CalculateDeckVariables::isContainText(vector<string>& texts, string& text){
 	int check = -1;
-	int i = 0, n = texts.size();
-	for (i = 0; i < n; i++)
-	{
-		if (texts[i] == text)
-		{
+	int  i = 0, n= texts.size();
+	for(i = 0; i < n; i++){
+		if(texts[i] == text){
 			check = i;
 			break;
 		}
@@ -419,15 +397,15 @@ bool CalculateDeckVariables::GetIsWellFlowing(bool &isOilTerminated, bool &isGas
 	return isWellFlowing;
 }
 
-bool CalculateDeckVariables::CheckWellFacility(vector<WellFacilityData> WellFacilityDataList, string ModuleName, string FacilityName)
+bool CalculateDeckVariables::CheckWellFacility(vector<WellFacilityData> WellFacilityDataList, string moduleName, string facilityName)
 {
 	bool check = false;
 	int i = 0;
 	int n = WellFacilityDataList.size();
 	for (i = 0; i < n; i++)
 	{
-		if (WellFacilityDataList[i].Flow_station == FacilityName &&
-			WellFacilityDataList[i].ModuleName == ModuleName)
+		if (WellFacilityDataList[i].Flow_station == facilityName &&
+			WellFacilityDataList[i].moduleName == moduleName)
 		{
 			check = true;
 			break;
@@ -436,7 +414,7 @@ bool CalculateDeckVariables::CheckWellFacility(vector<WellFacilityData> WellFaci
 	return check;
 }
 
-tuple<bool, int> CalculateDeckVariables::CheckWellFacilityAndGetIndex(vector<WellFacilityData> WellFacilityDataList, string ModuleName)
+tuple<bool, int> CalculateDeckVariables::CheckWellFacilityAndGetIndex(vector<WellFacilityData> WellFacilityDataList, string moduleName)
 {
 	bool check = false;
 	int i = 0;
@@ -444,7 +422,7 @@ tuple<bool, int> CalculateDeckVariables::CheckWellFacilityAndGetIndex(vector<Wel
 	int index = -1;
 	for (i = 0; i < n; i++)
 	{
-		if (WellFacilityDataList[i].ModuleName == ModuleName)
+		if (WellFacilityDataList[i].moduleName == moduleName)
 		{
 			index = i;
 			check = true;
@@ -462,13 +440,13 @@ void CalculateDeckVariables::GetFacilityFlowRates(vector<Node> &updatesNodes)
 
 	if (datePosition == 0)
 	{
-		// Get the minimum OSD from all the wells flowing to a facility
-		// only at the first time step
+		//Get the minimum OSD from all the wells flowing to a facility
+		//only at the first time step
 
 		minimumNodeOnstreamDate.day = results[datePosition][facilityCounter][0].startDay;
 		minimumNodeOnstreamDate.month = results[datePosition][facilityCounter][0].startMonth;
 		minimumNodeOnstreamDate.year = results[datePosition][facilityCounter][0].StartYear;
-
+		
 		for (ik = 1; ik < nw; ik++)
 		{
 			Date nextWellOSDDate;
@@ -489,12 +467,12 @@ void CalculateDeckVariables::GetFacilityFlowRates(vector<Node> &updatesNodes)
 		if (updatesNodes[0].equipmentDataInEquipementConnections[ik].Primary_Facility ==
 			results[datePosition][facilityCounter][0].Flow_station)
 		{
-			// Get facilities nodes of all the wells flowing into them and the index positions of the nodes
+			//Get facilities nodes of all the wells flowing into them and the index positions of the nodes
 
 			if (dateCreation.IsMinimumDate(updatesNodes[0].equipmentDataInEquipementConnections[ik].FacilityDate1P,
 										   minimumNodeOnstreamDate))
 			{
-				// Adjust the facility OSD to be the minimum well OSD
+				//Adjust the facility OSD to be the minimum well OSD
 				updatesNodes[0].equipmentDataInEquipementConnections[ik].FacilityDate1P = minimumNodeOnstreamDate;
 				updatesNodes[0].equipmentDataInEquipementConnections[ik].FacilityDate2P = minimumNodeOnstreamDate;
 				updatesNodes[0].equipmentDataInEquipementConnections[ik].FacilityDate3P = minimumNodeOnstreamDate;
@@ -509,13 +487,13 @@ void CalculateDeckVariables::GetFacilityFlowRates(vector<Node> &updatesNodes)
 	for (int ikk = 0; ikk < nSingleNodeDataList; ikk++)
 	{
 		int idx = singleNodeDataIndicies[ikk];
-		// CurrentDate.day == updatesNodes[0].equipmentDataInEquipementConnections[idx].FacilityDate1P.day &&
+		//CurrentDate.day == updatesNodes[0].equipmentDataInEquipementConnections[idx].FacilityDate1P.day &&
 		if (dateCreation.IsMaximumDate(CurrentDate, updatesNodes[0].equipmentDataInEquipementConnections[idx].FacilityDate1P) ||
-			dateCreation.EqualTo2(CurrentDate, updatesNodes[0].equipmentDataInEquipementConnections[idx].FacilityDate1P, isMonthly))
+		dateCreation.EqualTo2(CurrentDate, updatesNodes[0].equipmentDataInEquipementConnections[idx].FacilityDate1P, isMonthly))
 		{
-			// Set the sum of fluxes from wells to its corresponding facility provided
-			// the current time step date is greater or equal to the facility OSD
-
+			//Set the sum of fluxes from wells to its corresponding facility provided
+			//the current time step date is greater or equal to the facility OSD
+			
 			updatesNodes[0].equipmentDataInEquipementConnections[idx].FacilityOiProduced = FacilityOiProduced;
 			updatesNodes[0].equipmentDataInEquipementConnections[idx].FacilityGasProduced = FacilityGasProduced;
 			updatesNodes[0].equipmentDataInEquipementConnections[idx].FacilityAGProduced = FacilityAGProduced;
@@ -523,95 +501,86 @@ void CalculateDeckVariables::GetFacilityFlowRates(vector<Node> &updatesNodes)
 			updatesNodes[0].equipmentDataInEquipementConnections[idx].FacilityWaterProduced = FacilityWaterProduced;
 			updatesNodes[0].equipmentDataInEquipementConnections[idx].FacilityLiquidProduced = FacilityLiquidProduced;
 
-			// Settle Gas Own Use
-			if (FacilityGasProduced <= CurrentFacilityData.GasOwnUse)
-			{
-				// All gas produced was re-used at the station
-				for (ik = 0; ik < nw - 1; ik++)
+			//Settle Gas Own Use
+			if(FacilityGasProduced <= CurrentFacilityData.GasOwnUse ){
+				//All gas produced was re-used at the station
+				for (ik = 0; ik < nw-1; ik++)
 				{
-					if (results[datePosition][facilityCounter][ik].IsFlowing == true)
-					{
-
-						results[datePosition][facilityCounter][ik].Gas_Own_Use =
-							results[datePosition][facilityCounter][ik].Gas_Rate;
+					if (results[datePosition][facilityCounter][ik].IsFlowing == true){
+						
+						results[datePosition][facilityCounter][ik].Gas_Own_Use = 
+						results[datePosition][facilityCounter][ik].Gas_Rate;
 						results[datePosition][facilityCounter][ik].Gas_Flared = 0;
 						results[datePosition][facilityCounter][ik].Gas_Demand = 0;
+
 					}
 				}
-			}
-			else
-			{
+			}else{
 				double frac = 0;
-				// Gas Own Use - First Priority
-				for (ik = 0; ik < nw - 1; ik++)
+				//Gas Own Use - First Priority
+				for (ik = 0; ik < nw-1; ik++)
 				{
-					if (results[datePosition][facilityCounter][ik].IsFlowing == true)
-					{
+					if (results[datePosition][facilityCounter][ik].IsFlowing == true){
 
-						frac = results[datePosition][facilityCounter][ik].Gas_Rate / FacilityGasProduced;
-
+						frac = results[datePosition][facilityCounter][ik].Gas_Rate/FacilityGasProduced;
+						
 						results[datePosition][facilityCounter][ik].Gas_Own_Use = frac * CurrentFacilityData.GasOwnUse;
 						results[datePosition][facilityCounter][ik].Gas_Flared = 0; // Could be adjusted. check next command lines
 						results[datePosition][facilityCounter][ik].Gas_Demand = 0; // Could be adjusted. check next command lines
+
 					}
 				}
 
 				double remaingGasProduced = FacilityGasProduced - CurrentFacilityData.GasOwnUse;
-				// Check is there is flared gas in the remaining gas
-				if (remaingGasProduced <= CurrentFacilityData.GasDemand && remaingGasProduced > 0)
-				{
+				//Check is there is flared gas in the remaining gas
+				if(remaingGasProduced <= CurrentFacilityData.GasDemand && remaingGasProduced > 0){
 					// All the remaing gas is sales gas
 					double frac = 0;
-					for (ik = 0; ik < nw - 1; ik++)
+					for (ik = 0; ik < nw-1; ik++)
 					{
-						if (results[datePosition][facilityCounter][ik].IsFlowing == true)
-						{
+						if (results[datePosition][facilityCounter][ik].IsFlowing == true){
 
-							frac = results[datePosition][facilityCounter][ik].Gas_Rate / FacilityGasProduced;
-
+							frac = results[datePosition][facilityCounter][ik].Gas_Rate/FacilityGasProduced;
+							
 							results[datePosition][facilityCounter][ik].Gas_Demand = frac * remaingGasProduced;
 							results[datePosition][facilityCounter][ik].Gas_Flared = 0;
+
 						}
 					}
-				}
-				else
-				{
+				}else{
 					double frac = 0;
 					double flaredGas = remaingGasProduced - CurrentFacilityData.GasDemand;
 
-					for (ik = 0; ik < nw - 1; ik++)
+					for (ik = 0; ik < nw-1; ik++)
 					{
-						if (results[datePosition][facilityCounter][ik].IsFlowing == true)
-						{
+						if (results[datePosition][facilityCounter][ik].IsFlowing == true){
 
-							frac = results[datePosition][facilityCounter][ik].Gas_Rate / FacilityGasProduced;
-
+							frac = results[datePosition][facilityCounter][ik].Gas_Rate/FacilityGasProduced;
+							
 							results[datePosition][facilityCounter][ik].Gas_Demand = frac * CurrentFacilityData.GasDemand;
 							results[datePosition][facilityCounter][ik].Gas_Flared = 0;
+
 						}
 					}
 
-					if (flaredGas <= CurrentFacilityData.GasFlared && flaredGas > 0)
-					{
-						for (ik = 0; ik < nw - 1; ik++)
+					if(flaredGas <= CurrentFacilityData.GasFlared && flaredGas > 0){
+						for (ik = 0; ik < nw-1; ik++)
 						{
-							if (results[datePosition][facilityCounter][ik].IsFlowing == true)
-							{
+							if (results[datePosition][facilityCounter][ik].IsFlowing == true){
 
-								frac = results[datePosition][facilityCounter][ik].Gas_Rate / FacilityGasProduced;
+								frac = results[datePosition][facilityCounter][ik].Gas_Rate/FacilityGasProduced;
 
 								results[datePosition][facilityCounter][ik].Gas_Flared = frac * flaredGas;
+
 							}
 						}
-					}
-					else
-					{
-						if (results[datePosition][facilityCounter][ik].IsFlowing == true)
-						{
+					}else{
+						if (results[datePosition][facilityCounter][ik].IsFlowing == true){
 
-							frac = results[datePosition][facilityCounter][ik].Gas_Rate / FacilityGasProduced;
+							frac = results[datePosition][facilityCounter][ik].Gas_Rate/FacilityGasProduced;
 
 							results[datePosition][facilityCounter][ik].Gas_Flared = frac * CurrentFacilityData.GasFlared;
+
 						}
 					}
 				}
@@ -625,23 +594,23 @@ void CalculateDeckVariables::GetFacilityFlowRates(vector<Node> &updatesNodes)
 void CalculateDeckVariables::GetDownStreamNodesFlux(vector<Node> &updatesNodes, int &activeNodeIndex)
 {
 
-	// Get the fluxes of nodes = 2, ... n
+	//Get the fluxes of nodes = 2, ... n
 
 	int kk = activeNodeIndex;
-	int facilitiesSize =
+	int Faclitiessize =
 		updatesNodes[kk].equipmentDataInEquipementConnections.size();
-	for (int ij = 0; ij < facilitiesSize; ij++)
+	for (int ij = 0; ij < Faclitiessize; ij++)
 	{
 		int u = 0;
 		vector<int> actualChildrenNodesIndicies;
 		vector<string> actualChildrenNodesKeys;
-		// Get previous node children count
+		//Get previous node children count
 		int nAllChildrenNodes = updatesNodes[kk - 1].equipmentDataInEquipementConnections.size();
 		for (u = 0; u < nAllChildrenNodes; u++)
 		{
-			// Get current nodes name from the previous node. If a previous node is a separator
-			// it can have multpile outlet (eg. oil, gas, water) flowing to the next current node
-			// That is why we split the concatenated text to get the next current nodes names
+			//Get current nodes name from the previous node. If a previous node is a separator
+			//it can have multpile outlet (eg. oil, gas, water) flowing to the next current node
+			//That is why we split the concatenated text to get the next current nodes names
 			string parentNodes_Text = updatesNodes[kk - 1].equipmentDataInEquipementConnections[u].ParentNodes;
 			vector<string> parentNodes;
 			string delimeter = "===";
@@ -650,34 +619,34 @@ void CalculateDeckVariables::GetDownStreamNodesFlux(vector<Node> &updatesNodes, 
 			int nParentNodes = parentNodes.size();
 			for (v = 0; v < nParentNodes; v++)
 			{
-				// Get current node name from the the current node
+				//Get current node name from the the current node
 				string nodeName = updatesNodes[kk].equipmentDataInEquipementConnections[ij].Primary_Facility;
-				// Check if current node name from previous node is the same as current node name from the current node
+				//Check if current node name from previous node is the same as current node name from the current node
 				if (nodeName == parentNodes[v])
 				{
-					// CurrentDate.day == updatesNodes[kk - 1].equipmentDataInEquipementConnections[u].FacilityDate1P.day &&
-					// check if the previous node that is connected to the current node has a flow at the current time step date
+					//CurrentDate.day == updatesNodes[kk - 1].equipmentDataInEquipementConnections[u].FacilityDate1P.day &&
+					//check if the previous node that is connected to the current node has a flow at the current time step date
 					if (dateCreation.IsMaximumDate(CurrentDate, updatesNodes[kk - 1].equipmentDataInEquipementConnections[u].FacilityDate1P) ||
-						dateCreation.EqualTo2(CurrentDate, updatesNodes[kk - 1].equipmentDataInEquipementConnections[u].FacilityDate1P, isMonthly))
+					dateCreation.EqualTo2(CurrentDate, updatesNodes[kk - 1].equipmentDataInEquipementConnections[u].FacilityDate1P, isMonthly))
 					{
 
 						Date minimumNodeOnstreamDate, minimumNodeOnstreamDate2;
 						int ik = 0;
 						if (datePosition == 0)
 						{
-							// Adjust the current node OSD to be equal to the minimum OSD of the previous node
+							//Adjust the current node OSD to be equal to the minimum OSD of the previous node
 							minimumNodeOnstreamDate.day = updatesNodes[kk - 1].equipmentDataInEquipementConnections[u].FacilityDate1P.day;
 							minimumNodeOnstreamDate.month = updatesNodes[kk - 1].equipmentDataInEquipementConnections[u].FacilityDate1P.month;
 							minimumNodeOnstreamDate.year = updatesNodes[kk - 1].equipmentDataInEquipementConnections[u].FacilityDate1P.year;
 
-							// find minimumIndex
+							//find minimumIndex
 							int vv = 0;
 							int minimumIndex = ij;
 							minimumNodeOnstreamDate2.day = updatesNodes[kk].equipmentDataInEquipementConnections[ij].FacilityDate1P.day;
 							minimumNodeOnstreamDate2.month = updatesNodes[kk].equipmentDataInEquipementConnections[ij].FacilityDate1P.month;
 							minimumNodeOnstreamDate2.year = updatesNodes[kk].equipmentDataInEquipementConnections[ij].FacilityDate1P.year;
-							// This for loop is used to get the minimum schedule date of the current node
-							for (vv = 0; vv < facilitiesSize; vv++)
+							//This for loop is used to get the minimum schedule date of the current node
+							for (vv = 0; vv < Faclitiessize; vv++)
 							{
 								if (updatesNodes[kk].equipmentDataInEquipementConnections[ij].Primary_Facility ==
 										updatesNodes[kk].equipmentDataInEquipementConnections[vv].Primary_Facility &&
@@ -688,8 +657,8 @@ void CalculateDeckVariables::GetDownStreamNodesFlux(vector<Node> &updatesNodes, 
 								}
 							}
 
-							// minimumIndex is used to ensure that other date schedules dates of the current node is not altered.
-							// minimumIndexis also used to only adjust the OSD of the current node if the
+							//minimumIndex is used to ensure that other date schedules dates of the current node is not altered.
+							//minimumIndexis also used to only adjust the OSD of the current node if the
 							minimumNodeOnstreamDate = dateCreation.GetMinimumDate(
 								updatesNodes[kk].equipmentDataInEquipementConnections[minimumIndex].FacilityDate1P, minimumNodeOnstreamDate);
 
@@ -699,28 +668,23 @@ void CalculateDeckVariables::GetDownStreamNodesFlux(vector<Node> &updatesNodes, 
 						if (kk == 1)
 						{
 							int idx_u = isContainText(actualChildrenNodesKeys,
-													  updatesNodes[kk - 1].equipmentDataInEquipementConnections[u].nodesConnectionKey);
-							if (idx_u == -1)
-							{
-								if (updatesNodes[kk - 1].equipmentDataInEquipementConnections[u].FacilityOiProduced > 0 ||
-									updatesNodes[kk - 1].equipmentDataInEquipementConnections[u].FacilityGasProduced > 0)
-								{
+							updatesNodes[kk - 1].equipmentDataInEquipementConnections[u].nodesConnectionKey);
+							if(idx_u == -1){
+								if(updatesNodes[kk - 1].equipmentDataInEquipementConnections[u].FacilityOiProduced > 0 ||
+								updatesNodes[kk - 1].equipmentDataInEquipementConnections[u].FacilityGasProduced > 0){
 									actualChildrenNodesIndicies.push_back(u); // get facilities nodes indicies
 									actualChildrenNodesKeys.push_back(updatesNodes[kk - 1].equipmentDataInEquipementConnections[u].nodesConnectionKey);
 								}
-							}
-							else
-							{
+							}else{
 								int l_u = actualChildrenNodesIndicies[idx_u];
 								bool isMaximum = dateCreation.IsMaximumDate(
 									updatesNodes[kk - 1].equipmentDataInEquipementConnections[u].FacilityDate1P,
-									updatesNodes[kk - 1].equipmentDataInEquipementConnections[l_u].FacilityDate1P);
-
-								if (isMaximum == true)
-								{
-									if (updatesNodes[kk - 1].equipmentDataInEquipementConnections[u].FacilityOiProduced > 0 ||
-										updatesNodes[kk - 1].equipmentDataInEquipementConnections[u].FacilityGasProduced > 0)
-									{
+									updatesNodes[kk - 1].equipmentDataInEquipementConnections[l_u].FacilityDate1P
+								);
+								
+								if(isMaximum == true){
+									if(updatesNodes[kk - 1].equipmentDataInEquipementConnections[u].FacilityOiProduced > 0 ||
+									updatesNodes[kk - 1].equipmentDataInEquipementConnections[u].FacilityGasProduced > 0){
 										actualChildrenNodesIndicies[idx_u] = u;
 									}
 								}
@@ -732,24 +696,21 @@ void CalculateDeckVariables::GetDownStreamNodesFlux(vector<Node> &updatesNodes, 
 							{
 								if (updatesNodes[kk - 1].equipmentDataInEquipementConnections[u].FacilityOiProduced > 0.0000001)
 								{
-									// get the previous nodes indicies flowing oil to the current node
+									//get the previous nodes indicies flowing oil to the current node
 									int idx_u = isContainText(actualChildrenNodesKeys,
-															  updatesNodes[kk - 1].equipmentDataInEquipementConnections[u].nodesConnectionKey);
-									if (idx_u == -1)
-									{
+									updatesNodes[kk - 1].equipmentDataInEquipementConnections[u].nodesConnectionKey);
+									if(idx_u == -1){
 										actualChildrenNodesIndicies.push_back(u); // get facilities nodes indicies
 										actualChildrenNodesKeys.push_back(updatesNodes[kk - 1].equipmentDataInEquipementConnections[u].nodesConnectionKey);
-									}
-									else
-									{
+									}else{
 										int l_u = actualChildrenNodesIndicies[idx_u];
 										bool isMaximum = dateCreation.IsMaximumDate(
 											updatesNodes[kk - 1].equipmentDataInEquipementConnections[u].FacilityDate1P,
-											updatesNodes[kk - 1].equipmentDataInEquipementConnections[l_u].FacilityDate1P);
-
-										if (isMaximum == true &&
-											updatesNodes[kk - 1].equipmentDataInEquipementConnections[u].FacilityOiProduced > 0)
-										{
+											updatesNodes[kk - 1].equipmentDataInEquipementConnections[l_u].FacilityDate1P
+										);
+										
+										if(isMaximum == true &&
+										updatesNodes[kk - 1].equipmentDataInEquipementConnections[u].FacilityOiProduced > 0){
 											actualChildrenNodesIndicies[idx_u] = u;
 										}
 									}
@@ -759,24 +720,21 @@ void CalculateDeckVariables::GetDownStreamNodesFlux(vector<Node> &updatesNodes, 
 							{
 								if (updatesNodes[kk - 1].equipmentDataInEquipementConnections[u].FacilityGasProduced > 0.0000001)
 								{
-									// get the previous nodes indicies flowing gas to the current node
+									//get the previous nodes indicies flowing gas to the current node
 									int idx_u = isContainText(actualChildrenNodesKeys,
-															  updatesNodes[kk - 1].equipmentDataInEquipementConnections[u].nodesConnectionKey);
-									if (idx_u == -1)
-									{
+									updatesNodes[kk - 1].equipmentDataInEquipementConnections[u].nodesConnectionKey);
+									if(idx_u == -1){
 										actualChildrenNodesIndicies.push_back(u); // get facilities nodes indicies
 										actualChildrenNodesKeys.push_back(updatesNodes[kk - 1].equipmentDataInEquipementConnections[u].nodesConnectionKey);
-									}
-									else
-									{
+									}else{
 										int l_u = actualChildrenNodesIndicies[idx_u];
 										bool isMaximum = dateCreation.IsMaximumDate(
 											updatesNodes[kk - 1].equipmentDataInEquipementConnections[u].FacilityDate1P,
-											updatesNodes[kk - 1].equipmentDataInEquipementConnections[l_u].FacilityDate1P);
-
-										if (isMaximum &&
-											updatesNodes[kk - 1].equipmentDataInEquipementConnections[u].FacilityGasProduced > 0)
-										{
+											updatesNodes[kk - 1].equipmentDataInEquipementConnections[l_u].FacilityDate1P
+										);
+										
+										if(isMaximum &&
+										updatesNodes[kk - 1].equipmentDataInEquipementConnections[u].FacilityGasProduced > 0){
 											actualChildrenNodesIndicies[idx_u] = u;
 										}
 									}
@@ -790,8 +748,7 @@ void CalculateDeckVariables::GetDownStreamNodesFlux(vector<Node> &updatesNodes, 
 		}
 		if (actualChildrenNodesIndicies.size() > 0)
 		{
-			if (actualChildrenNodesIndicies.size() > 7)
-			{
+			if(actualChildrenNodesIndicies.size() > 7){
 				double jhu = 0;
 			}
 			int previousNodeIndex = kk - 1;
@@ -801,13 +758,13 @@ void CalculateDeckVariables::GetDownStreamNodesFlux(vector<Node> &updatesNodes, 
 			int currentNodesCount = updatesNodes[kk].equipmentDataInEquipementConnections.size();
 			for (u = ij; u < currentNodesCount; u++)
 			{
-				// Gets the capacities of the current node provided it is currently onstream
+				//Gets the capacities of the current node provided it is currently onstream
 				if (updatesNodes[kk].equipmentDataInEquipementConnections[ij].Primary_Facility ==
 					updatesNodes[kk].equipmentDataInEquipementConnections[u].Primary_Facility)
 				{
-					// CurrentDate.day == updatesNodes[kk].equipmentDataInEquipementConnections[u].FacilityDate1P.day &&
+					//CurrentDate.day == updatesNodes[kk].equipmentDataInEquipementConnections[u].FacilityDate1P.day &&
 					if (dateCreation.IsMaximumDate(CurrentDate, updatesNodes[kk].equipmentDataInEquipementConnections[u].FacilityDate1P) ||
-						dateCreation.EqualTo2(CurrentDate, updatesNodes[kk].equipmentDataInEquipementConnections[u].FacilityDate1P, isMonthly))
+					dateCreation.EqualTo2(CurrentDate, updatesNodes[kk].equipmentDataInEquipementConnections[u].FacilityDate1P, isMonthly))
 					{
 						Liquid_Capacity = updatesNodes[kk].equipmentDataInEquipementConnections[u].Liquid_Capacity1P * 1000;
 						AG_Capacity = updatesNodes[kk].equipmentDataInEquipementConnections[u].AG_Capacity1P * 1000000;
@@ -824,10 +781,9 @@ void CalculateDeckVariables::GetDownStreamNodesFlux(vector<Node> &updatesNodes, 
 			}
 			if (idx2 > -1)
 			{
-				if (Liquid_Capacity > 0 || Gas_Capacity > 0)
-				{
+				if(Liquid_Capacity > 0 || Gas_Capacity > 0){
 					optimize_olderNode_children(updatesNodes, previousNodeIndex, actualChildrenNodesIndicies,
-												updatesNodes[kk].prioritizations[idx2]);
+												updatesNodes[kk].priotizations[idx2]);
 
 					updatesNodes[kk].equipmentDataInEquipementConnections[idx2].isGasFlow = isGasFlow;
 
@@ -837,6 +793,7 @@ void CalculateDeckVariables::GetDownStreamNodesFlux(vector<Node> &updatesNodes, 
 					updatesNodes[kk].equipmentDataInEquipementConnections[idx2].FacilityNAGProduced = FacilityNAGProduced;
 					updatesNodes[kk].equipmentDataInEquipementConnections[idx2].FacilityWaterProduced = FacilityWaterProduced;
 					updatesNodes[kk].equipmentDataInEquipementConnections[idx2].FacilityLiquidProduced = FacilityLiquidProduced;
+
 				}
 			}
 		}
@@ -845,13 +802,13 @@ void CalculateDeckVariables::GetDownStreamNodesFlux(vector<Node> &updatesNodes, 
 
 void CalculateDeckVariables::AdjustWellsFlowRates(vector<Node> &updatesNodes,
 												  vector<int> &daysList, int &scenario, vector<FacilityStruct> &FacilityTable,
-												  string &forecastCase, vector<vector<Prioritization>> &prioritizationsFacilities,
-												  vector<vector<vector<InputDeckStruct>>> &Facilities,
-												  vector<Date> &dateTimes)
+												  string &forecastCase, vector<vector<Prioritization>> &priotizationsFacilities,
+												  vector<vector<vector<InputDeckStruct>>> &Faclities,
+												  vector<Date>& dateTimes)
 {
 
 	int nUpdatesNodes = updatesNodes.size();
-	// Start from node zero which is the facilities node
+	//Start from node zero which is the facilities node
 	int nFacilitiesNodes = updatesNodes[0].equipmentInEquipementConnections.size();
 	string logger = "";
 	int j = 0;
@@ -873,11 +830,11 @@ void CalculateDeckVariables::AdjustWellsFlowRates(vector<Node> &updatesNodes,
 			if (updatesNodes[0].equipmentInEquipementConnections[j].facilityName ==
 				updatesNodes[0].equipmentDataInEquipementConnections[u].Primary_Facility)
 			{
-				// If facility name in equipmentInEquipementConnections is the same as
-				//  equipmentDataInEquipementConnections do something
-				// CurrentDate.day == updatesNodes[0].equipmentDataInEquipementConnections[u].FacilityDate1P.day &&
+				//If facility name in equipmentInEquipementConnections is the same as
+				// equipmentDataInEquipementConnections do something
+				//CurrentDate.day == updatesNodes[0].equipmentDataInEquipementConnections[u].FacilityDate1P.day &&
 				if (dateCreation.IsMaximumDate(CurrentDate, updatesNodes[0].equipmentDataInEquipementConnections[u].FacilityDate1P) ||
-					dateCreation.EqualTo2(CurrentDate, updatesNodes[0].equipmentDataInEquipementConnections[u].FacilityDate1P, isMonthly))
+				dateCreation.EqualTo2(CurrentDate, updatesNodes[0].equipmentDataInEquipementConnections[u].FacilityDate1P, isMonthly))
 				{
 					liquidCutBack = liquidCutBack * updatesNodes[0].equipmentDataInEquipementConnections[u].cutBack;
 					gasCutBack = gasCutBack * updatesNodes[0].equipmentDataInEquipementConnections[u].cutBack;
@@ -894,16 +851,15 @@ void CalculateDeckVariables::AdjustWellsFlowRates(vector<Node> &updatesNodes,
 					nodeConnections = nodeConnections + updatesNodes[0].equipmentDataInEquipementConnections[u].Primary_Facility + "===";
 					idx = u;
 
-					logger = logger +
-							 "liquidCutBack = " + to_string(liquidCutBack) + " * "
-																			 "gasCutBack = " +
-							 to_string(gasCutBack) + " * ";
+					logger = logger + 
+					"liquidCutBack = " + to_string(liquidCutBack) + " * "
+					"gasCutBack = " + to_string(gasCutBack) + " * ";
 
 					break;
 				}
 			}
 		}
-
+		
 		if (idx > -1)
 		{
 			string parentNodes_Text = updatesNodes[0].equipmentDataInEquipementConnections[idx].ParentNodes;
@@ -931,7 +887,7 @@ void CalculateDeckVariables::AdjustWellsFlowRates(vector<Node> &updatesNodes,
 						string nodeName = updatesNodes[kk].equipmentDataInEquipementConnections[ij].Primary_Facility;
 						if (nodeName == parentNodes[v])
 						{
-							// CurrentDate.day == updatesNodes[kk].equipmentDataInEquipementConnections[ij].FacilityDate1P.day &&
+							//CurrentDate.day == updatesNodes[kk].equipmentDataInEquipementConnections[ij].FacilityDate1P.day &&
 							if (dateCreation.IsMaximumDate(CurrentDate, updatesNodes[kk].equipmentDataInEquipementConnections[ij].FacilityDate1P) ||
 								dateCreation.EqualTo2(CurrentDate, updatesNodes[kk].equipmentDataInEquipementConnections[ij].FacilityDate1P, isMonthly))
 							{
@@ -962,13 +918,12 @@ void CalculateDeckVariables::AdjustWellsFlowRates(vector<Node> &updatesNodes,
 								liquidCutBackText = liquidCutBackText + to_string(liquidCutBack) + "===";
 								gasCutBackText = gasCutBackText + to_string(gasCutBack) + "===";
 								nodeConnections = nodeConnections + updatesNodes[kk].equipmentDataInEquipementConnections[u].Primary_Facility + "===";
-								check = true;
+								check = true; 
 
-								logger = logger +
-										 "liquidCutBack = " + to_string(liquidCutBack) + " * "
-																						 "gasCutBack = " +
-										 to_string(gasCutBack) + " * ";
-
+								logger = logger + 
+								"liquidCutBack = " + to_string(liquidCutBack) + " * "
+								"gasCutBack = " + to_string(gasCutBack) + " * ";
+								
 								break;
 							}
 						}
@@ -986,10 +941,10 @@ void CalculateDeckVariables::AdjustWellsFlowRates(vector<Node> &updatesNodes,
 				deckobj.tokenize(parentNodes_Text, delimeter, parentNodes);
 			}
 
-			int facilitiesSize = Facilities[0].size();
-			for (int kk = 0; kk < facilitiesSize; kk++)
+			int Faclitiessize = Faclities[0].size();
+			for (int kk = 0; kk < Faclitiessize; kk++)
 			{
-				vector<InputDeckStruct> Facility = Facilities[datePosition][kk];
+				vector<InputDeckStruct> Facility = Faclities[datePosition][kk];
 				if (Facility[0].Flow_station == updatesNodes[0].equipmentDataInEquipementConnections[idx].Primary_Facility)
 				{
 					facilityCounter = kk;
@@ -1001,43 +956,44 @@ void CalculateDeckVariables::AdjustWellsFlowRates(vector<Node> &updatesNodes,
 					FacilityWaterProduced = updatesNodes[0].equipmentDataInEquipementConnections[idx].FacilityWaterProduced;
 					FacilityGasProduced = updatesNodes[0].equipmentDataInEquipementConnections[idx].FacilityGasProduced;
 					FacilityLiquidProduced = updatesNodes[0].equipmentDataInEquipementConnections[idx].FacilityLiquidProduced;
-					// std::cout << "GetDeckVariables2 Started" << "\n";
+					//std::cout << "GetDeckVariables2 Started" << "\n";
 					GetDeckVariables2(Facility,
 									  daysList, scenario, facilityCounter,
-									  FacilityTable[facilityCounter], datePosition, facilitiesSize, Facilities,
-									  forecastCase, prioritizationsFacilities[datePosition][j],
+									  FacilityTable[facilityCounter], datePosition, Faclitiessize, Faclities,
+									  forecastCase, priotizationsFacilities[datePosition][j],
 									  gasCutBack, liquidCutBack, liquidCutBackText, gasCutBackText, nodeConnections);
-					// std::cout << "GetDeckVariables2 Cpmpleted" << "\n";
+					//std::cout << "GetDeckVariables2 Cpmpleted" << "\n";
 					break;
 				}
 			}
 		}
+
 	}
 }
 
-void CalculateDeckVariables::GetDeckVariables(vector<vector<vector<InputDeckStruct>>> &Facilities,
+void CalculateDeckVariables::GetDeckVariables(vector<vector<vector<InputDeckStruct>>> &Faclities,
 											  vector<int> &daysList, int &scenario, vector<FacilityStruct> &FacilityTable,
-											  vector<string> &FacilitiesNames, DateCreation &dateCreationX,
+											  vector<string> &FaclitiesNames, DateCreation &dateCreationX,
 											  vector<WellReroute> &routedWells, string &forecastCase,
-											  vector<vector<Prioritization>> &prioritizationsFacilities,
+											  vector<vector<Prioritization>> &priotizationsFacilities,
 											  vector<Node> &updatesNodes, bool isMonthly)
 {
 
 	double MM = 1000000.0;
 
 	int j = -1, k = -1, i = 0;
-	int nFacilities2 = Facilities.size();
-	int datesSize = dates.size();
+	int nFaclities2 = Faclities.size();
+	int datessize = dates.size();
 
-	for (i = 0; i < datesSize; i++)
+	for (i = 0; i < datessize; i++)
 	{
-		int nFacilities = Facilities[i].size();
+		int nFacilities = Faclities[i].size();
 
 		vector<vector<ForecastResult>> facilitiesResultsPerDate;
 
 		for (j = 0; j < nFacilities; j++)
 		{
-			vector<InputDeckStruct> Facility = Facilities[i][j];
+			vector<InputDeckStruct> Facility = Faclities[i][j];
 
 			vector<ForecastResult> wellsResultsPerFacilityPerDate;
 
@@ -1045,7 +1001,7 @@ void CalculateDeckVariables::GetDeckVariables(vector<vector<vector<InputDeckStru
 			for (k = 0; k < allWellsPerFacility; k++)
 			{
 
-				_InputDeckStruct deck = Facilities[i][j][k];
+				_InputDeckStruct deck = Faclities[i][j][k];
 				CurrentDate = dates[i];
 				ForecastResult result;
 				result.InitializeData();
@@ -1055,7 +1011,7 @@ void CalculateDeckVariables::GetDeckVariables(vector<vector<vector<InputDeckStru
 				result.HyrocarbonStream = deck.Hydrocarbon_Stream;
 				result.hydrocarbonType = deck.hydrocarbonType;
 				result.terminal = deck.terminal;
-				result.ModuleName = deck.Module;
+				result.moduleName = deck.Module;
 				result.Version_Name = deck.Version_Name;
 				result.Field = deck.Field;
 				result.Reservoir = deck.Reservoir;
@@ -1098,12 +1054,12 @@ void CalculateDeckVariables::GetDeckVariables(vector<vector<vector<InputDeckStru
 					{
 						if (deck.Hydrocarbon_Stream == oil)
 						{
-							// deck.Rate_of_Change_Rate_1P_1C = deck.Rate_of_Change_Rate_1P_1C * 0.00001;
-							// Facilities[i][j][k].Rate_of_Change_Rate_1P_1C = Facilities[i][j][k].Rate_of_Change_Rate_1P_1C * 0.00001;
+							//deck.Rate_of_Change_Rate_1P_1C = deck.Rate_of_Change_Rate_1P_1C * 0.00001;
+							//Faclities[i][j][k].Rate_of_Change_Rate_1P_1C = Faclities[i][j][k].Rate_of_Change_Rate_1P_1C * 0.00001;
 							result.HyrocarbonStream = deck.Hydrocarbon_Stream;
 							result.hydrocarbonType = deck.hydrocarbonType;
 							result.terminal = deck.terminal;
-							result.ModuleName = deck.Module;
+							result.moduleName = deck.Module;
 							result.Version_Name = deck.Version_Name;
 							result.Field = deck.Field;
 							result.Reservoir = deck.Reservoir;
@@ -1134,20 +1090,19 @@ void CalculateDeckVariables::GetDeckVariables(vector<vector<vector<InputDeckStru
 							result.oilRateAbandonment = deck.Aband_Liquid_Gas_Rate_1P_1C * (1 - deck.Init_BSW_WGR);
 							result.liquidRateAbandonmemt = deck.Aband_Liquid_Gas_Rate_1P_1C;
 
-							if (i > 0)
-							{
-								results[i - 1][j][k].Oil_rate = result.Oil_rate;
-								results[i - 1][j][k].Oil_rate_NotTerminated = result.Oil_rate_NotTerminated;
-								results[i - 1][j][k].Water_Rate = result.Water_Rate;
-								results[i - 1][j][k].Liquid_Rate = result.Liquid_Rate;
-								results[i - 1][j][k].Liquid_rate_NotTerminated = result.Liquid_rate_NotTerminated;
-								results[i - 1][j][k].Gas_Rate = result.Gas_Rate;
-								results[i - 1][j][k].Cum_Oil_Prod = result.Cum_Oil_Prod;
-								results[i - 1][j][k].Cum_Gas_Prod = result.Cum_Gas_Prod;
-								results[i - 1][j][k].Cum_Water_Prod = result.Cum_Water_Prod;
-								results[i - 1][j][k].Cum_Liquid_Prod = result.Cum_Liquid_Prod;
-								results[i - 1][j][k].URo = result.URo;
-								results[i - 1][j][k].URg = result.URg;
+							if(i > 0){
+								results[i-1][j][k].Oil_rate = result.Oil_rate;
+								results[i-1][j][k].Oil_rate_NotTerminated = result.Oil_rate_NotTerminated;
+								results[i-1][j][k].Water_Rate = result.Water_Rate;
+								results[i-1][j][k].Liquid_Rate = result.Liquid_Rate;
+								results[i-1][j][k].Liquid_rate_NotTerminated = result.Liquid_rate_NotTerminated;
+								results[i-1][j][k].Gas_Rate = result.Gas_Rate;
+								results[i-1][j][k].Cum_Oil_Prod = result.Cum_Oil_Prod;
+								results[i-1][j][k].Cum_Gas_Prod = result.Cum_Gas_Prod;
+								results[i-1][j][k].Cum_Water_Prod = result.Cum_Water_Prod;
+								results[i-1][j][k].Cum_Liquid_Prod = result.Cum_Liquid_Prod;
+								results[i-1][j][k].URo = result.URo;
+								results[i-1][j][k].URg = result.URg;
 							}
 						}
 						else
@@ -1155,7 +1110,7 @@ void CalculateDeckVariables::GetDeckVariables(vector<vector<vector<InputDeckStru
 							result.HyrocarbonStream = deck.Hydrocarbon_Stream;
 							result.hydrocarbonType = deck.hydrocarbonType;
 							result.terminal = deck.terminal;
-							result.ModuleName = deck.Module;
+							result.moduleName = deck.Module;
 							result.Version_Name = deck.Version_Name;
 							result.Field = deck.Field;
 							result.Reservoir = deck.Reservoir;
@@ -1185,20 +1140,19 @@ void CalculateDeckVariables::GetDeckVariables(vector<vector<vector<InputDeckStru
 							result.isTerminated = deck.isTerminated;
 							result.gasRateAbandonment = deck.Aband_Liquid_Gas_Rate_1P_1C;
 
-							if (i > 0)
-							{
-								results[i - 1][j][k].Oil_rate = result.Oil_rate;
-								results[i - 1][j][k].Oil_rate_NotTerminated = result.Oil_rate_NotTerminated;
-								results[i - 1][j][k].Water_Rate = result.Water_Rate;
-								results[i - 1][j][k].Liquid_Rate = result.Liquid_Rate;
-								results[i - 1][j][k].Liquid_rate_NotTerminated = result.Liquid_rate_NotTerminated;
-								results[i - 1][j][k].Gas_Rate = result.Gas_Rate;
-								results[i - 1][j][k].Cum_Oil_Prod = result.Cum_Oil_Prod;
-								results[i - 1][j][k].Cum_Gas_Prod = result.Cum_Gas_Prod;
-								results[i - 1][j][k].Cum_Water_Prod = result.Cum_Water_Prod;
-								results[i - 1][j][k].Cum_Liquid_Prod = result.Cum_Liquid_Prod;
-								results[i - 1][j][k].URo = result.URo;
-								results[i - 1][j][k].URg = result.URg;
+							if(i > 0){
+								results[i-1][j][k].Oil_rate = result.Oil_rate;
+								results[i-1][j][k].Oil_rate_NotTerminated = result.Oil_rate_NotTerminated;
+								results[i-1][j][k].Water_Rate = result.Water_Rate;
+								results[i-1][j][k].Liquid_Rate = result.Liquid_Rate;
+								results[i-1][j][k].Liquid_rate_NotTerminated = result.Liquid_rate_NotTerminated;
+								results[i-1][j][k].Gas_Rate = result.Gas_Rate;
+								results[i-1][j][k].Cum_Oil_Prod = result.Cum_Oil_Prod;
+								results[i-1][j][k].Cum_Gas_Prod = result.Cum_Gas_Prod;
+								results[i-1][j][k].Cum_Water_Prod = result.Cum_Water_Prod;
+								results[i-1][j][k].Cum_Liquid_Prod = result.Cum_Liquid_Prod;
+								results[i-1][j][k].URo = result.URo;
+								results[i-1][j][k].URg = result.URg;
 							}
 						}
 					}
@@ -1208,12 +1162,13 @@ void CalculateDeckVariables::GetDeckVariables(vector<vector<vector<InputDeckStru
 				case 2:
 					if (dateCreation.EqualTo2(dates[i], deck.Date_2P_2C, isMonthly)) // Assign Initial Values
 					{
+
 						if (deck.Hydrocarbon_Stream == oil)
 						{
 							result.HyrocarbonStream = deck.Hydrocarbon_Stream;
 							result.hydrocarbonType = deck.hydrocarbonType;
 							result.terminal = deck.terminal;
-							result.ModuleName = deck.Module;
+							result.moduleName = deck.Module;
 							result.Version_Name = deck.Version_Name;
 							result.Field = deck.Field;
 							result.Reservoir = deck.Reservoir;
@@ -1244,28 +1199,28 @@ void CalculateDeckVariables::GetDeckVariables(vector<vector<vector<InputDeckStru
 							result.oilRateAbandonment = deck.Aband_Liquid_Gas_Rate_2P_2C * (1 - deck.Init_BSW_WGR);
 							result.liquidRateAbandonmemt = deck.Aband_Liquid_Gas_Rate_2P_2C;
 
-							if (i > 0)
-							{
-								results[i - 1][j][k].Oil_rate = result.Oil_rate;
-								results[i - 1][j][k].Oil_rate_NotTerminated = result.Oil_rate_NotTerminated;
-								results[i - 1][j][k].Water_Rate = result.Water_Rate;
-								results[i - 1][j][k].Liquid_Rate = result.Liquid_Rate;
-								results[i - 1][j][k].Liquid_rate_NotTerminated = result.Liquid_rate_NotTerminated;
-								results[i - 1][j][k].Gas_Rate = result.Gas_Rate;
-								results[i - 1][j][k].Cum_Oil_Prod = result.Cum_Oil_Prod;
-								results[i - 1][j][k].Cum_Gas_Prod = result.Cum_Gas_Prod;
-								results[i - 1][j][k].Cum_Water_Prod = result.Cum_Water_Prod;
-								results[i - 1][j][k].Cum_Liquid_Prod = result.Cum_Liquid_Prod;
-								results[i - 1][j][k].URo = result.URo;
-								results[i - 1][j][k].URg = result.URg;
+							if(i > 0){
+								results[i-1][j][k].Oil_rate = result.Oil_rate;
+								results[i-1][j][k].Oil_rate_NotTerminated = result.Oil_rate_NotTerminated;
+								results[i-1][j][k].Water_Rate = result.Water_Rate;
+								results[i-1][j][k].Liquid_Rate = result.Liquid_Rate;
+								results[i-1][j][k].Liquid_rate_NotTerminated = result.Liquid_rate_NotTerminated;
+								results[i-1][j][k].Gas_Rate = result.Gas_Rate;
+								results[i-1][j][k].Cum_Oil_Prod = result.Cum_Oil_Prod;
+								results[i-1][j][k].Cum_Gas_Prod = result.Cum_Gas_Prod;
+								results[i-1][j][k].Cum_Water_Prod = result.Cum_Water_Prod;
+								results[i-1][j][k].Cum_Liquid_Prod = result.Cum_Liquid_Prod;
+								results[i-1][j][k].URo = result.URo;
+								results[i-1][j][k].URg = result.URg;
 							}
+
 						}
 						else
 						{
 							result.HyrocarbonStream = deck.Hydrocarbon_Stream;
 							result.hydrocarbonType = deck.hydrocarbonType;
 							result.terminal = deck.terminal;
-							result.ModuleName = deck.Module;
+							result.moduleName = deck.Module;
 							result.Version_Name = deck.Version_Name;
 							result.Field = deck.Field;
 							result.Reservoir = deck.Reservoir;
@@ -1295,20 +1250,19 @@ void CalculateDeckVariables::GetDeckVariables(vector<vector<vector<InputDeckStru
 							result.isTerminated = deck.isTerminated;
 							result.gasRateAbandonment = deck.Aband_Liquid_Gas_Rate_2P_2C;
 
-							if (i > 0)
-							{
-								results[i - 1][j][k].Oil_rate = result.Oil_rate;
-								results[i - 1][j][k].Oil_rate_NotTerminated = result.Oil_rate_NotTerminated;
-								results[i - 1][j][k].Water_Rate = result.Water_Rate;
-								results[i - 1][j][k].Liquid_Rate = result.Liquid_Rate;
-								results[i - 1][j][k].Liquid_rate_NotTerminated = result.Liquid_rate_NotTerminated;
-								results[i - 1][j][k].Gas_Rate = result.Gas_Rate;
-								results[i - 1][j][k].Cum_Oil_Prod = result.Cum_Oil_Prod;
-								results[i - 1][j][k].Cum_Gas_Prod = result.Cum_Gas_Prod;
-								results[i - 1][j][k].Cum_Water_Prod = result.Cum_Water_Prod;
-								results[i - 1][j][k].Cum_Liquid_Prod = result.Cum_Liquid_Prod;
-								results[i - 1][j][k].URo = result.URo;
-								results[i - 1][j][k].URg = result.URg;
+							if(i > 0){
+								results[i-1][j][k].Oil_rate = result.Oil_rate;
+								results[i-1][j][k].Oil_rate_NotTerminated = result.Oil_rate_NotTerminated;
+								results[i-1][j][k].Water_Rate = result.Water_Rate;
+								results[i-1][j][k].Liquid_Rate = result.Liquid_Rate;
+								results[i-1][j][k].Liquid_rate_NotTerminated = result.Liquid_rate_NotTerminated;
+								results[i-1][j][k].Gas_Rate = result.Gas_Rate;
+								results[i-1][j][k].Cum_Oil_Prod = result.Cum_Oil_Prod;
+								results[i-1][j][k].Cum_Gas_Prod = result.Cum_Gas_Prod;
+								results[i-1][j][k].Cum_Water_Prod = result.Cum_Water_Prod;
+								results[i-1][j][k].Cum_Liquid_Prod = result.Cum_Liquid_Prod;
+								results[i-1][j][k].URo = result.URo;
+								results[i-1][j][k].URg = result.URg;
 							}
 						}
 					}
@@ -1316,14 +1270,14 @@ void CalculateDeckVariables::GetDeckVariables(vector<vector<vector<InputDeckStru
 					break;
 
 				case 3:
-					if (dateCreation.EqualTo2(dates[i], deck.Date_3P_3C, isMonthly)) // Assign Initial Values
+					if (dateCreation.EqualTo2(dates[i], deck.Date_3P_3C, isMonthly))// Assign Initial Values
 					{
 						if (deck.Hydrocarbon_Stream == oil)
 						{
 							result.HyrocarbonStream = deck.Hydrocarbon_Stream;
 							result.hydrocarbonType = deck.hydrocarbonType;
 							result.terminal = deck.terminal;
-							result.ModuleName = deck.Module;
+							result.moduleName = deck.Module;
 							result.Version_Name = deck.Version_Name;
 							result.Field = deck.Field;
 							result.Reservoir = deck.Reservoir;
@@ -1351,34 +1305,33 @@ void CalculateDeckVariables::GetDeckVariables(vector<vector<vector<InputDeckStru
 							result.projectName = deck.Activity_Entity;
 							result.resourceClass = deck.Resource_Class;
 							result.isTerminated = deck.isTerminated;
-							result.oilRateAbandonment = deck.Aband_Liquid_Gas_Rate_3P_3C * (1 - deck.Init_BSW_WGR);
+							result.oilRateAbandonment = deck.Aband_Liquid_Gas_Rate_3P_3C * (1 -  deck.Init_BSW_WGR);
 							result.liquidRateAbandonmemt = deck.Aband_Liquid_Gas_Rate_3P_3C;
 
-							if (i > 0)
-							{
-								results[i - 1][j][k].Oil_rate = result.Oil_rate;
-								results[i - 1][j][k].Oil_rate_NotTerminated = result.Oil_rate_NotTerminated;
-								results[i - 1][j][k].Water_Rate = result.Water_Rate;
-								results[i - 1][j][k].Liquid_Rate = result.Liquid_Rate;
-								results[i - 1][j][k].Liquid_rate_NotTerminated = result.Liquid_rate_NotTerminated;
-								results[i - 1][j][k].Gas_Rate = result.Gas_Rate;
-								results[i - 1][j][k].Cum_Oil_Prod = result.Cum_Oil_Prod;
-								results[i - 1][j][k].Cum_Gas_Prod = result.Cum_Gas_Prod;
-								results[i - 1][j][k].Cum_Water_Prod = result.Cum_Water_Prod;
-								results[i - 1][j][k].Cum_Liquid_Prod = result.Cum_Liquid_Prod;
-								results[i - 1][j][k].URo = result.URo;
-								results[i - 1][j][k].URg = result.URg;
+							if(i > 0){
+								results[i-1][j][k].Oil_rate = result.Oil_rate;
+								results[i-1][j][k].Oil_rate_NotTerminated = result.Oil_rate_NotTerminated;
+								results[i-1][j][k].Water_Rate = result.Water_Rate;
+								results[i-1][j][k].Liquid_Rate = result.Liquid_Rate;
+								results[i-1][j][k].Liquid_rate_NotTerminated = result.Liquid_rate_NotTerminated;
+								results[i-1][j][k].Gas_Rate = result.Gas_Rate;
+								results[i-1][j][k].Cum_Oil_Prod = result.Cum_Oil_Prod;
+								results[i-1][j][k].Cum_Gas_Prod = result.Cum_Gas_Prod;
+								results[i-1][j][k].Cum_Water_Prod = result.Cum_Water_Prod;
+								results[i-1][j][k].Cum_Liquid_Prod = result.Cum_Liquid_Prod;
+								results[i-1][j][k].URo = result.URo;
+								results[i-1][j][k].URg = result.URg;
 							}
 
-							// std::cout << "Module Name: " << result.ModuleName << std::endl;
-							// std::cout << "Start Date: " << result.startDay << "/"  << result.startMonth << "/"  << result.StartYear  << std::endl;
+							//std::cout << "Module Name: " << result.moduleName << std::endl;
+							//std::cout << "Start Date: " << result.startDay << "/"  << result.startMonth << "/"  << result.StartYear  << std::endl;
 						}
 						else
 						{
 							result.HyrocarbonStream = deck.Hydrocarbon_Stream;
 							result.hydrocarbonType = deck.hydrocarbonType;
 							result.terminal = deck.terminal;
-							result.ModuleName = deck.Module;
+							result.moduleName = deck.Module;
 							result.Version_Name = deck.Version_Name;
 							result.Field = deck.Field;
 							result.Reservoir = deck.Reservoir;
@@ -1408,24 +1361,23 @@ void CalculateDeckVariables::GetDeckVariables(vector<vector<vector<InputDeckStru
 							result.isTerminated = deck.isTerminated;
 							result.gasRateAbandonment = deck.Aband_Liquid_Gas_Rate_3P_3C;
 
-							if (i > 0)
-							{
-								results[i - 1][j][k].Oil_rate = result.Oil_rate;
-								results[i - 1][j][k].Oil_rate_NotTerminated = result.Oil_rate_NotTerminated;
-								results[i - 1][j][k].Water_Rate = result.Water_Rate;
-								results[i - 1][j][k].Liquid_Rate = result.Liquid_Rate;
-								results[i - 1][j][k].Liquid_rate_NotTerminated = result.Liquid_rate_NotTerminated;
-								results[i - 1][j][k].Gas_Rate = result.Gas_Rate;
-								results[i - 1][j][k].Cum_Oil_Prod = result.Cum_Oil_Prod;
-								results[i - 1][j][k].Cum_Gas_Prod = result.Cum_Gas_Prod;
-								results[i - 1][j][k].Cum_Water_Prod = result.Cum_Water_Prod;
-								results[i - 1][j][k].Cum_Liquid_Prod = result.Cum_Liquid_Prod;
-								results[i - 1][j][k].URo = result.URo;
-								results[i - 1][j][k].URg = result.URg;
+							if(i > 0){
+								results[i-1][j][k].Oil_rate = result.Oil_rate;
+								results[i-1][j][k].Oil_rate_NotTerminated = result.Oil_rate_NotTerminated;
+								results[i-1][j][k].Water_Rate = result.Water_Rate;
+								results[i-1][j][k].Liquid_Rate = result.Liquid_Rate;
+								results[i-1][j][k].Liquid_rate_NotTerminated = result.Liquid_rate_NotTerminated;
+								results[i-1][j][k].Gas_Rate = result.Gas_Rate;
+								results[i-1][j][k].Cum_Oil_Prod = result.Cum_Oil_Prod;
+								results[i-1][j][k].Cum_Gas_Prod = result.Cum_Gas_Prod;
+								results[i-1][j][k].Cum_Water_Prod = result.Cum_Water_Prod;
+								results[i-1][j][k].Cum_Liquid_Prod = result.Cum_Liquid_Prod;
+								results[i-1][j][k].URo = result.URo;
+								results[i-1][j][k].URg = result.URg;
 							}
 
-							// std::cout << "Module Name: " << result.ModuleName << std::endl;
-							// std::cout << "Start Date: " << result.startDay << "/"  << result.startMonth << "/"  << result.StartYear  << std::endl;
+							//std::cout << "Module Name: " << result.moduleName << std::endl;
+							//std::cout << "Start Date: " << result.startDay << "/"  << result.startMonth << "/"  << result.StartYear  << std::endl;
 						}
 
 						/* if (i > 0)
@@ -1443,97 +1395,97 @@ void CalculateDeckVariables::GetDeckVariables(vector<vector<vector<InputDeckStru
 		results.push_back(facilitiesResultsPerDate);
 	}
 
-	// int nTimes = 3 * dates.size();
-	// vector<ForecastResult> resultsN = results[0][0];
-	// std::cout << "No. of resultsN: " << resultsN.size() << std::endl;
-	datesSize = dates.size();
-	std::cout << "datesSize: " << datesSize << std::endl;
-	int facilitiesSize = Facilities[0].size();
+	//int nTimes = 3 * dates.size();
+	//vector<ForecastResult> resultsN = results[0][0];
+	//std::cout << "No. of resultsN: " << resultsN.size() << std::endl;
+	datessize = dates.size();
+	std::cout << "datessize: " << datessize << std::endl;
+	int Faclitiessize = Faclities[0].size();
 
 	/* try
 	{ */
-	Date minimumNodeOnstreamDate;
-	for (i = 0; i < datesSize; i++)
-	{
-		facilitiesPerTimeStepReport = "";
-		datePosition = i;
-		facilityCounter = -1;
-		CurrentDate = dates[i];
-		// WellFacilityDataList.clear();
-		int kk = 0;
-		int nUpdatesNodes = 1; // updatesNodes.size(); //nUpdatesNodes = 1; To be removed
-		if (forecastCase == potential)
+		Date minimumNodeOnstreamDate;
+		for (i = 0; i < datessize; i++)
 		{
-			nUpdatesNodes = 1;
-		}
-
-		for (kk = 0; kk < nUpdatesNodes; kk++)
-		{
-			if (kk == 0)
+			facilitiesPerTimeStepReport = "";
+			datePosition = i;
+			facilityCounter = -1;
+			CurrentDate = dates[i];
+			//WellFacilityDataList.clear();
+			int kk = 0;
+			int nUpdatesNodes = 1; //updatesNodes.size(); //nUpdatesNodes = 1; To be removed
+			if (forecastCase == potential)
 			{
-				for (int ij = 0; ij < facilitiesSize; ij++)
+				nUpdatesNodes = 1;
+			}
+
+			for (kk = 0; kk < nUpdatesNodes; kk++)
+			{
+				if (kk == 0)
 				{
-					facilityCounter = ij;
-					FacilityList = FacilityTables_Actual[ij];
-					vector<InputDeckStruct> Facility = Facilities[i][ij];
-					FacilityOiProduced = 0;
-					FacilityWaterProduced = 0;
-					FacilityGasProduced = 0;
-					FacilityLiquidProduced = 0;
-
-					int facilityCounter2 = 0;
-					for (int ik = 0; ik < prioritizationsFacilities[i].size(); ik++)
+					for (int ij = 0; ij < Faclitiessize; ij++)
 					{
-						if (Facility[0].Flow_station == prioritizationsFacilities[i][ik].FacilityName)
-						{
-							facilityCounter2 = ik;
-							break;
-						}
-					}
+						facilityCounter = ij;
+						FacilityList = FacilityTables_Actual[ij];
+						vector<InputDeckStruct> Facility = Faclities[i][ij];
+						FacilityOiProduced = 0;
+						FacilityWaterProduced = 0;
+						FacilityGasProduced = 0;
+						FacilityLiquidProduced = 0;
 
-					// std::cout << "GetDeckVariables started" << std::endl;
-					GetDeckVariables(Facility, daysList, scenario, facilityCounter, FacilityTable[facilityCounter], i,
-									 facilitiesSize, Facilities, forecastCase, prioritizationsFacilities[i][facilityCounter2]);
-					// std::cout << "GetDeckVariables completed" << std::endl;
-					// std::cout << "GetFacilityFlowRates started" << std::endl;
-					GetFacilityFlowRates(updatesNodes);
-					// std::cout << "GetFacilityFlowRates completed" << std::endl;
+						int facilityCounter2 = 0;
+						for (int ik = 0; ik < priotizationsFacilities[i].size(); ik++)
+						{
+							if (Facility[0].Flow_station == priotizationsFacilities[i][ik].facilityName)
+							{
+								facilityCounter2 = ik;
+								break;
+							}
+						}
+
+						//std::cout << "GetDeckVariables started" << std::endl;
+						GetDeckVariables(Facility, daysList, scenario, facilityCounter, FacilityTable[facilityCounter], i,
+										 Faclitiessize, Faclities, forecastCase, priotizationsFacilities[i][facilityCounter2]);
+						//std::cout << "GetDeckVariables completed" << std::endl;
+						//std::cout << "GetFacilityFlowRates started" << std::endl;
+						GetFacilityFlowRates(updatesNodes);
+						//std::cout << "GetFacilityFlowRates completed" << std::endl;
+					}
+				}
+				else
+				{
+					//std::cout << "GetDownStreamNodesFlux started" << std::endl;
+					GetDownStreamNodesFlux(updatesNodes, kk);
+					//std::cout << "GetDownStreamNodesFlux completed" << std::endl;
 				}
 			}
-			else
+
+			if (nUpdatesNodes > 1)
 			{
-				// std::cout << "GetDownStreamNodesFlux started" << std::endl;
-				GetDownStreamNodesFlux(updatesNodes, kk);
-				// std::cout << "GetDownStreamNodesFlux completed" << std::endl;
+				//std::cout << "AdjustWellsFlowRates started" << std::endl;
+				AdjustWellsFlowRates(updatesNodes, daysList, scenario, FacilityTable,
+									 forecastCase, priotizationsFacilities, Faclities,
+									 dateCreationX.dateTimes);
+				//std::cout << "AdjustWellsFlowRates completed" << std::endl;
 			}
+
+			std::cout << CurrentDate.day << "/" << CurrentDate.month << "/" << CurrentDate.year << std::endl;
+
+			// if(i > 0 && i % 10 == 0)
+			// {
+			// 	reportJSON.GetForecastOutput(Faclities, FaclitiesNames, env,
+			// 	dateCreationX.dateTimes, dateCreationX.daysList, scenario, results);
+
+			// 	Napi::Object emmittedObject = Napi::Object::New(env);
+
+			// 	double percentageCompletion = ((1.0 * (i + startFrom))/(1.0 * nTimes))* 100.0;
+
+			// 	emmittedObject.Set(Napi::String::New(env, "FaclitiesObject"), reportJSON.FaclitiesObject);
+			// 	emmittedObject.Set(Napi::String::New(env, "percentageCompletion"), percentageCompletion);
+
+			// 	emit.Call( { Napi::String::New(env, "publishForecastResult"), emmittedObject } );
+			// }
 		}
-
-		if (nUpdatesNodes > 1)
-		{
-			// std::cout << "AdjustWellsFlowRates started" << std::endl;
-			AdjustWellsFlowRates(updatesNodes, daysList, scenario, FacilityTable,
-								 forecastCase, prioritizationsFacilities, Facilities,
-								 dateCreationX.dateTimes);
-			// std::cout << "AdjustWellsFlowRates completed" << std::endl;
-		}
-
-		std::cout << CurrentDate.day << "/" << CurrentDate.month << "/" << CurrentDate.year << std::endl;
-
-		// if(i > 0 && i % 10 == 0)
-		// {
-		// 	reportJSON.GetForecastOutput(Facilities, FacilitiesNames, env,
-		// 	dateCreationX.dateTimes, dateCreationX.daysList, scenario, results);
-
-		// 	Napi::Object emmittedObject = Napi::Object::New(env);
-
-		// 	double percentageCompletion = ((1.0 * (i + startFrom))/(1.0 * nTimes))* 100.0;
-
-		// 	emmittedObject.Set(Napi::String::New(env, "FacilitiesObject"), reportJSON.FacilitiesObject);
-		// 	emmittedObject.Set(Napi::String::New(env, "percentageCompletion"), percentageCompletion);
-
-		// 	emit.Call( { Napi::String::New(env, "publishForecastResult"), emmittedObject } );
-		// }
-	}
 	//}
 	/* catch (const std::exception &e)
 	{
@@ -1542,20 +1494,19 @@ void CalculateDeckVariables::GetDeckVariables(vector<vector<vector<InputDeckStru
 
 	avgOilWellsRate = 0;
 	double n = 365.0;
-	for (i = 0; i < wellsOilRates.size(); i++)
-	{
-		avgOilWellsRate = avgOilWellsRate + wellsOilRates[i];
-		;
+	for(i = 0; i < wellsOilRates.size(); i++){
+		avgOilWellsRate = avgOilWellsRate + wellsOilRates[i];;
 	}
-
+	
 	avgOilWellsRate = avgOilWellsRate / n;
 
 	string hyrocarbonStream = "oil";
 	bool isByYear = true;
 	vector<Date> yearlyDates = dataPivoting.GetListOfYears(monthlyDate, isByYear);
-	vector<double> yearlyAggregate = dataPivoting.GeYearlyAggregate(wellsOilRates,
-																	monthlyDate, yearlyDates,
-																	hyrocarbonStream);
+	vector<double> yearlyAggregate =  dataPivoting.GeYearlyAggregate(wellsOilRates,
+                             monthlyDate, yearlyDates,
+                              hyrocarbonStream);
+	
 
 	InputDecks.clear();
 	InputDecks.shrink_to_fit();
@@ -1576,13 +1527,13 @@ void CalculateDeckVariables::GetDeckVariables(vector<vector<vector<InputDeckStru
 void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 											  vector<int> &daysList, int &scenario, int &facilityCounter,
 											  FacilityStruct &facilityStruct, int &dateIndex, int &numberOfFacilities,
-											  vector<vector<vector<InputDeckStruct>>> &Facilities,
-											  string &forecastCase, Prioritization &prioritizationFacility)
+											  vector<vector<vector<InputDeckStruct>>> &Faclities,
+											  string &forecastCase, Prioritization &priotizationFacility)
 {
-	bool isAfterOptimization = false;
+	bool isAfetrOptimization = false;
 	try
 	{
-		// double MM = 1000000.0;
+		//double MM = 1000000.0;
 		if (dateIndex == 0)
 		{
 
@@ -1598,7 +1549,7 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 		int facilityDecks = facility.size();
 		for (j = 0; j < facilityDecks; j++)
 		{
-			// j++;
+			//j++;
 			InputDeckStruct deck = facility[j];
 			WellIndex = j;
 			ForecastResult forecastResult;
@@ -1675,19 +1626,19 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 						cumProdDays.push_back(forecastResult.cumDays);
 					} */
 
-					forecastResult.ModuleName = deck.Module;
+					forecastResult.moduleName = deck.Module;
 					forecastResult.HyrocarbonStream = deck.Hydrocarbon_Stream;
 					forecastResult.hydrocarbonType = deck.hydrocarbonType;
 					forecastResult.terminal = deck.terminal;
 					forecastResult.CutBack = 1.0;
 					forecastResult.IsFlowing = GetIsWellFlowing(forecastResult.isOilTerminated,
-																forecastResult.isGasTerminated, forecastResult.isWaterTerminated);
+						forecastResult.isGasTerminated, forecastResult.isWaterTerminated);
 
 					if (UseExternalForecastprofile == external)
 					{
 
 						GetVariables(scenario, deck, forecastResult, forecastResult_old,
-									 externalCurrentCumProd, isAfterOptimization);
+									 externalCurrentCumProd, isAfetrOptimization);
 						if (deck.Hydrocarbon_Stream == oil)
 						{
 							if (forecastResult.Oil_rate <= 0)
@@ -1733,12 +1684,12 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 								deck.isGasTerminated == true ||
 								deck.isWaterTerminated == true)
 							{
-								bool chk = CheckWellFacility(WellFacilityDataList, forecastResult.ModuleName, forecastResult.Flow_station);
+								bool chk = CheckWellFacility(WellFacilityDataList, forecastResult.moduleName, forecastResult.Flow_station);
 								if (chk == false)
 								{
 									WellFacilityData wellFacilityData;
 									wellFacilityData.Flow_station = forecastResult.Flow_station;
-									wellFacilityData.ModuleName = forecastResult.ModuleName;
+									wellFacilityData.moduleName = forecastResult.moduleName;
 									wellFacilityData.Rate = forecastResult.Liquid_Rate;
 									wellFacilityData.UR = forecastResult_old.URo;
 									wellFacilityData.CumProd = forecastResult_old.Cum_Liquid_Prod;
@@ -1749,12 +1700,12 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 									{
 										if (facilityCounter != i)
 										{
-											vector<InputDeckStruct> decks_i = Facilities[dateIndex][i];
+											vector<InputDeckStruct> decks_i = Faclities[dateIndex][i];
 											int nWells = results[dateIndex][i].size();
 											int ij = 0, ik = 0;
 											for (ij = 0; ij < nWells; ij++)
 											{
-												if (results[dateIndex][i][ij].ModuleName == forecastResult.ModuleName)
+												if (results[dateIndex][i][ij].moduleName == forecastResult.moduleName)
 												{
 													if (dateCreation.IsMaximumDate(dates[dateIndex], decks_i[ij].Date_1P_1C) ||
 														dateCreation.EqualTo2(dates[dateIndex], decks_i[ij].Date_1P_1C, isMonthly))
@@ -1769,12 +1720,12 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 															results[dateIndex][i][ij].URo = forecastResult_old.URo;
 															results[dateIndex][i][ij].Cum_Liquid_Prod = forecastResult_old.Cum_Liquid_Prod;
 
-															int nSize = Facilities.size();
+															int nSize = Faclities.size();
 															for (ik = dateIndex; ik < nSize; ik++)
 															{
-																Facilities[ik][i][ij].Init_Liquid_Gas_Rate_1P_1C = forecastResult.Liquid_rate_NotTerminated;
-																// Facilities[ik][i][ij].URo_1P_1C = forecastResult.URo;
-																// Facilities[ik][i][ij].URo_1P_1C = forecastResult.URo;
+																Faclities[ik][i][ij].Init_Liquid_Gas_Rate_1P_1C = forecastResult.Liquid_rate_NotTerminated;
+																//Faclities[ik][i][ij].URo_1P_1C = forecastResult.URo;
+																//Faclities[ik][i][ij].URo_1P_1C = forecastResult.URo;
 															}
 														}
 													}
@@ -1813,12 +1764,12 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 								deck.isGasTerminated == true ||
 								deck.isWaterTerminated == true)
 							{
-								bool chk = CheckWellFacility(WellFacilityDataList, forecastResult.ModuleName, forecastResult.Flow_station);
+								bool chk = CheckWellFacility(WellFacilityDataList, forecastResult.moduleName, forecastResult.Flow_station);
 								if (chk == false)
 								{
 									WellFacilityData wellFacilityData;
 									wellFacilityData.Flow_station = forecastResult.Flow_station;
-									wellFacilityData.ModuleName = forecastResult.ModuleName;
+									wellFacilityData.moduleName = forecastResult.moduleName;
 									wellFacilityData.Rate = forecastResult.Gas_Rate;
 									wellFacilityData.UR = forecastResult_old.URg;
 									wellFacilityData.CumProd = forecastResult_old.Cum_Gas_Prod;
@@ -1829,12 +1780,12 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 									{
 										if (facilityCounter != i)
 										{
-											vector<InputDeckStruct> decks_i = Facilities[dateIndex][i];
+											vector<InputDeckStruct> decks_i = Faclities[dateIndex][i];
 											int nWells = results[dateIndex][i].size();
 											int ij = 0, ik = 0;
 											for (ij = 0; ij < nWells; ij++)
 											{
-												if (results[dateIndex][i][ij].ModuleName == forecastResult.ModuleName)
+												if (results[dateIndex][i][ij].moduleName == forecastResult.moduleName)
 												{
 													if (dateCreation.IsMaximumDate(dates[dateIndex], decks_i[ij].Date_1P_1C) ||
 														dateCreation.EqualTo2(dates[dateIndex], decks_i[ij].Date_1P_1C, isMonthly))
@@ -1848,10 +1799,10 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 															results[dateIndex][i][ij].Gas_Rate = forecastResult.Gas_Rate_NotTerminated;
 															results[dateIndex][i][ij].URg = forecastResult_old.URg;
 															results[dateIndex][i][ij].Cum_Gas_Prod = forecastResult_old.Cum_Gas_Prod;
-															int nSize = Facilities.size();
+															int nSize = Faclities.size();
 															for (ik = dateIndex; ik < nSize; ik++)
 															{
-																Facilities[ik][i][ij].Init_Liquid_Gas_Rate_1P_1C = forecastResult.Gas_Rate_NotTerminated;
+																Faclities[ik][i][ij].Init_Liquid_Gas_Rate_1P_1C = forecastResult.Gas_Rate_NotTerminated;
 															}
 														}
 													}
@@ -1878,7 +1829,7 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 						}
 
 						GetVariables(scenario, deck, forecastResult, forecastResult_old,
-									 externalCurrentCumProd, isAfterOptimization);
+									 externalCurrentCumProd, isAfetrOptimization);
 						if (forecastResult.Oil_rate == 0 &&
 							forecastResult.Gas_Rate == 0)
 						{
@@ -1897,12 +1848,11 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 						cumProdDays.push_back(forecastResult.cumDays);
 					} */
 
-					if (deck.Module == "FO26006T_FO26 G10X_P13")
-					{
+					if(deck.Module == "FO26006T_FO26 G10X_P13"){
 						double hg = 0;
 					}
 
-					forecastResult.ModuleName = deck.Module;
+					forecastResult.moduleName = deck.Module;
 					forecastResult.HyrocarbonStream = deck.Hydrocarbon_Stream;
 					forecastResult.hydrocarbonType = deck.hydrocarbonType;
 					forecastResult.terminal = deck.terminal;
@@ -1914,7 +1864,7 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 					{
 
 						GetVariables(scenario, deck, forecastResult, forecastResult_old,
-									 externalCurrentCumProd, isAfterOptimization);
+									 externalCurrentCumProd, isAfetrOptimization);
 						if (deck.Hydrocarbon_Stream == oil)
 						{
 							if (forecastResult.Liquid_Rate <= 0)
@@ -1957,12 +1907,12 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 								deck.isGasTerminated == true ||
 								deck.isWaterTerminated == true)
 							{
-								bool chk = CheckWellFacility(WellFacilityDataList, forecastResult.ModuleName, forecastResult.Flow_station);
+								bool chk = CheckWellFacility(WellFacilityDataList, forecastResult.moduleName, forecastResult.Flow_station);
 								if (chk == false)
 								{
 									WellFacilityData wellFacilityData;
 									wellFacilityData.Flow_station = forecastResult.Flow_station;
-									wellFacilityData.ModuleName = forecastResult.ModuleName;
+									wellFacilityData.moduleName = forecastResult.moduleName;
 									wellFacilityData.Rate = forecastResult.Liquid_Rate;
 									wellFacilityData.UR = forecastResult_old.URo;
 									wellFacilityData.CumProd = forecastResult_old.Cum_Liquid_Prod;
@@ -1973,12 +1923,12 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 									{
 										if (facilityCounter != i)
 										{
-											vector<InputDeckStruct> decks_i = Facilities[dateIndex][i];
+											vector<InputDeckStruct> decks_i = Faclities[dateIndex][i];
 											int nWells = results[dateIndex][i].size();
 											int ij = 0, ik = 0;
 											for (ij = 0; ij < nWells; ij++)
 											{
-												if (results[dateIndex][i][ij].ModuleName == forecastResult.ModuleName)
+												if (results[dateIndex][i][ij].moduleName == forecastResult.moduleName)
 												{
 													if (dateCreation.IsMaximumDate(dates[dateIndex], decks_i[ij].Date_2P_2C) ||
 														dateCreation.EqualTo2(dates[dateIndex], decks_i[ij].Date_2P_2C, isMonthly))
@@ -1992,10 +1942,10 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 															results[dateIndex][i][ij].Liquid_Rate = forecastResult.Liquid_rate_NotTerminated;
 															results[dateIndex][i][ij].URo = forecastResult_old.URo;
 															results[dateIndex][i][ij].Cum_Liquid_Prod = forecastResult_old.Cum_Liquid_Prod;
-															int nSize = Facilities.size();
+															int nSize = Faclities.size();
 															for (ik = dateIndex; ik < nSize; ik++)
 															{
-																Facilities[ik][i][ij].Init_Liquid_Gas_Rate_2P_2C = forecastResult.Liquid_rate_NotTerminated;
+																Faclities[ik][i][ij].Init_Liquid_Gas_Rate_2P_2C = forecastResult.Liquid_rate_NotTerminated;
 															}
 														}
 													}
@@ -2034,12 +1984,12 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 								deck.isGasTerminated == true ||
 								deck.isWaterTerminated == true)
 							{
-								bool chk = CheckWellFacility(WellFacilityDataList, forecastResult.ModuleName, forecastResult.Flow_station);
+								bool chk = CheckWellFacility(WellFacilityDataList, forecastResult.moduleName, forecastResult.Flow_station);
 								if (chk == false)
 								{
 									WellFacilityData wellFacilityData;
 									wellFacilityData.Flow_station = forecastResult.Flow_station;
-									wellFacilityData.ModuleName = forecastResult.ModuleName;
+									wellFacilityData.moduleName = forecastResult.moduleName;
 									wellFacilityData.Rate = forecastResult.Gas_Rate;
 									wellFacilityData.UR = forecastResult_old.URg;
 									wellFacilityData.CumProd = forecastResult_old.Cum_Gas_Prod;
@@ -2050,12 +2000,12 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 									{
 										if (facilityCounter != i)
 										{
-											vector<InputDeckStruct> decks_i = Facilities[dateIndex][i];
+											vector<InputDeckStruct> decks_i = Faclities[dateIndex][i];
 											int nWells = results[dateIndex][i].size();
 											int ij = 0, ik = 0;
 											for (ij = 0; ij < nWells; ij++)
 											{
-												if (results[dateIndex][i][ij].ModuleName == forecastResult.ModuleName)
+												if (results[dateIndex][i][ij].moduleName == forecastResult.moduleName)
 												{
 													if (dateCreation.IsMaximumDate(dates[dateIndex], decks_i[ij].Date_2P_2C) ||
 														dateCreation.EqualTo2(dates[dateIndex], decks_i[ij].Date_2P_2C, isMonthly))
@@ -2069,10 +2019,10 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 															results[dateIndex][i][ij].Gas_Rate = forecastResult.Gas_Rate_NotTerminated;
 															results[dateIndex][i][ij].URg = forecastResult_old.URg;
 															results[dateIndex][i][ij].Cum_Gas_Prod = forecastResult_old.Cum_Gas_Prod;
-															int nSize = Facilities.size();
+															int nSize = Faclities.size();
 															for (ik = dateIndex; ik < nSize; ik++)
 															{
-																Facilities[ik][i][ij].Init_Liquid_Gas_Rate_2P_2C = forecastResult.Gas_Rate_NotTerminated;
+																Faclities[ik][i][ij].Init_Liquid_Gas_Rate_2P_2C = forecastResult.Gas_Rate_NotTerminated;
 															}
 														}
 													}
@@ -2098,7 +2048,7 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 							}
 						}
 						GetVariables(scenario, deck, forecastResult, forecastResult_old,
-									 externalCurrentCumProd, isAfterOptimization);
+									 externalCurrentCumProd, isAfetrOptimization);
 						if (forecastResult.Oil_rate == 0 &&
 							forecastResult.Gas_Rate == 0)
 						{
@@ -2113,12 +2063,11 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 				{
 					forecastResult.deltaDay = 30;
 					forecastResult.cumDays = forecastResult_old.cumDays + forecastResult.deltaDay;
-					if (deck.Module == "FO10D40T_FO10 D40X_P12")
-					{
+					if(deck.Module == "FO10D40T_FO10 D40X_P12"){
 						cumProdDays.push_back(forecastResult.cumDays);
 					}
 
-					forecastResult.ModuleName = deck.Module;
+					forecastResult.moduleName = deck.Module;
 					forecastResult.HyrocarbonStream = deck.Hydrocarbon_Stream;
 					forecastResult.hydrocarbonType = deck.hydrocarbonType;
 					forecastResult.terminal = deck.terminal;
@@ -2130,7 +2079,7 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 					{
 
 						GetVariables(scenario, deck, forecastResult, forecastResult_old,
-									 externalCurrentCumProd, isAfterOptimization);
+									 externalCurrentCumProd, isAfetrOptimization);
 						if (deck.Hydrocarbon_Stream == oil)
 						{
 							if (forecastResult.Liquid_Rate <= 0)
@@ -2168,12 +2117,12 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 								deck.isGasTerminated == true ||
 								deck.isWaterTerminated == true)
 							{
-								bool chk = CheckWellFacility(WellFacilityDataList, forecastResult.ModuleName, forecastResult.Flow_station);
+								bool chk = CheckWellFacility(WellFacilityDataList, forecastResult.moduleName, forecastResult.Flow_station);
 								if (chk == false)
 								{
 									WellFacilityData wellFacilityData;
 									wellFacilityData.Flow_station = forecastResult.Flow_station;
-									wellFacilityData.ModuleName = forecastResult.ModuleName;
+									wellFacilityData.moduleName = forecastResult.moduleName;
 									wellFacilityData.Rate = forecastResult.Liquid_Rate;
 									wellFacilityData.UR = forecastResult_old.URo;
 									wellFacilityData.CumProd = forecastResult_old.Cum_Liquid_Prod;
@@ -2184,12 +2133,12 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 									{
 										if (facilityCounter != i)
 										{
-											vector<InputDeckStruct> decks_i = Facilities[dateIndex][i];
+											vector<InputDeckStruct> decks_i = Faclities[dateIndex][i];
 											int nWells = results[dateIndex][i].size();
 											int ij = 0, ik = 0;
 											for (ij = 0; ij < nWells; ij++)
 											{
-												if (results[dateIndex][i][ij].ModuleName == forecastResult.ModuleName)
+												if (results[dateIndex][i][ij].moduleName == forecastResult.moduleName)
 												{
 													if (dateCreation.IsMaximumDate(dates[dateIndex], decks_i[ij].Date_3P_3C) ||
 														dateCreation.EqualTo2(dates[dateIndex], decks_i[ij].Date_3P_3C, isMonthly))
@@ -2203,10 +2152,10 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 															results[dateIndex][i][ij].Liquid_Rate = forecastResult.Liquid_rate_NotTerminated;
 															results[dateIndex][i][ij].URo = forecastResult_old.URo;
 															results[dateIndex][i][ij].Cum_Liquid_Prod = forecastResult_old.Cum_Liquid_Prod;
-															int nSize = Facilities.size();
+															int nSize = Faclities.size();
 															for (ik = dateIndex; ik < nSize; ik++)
 															{
-																Facilities[ik][i][ij].Init_Liquid_Gas_Rate_3P_3C = forecastResult.Liquid_rate_NotTerminated;
+																Faclities[ik][i][ij].Init_Liquid_Gas_Rate_3P_3C = forecastResult.Liquid_rate_NotTerminated;
 															}
 														}
 													}
@@ -2245,12 +2194,12 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 								deck.isGasTerminated == true ||
 								deck.isWaterTerminated == true)
 							{
-								bool chk = CheckWellFacility(WellFacilityDataList, forecastResult.ModuleName, forecastResult.Flow_station);
+								bool chk = CheckWellFacility(WellFacilityDataList, forecastResult.moduleName, forecastResult.Flow_station);
 								if (chk == false)
 								{
 									WellFacilityData wellFacilityData;
 									wellFacilityData.Flow_station = forecastResult.Flow_station;
-									wellFacilityData.ModuleName = forecastResult.ModuleName;
+									wellFacilityData.moduleName = forecastResult.moduleName;
 									wellFacilityData.Rate = forecastResult.Gas_Rate;
 									wellFacilityData.UR = forecastResult_old.URg;
 									wellFacilityData.CumProd = forecastResult_old.Cum_Gas_Prod;
@@ -2261,12 +2210,12 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 									{
 										if (facilityCounter != i)
 										{
-											vector<InputDeckStruct> decks_i = Facilities[dateIndex][i];
+											vector<InputDeckStruct> decks_i = Faclities[dateIndex][i];
 											int nWells = results[dateIndex][i].size();
 											int ij = 0, ik = 0;
 											for (ij = 0; ij < nWells; ij++)
 											{
-												if (results[dateIndex][i][ij].ModuleName == forecastResult.ModuleName)
+												if (results[dateIndex][i][ij].moduleName == forecastResult.moduleName)
 												{
 													if (dateCreation.IsMaximumDate(dates[dateIndex], decks_i[ij].Date_3P_3C) ||
 														dateCreation.EqualTo2(dates[dateIndex], decks_i[ij].Date_3P_3C, isMonthly))
@@ -2280,10 +2229,10 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 															results[dateIndex][i][ij].Gas_Rate = forecastResult.Gas_Rate_NotTerminated;
 															results[dateIndex][i][ij].URg = forecastResult_old.URg;
 															results[dateIndex][i][ij].Cum_Gas_Prod = forecastResult_old.Cum_Gas_Prod;
-															int nSize = Facilities.size();
+															int nSize = Faclities.size();
 															for (ik = dateIndex; ik < nSize; ik++)
 															{
-																Facilities[ik][i][ij].Init_Liquid_Gas_Rate_3P_3C = forecastResult.Gas_Rate_NotTerminated;
+																Faclities[ik][i][ij].Init_Liquid_Gas_Rate_3P_3C = forecastResult.Gas_Rate_NotTerminated;
 															}
 														}
 													}
@@ -2310,7 +2259,7 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 						}
 
 						GetVariables(scenario, deck, forecastResult, forecastResult_old,
-									 externalCurrentCumProd, isAfterOptimization);
+									 externalCurrentCumProd, isAfetrOptimization);
 						if (forecastResult.Oil_rate == 0 &&
 							forecastResult.Gas_Rate == 0)
 						{
@@ -2324,14 +2273,14 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 		}
 
 		int nWells = facility.size();
-		// std::cout << "NO OF WELLS " << nWells << std::endl;
+		//std::cout << "NO OF WELLS " << nWells << std::endl;
 
-		GetOnstreamWells(facilityCounter, dateIndex, nWells, facilityStruct, forecastCase, prioritizationFacility);
+		GetOnstreamWells(facilityCounter, dateIndex, nWells, facilityStruct, forecastCase, priotizationFacility);
 		optimalSolution = 0;
 
 		int nth = OptimizedWells.size();
 
-		/* if(prioritizationFacility.FacilityName == "REO_GP2"){
+		/* if(priotizationFacility.facilityName == "REO_GP2"){
 			double cg = 0;
 		} */
 
@@ -2340,20 +2289,18 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 			if (nth > 0)
 			{
 
-				if (prioritizationFacility.typeOfPrioritization == streamPrioritization)
+				if (priotizationFacility.typeOfPrioritization == streamPrioritization)
 				{
+					
+					optimize_by_stream_prioritization(OptimizedWells, optimized_cutbacks, priotizationFacility);
 
-					optimize_by_stream_prioritization(OptimizedWells, optimized_cutbacks, prioritizationFacility);
-				}
-				else if (prioritizationFacility.typeOfPrioritization == wellPrioritization ||
-						 prioritizationFacility.typeOfPrioritization == resourceClassPrioritization)
+				}else if (priotizationFacility.typeOfPrioritization == wellPrioritization ||
+					priotizationFacility.typeOfPrioritization == resourceClassPrioritization)
 				{
-
-					optimize_constraint_by_well(OptimizedWells, optimized_cutbacks, prioritizationFacility);
-				}
-				else
-				{
-					optimize_constraint_no_prioritization(OptimizedWells, optimized_cutbacks, prioritizationFacility);
+					
+					optimize_constraint_by_well(OptimizedWells, optimized_cutbacks, priotizationFacility);
+				}else{
+					optimize_constraint_no_prioritization(OptimizedWells, optimized_cutbacks, priotizationFacility);
 				}
 			}
 		}
@@ -2373,8 +2320,8 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 		double plateauGasVolume = 0;
 		double plateauLiquidVolume = 0;
 		double defermentFactor = 1 - (CurrentFacilityData.Scheduled_Deferment / 100) -
-								 (CurrentFacilityData.Unscheduled_Deferment / 100) -
-								 (CurrentFacilityData.Thirdparty_Deferment / 100);
+								(CurrentFacilityData.Unscheduled_Deferment / 100) -
+								(CurrentFacilityData.Thirdparty_Deferment / 100);
 		if (forecastCase == delivered)
 		{
 			Gas_Capacity = Gas_Capacity * defermentFactor;
@@ -2403,18 +2350,17 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 		{
 			j = OptimizedWellsIndicies[i];
 
-			Liquid_Capacity_Artificial = Liquid_Capacity_Artificial +
-										 (results[dateIndex][facilityCounter][j].Water_Rate + results[dateIndex][facilityCounter][j].Oil_rate);
+			Liquid_Capacity_Artificial = Liquid_Capacity_Artificial + 
+			(results[dateIndex][facilityCounter][j].Water_Rate + results[dateIndex][facilityCounter][j].Oil_rate);
 			Gas_Capacity_Artificial = Gas_Capacity_Artificial + results[dateIndex][facilityCounter][j].Gas_Rate;
+
 		}
 
-		if (Gas_Capacity < 0.00001)
-		{
+		if(Gas_Capacity < 0.00001){
 			Gas_Capacity = Gas_Capacity_Artificial * 1.5;
 		}
 
-		if (Liquid_Capacity < 0.00001)
-		{
+		if(Liquid_Capacity < 0.00001){
 			Liquid_Capacity = Liquid_Capacity_Artificial * 1.5;
 		}
 
@@ -2422,6 +2368,7 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 		{
 			j = OptimizedWellsIndicies[i];
 			InputDeckStruct deck = facility[j];
+			
 
 			switch (scenario)
 			{
@@ -2429,19 +2376,18 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 				SetCutRatesBackValues(facilityCounter, dateIndex, optimized_cutbacks[i],
 									  scenario, deck, j);
 
-				/* if(deck.Module == "FO10D40T_FO10 D40X_P12"){
-					wellsOilRates.push_back(results[dateIndex][facilityCounter][j].Oil_rate);
-					monthlyDate.push_back(CurrentDate);
-				} */
+					/* if(deck.Module == "FO10D40T_FO10 D40X_P12"){
+						wellsOilRates.push_back(results[dateIndex][facilityCounter][j].Oil_rate);
+						monthlyDate.push_back(CurrentDate);
+					} */
 				break;
 
 			case 2:
 				SetCutRatesBackValues(facilityCounter, dateIndex, optimized_cutbacks[i],
 									  scenario, deck, j);
-				if (deck.Module == "FO26006T_FO26 G10X_P13")
-				{
-					wellsOilRates.push_back(results[dateIndex][facilityCounter][j].Oil_rate);
-					monthlyDate.push_back(CurrentDate);
+				if(deck.Module == "FO26006T_FO26 G10X_P13"){
+						wellsOilRates.push_back(results[dateIndex][facilityCounter][j].Oil_rate);
+						monthlyDate.push_back(CurrentDate);
 				}
 				break;
 
@@ -2450,10 +2396,12 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 									  scenario, deck, j);
 				// if(deck.Module == "FO10D40T_FO10 D40X_P12"){
 				// 		wellsOilRates.push_back(results[dateIndex][facilityCounter][j].Oil_rate);
-				monthlyDate.push_back(CurrentDate);
+						monthlyDate.push_back(CurrentDate);
 				// }
 				break;
 			}
+
+			
 
 			if (results[dateIndex][facilityCounter][j].IsFlowing == false &&
 				results[dateIndex][facilityCounter][j].Gas_Rate > 0)
@@ -2482,8 +2430,7 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 			}
 		}
 
-		if (prioritizationFacility.FacilityName == "REO_GP2")
-		{
+		if(priotizationFacility.facilityName == "REO_GP2"){
 			double cg = 0;
 		}
 	}
@@ -2496,16 +2443,16 @@ void CalculateDeckVariables::GetDeckVariables(vector<InputDeckStruct> &facility,
 void CalculateDeckVariables::GetDeckVariables2(vector<InputDeckStruct> &facility,
 											   vector<int> &daysList, int &scenario, int &facilityCounter,
 											   FacilityStruct &facilityStruct, int &dateIndex, int &numberOfFacilities,
-											   vector<vector<vector<InputDeckStruct>>> &Facilities,
-											   string &forecastCase, Prioritization &prioritizationFacility,
+											   vector<vector<vector<InputDeckStruct>>> &Faclities,
+											   string &forecastCase, Prioritization &priotizationFacility,
 											   double &gasCutBack, double &liquidCutBack,
-											   string &liquidCutBackText, string &gasCutBackText,
+											   string &liquidCutBackText, string &gasCutBackText, 
 											   string &nodeConnections)
 {
-	bool isAfterOptimization = false;
+	bool isAfetrOptimization = false;
 	try
 	{
-		// double MM = 1000000.0;
+		//double MM = 1000000.0;
 		if (dateIndex == 0)
 		{
 			DeltaT = 0;
@@ -2519,11 +2466,11 @@ void CalculateDeckVariables::GetDeckVariables2(vector<InputDeckStruct> &facility
 		int i = 0;
 		int nWells = facility.size();
 		int facilityDecks = nWells;
-		// std::cout << "GetOnstreamWells2 started" << "\n";
+		//std::cout << "GetOnstreamWells2 started" << "\n";
 		GetOnstreamWells2(facilityCounter, dateIndex, nWells, facilityStruct,
 						  liquidCutBackText, gasCutBackText, nodeConnections);
 		optimalSolution = 0;
-		// std::cout << "GetOnstreamWells2 completed" << "\n";
+		//std::cout << "GetOnstreamWells2 completed" << "\n";
 
 		int nth = OptimizedWells.size();
 
@@ -2542,8 +2489,8 @@ void CalculateDeckVariables::GetDeckVariables2(vector<InputDeckStruct> &facility
 		double plateauGasVolume = 0;
 		double plateauLiquidVolume = 0;
 		double defermentFactor = 1 - (CurrentFacilityData.Scheduled_Deferment / 100) -
-								 (CurrentFacilityData.Unscheduled_Deferment / 100) -
-								 (CurrentFacilityData.Thirdparty_Deferment / 100);
+								(CurrentFacilityData.Unscheduled_Deferment / 100) -
+								(CurrentFacilityData.Thirdparty_Deferment / 100);
 		if (forecastCase == delivered)
 		{
 			Gas_Capacity = Gas_Capacity * defermentFactor;
@@ -2563,18 +2510,16 @@ void CalculateDeckVariables::GetDeckVariables2(vector<InputDeckStruct> &facility
 		for (i = 0; i < onStreamWellsCount; i++)
 		{
 			j = OptimizedWellsIndicies[i];
-			Liquid_Capacity_Artificial = Liquid_Capacity_Artificial +
-										 (results[dateIndex][facilityCounter][j].Water_Rate + results[dateIndex][facilityCounter][j].Oil_rate);
+			Liquid_Capacity_Artificial = Liquid_Capacity_Artificial + 
+			(results[dateIndex][facilityCounter][j].Water_Rate + results[dateIndex][facilityCounter][j].Oil_rate);
 			Gas_Capacity_Artificial = Gas_Capacity_Artificial + results[dateIndex][facilityCounter][j].Gas_Rate;
 		}
 
-		if (Gas_Capacity < 0.00001)
-		{
+		if(Gas_Capacity < 0.00001){
 			Gas_Capacity = Gas_Capacity_Artificial * 1.5;
 		}
 
-		if (Liquid_Capacity < 0.00001)
-		{
+		if(Liquid_Capacity < 0.00001){
 			Liquid_Capacity = Liquid_Capacity_Artificial * 1.5;
 		}
 
@@ -2598,6 +2543,7 @@ void CalculateDeckVariables::GetDeckVariables2(vector<InputDeckStruct> &facility
 				break;
 			}
 		}
+
 	}
 	catch (const std::exception &e)
 	{
@@ -2606,9 +2552,9 @@ void CalculateDeckVariables::GetDeckVariables2(vector<InputDeckStruct> &facility
 }
 
 void CalculateDeckVariables::GetOnstreamWells(int &facilityCounter, int &timeStepCounter, int &nWells,
-											  FacilityStruct &facilityStruct, string &forecastCase, Prioritization &prioritizationFacility)
+											  FacilityStruct &facilityStruct, string& forecastCase, Prioritization& priotizationFacility)
 {
-	checker = " GetOnstreamWells ";
+	checker= " GetOnstreamWells ";
 
 	OnStreamWells.clear();
 	OptimizedWells.clear();
@@ -2642,7 +2588,7 @@ void CalculateDeckVariables::GetOnstreamWells(int &facilityCounter, int &timeSte
 		Liquid_Capacity = CurrentFacilityData.Liquid_Capacity * defermentFactor;
 	}
 
-	// int FlowingWellIndex = -1;
+	//int FlowingWellIndex = -1;
 
 	double Liquid_Capacity_Artificial = 0;
 	double Gas_Capacity_Artificial = 0;
@@ -2653,38 +2599,31 @@ void CalculateDeckVariables::GetOnstreamWells(int &facilityCounter, int &timeSte
 
 		forecastResult.fluidFraction = 0;
 
+
 		if (forecastResult.IsFlowing == true)
 		{
 
-			if (prioritizationFacility.ochestrationVariable == "gOR")
-			{
-				if (forecastResult.Oil_rate > 0)
-				{
-					forecastResult.fluidFraction = forecastResult.Gas_Rate / forecastResult.Oil_rate;
+			if(priotizationFacility.ochestrationVariable == "gOR"){
+				if(forecastResult.Oil_rate > 0){
+					forecastResult.fluidFraction = forecastResult.Gas_Rate/forecastResult.Oil_rate;
 				}
 			}
 
-			if (prioritizationFacility.ochestrationVariable == "cGR")
-			{
-				if (forecastResult.Gas_Rate > 0)
-				{
-					forecastResult.fluidFraction = forecastResult.Oil_rate / forecastResult.Gas_Rate;
+			if(priotizationFacility.ochestrationVariable == "cGR"){
+				if(forecastResult.Gas_Rate > 0){
+					forecastResult.fluidFraction = forecastResult.Oil_rate/forecastResult.Gas_Rate;
 				}
 			}
 
-			if (prioritizationFacility.ochestrationVariable == "bSW")
-			{
-				if (forecastResult.Liquid_Rate > 0)
-				{
-					forecastResult.fluidFraction = forecastResult.Water_Rate / forecastResult.Liquid_Rate;
+			if(priotizationFacility.ochestrationVariable == "bSW"){
+				if(forecastResult.Liquid_Rate > 0){
+					forecastResult.fluidFraction = forecastResult.Water_Rate/forecastResult.Liquid_Rate;
 				}
 			}
 
-			if (prioritizationFacility.ochestrationVariable == "wGR")
-			{
-				if (forecastResult.Gas_Rate > 0)
-				{
-					forecastResult.fluidFraction = forecastResult.Water_Rate / forecastResult.Gas_Rate;
+			if(priotizationFacility.ochestrationVariable == "wGR"){
+				if(forecastResult.Gas_Rate > 0){
+					forecastResult.fluidFraction = forecastResult.Water_Rate/forecastResult.Gas_Rate;
 				}
 			}
 
@@ -2695,41 +2634,37 @@ void CalculateDeckVariables::GetOnstreamWells(int &facilityCounter, int &timeSte
 			OptimizedWellsIndicies.push_back(i);
 			optimized_cutbacks.push_back(1.0);
 
-			Liquid_Capacity_Artificial = Liquid_Capacity_Artificial +
-										 (forecastResult.Water_Rate + forecastResult.Oil_rate);
+			Liquid_Capacity_Artificial = Liquid_Capacity_Artificial + 
+			(forecastResult.Water_Rate + forecastResult.Oil_rate);
 			Gas_Capacity_Artificial = Gas_Capacity_Artificial + forecastResult.Gas_Rate;
+
 		}
 	}
 
-	// assestPrioritization.ochestrationVariable = prioritization.ochestrationVariable
+	//assestPrioritization.ochestrationVariable = priotization.ochestrationVariable
 
-	if (OnStreamWells.size() > 0)
-	{
-		if (prioritizationFacility.ochestrationMethod == "ranking")
-		{
+	if(OnStreamWells.size() > 0){
+		if(priotizationFacility.ochestrationMethod == "ranking"){
 			OnStreamWells = SortOnstreamWells(OnStreamWells);
 		}
 
-		if (prioritizationFacility.ochestrationMethod == "mean")
-		{
+		if(priotizationFacility.ochestrationMethod == "mean"){
 			OnStreamWells = SortOnstreamWellsByMean(OnStreamWells);
 		}
 
-		if (prioritizationFacility.ochestrationMethod == "probabilityDensityFunction")
-		{
+		if(priotizationFacility.ochestrationMethod == "probabilityDensityFunction"){
 			OnStreamWells = SortOnstreamWellsByProbabilityDistribution(OnStreamWells);
 		}
 
 		OptimizedWells = OnStreamWells;
 	}
 
-	if (Gas_Capacity < 0.00001)
-	{
+
+	if(Gas_Capacity < 0.00001){
 		Gas_Capacity = Gas_Capacity_Artificial * 1.5;
 	}
 
-	if (Liquid_Capacity < 0.00001)
-	{
+	if(Liquid_Capacity < 0.00001){
 		Liquid_Capacity = Liquid_Capacity_Artificial * 1.5;
 	}
 }
@@ -2769,16 +2704,16 @@ void CalculateDeckVariables::GetOnstreamWells2(int &facilityCounter, int &timeSt
 
 void CalculateDeckVariables::GetCurrentFacilityData()
 {
-	// double frac0 = 0, frac1 = 0, frac2 = 0;
-	// double MM = 1000000.0;
+	//double frac0 = 0, frac1 = 0, frac2 = 0;
+	//double MM = 1000000.0;
 	int i = 0, nSIze = FacilityList.size();
 
 	if (dateCreation.EqualTo2(CurrentDate, FacilityList[0].FacilityDate, isMonthly))
 	{
 
 		CurrentFacilityData = FacilityList[0];
-		// std::cout << "GAS CAPACITY: " << CurrentFacilityData.Gas_Capacity << std::endl;
-		// std::cout << "LIQUID CAPACITY: " << CurrentFacilityData.Liquid_Capacity << std::endl;
+		//std::cout << "GAS CAPACITY: " << CurrentFacilityData.Gas_Capacity << std::endl;
+		//std::cout << "LIQUID CAPACITY: " << CurrentFacilityData.Liquid_Capacity << std::endl;
 
 		return;
 	}
@@ -2786,8 +2721,8 @@ void CalculateDeckVariables::GetCurrentFacilityData()
 	if (dateCreation.IsMinimumDate(CurrentDate, FacilityList[0].FacilityDate))
 	{
 		CurrentFacilityData = FacilityList[0];
-		// std::cout << "GAS CAPACITY: " << CurrentFacilityData.Gas_Capacity << std::endl;
-		// std::cout << "LIQUID CAPACITY: " << CurrentFacilityData.Liquid_Capacity << std::endl;
+		//std::cout << "GAS CAPACITY: " << CurrentFacilityData.Gas_Capacity << std::endl;
+		//std::cout << "LIQUID CAPACITY: " << CurrentFacilityData.Liquid_Capacity << std::endl;
 		return;
 	}
 
@@ -2799,8 +2734,8 @@ void CalculateDeckVariables::GetCurrentFacilityData()
 			if (dateCreation.EqualTo2(CurrentDate, FacilityList[i - 1].FacilityDate, isMonthly))
 			{
 				CurrentFacilityData = FacilityList[i - 1];
-				// std::cout << "GAS CAPACITY: " << CurrentFacilityData.Gas_Capacity << std::endl;
-				// std::cout << "LIQUID CAPACITY: " << CurrentFacilityData.Liquid_Capacity << std::endl;
+				//std::cout << "GAS CAPACITY: " << CurrentFacilityData.Gas_Capacity << std::endl;
+				//std::cout << "LIQUID CAPACITY: " << CurrentFacilityData.Liquid_Capacity << std::endl;
 
 				return;
 			}
@@ -2808,16 +2743,16 @@ void CalculateDeckVariables::GetCurrentFacilityData()
 			if (dateCreation.EqualTo2(CurrentDate, FacilityList[i].FacilityDate, isMonthly))
 			{
 				CurrentFacilityData = FacilityList[i];
-				// std::cout << "GAS CAPACITY: " << CurrentFacilityData.Gas_Capacity << std::endl;
-				// std::cout << "LIQUID CAPACITY: " << CurrentFacilityData.Liquid_Capacity << std::endl;
+				//std::cout << "GAS CAPACITY: " << CurrentFacilityData.Gas_Capacity << std::endl;
+				//std::cout << "LIQUID CAPACITY: " << CurrentFacilityData.Liquid_Capacity << std::endl;
 				return;
 			}
 
 			if (dateCreation.IsMaximumDate(CurrentDate, FacilityList[i - 1].FacilityDate) && dateCreation.IsMinimumDate(CurrentDate, FacilityList[i].FacilityDate))
 			{
 				CurrentFacilityData = FacilityList[i - 1];
-				// std::cout << "GAS CAPACITY: " << CurrentFacilityData.Gas_Capacity << std::endl;
-				// std::cout << "LIQUID CAPACITY: " << CurrentFacilityData.Liquid_Capacity << std::endl;
+				//std::cout << "GAS CAPACITY: " << CurrentFacilityData.Gas_Capacity << std::endl;
+				//std::cout << "LIQUID CAPACITY: " << CurrentFacilityData.Liquid_Capacity << std::endl;
 				return;
 			}
 		}
@@ -2826,14 +2761,16 @@ void CalculateDeckVariables::GetCurrentFacilityData()
 	if (dateCreation.IsMaximumDate(CurrentDate, FacilityList[nSIze - 1].FacilityDate))
 	{
 		CurrentFacilityData = FacilityList[nSIze - 1];
-		// std::cout << "GAS CAPACITY: " << CurrentFacilityData.Gas_Capacity << std::endl;
-		// std::cout << "LIQUID CAPACITY: " << CurrentFacilityData.Liquid_Capacity << std::endl;
+		//std::cout << "GAS CAPACITY: " << CurrentFacilityData.Gas_Capacity << std::endl;
+		//std::cout << "LIQUID CAPACITY: " << CurrentFacilityData.Liquid_Capacity << std::endl;
 		return;
 	}
 }
 
+
+
 void CalculateDeckVariables::optimize_constraint_no_prioritization(vector<ForecastResult> &onStreamWells,
-																   vector<double> &cutbacks2, Prioritization &prioritizationFacility)
+	vector<double> &cutbacks2, Prioritization &priotizationFacility)
 {
 
 	int k = 0;
@@ -2862,7 +2799,7 @@ void CalculateDeckVariables::optimize_constraint_no_prioritization(vector<Foreca
 
 	for (int i = 0; i < variables; i++)
 	{
-		if (prioritizationFacility.targetFluid == oil)
+		if (priotizationFacility.targetFluid == oil)
 		{
 			if (onStreamWells[i].isOilTerminated == true)
 			{
@@ -2873,7 +2810,7 @@ void CalculateDeckVariables::optimize_constraint_no_prioritization(vector<Foreca
 				funcVars.push_back(onStreamWells[i].Oil_rate);
 			}
 		}
-		if (prioritizationFacility.targetFluid == gas)
+		if (priotizationFacility.targetFluid == gas)
 		{
 			if (onStreamWells[i].isGasTerminated == true)
 			{
@@ -2884,7 +2821,7 @@ void CalculateDeckVariables::optimize_constraint_no_prioritization(vector<Foreca
 				funcVars.push_back(onStreamWells[i].Gas_Rate);
 			}
 		}
-		if (prioritizationFacility.targetFluid == liquid)
+		if (priotizationFacility.targetFluid == liquid)
 		{
 			if (onStreamWells[i].isOilTerminated == true)
 			{
@@ -2895,13 +2832,13 @@ void CalculateDeckVariables::optimize_constraint_no_prioritization(vector<Foreca
 				funcVars.push_back(onStreamWells[i].Oil_rate + onStreamWells[i].Water_Rate);
 			}
 		}
-		if (prioritizationFacility.targetFluid == water)
+		if (priotizationFacility.targetFluid == water)
 		{
 			funcVars.push_back(onStreamWells[i].Water_Rate);
 		}
 	}
 
-	// First Row
+	//First Row
 	vector<double> consMatrxRow1;
 	for (int i = 0; i < variables + 2; i++)
 	{
@@ -2918,7 +2855,7 @@ void CalculateDeckVariables::optimize_constraint_no_prioritization(vector<Foreca
 			if (onStreamWells[i].isGasTerminated == true)
 			{
 				consMatrxRow1.push_back(onStreamWells[i].Gas_Rate_NotTerminated);
-				// consMatrxRow1.push_back(zero);
+				//consMatrxRow1.push_back(zero);
 			}
 			else
 			{
@@ -2929,7 +2866,7 @@ void CalculateDeckVariables::optimize_constraint_no_prioritization(vector<Foreca
 
 	consMatrx.push_back(consMatrxRow1);
 
-	// Second Row
+	//Second Row
 	vector<double> consMatrxRow2;
 	for (int i = 0; i < variables + 2; i++)
 	{
@@ -2956,7 +2893,7 @@ void CalculateDeckVariables::optimize_constraint_no_prioritization(vector<Foreca
 	}
 	consMatrx.push_back(consMatrxRow2);
 
-	// Third Row to Last Row
+	//Third Row to Last Row
 	for (int j = 2; j < constraints; j++)
 	{
 		vector<double> consMatrxRow_j;
@@ -2986,38 +2923,34 @@ void CalculateDeckVariables::optimize_constraint_no_prioritization(vector<Foreca
 	MainScreen mainScreen;
 	mainScreen.Solve(p);
 
-	// check objective function
-	// double Qmax = 0;
+	//check objective function
+	//double Qmax = 0;
 	cutbacks2 = mainScreen.decisonVariables;
 	for (int i = 0; i < nwells; i++)
 	{
 
-		if (cutbacks2[i] < 0)
-		{
+		if(cutbacks2[i] < 0){
 			cutbacks2[i] = 0;
 		}
 
-		if (cutbacks2[i] > 1.09)
-		{
+		if(cutbacks2[i] > 1.09){
 			cutbacks2[i] = 1.0;
 		}
 
 		if (onStreamWells[i].isOilTerminated == true)
 		{
-			allWellsLiquidCapacity3 = allWellsLiquidCapacity3 +
-									  (onStreamWells[i].Oil_rate_NotTerminated + onStreamWells[i].Water_Rate) * cutbacks2[i];
+			allWellsLiquidCapacity3 = allWellsLiquidCapacity3 + 
+			(onStreamWells[i].Oil_rate_NotTerminated + onStreamWells[i].Water_Rate) * cutbacks2[i];
 		}
 		else
 		{
 			allWellsLiquidCapacity3 = allWellsLiquidCapacity3 + (onStreamWells[i].Oil_rate +
-																 onStreamWells[i].Water_Rate) *
-																	cutbacks2[i];
+			onStreamWells[i].Water_Rate) * cutbacks2[i];
 		}
 
 		if (onStreamWells[i].isGasTerminated == true)
 		{
-			allWellsGasCapacity3 = allWellsGasCapacity3 + (onStreamWells[i].Gas_Rate_NotTerminated * cutbacks2[i]);
-			;
+			allWellsGasCapacity3 = allWellsGasCapacity3 + (onStreamWells[i].Gas_Rate_NotTerminated * cutbacks2[i]);;
 		}
 		else
 		{
@@ -3025,21 +2958,22 @@ void CalculateDeckVariables::optimize_constraint_no_prioritization(vector<Foreca
 		}
 
 		if (static_cast<int>(allWellsGasCapacity3) > static_cast<int>(Gas_Capacity) ||
-			static_cast<int>(allWellsLiquidCapacity3) > static_cast<int>(Liquid_Capacity))
+		static_cast<int>(allWellsLiquidCapacity3) > static_cast<int>(Liquid_Capacity))
 		{
 			cutbacks2[i] = 0;
-			// break;
+			//break;
 		}
 
-		logger = logger +
-				 "Gas_Rate = " + to_string(onStreamWells[i].Gas_Rate) + " * " +
-				 "Liquid_Rate = " + to_string(onStreamWells[i].Liquid_Rate) + " * "
-																			  "cutbacks = " +
-				 to_string(cutbacks2[i]) + " * ";
+		logger = logger + 
+		"Gas_Rate = "  + to_string(onStreamWells[i].Gas_Rate) + " * " +
+		"Liquid_Rate = "  + to_string(onStreamWells[i].Liquid_Rate) + " * "
+		"cutbacks = "  + to_string(cutbacks2[i]) + " * ";
+
+		
 	}
 
 	/* if(onStreamWells[0].Flow_station == "REO_GP5"){
-		logger = logger +
+		logger = logger + 
 		"Gas_Capacity = "  + to_string(Gas_Capacity) + " * "
 		"Liquid_Capacity = "  + to_string(Liquid_Capacity) + " * "
 		"CurrentDate = " + to_string(CurrentDate.day) + "/" + to_string(CurrentDate.month) + "/" + to_string(CurrentDate.year) + "/" + "\n";
@@ -3080,8 +3014,9 @@ void CalculateDeckVariables::optimize_constraint_no_prioritization(vector<Foreca
 	}
 }
 
+
 void CalculateDeckVariables::optimize_constraint_by_well(vector<ForecastResult> &onStreamWells,
-														 vector<double> &cutbacks2, Prioritization &prioritizationFacility)
+														 vector<double> &cutbacks2, Prioritization &priotizationFacility)
 {
 
 	int k = 0;
@@ -3104,7 +3039,7 @@ void CalculateDeckVariables::optimize_constraint_by_well(vector<ForecastResult> 
 	double Qf_gas_Total = Gas_Capacity;
 	double Qf_liquid_Total = Liquid_Capacity;
 
-	for (k = 0; k < prioritizationFacility.prioritizationModel.ParameterNames.size(); k++)
+	for (k = 0; k < priotizationFacility.prioritizationModel.ParameterNames.size(); k++)
 	{
 
 		vector<ForecastResult> onStreamWells2;
@@ -3113,33 +3048,33 @@ void CalculateDeckVariables::optimize_constraint_by_well(vector<ForecastResult> 
 		double Qf_liquid = 0;
 		for (int i = 0; i < nwells; i++)
 		{
-			if (prioritizationFacility.typeOfPrioritization == wellPrioritization)
+			if (priotizationFacility.typeOfPrioritization == wellPrioritization)
 			{
-				if (onStreamWells[i].optimizationWeight2 == prioritizationFacility.prioritizationModel.ParameterNames[k])
+				if (onStreamWells[i].optimizationWeight2 == priotizationFacility.prioritizationModel.ParameterNames[k])
 				{
 					onStreamWells2.push_back(onStreamWells[i]);
 				}
 			}
 
-			if (prioritizationFacility.typeOfPrioritization == streamPrioritization)
+			if (priotizationFacility.typeOfPrioritization == streamPrioritization)
 			{
-				if (onStreamWells[i].HyrocarbonStream == prioritizationFacility.prioritizationModel.ParameterNames[k])
+				if (onStreamWells[i].HyrocarbonStream == priotizationFacility.prioritizationModel.ParameterNames[k])
 				{
 					onStreamWells2.push_back(onStreamWells[i]);
 				}
 			}
 
-			if (prioritizationFacility.typeOfPrioritization == projectPrioritization)
+			if (priotizationFacility.typeOfPrioritization == projectPrioritization)
 			{
-				if (onStreamWells[i].HyrocarbonStream == prioritizationFacility.prioritizationModel.ParameterNames[k])
+				if (onStreamWells[i].HyrocarbonStream == priotizationFacility.prioritizationModel.ParameterNames[k])
 				{
 					onStreamWells2.push_back(onStreamWells[i]);
 				}
 			}
 
-			if (prioritizationFacility.typeOfPrioritization == resourceClassPrioritization)
+			if (priotizationFacility.typeOfPrioritization == resourceClassPrioritization)
 			{
-				if (onStreamWells[i].resourceClass == prioritizationFacility.prioritizationModel.ParameterNames[k])
+				if (onStreamWells[i].resourceClass == priotizationFacility.prioritizationModel.ParameterNames[k])
 				{
 					onStreamWells2.push_back(onStreamWells[i]);
 				}
@@ -3149,23 +3084,23 @@ void CalculateDeckVariables::optimize_constraint_by_well(vector<ForecastResult> 
 		if (onStreamWells2.size() > 0)
 		{
 
-			if (prioritizationFacility.prioritizationModel.ParameterNames[k].size() > 0)
+			if (priotizationFacility.prioritizationModel.ParameterNames[k].size() > 0)
 			{
 				int nwells2 = onStreamWells2.size();
 
 				int constraints = 2 * nFacility + nwells2;
 				int variables = nwells2;
 
-				if (prioritizationFacility.methodOfPrioritization == sequential)
+				if (priotizationFacility.methodOfPrioritization == sequential)
 				{
 					Qf_gas = Qf_gas_Total;
 					Qf_liquid = Qf_liquid_Total;
 				}
 
-				if (prioritizationFacility.methodOfPrioritization == weighted)
+				if (priotizationFacility.methodOfPrioritization == weighted)
 				{
-					Qf_gas = Gas_Capacity * prioritizationFacility.prioritizationModel.ParameterWeights[k];
-					Qf_liquid = Liquid_Capacity * prioritizationFacility.prioritizationModel.ParameterWeights[k];
+					Qf_gas = Gas_Capacity * priotizationFacility.prioritizationModel.ParameterWeights[k];
+					Qf_liquid = Liquid_Capacity * priotizationFacility.prioritizationModel.ParameterWeights[k];
 				}
 
 				vector<vector<double>> consMatrx;
@@ -3175,12 +3110,12 @@ void CalculateDeckVariables::optimize_constraint_by_well(vector<ForecastResult> 
 				double zero = 0.0001;
 				logger = "";
 
-				logger = logger +
-						 "targetFluid = " + prioritizationFacility.targetFluid + " * ";
+				logger = logger + 
+				"targetFluid = "  + priotizationFacility.targetFluid + " * ";
 
 				for (int i = 0; i < variables; i++)
 				{
-					if (prioritizationFacility.targetFluid == oil)
+					if (priotizationFacility.targetFluid == oil)
 					{
 						if (onStreamWells2[i].isOilTerminated == true)
 						{
@@ -3191,10 +3126,10 @@ void CalculateDeckVariables::optimize_constraint_by_well(vector<ForecastResult> 
 							funcVars.push_back(onStreamWells2[i].Oil_rate);
 						}
 
-						logger = logger +
-								 "Oil_rate = " + to_string(onStreamWells2[i].Oil_rate) + " * ";
+						logger = logger + 
+						"Oil_rate = "  + to_string(onStreamWells2[i].Oil_rate) + " * ";
 					}
-					if (prioritizationFacility.targetFluid == gas)
+					if (priotizationFacility.targetFluid == gas)
 					{
 						if (onStreamWells2[i].isGasTerminated == true)
 						{
@@ -3205,7 +3140,7 @@ void CalculateDeckVariables::optimize_constraint_by_well(vector<ForecastResult> 
 							funcVars.push_back(onStreamWells2[i].Gas_Rate);
 						}
 					}
-					if (prioritizationFacility.targetFluid == liquid)
+					if (priotizationFacility.targetFluid == liquid)
 					{
 						if (onStreamWells2[i].isOilTerminated == true)
 						{
@@ -3216,13 +3151,13 @@ void CalculateDeckVariables::optimize_constraint_by_well(vector<ForecastResult> 
 							funcVars.push_back(onStreamWells2[i].Oil_rate + onStreamWells2[i].Water_Rate);
 						}
 					}
-					if (prioritizationFacility.targetFluid == water)
+					if (priotizationFacility.targetFluid == water)
 					{
 						funcVars.push_back(onStreamWells2[i].Water_Rate);
 					}
 				}
 
-				// First Row
+				//First Row
 				vector<double> consMatrxRow1;
 				for (int i = 0; i < variables + 2; i++)
 				{
@@ -3239,21 +3174,21 @@ void CalculateDeckVariables::optimize_constraint_by_well(vector<ForecastResult> 
 						if (onStreamWells2[i].isGasTerminated == true)
 						{
 							consMatrxRow1.push_back(onStreamWells2[i].Gas_Rate_NotTerminated);
-							// consMatrxRow1.push_back(zero);
+							//consMatrxRow1.push_back(zero);
 						}
 						else
 						{
 							consMatrxRow1.push_back(onStreamWells2[i].Gas_Rate);
 						}
 
-						logger = logger +
-								 "Gas_Rate = " + to_string(onStreamWells2[i].Gas_Rate) + " * ";
+						logger = logger + 
+						"Gas_Rate = "  + to_string(onStreamWells2[i].Gas_Rate) + " * ";
 					}
 				}
 
 				consMatrx.push_back(consMatrxRow1);
 
-				// Second Row
+				//Second Row
 				vector<double> consMatrxRow2;
 				for (int i = 0; i < variables + 2; i++)
 				{
@@ -3277,13 +3212,13 @@ void CalculateDeckVariables::optimize_constraint_by_well(vector<ForecastResult> 
 							consMatrxRow2.push_back(onStreamWells2[i].Oil_rate + onStreamWells2[i].Water_Rate);
 						}
 
-						logger = logger +
-								 "Liquid_rate = " + to_string(onStreamWells2[i].Oil_rate + onStreamWells2[i].Water_Rate) + " * ";
+						logger = logger + 
+						"Liquid_rate = "  + to_string(onStreamWells2[i].Oil_rate + onStreamWells2[i].Water_Rate) + " * ";
 					}
 				}
 				consMatrx.push_back(consMatrxRow2);
 
-				// Third Row to Last Row
+				//Third Row to Last Row
 				for (int j = 2; j < constraints; j++)
 				{
 					vector<double> consMatrxRow_j;
@@ -3313,21 +3248,19 @@ void CalculateDeckVariables::optimize_constraint_by_well(vector<ForecastResult> 
 				MainScreen mainScreen;
 				mainScreen.Solve(p);
 
-				// check objective function
-				// double Qmax = 0;
+				//check objective function
+				//double Qmax = 0;
 				cutbacks3 = mainScreen.decisonVariables;
 				for (int i = 0; i < nwells2; i++)
 				{
-					logger = logger +
-							 "x" + to_string(i + 1) + " = " + to_string(cutbacks3[i]) + " * ";
+					logger = logger + 
+					"x"  + to_string(i+1) + " = " + to_string(cutbacks3[i]) + " * ";
 
-					if (cutbacks3[i] < 0)
-					{
+					if(cutbacks3[i] < 0){
 						cutbacks3[i] = 0;
 					}
 
-					if (cutbacks3[i] > 1.09)
-					{
+					if(cutbacks3[i] > 1.09){
 						cutbacks3[i] = 1.0;
 					}
 
@@ -3342,8 +3275,7 @@ void CalculateDeckVariables::optimize_constraint_by_well(vector<ForecastResult> 
 
 					if (onStreamWells2[i].isGasTerminated == true)
 					{
-						allWellsGasCapacity3 = allWellsGasCapacity3 + (onStreamWells2[i].Gas_Rate_NotTerminated * cutbacks3[i]);
-						;
+						allWellsGasCapacity3 = allWellsGasCapacity3 + (onStreamWells2[i].Gas_Rate_NotTerminated * cutbacks3[i]);;
 					}
 					else
 					{
@@ -3351,7 +3283,7 @@ void CalculateDeckVariables::optimize_constraint_by_well(vector<ForecastResult> 
 					}
 
 					if (static_cast<int>(allWellsGasCapacity3) > static_cast<int>(Gas_Capacity) ||
-						static_cast<int>(allWellsLiquidCapacity3) > static_cast<int>(Liquid_Capacity))
+					static_cast<int>(allWellsLiquidCapacity3) > static_cast<int>(Liquid_Capacity))
 					{
 						cutbacks3[i] = 0;
 						break;
@@ -3359,9 +3291,9 @@ void CalculateDeckVariables::optimize_constraint_by_well(vector<ForecastResult> 
 					cutbacks2[onStreamWells2[i].wellIndex] = cutbacks3[i];
 				}
 
-				logger = logger +
-						 "GAS CAPACITY = " + to_string(Qf_gas) + " * " +
-						 "LIQUID CAPACITY = " + to_string(Qf_liquid) + "\n";
+				logger = logger + 
+				"GAS CAPACITY = "  + to_string(Qf_gas) + " * " +
+				"LIQUID CAPACITY = "  + to_string(Qf_liquid) + "\n";
 
 				/* if(onStreamWells2[0].Flow_station == "ABU_FS1"){
 					std::cout << logger;
@@ -3406,7 +3338,7 @@ void CalculateDeckVariables::optimize_constraint_by_well(vector<ForecastResult> 
 					break;
 				}
 
-				if (prioritizationFacility.methodOfPrioritization == sequential)
+				if (priotizationFacility.methodOfPrioritization == sequential)
 				{
 					Qf_liquid_Total = Qf_liquid_Total - allWellsLiquidCapacity2;
 					if (Qf_liquid_Total < 5)
@@ -3426,8 +3358,10 @@ void CalculateDeckVariables::optimize_constraint_by_well(vector<ForecastResult> 
 	}
 }
 
+
+
 void CalculateDeckVariables::optimize_by_stream_prioritization(vector<ForecastResult> &onStreamWells,
-															   vector<double> &cutbacks2, Prioritization &prioritizationFacility)
+														 vector<double> &cutbacks2, Prioritization &priotizationFacility)
 {
 
 	int k = 0;
@@ -3461,7 +3395,7 @@ void CalculateDeckVariables::optimize_by_stream_prioritization(vector<ForecastRe
 		for (int i = 0; i < nwells; i++)
 		{
 
-			if (prioritizationFacility.typeOfPrioritization == streamPrioritization)
+			if (priotizationFacility.typeOfPrioritization == streamPrioritization)
 			{
 				if (abs(onStreamWells[i].fluidFraction - uniqueFluidFractionIndicators[k]) < 0.00001)
 				{
@@ -3490,12 +3424,12 @@ void CalculateDeckVariables::optimize_by_stream_prioritization(vector<ForecastRe
 				double zero = 0.0001;
 				logger = "";
 
-				logger = logger +
-						 "targetFluid = " + prioritizationFacility.targetFluid + " * ";
+				logger = logger + 
+				"targetFluid = "  + priotizationFacility.targetFluid + " * ";
 
 				for (int i = 0; i < variables; i++)
 				{
-					if (prioritizationFacility.targetFluid == oil)
+					if (priotizationFacility.targetFluid == oil)
 					{
 						if (onStreamWells2[i].isOilTerminated == true)
 						{
@@ -3506,10 +3440,10 @@ void CalculateDeckVariables::optimize_by_stream_prioritization(vector<ForecastRe
 							funcVars.push_back(onStreamWells2[i].Oil_rate);
 						}
 
-						logger = logger +
-								 "Oil_rate = " + to_string(onStreamWells2[i].Oil_rate) + " * ";
+						logger = logger + 
+						"Oil_rate = "  + to_string(onStreamWells2[i].Oil_rate) + " * ";
 					}
-					if (prioritizationFacility.targetFluid == gas)
+					if (priotizationFacility.targetFluid == gas)
 					{
 						if (onStreamWells2[i].isGasTerminated == true)
 						{
@@ -3520,7 +3454,7 @@ void CalculateDeckVariables::optimize_by_stream_prioritization(vector<ForecastRe
 							funcVars.push_back(onStreamWells2[i].Gas_Rate);
 						}
 					}
-					if (prioritizationFacility.targetFluid == liquid)
+					if (priotizationFacility.targetFluid == liquid)
 					{
 						if (onStreamWells2[i].isOilTerminated == true)
 						{
@@ -3531,13 +3465,13 @@ void CalculateDeckVariables::optimize_by_stream_prioritization(vector<ForecastRe
 							funcVars.push_back(onStreamWells2[i].Oil_rate + onStreamWells2[i].Water_Rate);
 						}
 					}
-					if (prioritizationFacility.targetFluid == water)
+					if (priotizationFacility.targetFluid == water)
 					{
 						funcVars.push_back(onStreamWells2[i].Water_Rate);
 					}
 				}
 
-				// First Row
+				//First Row
 				vector<double> consMatrxRow1;
 				for (int i = 0; i < variables + 2; i++)
 				{
@@ -3554,21 +3488,21 @@ void CalculateDeckVariables::optimize_by_stream_prioritization(vector<ForecastRe
 						if (onStreamWells2[i].isGasTerminated == true)
 						{
 							consMatrxRow1.push_back(onStreamWells2[i].Gas_Rate_NotTerminated);
-							// consMatrxRow1.push_back(zero);
+							//consMatrxRow1.push_back(zero);
 						}
 						else
 						{
 							consMatrxRow1.push_back(onStreamWells2[i].Gas_Rate);
 						}
 
-						logger = logger +
-								 "Gas_Rate = " + to_string(onStreamWells2[i].Gas_Rate) + " * ";
+						logger = logger + 
+						"Gas_Rate = "  + to_string(onStreamWells2[i].Gas_Rate) + " * ";
 					}
 				}
 
 				consMatrx.push_back(consMatrxRow1);
 
-				// Second Row
+				//Second Row
 				vector<double> consMatrxRow2;
 				for (int i = 0; i < variables + 2; i++)
 				{
@@ -3592,13 +3526,13 @@ void CalculateDeckVariables::optimize_by_stream_prioritization(vector<ForecastRe
 							consMatrxRow2.push_back(onStreamWells2[i].Oil_rate + onStreamWells2[i].Water_Rate);
 						}
 
-						logger = logger +
-								 "Liquid_rate = " + to_string(onStreamWells2[i].Oil_rate + onStreamWells2[i].Water_Rate) + " * ";
+						logger = logger + 
+						"Liquid_rate = "  + to_string(onStreamWells2[i].Oil_rate + onStreamWells2[i].Water_Rate) + " * ";
 					}
 				}
 				consMatrx.push_back(consMatrxRow2);
 
-				// Third Row to Last Row
+				//Third Row to Last Row
 				for (int j = 2; j < constraints; j++)
 				{
 					vector<double> consMatrxRow_j;
@@ -3628,21 +3562,19 @@ void CalculateDeckVariables::optimize_by_stream_prioritization(vector<ForecastRe
 				MainScreen mainScreen;
 				mainScreen.Solve(p);
 
-				// check objective function
-				// double Qmax = 0;
+				//check objective function
+				//double Qmax = 0;
 				cutbacks3 = mainScreen.decisonVariables;
 				for (int i = 0; i < nwells2; i++)
 				{
-					logger = logger +
-							 "x" + to_string(i + 1) + " = " + to_string(cutbacks3[i]) + " * ";
+					logger = logger + 
+					"x"  + to_string(i+1) + " = " + to_string(cutbacks3[i]) + " * ";
 
-					if (cutbacks3[i] < 0)
-					{
+					if(cutbacks3[i] < 0){
 						cutbacks3[i] = 0;
 					}
 
-					if (cutbacks3[i] > 1.09)
-					{
+					if(cutbacks3[i] > 1.09){
 						cutbacks3[i] = 1.0;
 					}
 
@@ -3657,8 +3589,7 @@ void CalculateDeckVariables::optimize_by_stream_prioritization(vector<ForecastRe
 
 					if (onStreamWells2[i].isGasTerminated == true)
 					{
-						allWellsGasCapacity3 = allWellsGasCapacity3 + (onStreamWells2[i].Gas_Rate_NotTerminated * cutbacks3[i]);
-						;
+						allWellsGasCapacity3 = allWellsGasCapacity3 + (onStreamWells2[i].Gas_Rate_NotTerminated * cutbacks3[i]);;
 					}
 					else
 					{
@@ -3666,7 +3597,7 @@ void CalculateDeckVariables::optimize_by_stream_prioritization(vector<ForecastRe
 					}
 
 					if (static_cast<int>(allWellsGasCapacity3) > static_cast<int>(Gas_Capacity) ||
-						static_cast<int>(allWellsLiquidCapacity3) > static_cast<int>(Liquid_Capacity))
+					static_cast<int>(allWellsLiquidCapacity3) > static_cast<int>(Liquid_Capacity))
 					{
 						cutbacks3[i] = 0;
 						break;
@@ -3674,9 +3605,9 @@ void CalculateDeckVariables::optimize_by_stream_prioritization(vector<ForecastRe
 					cutbacks2[onStreamWells2[i].wellIndex] = cutbacks3[i];
 				}
 
-				logger = logger +
-						 "GAS CAPACITY = " + to_string(Qf_gas) + " * " +
-						 "LIQUID CAPACITY = " + to_string(Qf_liquid) + "\n";
+				logger = logger + 
+				"GAS CAPACITY = "  + to_string(Qf_gas) + " * " +
+				"LIQUID CAPACITY = "  + to_string(Qf_liquid) + "\n";
 
 				/* if(onStreamWells2[0].Flow_station == "ABU_FS1"){
 					std::cout << logger;
@@ -3721,7 +3652,7 @@ void CalculateDeckVariables::optimize_by_stream_prioritization(vector<ForecastRe
 					break;
 				}
 
-				if (prioritizationFacility.methodOfPrioritization == sequential)
+				if (priotizationFacility.methodOfPrioritization == sequential)
 				{
 					Qf_liquid_Total = Qf_liquid_Total - allWellsLiquidCapacity2;
 					if (Qf_liquid_Total < 5)
@@ -3741,8 +3672,9 @@ void CalculateDeckVariables::optimize_by_stream_prioritization(vector<ForecastRe
 	}
 }
 
+
 void CalculateDeckVariables::optimize_olderNode_children(vector<Node> &nodes, int &nodeIndex,
-														 vector<int> &actualChildrenNodesIndicies, Prioritization &prioritizationNode)
+														 vector<int> &actualChildrenNodesIndicies, Prioritization &priotizationNode)
 {
 	int k = 0;
 	allWellsLiquidCapacity = 0;
@@ -3754,7 +3686,7 @@ void CalculateDeckVariables::optimize_olderNode_children(vector<Node> &nodes, in
 	double Qf_gas_Total = Gas_Capacity;
 	double Qf_liquid_Total = Liquid_Capacity;
 	int constraints = nwells;
-	// int constraints = 2*nFacility + nwells;
+	//int constraints = 2*nFacility + nwells;
 	int LiquidGasConstraintCount = 0;
 	if (Gas_Capacity > 0)
 	{
@@ -3769,7 +3701,7 @@ void CalculateDeckVariables::optimize_olderNode_children(vector<Node> &nodes, in
 		isGasFlow = false;
 	}
 	int variables = nwells;
-	// Get actual parent cal variables
+	//Get actual parent cal variables
 	FacilityOiProduced = 0;
 	FacilityWaterProduced = 0;
 	FacilityGasProduced = 0;
@@ -3778,7 +3710,7 @@ void CalculateDeckVariables::optimize_olderNode_children(vector<Node> &nodes, in
 	FacilityCondensateProduced = 0;
 	FacilityLiquidProduced = 0;
 
-	for (k = 0; k < prioritizationNode.prioritizationModel.ParameterNames.size(); k++)
+	for (k = 0; k < priotizationNode.prioritizationModel.ParameterNames.size(); k++)
 	{
 
 		vector<FacilityStructExternal> onStreamWells2;
@@ -3789,10 +3721,10 @@ void CalculateDeckVariables::optimize_olderNode_children(vector<Node> &nodes, in
 		for (int i = 0; i < nwells; i++)
 		{
 
-			if (prioritizationNode.typeOfPrioritization == streamPrioritization)
+			if (priotizationNode.typeOfPrioritization == streamPrioritization)
 			{
-				if (nodes[nodeIndex].prioritizations[actualChildrenNodesIndicies[i]].targetFluid ==
-					prioritizationNode.prioritizationModel.ParameterNames[k])
+				if (nodes[nodeIndex].priotizations[actualChildrenNodesIndicies[i]].targetFluid ==
+					priotizationNode.prioritizationModel.ParameterNames[k])
 				{
 					onStreamWells2.push_back(nodes[nodeIndex].equipmentDataInEquipementConnections[actualChildrenNodesIndicies[i]]);
 					actualChildrenNodesIndicies2.push_back(actualChildrenNodesIndicies[i]);
@@ -3802,23 +3734,23 @@ void CalculateDeckVariables::optimize_olderNode_children(vector<Node> &nodes, in
 
 		if (onStreamWells2.size() > 0)
 		{
-			if (prioritizationNode.prioritizationModel.ParameterNames[k].size() > 0)
+			if (priotizationNode.prioritizationModel.ParameterNames[k].size() > 0)
 			{
 				int nwells2 = onStreamWells2.size();
 
 				int constraints = 1 + nwells2;
 				int variables = nwells2;
 
-				if (prioritizationNode.methodOfPrioritization == sequential)
+				if (priotizationNode.methodOfPrioritization == sequential)
 				{
 					Qf_gas = Qf_gas_Total;
 					Qf_liquid = Qf_liquid_Total;
 				}
 
-				if (prioritizationNode.methodOfPrioritization == weighted)
+				if (priotizationNode.methodOfPrioritization == weighted)
 				{
-					Qf_gas = Gas_Capacity * prioritizationNode.prioritizationModel.ParameterWeights[k];
-					Qf_liquid = Liquid_Capacity * prioritizationNode.prioritizationModel.ParameterWeights[k];
+					Qf_gas = Gas_Capacity * priotizationNode.prioritizationModel.ParameterWeights[k];
+					Qf_liquid = Liquid_Capacity * priotizationNode.prioritizationModel.ParameterWeights[k];
 				}
 
 				vector<vector<double>> consMatrx;
@@ -3829,40 +3761,40 @@ void CalculateDeckVariables::optimize_olderNode_children(vector<Node> &nodes, in
 
 				for (int i = 0; i < variables; i++)
 				{
-					if (prioritizationNode.targetFluid == oil)
+					if (priotizationNode.targetFluid == oil)
 					{
 						funcVars.push_back(onStreamWells2[i].FacilityOiProduced);
 					}
 
-					if (prioritizationNode.targetFluid == condensate)
+					if (priotizationNode.targetFluid == condensate)
 					{
 						funcVars.push_back(onStreamWells2[i].FacilityComdensateProduced);
 					}
-					if (prioritizationNode.targetFluid == gas)
+					if (priotizationNode.targetFluid == gas)
 					{
 						funcVars.push_back(onStreamWells2[i].FacilityGasProduced);
 					}
 
-					if (prioritizationNode.targetFluid == ag)
+					if (priotizationNode.targetFluid == ag)
 					{
 						funcVars.push_back(onStreamWells2[i].FacilityAGProduced);
 					}
 
-					if (prioritizationNode.targetFluid == nag)
+					if (priotizationNode.targetFluid == nag)
 					{
 						funcVars.push_back(onStreamWells2[i].FacilityNAGProduced);
 					}
-					if (prioritizationNode.targetFluid == liquid)
+					if (priotizationNode.targetFluid == liquid)
 					{
 						funcVars.push_back(onStreamWells2[i].FacilityLiquidProduced);
 					}
-					if (prioritizationNode.targetFluid == water)
+					if (priotizationNode.targetFluid == water)
 					{
 						funcVars.push_back(onStreamWells2[i].FacilityWaterProduced);
 					}
 				}
 
-				// First Row
+				//First Row
 				if (isGasFlow == true)
 				{
 					vector<double> consMatrxRow1;
@@ -3887,7 +3819,7 @@ void CalculateDeckVariables::optimize_olderNode_children(vector<Node> &nodes, in
 
 				if (isGasFlow == false)
 				{
-					// Second Row
+					//Second Row
 					vector<double> consMatrxRow2;
 					for (int i = 0; i < variables + 2; i++)
 					{
@@ -3908,7 +3840,7 @@ void CalculateDeckVariables::optimize_olderNode_children(vector<Node> &nodes, in
 					consMatrx.push_back(consMatrxRow2);
 				}
 
-				// Third Row to Last Row
+				//Third Row to Last Row
 				for (int j = LiquidGasConstraintCount; j < constraints; j++)
 				{
 					vector<double> consMatrxRow_j;
@@ -3956,14 +3888,12 @@ void CalculateDeckVariables::optimize_olderNode_children(vector<Node> &nodes, in
 
 				for (int i = 0; i < variables; i++)
 				{
-
-					if (mainScreen.decisonVariables[i] < 0)
-					{
+					
+					if(mainScreen.decisonVariables[i] < 0){
 						mainScreen.decisonVariables[i] = 0;
 					}
 
-					if (mainScreen.decisonVariables[i] > 1.0)
-					{
+					if(mainScreen.decisonVariables[i] > 1.0){
 						mainScreen.decisonVariables[i] = 1.0;
 					}
 
@@ -4002,7 +3932,7 @@ void CalculateDeckVariables::optimize_olderNode_children(vector<Node> &nodes, in
 					}
 				}
 
-				// Adjust optimized result with cutbacks
+				//Adjust optimized result with cutbacks
 
 				if (isGasFlow == true)
 				{
@@ -4017,7 +3947,7 @@ void CalculateDeckVariables::optimize_olderNode_children(vector<Node> &nodes, in
 							exportForecastResults.exportSolution(mainScreen.decisonVariables); */
 						}
 					}
-					if (prioritizationNode.methodOfPrioritization == sequential)
+					if (priotizationNode.methodOfPrioritization == sequential)
 					{
 						Qf_gas_Total = Qf_gas_Total - FacilityGasProduced;
 						if (Qf_gas_Total < 5)
@@ -4040,7 +3970,7 @@ void CalculateDeckVariables::optimize_olderNode_children(vector<Node> &nodes, in
 							exportForecastResults.exportSolution(mainScreen.decisonVariables); */
 						}
 					}
-					if (prioritizationNode.methodOfPrioritization == sequential)
+					if (priotizationNode.methodOfPrioritization == sequential)
 					{
 						Qf_liquid_Total = Qf_liquid_Total - FacilityLiquidProduced;
 						if (Qf_liquid_Total < 5)
@@ -4056,19 +3986,20 @@ void CalculateDeckVariables::optimize_olderNode_children(vector<Node> &nodes, in
 }
 
 void CalculateDeckVariables::SetCutRatesBackValues(int &facilityCounter, int &timeStepCounter, double &onStreamWellCutBack,
-												   int &scenario, InputDeckStruct &deck, int &actualWellIndex)
+	int &scenario, InputDeckStruct &deck, int &actualWellIndex)
 {
-	bool isAfterOptimization = true;
+	bool isAfetrOptimization = true;
 	int i = actualWellIndex;
 	int cutbackSizex = cutbacks.size() - 1;
 	double cumXProd = 0;
 	string logger = "";
 
-	checker = " SetCutRatesBackValues ";
+	checker= " SetCutRatesBackValues ";
+	
 
 	if (results[timeStepCounter][facilityCounter][i].IsFlowing == true)
 	{
-		if (deck.Module == results[timeStepCounter][facilityCounter][i].ModuleName)
+		if (deck.Module == results[timeStepCounter][facilityCounter][i].moduleName)
 		{
 			results[timeStepCounter][facilityCounter][i].CutBack = onStreamWellCutBack;
 
@@ -4083,7 +4014,7 @@ void CalculateDeckVariables::SetCutRatesBackValues(int &facilityCounter, int &ti
 			else
 			{
 
-				/* logger = logger +
+				/* logger = logger +  
 				"Gas_Rate After Optimization = " + to_string(results[timeStepCounter][facilityCounter][i].Gas_Rate) + " * " +
 				"onStreamWellCutBack = " + to_string(onStreamWellCutBack) + "\n";
 
@@ -4142,13 +4073,13 @@ void CalculateDeckVariables::SetCutRatesBackValues(int &facilityCounter, int &ti
 				}
 			}
 
-			GetVariables(scenario, deck, forecastResult, forecastResult_old, cumXProd, isAfterOptimization);
+
+			GetVariables(scenario, deck, forecastResult, forecastResult_old, cumXProd, isAfetrOptimization);
 			if (deck.Hydrocarbon_Stream == oil)
 			{
 				cumXProd = results[timeStepCounter][facilityCounter][i].Oil_rate;
 			}
-			else
-			{
+			else{
 				cumXProd = results[timeStepCounter][facilityCounter][i].Gas_Rate;
 			}
 
@@ -4161,6 +4092,7 @@ void CalculateDeckVariables::SetCutRatesBackValues(int &facilityCounter, int &ti
 				FacilityNAGProduced = FacilityNAGProduced + forecastResult.Gas_Rate;
 			}
 
+			
 			FacilityOiProduced = FacilityOiProduced + forecastResult.Oil_rate;
 			FacilityWaterProduced = FacilityWaterProduced + forecastResult.Water_Rate;
 			FacilityGasProduced = FacilityGasProduced + forecastResult.Gas_Rate;
@@ -4174,18 +4106,20 @@ void CalculateDeckVariables::SetCutRatesBackValues(int &facilityCounter, int &ti
 												   int &scenario, InputDeckStruct &deck, int &actualWellIndex,
 												   double &gasCutBack, double &liquidCutBack)
 {
-	bool isAfterOptimization = true;
+	bool isAfetrOptimization = true;
 	int i = actualWellIndex;
 	int cutbackSizex = cutbacks.size() - 1;
 	double cumXProd = 0;
-	checker = " SetCutRatesBackValues -2 ";
+	checker= " SetCutRatesBackValues -2 ";
 	string logger = "";
 
-	// GetCurrentFacilityData();
+	//GetCurrentFacilityData();
 
+	
+	
 	if (results[timeStepCounter][facilityCounter][i].IsFlowing == true)
 	{
-		if (deck.Module == results[timeStepCounter][facilityCounter][i].ModuleName)
+		if (deck.Module == results[timeStepCounter][facilityCounter][i].moduleName)
 		{
 			results[timeStepCounter][facilityCounter][i].Oil_rate =
 				results[timeStepCounter][facilityCounter][i].Oil_rate * liquidCutBack;
@@ -4207,7 +4141,7 @@ void CalculateDeckVariables::SetCutRatesBackValues(int &facilityCounter, int &ti
 			{
 				forecastResult_old = results[timeStepCounter][facilityCounter][i];
 				forecastResult = results[timeStepCounter][facilityCounter][i];
-				GetVariables(scenario, deck, forecastResult, forecastResult_old, cumXProd, isAfterOptimization);
+				GetVariables(scenario, deck, forecastResult, forecastResult_old, cumXProd, isAfetrOptimization);
 				results[timeStepCounter][facilityCounter][i] = forecastResult;
 			}
 			else
@@ -4246,10 +4180,10 @@ void CalculateDeckVariables::SetCutRatesBackValues(int &facilityCounter, int &ti
 				}
 			}
 
-			GetVariables(scenario, deck, forecastResult, forecastResult_old, cumXProd, isAfterOptimization);
+			GetVariables(scenario, deck, forecastResult, forecastResult_old, cumXProd, isAfetrOptimization);
 			results[timeStepCounter][facilityCounter][i] = forecastResult;
 
-			/* logger = logger +
+			/* logger = logger +  
 				"Gas_Rate  = " + to_string(results[timeStepCounter][facilityCounter][i].Gas_Rate) + "\n";
 
 				if(deck.Module == "FO12U60T_FO12 U60X_P03"){
@@ -4270,6 +4204,7 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 	forecastResult.isPlateau = false;
 	string logger = "";
 
+
 	if (deck.Hydrocarbon_Stream == oil)
 	{
 		double initialLiquidRate = 0;
@@ -4281,7 +4216,7 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 			initialLiquidRate = deck.Init_Liquid_Gas_Rate_1P_1C; // Initial liquid rate
 			plateauCumProd = deck.PlateauUR_1P_1C * MM;
 
-			cumprodNoPlateau = (cumprod - plateauCumProd); // Liquid remaining plateau volume
+			cumprodNoPlateau = (cumprod - plateauCumProd); //Liquid remaining plateau volume
 			if (cumprodNoPlateau < 0)
 			{
 				forecastResult.Liquid_Rate = initialLiquidRate;
@@ -4298,19 +4233,19 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 					else if (forecastResult.scheduleKey == WellOpenUp_String)
 					{
 						forecastResult.Liquid_Rate = DCA.Get_DCA(initialLiquidRate,
-																 deck.Rate_of_Change_Rate_1P_1C, cumprodNoPlateau, method,
-																 deck.DeclineExponent_1P_1C, forecastResult.cumDays, isRateCum);
+							deck.Rate_of_Change_Rate_1P_1C, cumprodNoPlateau, method, 
+							deck.DeclineExponent_1P_1C, forecastResult.cumDays, isRateCum);
 					}
 					else if (forecastResult.scheduleKey == WellRampUp_String)
 					{
-						forecastResult.Liquid_Rate =
-							(forecastResult.startupRate * forecastResult.percentOfMaximumPotential);
+						forecastResult.Liquid_Rate = 
+						(forecastResult.startupRate * forecastResult.percentOfMaximumPotential);
 					}
 					else
 					{
 						forecastResult.Liquid_Rate = DCA.Get_DCA(initialLiquidRate,
-																 deck.Rate_of_Change_Rate_1P_1C, cumprodNoPlateau, method,
-																 deck.DeclineExponent_1P_1C, forecastResult.cumDays, isRateCum);
+							deck.Rate_of_Change_Rate_1P_1C, cumprodNoPlateau, method, 
+							deck.DeclineExponent_1P_1C, forecastResult.cumDays, isRateCum);
 					}
 				}
 				else
@@ -4327,9 +4262,9 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 					{
 						double startUpLiquidRate = forecastResult.startupRate;
 						forecastResult.Liquid_Rate = DCA.Get_DCA(startUpLiquidRate,
-																 forecastResult.declineRate, cumprodNoPlateau,
-																 forecastResult.declineType2, forecastResult.hyperbolicExponent,
-																 forecastResult.cumDays, isRateCum);
+						forecastResult.declineRate, cumprodNoPlateau,
+						forecastResult.declineType2, forecastResult.hyperbolicExponent,
+						forecastResult.cumDays, isRateCum);
 					}
 					else if (forecastResult.scheduleKey == WellRampUp_String)
 					{
@@ -4340,9 +4275,9 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 					{
 						double startUpLiquidRate = forecastResult.startupRate;
 						forecastResult.Liquid_Rate = DCA.Get_DCA(startUpLiquidRate,
-																 forecastResult.declineRate, cumprodNoPlateau,
-																 forecastResult.declineType2, forecastResult.hyperbolicExponent,
-																 forecastResult.cumDays, isRateCum);
+						forecastResult.declineRate, cumprodNoPlateau,
+						forecastResult.declineType2, forecastResult.hyperbolicExponent,
+						forecastResult.cumDays, isRateCum);
 					}
 				}
 			}
@@ -4355,6 +4290,7 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 				forecastResult.DeclineRate = forecastResult.declineRate;
 			}
 
+			
 			/* logger = logger +  "initialLiquidRate = "  + to_string(initialLiquidRate) + " * " +
 			+  "Liquid_Rate Before Optimization = "  + to_string(forecastResult.Liquid_Rate) + " * "
 			+  "Decline Rate = " + to_string(deck.Rate_of_Change_Rate_1P_1C) + " * "
@@ -4373,7 +4309,7 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 			initialLiquidRate = deck.Init_Liquid_Gas_Rate_2P_2C; // Initial liquid rate
 			plateauCumProd = deck.PlateauUR_2P_2C * MM;
 
-			cumprodNoPlateau = (cumprod - plateauCumProd); // Liquid remaining plateau volume
+			cumprodNoPlateau = (cumprod - plateauCumProd); //Liquid remaining plateau volume
 			if (cumprodNoPlateau < 0)
 			{
 				forecastResult.Liquid_Rate = initialLiquidRate;
@@ -4390,19 +4326,19 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 					else if (forecastResult.scheduleKey == WellOpenUp_String)
 					{
 						forecastResult.Liquid_Rate = DCA.Get_DCA(initialLiquidRate,
-																 deck.Rate_of_Change_Rate_2P_2C, cumprodNoPlateau, method,
-																 deck.DeclineExponent_2P_2C, forecastResult.cumDays, isRateCum);
+							deck.Rate_of_Change_Rate_2P_2C, cumprodNoPlateau, method, 
+							deck.DeclineExponent_2P_2C, forecastResult.cumDays, isRateCum);
 					}
 					else if (forecastResult.scheduleKey == WellRampUp_String)
 					{
-						forecastResult.Liquid_Rate =
-							(forecastResult.startupRate * forecastResult.percentOfMaximumPotential);
+						forecastResult.Liquid_Rate = 
+						(forecastResult.startupRate * forecastResult.percentOfMaximumPotential);
 					}
 					else
 					{
 						forecastResult.Liquid_Rate = DCA.Get_DCA(initialLiquidRate,
-																 deck.Rate_of_Change_Rate_2P_2C, cumprodNoPlateau, method,
-																 deck.DeclineExponent_2P_2C, forecastResult.cumDays, isRateCum);
+								deck.Rate_of_Change_Rate_2P_2C, cumprodNoPlateau, method, 
+								deck.DeclineExponent_2P_2C, forecastResult.cumDays, isRateCum);
 					}
 				}
 				else
@@ -4419,9 +4355,9 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 					{
 						double startUpLiquidRate = forecastResult.startupRate;
 						forecastResult.Liquid_Rate = DCA.Get_DCA(startUpLiquidRate,
-																 forecastResult.declineRate, cumprodNoPlateau,
-																 forecastResult.declineType2,
-																 forecastResult.hyperbolicExponent, forecastResult.cumDays, isRateCum);
+						forecastResult.declineRate, cumprodNoPlateau,
+						forecastResult.declineType2, 
+						forecastResult.hyperbolicExponent, forecastResult.cumDays, isRateCum);
 					}
 					else if (forecastResult.scheduleKey == WellRampUp_String)
 					{
@@ -4432,9 +4368,9 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 					{
 						double startUpLiquidRate = forecastResult.startupRate;
 						forecastResult.Liquid_Rate = DCA.Get_DCA(startUpLiquidRate,
-																 forecastResult.declineRate, cumprodNoPlateau,
-																 forecastResult.declineType2,
-																 forecastResult.hyperbolicExponent, forecastResult.cumDays, isRateCum);
+						forecastResult.declineRate, cumprodNoPlateau,
+						forecastResult.declineType2, 
+						forecastResult.hyperbolicExponent, forecastResult.cumDays, isRateCum);
 					}
 				}
 			}
@@ -4453,7 +4389,7 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 			initialLiquidRate = deck.Init_Liquid_Gas_Rate_3P_3C; // Initial liquid rate
 			plateauCumProd = deck.PlateauUR_3P_3C * MM;
 
-			cumprodNoPlateau = (cumprod - plateauCumProd); // Liquid remaining plateau volume
+			cumprodNoPlateau = (cumprod - plateauCumProd); //Liquid remaining plateau volume
 			if (cumprodNoPlateau < 0)
 			{
 				forecastResult.Liquid_Rate = initialLiquidRate;
@@ -4470,19 +4406,19 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 					else if (forecastResult.scheduleKey == WellOpenUp_String)
 					{
 						forecastResult.Liquid_Rate = DCA.Get_DCA(initialLiquidRate,
-																 deck.Rate_of_Change_Rate_3P_3C, cumprodNoPlateau, method,
-																 deck.DeclineExponent_3P_3C, forecastResult.cumDays, isRateCum);
+							deck.Rate_of_Change_Rate_3P_3C, cumprodNoPlateau, method, 
+							deck.DeclineExponent_3P_3C, forecastResult.cumDays, isRateCum);
 					}
 					else if (forecastResult.scheduleKey == WellRampUp_String)
 					{
-						forecastResult.Liquid_Rate =
-							(forecastResult.startupRate * forecastResult.percentOfMaximumPotential);
+						forecastResult.Liquid_Rate = 
+						(forecastResult.startupRate * forecastResult.percentOfMaximumPotential);
 					}
 					else
 					{
 						forecastResult.Liquid_Rate = DCA.Get_DCA(initialLiquidRate,
-																 deck.Rate_of_Change_Rate_3P_3C, cumprodNoPlateau, method,
-																 deck.DeclineExponent_3P_3C, forecastResult.cumDays, isRateCum);
+							deck.Rate_of_Change_Rate_3P_3C, cumprodNoPlateau, method, 
+							deck.DeclineExponent_3P_3C, forecastResult.cumDays, isRateCum);
 					}
 				}
 				else
@@ -4499,9 +4435,9 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 					{
 						double startUpLiquidRate = forecastResult.startupRate;
 						forecastResult.Liquid_Rate = DCA.Get_DCA(startUpLiquidRate,
-																 forecastResult.declineRate, cumprodNoPlateau,
-																 forecastResult.declineType2,
-																 forecastResult.hyperbolicExponent, forecastResult.cumDays, isRateCum);
+						forecastResult.declineRate, cumprodNoPlateau,
+						forecastResult.declineType2, 
+						forecastResult.hyperbolicExponent, forecastResult.cumDays, isRateCum);
 					}
 					else if (forecastResult.scheduleKey == WellRampUp_String)
 					{
@@ -4512,9 +4448,9 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 					{
 						double startUpLiquidRate = forecastResult.startupRate;
 						forecastResult.Liquid_Rate = DCA.Get_DCA(startUpLiquidRate,
-																 forecastResult.declineRate, cumprodNoPlateau,
-																 forecastResult.declineType2,
-																 forecastResult.hyperbolicExponent, forecastResult.cumDays, isRateCum);
+						forecastResult.declineRate, cumprodNoPlateau,
+						forecastResult.declineType2, 
+						forecastResult.hyperbolicExponent, forecastResult.cumDays, isRateCum);
 					}
 				}
 			}
@@ -4524,10 +4460,10 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 				forecastResult.DeclineRate = deck.Rate_of_Change_Rate_3P_3C;
 			}
 			else
-			{
-				forecastResult.DeclineRate = forecastResult.declineRate;
-			}
-
+				{
+					forecastResult.DeclineRate = forecastResult.declineRate;
+				}
+			
 			break;
 		}
 
@@ -4539,7 +4475,7 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 		{
 			forecastResult.Liquid_Rate = 0;
 		}
-
+		
 		forecastResult.Liquid_rate_NotTerminated = forecastResult.Liquid_Rate; // For well rerouting purpose
 		if (forecastResult.isOilTerminated == true)
 		{
@@ -4571,9 +4507,9 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 					else if (forecastResult.scheduleKey == WellOpenUp_String)
 					{
 						forecastResult.Gas_Rate = DCA.Get_DCA(deck.Init_Liquid_Gas_Rate_1P_1C,
-															  deck.Rate_of_Change_Rate_1P_1C,
-															  cumprodNoPlateau, method, deck.DeclineExponent_1P_1C,
-															  forecastResult.cumDays, isRateCum);
+						deck.Rate_of_Change_Rate_1P_1C, 
+						cumprodNoPlateau, method, deck.DeclineExponent_1P_1C,
+						forecastResult.cumDays, isRateCum);
 					}
 					else if (forecastResult.scheduleKey == WellRampUp_String)
 					{
@@ -4582,8 +4518,8 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 					else
 					{
 						forecastResult.Gas_Rate = DCA.Get_DCA(deck.Init_Liquid_Gas_Rate_1P_1C,
-															  deck.Rate_of_Change_Rate_1P_1C, cumprodNoPlateau, method,
-															  deck.DeclineExponent_1P_1C, forecastResult.cumDays, isRateCum);
+						deck.Rate_of_Change_Rate_1P_1C, cumprodNoPlateau, method, 
+						deck.DeclineExponent_1P_1C,  forecastResult.cumDays, isRateCum);
 					}
 				}
 				else
@@ -4599,9 +4535,9 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 					else if (forecastResult.scheduleKey == WellOpenUp_String)
 					{
 						forecastResult.Gas_Rate = DCA.Get_DCA(forecastResult.startupRate,
-															  forecastResult.declineRate, cumprodNoPlateau,
-															  forecastResult.declineType2,
-															  forecastResult.hyperbolicExponent, forecastResult.cumDays, isRateCum);
+						forecastResult.declineRate, cumprodNoPlateau,
+						forecastResult.declineType2, 
+						forecastResult.hyperbolicExponent, forecastResult.cumDays, isRateCum);
 					}
 					else if (forecastResult.scheduleKey == WellRampUp_String)
 					{
@@ -4610,9 +4546,9 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 					else if (forecastResult.scheduleKey == WellReroute_String)
 					{
 						forecastResult.Gas_Rate = DCA.Get_DCA(forecastResult.startupRate,
-															  forecastResult.declineRate, cumprodNoPlateau,
-															  forecastResult.declineType2,
-															  forecastResult.hyperbolicExponent, forecastResult.cumDays, isRateCum);
+						forecastResult.declineRate, cumprodNoPlateau,
+						forecastResult.declineType2, 
+						forecastResult.hyperbolicExponent, forecastResult.cumDays, isRateCum);
 					}
 				}
 			}
@@ -4646,8 +4582,8 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 					else if (forecastResult.scheduleKey == WellOpenUp_String)
 					{
 						forecastResult.Gas_Rate = DCA.Get_DCA(deck.Init_Liquid_Gas_Rate_2P_2C,
-															  deck.Rate_of_Change_Rate_2P_2C, cumprodNoPlateau, method,
-															  deck.DeclineExponent_2P_2C, forecastResult.cumDays, isRateCum);
+				deck.Rate_of_Change_Rate_2P_2C, cumprodNoPlateau, method, 
+				deck.DeclineExponent_2P_2C, forecastResult.cumDays, isRateCum);
 					}
 					else if (forecastResult.scheduleKey == WellRampUp_String)
 					{
@@ -4656,8 +4592,8 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 					else
 					{
 						forecastResult.Gas_Rate = DCA.Get_DCA(deck.Init_Liquid_Gas_Rate_2P_2C,
-															  deck.Rate_of_Change_Rate_2P_2C, cumprodNoPlateau, method,
-															  deck.DeclineExponent_2P_2C, forecastResult.cumDays, isRateCum);
+						deck.Rate_of_Change_Rate_2P_2C, cumprodNoPlateau, method, 
+						deck.DeclineExponent_2P_2C, forecastResult.cumDays, isRateCum);
 					}
 				}
 				else
@@ -4673,9 +4609,9 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 					else if (forecastResult.scheduleKey == WellOpenUp_String)
 					{
 						forecastResult.Gas_Rate = DCA.Get_DCA(forecastResult.startupRate,
-															  forecastResult.declineRate, cumprodNoPlateau,
-															  forecastResult.declineType2,
-															  forecastResult.hyperbolicExponent, forecastResult.cumDays, isRateCum);
+						forecastResult.declineRate, cumprodNoPlateau,
+						forecastResult.declineType2, 
+						forecastResult.hyperbolicExponent, forecastResult.cumDays, isRateCum);
 					}
 					else if (forecastResult.scheduleKey == WellRampUp_String)
 					{
@@ -4684,9 +4620,9 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 					else if (forecastResult.scheduleKey == WellReroute_String)
 					{
 						forecastResult.Gas_Rate = DCA.Get_DCA(forecastResult.startupRate,
-															  forecastResult.declineRate, cumprodNoPlateau,
-															  forecastResult.declineType2,
-															  forecastResult.hyperbolicExponent, forecastResult.cumDays, isRateCum);
+						forecastResult.declineRate, cumprodNoPlateau,
+						forecastResult.declineType2, 
+						forecastResult.hyperbolicExponent, forecastResult.cumDays, isRateCum);
 					}
 				}
 			}
@@ -4720,8 +4656,8 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 					else if (forecastResult.scheduleKey == WellOpenUp_String)
 					{
 						forecastResult.Gas_Rate = DCA.Get_DCA(deck.Init_Liquid_Gas_Rate_3P_3C,
-															  deck.Rate_of_Change_Rate_3P_3C, cumprodNoPlateau, method,
-															  deck.DeclineExponent_3P_3C, forecastResult.cumDays, isRateCum);
+						deck.Rate_of_Change_Rate_3P_3C, cumprodNoPlateau, method, 
+						deck.DeclineExponent_3P_3C, forecastResult.cumDays, isRateCum);
 					}
 					else if (forecastResult.scheduleKey == WellRampUp_String)
 					{
@@ -4730,8 +4666,8 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 					else
 					{
 						forecastResult.Gas_Rate = DCA.Get_DCA(deck.Init_Liquid_Gas_Rate_3P_3C,
-															  deck.Rate_of_Change_Rate_3P_3C, cumprodNoPlateau, method,
-															  deck.DeclineExponent_3P_3C, forecastResult.cumDays, isRateCum);
+						deck.Rate_of_Change_Rate_3P_3C, cumprodNoPlateau, method, 
+						deck.DeclineExponent_3P_3C, forecastResult.cumDays, isRateCum);
 					}
 				}
 				else
@@ -4747,9 +4683,9 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 					else if (forecastResult.scheduleKey == WellOpenUp_String)
 					{
 						forecastResult.Gas_Rate = DCA.Get_DCA(forecastResult.startupRate,
-															  forecastResult.declineRate, cumprodNoPlateau,
-															  forecastResult.declineType2,
-															  forecastResult.hyperbolicExponent, forecastResult.cumDays, isRateCum);
+						forecastResult.declineRate, cumprodNoPlateau,
+						forecastResult.declineType2, 
+						forecastResult.hyperbolicExponent, forecastResult.cumDays, isRateCum);
 					}
 					else if (forecastResult.scheduleKey == WellRampUp_String)
 					{
@@ -4758,9 +4694,9 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 					else if (forecastResult.scheduleKey == WellReroute_String)
 					{
 						forecastResult.Gas_Rate = DCA.Get_DCA(forecastResult.startupRate,
-															  forecastResult.declineRate, cumprodNoPlateau,
-															  forecastResult.declineType2,
-															  forecastResult.hyperbolicExponent, forecastResult.cumDays, isRateCum);
+						forecastResult.declineRate, cumprodNoPlateau,
+						forecastResult.declineType2, 
+						forecastResult.hyperbolicExponent, forecastResult.cumDays, isRateCum);
 					}
 				}
 			}
@@ -4804,6 +4740,7 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 	double cumprod = 0, MM = 1000000.0, plateauCumProd = 0, cumprodNoPlateau = 0;
 	forecastResult.isPlateau = false;
 
+
 	if (deck.Hydrocarbon_Stream == "oil")
 	{
 
@@ -4834,8 +4771,8 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 					{
 					}
 					forecastResult.Liquid_Rate = DCA.Get_DCA(deck.Init_Liquid_Gas_Rate_1P_1C,
-															 deck.Rate_of_Change_Rate_1P_1C, cumprodNoPlateau, method,
-															 deck.DeclineExponent_1P_1C, forecastResult.cumDays, isRateCum);
+					deck.Rate_of_Change_Rate_1P_1C, cumprodNoPlateau, method,
+					deck.DeclineExponent_1P_1C, forecastResult.cumDays, isRateCum);
 				}
 			}
 			forecastResult.DeclineRate = deck.Rate_of_Change_Rate_1P_1C;
@@ -4868,8 +4805,8 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 				else
 				{
 					forecastResult.Liquid_Rate = DCA.Get_DCA(deck.Init_Liquid_Gas_Rate_2P_2C,
-															 deck.Rate_of_Change_Rate_2P_2C, cumprodNoPlateau, method,
-															 deck.DeclineExponent_2P_2C, forecastResult.cumDays, isRateCum);
+					deck.Rate_of_Change_Rate_2P_2C, cumprodNoPlateau, method,
+					deck.DeclineExponent_2P_2C, forecastResult.cumDays, isRateCum);
 				}
 			}
 			forecastResult.DeclineRate = deck.Rate_of_Change_Rate_2P_2C;
@@ -4896,8 +4833,8 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 				else
 				{
 					forecastResult.Liquid_Rate = DCA.Get_DCA(deck.Init_Liquid_Gas_Rate_3P_3C,
-															 deck.Rate_of_Change_Rate_3P_3C, cumprodNoPlateau, method,
-															 deck.DeclineExponent_3P_3C, forecastResult.cumDays, isRateCum);
+					deck.Rate_of_Change_Rate_3P_3C, cumprodNoPlateau, method,
+					deck.DeclineExponent_3P_3C, forecastResult.cumDays, isRateCum);
 				}
 			}
 			forecastResult.DeclineRate = deck.Rate_of_Change_Rate_3P_3C;
@@ -4932,8 +4869,8 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 				else
 				{
 					forecastResult.Gas_Rate = DCA.Get_DCA(deck.Init_Liquid_Gas_Rate_1P_1C,
-														  deck.Rate_of_Change_Rate_1P_1C, cumprodNoPlateau, method,
-														  deck.DeclineExponent_1P_1C, forecastResult.cumDays, isRateCum);
+					deck.Rate_of_Change_Rate_1P_1C, cumprodNoPlateau, method, 
+					deck.DeclineExponent_1P_1C, forecastResult.cumDays, isRateCum);
 				}
 			}
 			forecastResult.DeclineRate = deck.Rate_of_Change_Rate_1P_1C;
@@ -4962,8 +4899,8 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 				else
 				{
 					forecastResult.Gas_Rate = DCA.Get_DCA(deck.Init_Liquid_Gas_Rate_2P_2C,
-														  deck.Rate_of_Change_Rate_2P_2C, cumprodNoPlateau,
-														  method, deck.DeclineExponent_2P_2C, forecastResult.cumDays, isRateCum);
+					deck.Rate_of_Change_Rate_2P_2C, cumprodNoPlateau, 
+					method, deck.DeclineExponent_2P_2C, forecastResult.cumDays, isRateCum);
 				}
 			}
 			forecastResult.DeclineRate = deck.Rate_of_Change_Rate_2P_2C;
@@ -4990,8 +4927,8 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 				else
 				{
 					forecastResult.Gas_Rate = DCA.Get_DCA(deck.Init_Liquid_Gas_Rate_3P_3C,
-														  deck.Rate_of_Change_Rate_3P_3C, cumprodNoPlateau, method,
-														  deck.DeclineExponent_3P_3C, forecastResult.cumDays, isRateCum);
+					deck.Rate_of_Change_Rate_3P_3C, cumprodNoPlateau, method,
+					deck.DeclineExponent_3P_3C, forecastResult.cumDays, isRateCum);
 				}
 			}
 			forecastResult.DeclineRate = deck.Rate_of_Change_Rate_3P_3C;
@@ -5006,16 +4943,16 @@ void CalculateDeckVariables::GetActiveRate(int &scenario,
 
 void CalculateDeckVariables::GetVariables(int &scenario, InputDeckStruct &deck,
 										  ForecastResult &forecastResult, ForecastResult &forecastResult_old,
-										  double &externalCurrentCumProd, bool &isAfterOptimization)
+										  double &externalCurrentCumProd, bool &isAfetrOptimization)
 {
 
 	if (UseExternalForecastprofile == external)
 	{
-		// std::cout << "external " << "\n";
-		if (isAfterOptimization == false)
+		//std::cout << "external " << "\n";
+		if (isAfetrOptimization == false)
 		{
 
-			WellActivityResult wellActivityResult = externalForecast.GetWellActivityResult(WellActivities, forecastResult_old.ModuleName);
+			WellActivityResult wellActivityResult = externalForecast.GetWellActivityResult(WellActivities, forecastResult_old.moduleName);
 			int cumProductionIndex = externalForecast.GetCumProductionIndex(externalCurrentCumProd,
 																			wellActivityResult, deck.Hydrocarbon_Stream);
 			ForecastResult fResult = externalForecast.GetForecastResult(cumProductionIndex,
@@ -5038,7 +4975,7 @@ void CalculateDeckVariables::GetVariables(int &scenario, InputDeckStruct &deck,
 			if (deck.Hydrocarbon_Stream == oil)
 			{
 				GetActiveCumProd(scenario, deck, forecastResult, forecastResult_old);
-				WellActivityResult wellActivityResult = externalForecast.GetWellActivityResult(WellActivities, forecastResult_old.ModuleName);
+				WellActivityResult wellActivityResult = externalForecast.GetWellActivityResult(WellActivities, forecastResult_old.moduleName);
 				int cumProductionIndex = externalForecast.GetCumProductionIndex(forecastResult.Cum_Oil_Prod,
 																				wellActivityResult, deck.Hydrocarbon_Stream);
 				ForecastResult fResult = externalForecast.GetForecastResult(cumProductionIndex,
@@ -5049,7 +4986,7 @@ void CalculateDeckVariables::GetVariables(int &scenario, InputDeckStruct &deck,
 			else
 			{
 				GetActiveCumProd(scenario, deck, forecastResult, forecastResult_old);
-				WellActivityResult wellActivityResult = externalForecast.GetWellActivityResult(WellActivities, forecastResult_old.ModuleName);
+				WellActivityResult wellActivityResult = externalForecast.GetWellActivityResult(WellActivities, forecastResult_old.moduleName);
 				int cumProductionIndex = externalForecast.GetCumProductionIndex(forecastResult.Cum_Gas_Prod,
 																				wellActivityResult, deck.Hydrocarbon_Stream);
 				ForecastResult fResult = externalForecast.GetForecastResult(cumProductionIndex,
@@ -5072,6 +5009,7 @@ void CalculateDeckVariables::GetVariables(int &scenario, InputDeckStruct &deck,
 
 	GetCumProds(scenario, deck, forecastResult, forecastResult_old);
 }
+
 
 double CalculateDeckVariables::fun(double ProductionDays)
 {
@@ -5136,13 +5074,13 @@ void CalculateDeckVariables::GetActiveCumProd(int &scenario, InputDeckStruct &de
 
 		obj.initial_rate = initial_rate;
 		obj.rate_of_change = rate_of_change;
-		// forecastResult.Cum_Oil_Prod = TraplRule(&CalculateDeckVariables::fun, 0, DeltaT, interval);
+		//forecastResult.Cum_Oil_Prod = TraplRule(&CalculateDeckVariables::fun, 0, DeltaT, interval);
 
 		auto fp = bind(&CalculateDeckVariables::fun2, obj, std::placeholders::_1);
 		double _liqProd = upperbound * forecastResult.Liquid_rate_NotTerminated; // integration.trapzd(fp, lowerbound, upperbound, interval);
 		forecastResult.Cum_Liquid_Prod = forecastResult_old.Cum_Liquid_Prod + _liqProd / MM;
-
-		/* logger = logger +
+		
+		/* logger = logger + 
 		"Liquid_rate_NotTerminated Before Optimization = "  + to_string(forecastResult.Liquid_rate_NotTerminated) + " * "
 			+  "Cum_Liquid_Prod Old = " + to_string(forecastResult_old.Cum_Liquid_Prod) + " * "
 			+  "Cum_Liquid_Prod = " + to_string(forecastResult.Cum_Liquid_Prod) + "\n";
@@ -5150,6 +5088,7 @@ void CalculateDeckVariables::GetActiveCumProd(int &scenario, InputDeckStruct &de
 		if(deck.Module == "FO15003L_FO15 P15X_P13"){
 			std::cout << logger;
 		} */
+
 	}
 	else
 	{
@@ -5158,15 +5097,16 @@ void CalculateDeckVariables::GetActiveCumProd(int &scenario, InputDeckStruct &de
 		obj.initial_rate = initial_rate;
 		obj.rate_of_change = rate_of_change;
 
-		// auto fp = bind(&CalculateDeckVariables::fun2, obj, std::placeholders::_1);
+		//auto fp = bind(&CalculateDeckVariables::fun2, obj, std::placeholders::_1);
 		double _gasProd = upperbound * forecastResult.Gas_Rate_NotTerminated; // integration.trapzd(fp, lowerbound, upperbound, interval);
-		// forecastResult.Cum_Gas_Prod = TraplRule(&CalculateDeckVariables::fun, 0, DeltaT, interval);
+		//forecastResult.Cum_Gas_Prod = TraplRule(&CalculateDeckVariables::fun, 0, DeltaT, interval);
 		forecastResult.Cum_Gas_Prod = forecastResult_old.Cum_Gas_Prod + _gasProd / MM;
+
 	}
 }
 
 void CalculateDeckVariables::GetGasFractionalFlow(int &scenario, InputDeckStruct &deck, ForecastResult &forecastResult,
-												  ForecastResult &forecastResult_old)
+ForecastResult &forecastResult_old)
 {
 	double cumprod = 0, plateauCumProd = 0;
 	double cumprodNoPlateau = 0;
@@ -5188,30 +5128,26 @@ void CalculateDeckVariables::GetGasFractionalFlow(int &scenario, InputDeckStruct
 			cumprodNoPlateau = cumprod - plateauCumProd;
 			if (cumprodNoPlateau < 0)
 			{
-				forecastResult.GOR = deck.Init_GOR_CGR;
-			}
-			else
-			{
+				forecastResult.GOR  = deck.Init_GOR_CGR;
+			}else{
 				forecastResult.GOR = fractionalFlow.Get_Fractional_Flow(deck.Rate_Of_Rate_GOR_CGR_1P1C, x1,
-																		x2, deck.Init_GOR_CGR, forecastResult.cumDays, isRateCum, isLinear);
+				x2, deck.Init_GOR_CGR, forecastResult.cumDays, isRateCum, isLinear);
 				if (forecastResult.GOR > deck.Aband_GOR_CGR_1P_1C)
 				{
 					forecastResult.GOR = deck.Aband_GOR_CGR_1P_1C;
 				}
 			}
-			break;
+		break;
 
 		case 2:
 			plateauCumProd = deck.PlateauUR_2P_2C * MM;
 			cumprodNoPlateau = cumprod - plateauCumProd;
 			if (cumprodNoPlateau < 0)
 			{
-				forecastResult.GOR = deck.Init_GOR_CGR;
-			}
-			else
-			{
+				forecastResult.GOR  = deck.Init_GOR_CGR;
+			}else{
 				forecastResult.GOR = fractionalFlow.Get_Fractional_Flow(deck.Rate_Of_Rate_GOR_CGR_2P2C, x1,
-																		x2, deck.Init_GOR_CGR, forecastResult.cumDays, isRateCum, isLinear);
+				x2, deck.Init_GOR_CGR, forecastResult.cumDays, isRateCum, isLinear);
 				if (forecastResult.GOR > deck.Aband_GOR_CGR_2P_2C)
 				{
 					forecastResult.GOR = deck.Aband_GOR_CGR_2P_2C;
@@ -5224,12 +5160,10 @@ void CalculateDeckVariables::GetGasFractionalFlow(int &scenario, InputDeckStruct
 			cumprodNoPlateau = cumprod - plateauCumProd;
 			if (cumprodNoPlateau < 0)
 			{
-				forecastResult.GOR = deck.Init_GOR_CGR;
-			}
-			else
-			{
+				forecastResult.GOR  = deck.Init_GOR_CGR;
+			}else{
 				forecastResult.GOR = fractionalFlow.Get_Fractional_Flow(deck.Rate_Of_Rate_GOR_CGR_3P3C, x1,
-																		x2, deck.Init_GOR_CGR, forecastResult.cumDays, isRateCum, isLinear);
+				x2, deck.Init_GOR_CGR, forecastResult.cumDays, isRateCum, isLinear);
 
 				if (forecastResult.GOR > deck.Aband_GOR_CGR_3P_3C)
 				{
@@ -5261,12 +5195,10 @@ void CalculateDeckVariables::GetGasFractionalFlow(int &scenario, InputDeckStruct
 			cumprodNoPlateau = cumprod - plateauCumProd;
 			if (cumprodNoPlateau < 0)
 			{
-				forecastResult.CGR = deck.Init_GOR_CGR;
-			}
-			else
-			{
+				forecastResult.CGR  = deck.Init_GOR_CGR;
+			}else{
 				forecastResult.CGR = fractionalFlow.Get_Fractional_Flow(deck.Rate_Of_Rate_GOR_CGR_1P1C, x1,
-																		x2, deck.Init_GOR_CGR, forecastResult.cumDays, isRateCum, isLinear);
+				x2, deck.Init_GOR_CGR, forecastResult.cumDays, isRateCum, isLinear);
 				if (forecastResult.CGR <= deck.Aband_GOR_CGR_1P_1C)
 				{
 					forecastResult.CGR = deck.Aband_GOR_CGR_1P_1C;
@@ -5279,12 +5211,10 @@ void CalculateDeckVariables::GetGasFractionalFlow(int &scenario, InputDeckStruct
 			cumprodNoPlateau = cumprod - plateauCumProd;
 			if (cumprodNoPlateau < 0)
 			{
-				forecastResult.CGR = deck.Init_GOR_CGR;
-			}
-			else
-			{
+				forecastResult.CGR  = deck.Init_GOR_CGR;
+			}else{
 				forecastResult.CGR = fractionalFlow.Get_Fractional_Flow(deck.Rate_Of_Rate_GOR_CGR_2P2C, x1,
-																		x2, deck.Init_GOR_CGR, forecastResult.cumDays, isRateCum, isLinear);
+				x2, deck.Init_GOR_CGR, forecastResult.cumDays, isRateCum, isLinear);
 				if (forecastResult.CGR <= deck.Aband_GOR_CGR_2P_2C)
 				{
 					forecastResult.CGR = deck.Aband_GOR_CGR_2P_2C;
@@ -5297,12 +5227,10 @@ void CalculateDeckVariables::GetGasFractionalFlow(int &scenario, InputDeckStruct
 			cumprodNoPlateau = cumprod - plateauCumProd;
 			if (cumprodNoPlateau < 0)
 			{
-				forecastResult.CGR = deck.Init_GOR_CGR;
-			}
-			else
-			{
+				forecastResult.CGR  = deck.Init_GOR_CGR;
+			}else{
 				forecastResult.CGR = fractionalFlow.Get_Fractional_Flow(deck.Rate_Of_Rate_GOR_CGR_3P3C, x1,
-																		x2, deck.Init_GOR_CGR, forecastResult.cumDays, isRateCum, isLinear);
+				x2, deck.Init_GOR_CGR, forecastResult.cumDays, isRateCum, isLinear);
 				if (forecastResult.CGR <= deck.Aband_GOR_CGR_3P_3C)
 				{
 					forecastResult.CGR = deck.Aband_GOR_CGR_3P_3C;
@@ -5321,8 +5249,8 @@ void CalculateDeckVariables::GetGasFractionalFlow(int &scenario, InputDeckStruct
 	}
 }
 
-void CalculateDeckVariables::GetWaterFractionalFlow(int &scenario, InputDeckStruct &deck,
-													ForecastResult &forecastResult, ForecastResult &forecastResult_old)
+void CalculateDeckVariables::GetWaterFractionalFlow(int &scenario, InputDeckStruct &deck, 
+ForecastResult &forecastResult, ForecastResult &forecastResult_old)
 {
 	double cumprod = 0, plateauCumProd = 0;
 	double cumprodNoPlateau = 0;
@@ -5330,6 +5258,7 @@ void CalculateDeckVariables::GetWaterFractionalFlow(int &scenario, InputDeckStru
 	double MM = 1000000.0, x1 = 0, x2 = 0;
 
 	bool isLinear = false;
+
 
 	if (deck.Hydrocarbon_Stream == oil)
 	{
@@ -5344,12 +5273,10 @@ void CalculateDeckVariables::GetWaterFractionalFlow(int &scenario, InputDeckStru
 			cumprodNoPlateau = cumprod - plateauCumProd;
 			if (cumprodNoPlateau < 0)
 			{
-				forecastResult.BSW = deck.Init_BSW_WGR;
-			}
-			else
-			{
+				forecastResult.BSW  = deck.Init_BSW_WGR;
+			}else{
 				forecastResult.BSW = fractionalFlow.Get_Fractional_Flow(deck.Rate_Of_Rate_BSW_WGR_1P1C, x1,
-																		x2, deck.Init_BSW_WGR, forecastResult.cumDays, isRateCum, isLinear);
+				x2, deck.Init_BSW_WGR, forecastResult.cumDays, isRateCum, isLinear);
 
 				if (forecastResult.BSW > deck.Aband_BSW_WGR_1P_1C)
 				{
@@ -5363,12 +5290,10 @@ void CalculateDeckVariables::GetWaterFractionalFlow(int &scenario, InputDeckStru
 			cumprodNoPlateau = cumprod - plateauCumProd;
 			if (cumprodNoPlateau < 0)
 			{
-				forecastResult.BSW = deck.Init_BSW_WGR;
-			}
-			else
-			{
+				forecastResult.BSW  = deck.Init_BSW_WGR;
+			}else{
 				forecastResult.BSW = fractionalFlow.Get_Fractional_Flow(deck.Rate_Of_Rate_BSW_WGR_2P2C, x1,
-																		x2, deck.Init_BSW_WGR, forecastResult.cumDays, isRateCum, isLinear);
+				x2, deck.Init_BSW_WGR, forecastResult.cumDays, isRateCum, isLinear);
 
 				if (forecastResult.BSW > deck.Aband_BSW_WGR_2P_2C)
 				{
@@ -5382,12 +5307,10 @@ void CalculateDeckVariables::GetWaterFractionalFlow(int &scenario, InputDeckStru
 			cumprodNoPlateau = cumprod - plateauCumProd;
 			if (cumprodNoPlateau < 0)
 			{
-				forecastResult.BSW = deck.Init_BSW_WGR;
-			}
-			else
-			{
+				forecastResult.BSW  = deck.Init_BSW_WGR;
+			}else{
 				forecastResult.BSW = fractionalFlow.Get_Fractional_Flow(deck.Rate_Of_Rate_BSW_WGR_3P3C, x1,
-																		x2, deck.Init_BSW_WGR, forecastResult.cumDays, isRateCum, isLinear);
+				x2, deck.Init_BSW_WGR, forecastResult.cumDays, isRateCum, isLinear);
 
 				if (forecastResult.BSW > deck.Aband_BSW_WGR_3P_3C)
 				{
@@ -5424,12 +5347,10 @@ void CalculateDeckVariables::GetWaterFractionalFlow(int &scenario, InputDeckStru
 			cumprodNoPlateau = cumprod - plateauCumProd;
 			if (cumprodNoPlateau < 0)
 			{
-				forecastResult.WGR = deck.Init_BSW_WGR;
-			}
-			else
-			{
+				forecastResult.WGR  = deck.Init_BSW_WGR;
+			}else{
 				forecastResult.WGR = fractionalFlow.Get_Fractional_Flow(deck.Rate_Of_Rate_BSW_WGR_1P1C, x1,
-																		x2, deck.Init_BSW_WGR, forecastResult.cumDays, isRateCum, isLinear);
+				x2, deck.Init_BSW_WGR, forecastResult.cumDays, isRateCum, isLinear);
 				if (forecastResult.WGR > deck.Aband_BSW_WGR_1P_1C)
 				{
 					forecastResult.WGR = deck.Aband_BSW_WGR_1P_1C;
@@ -5442,12 +5363,10 @@ void CalculateDeckVariables::GetWaterFractionalFlow(int &scenario, InputDeckStru
 			cumprodNoPlateau = cumprod - plateauCumProd;
 			if (cumprodNoPlateau < 0)
 			{
-				forecastResult.WGR = deck.Init_BSW_WGR;
-			}
-			else
-			{
+				forecastResult.WGR  = deck.Init_BSW_WGR;
+			}else{
 				forecastResult.WGR = fractionalFlow.Get_Fractional_Flow(deck.Rate_Of_Rate_BSW_WGR_2P2C, x1,
-																		x2, deck.Init_BSW_WGR, forecastResult.cumDays, isRateCum, isLinear);
+				x2, deck.Init_BSW_WGR, forecastResult.cumDays, isRateCum, isLinear);
 				if (forecastResult.WGR > deck.Aband_BSW_WGR_2P_2C)
 				{
 					forecastResult.WGR = deck.Aband_BSW_WGR_2P_2C;
@@ -5460,12 +5379,10 @@ void CalculateDeckVariables::GetWaterFractionalFlow(int &scenario, InputDeckStru
 			cumprodNoPlateau = cumprod - plateauCumProd;
 			if (cumprodNoPlateau < 0)
 			{
-				forecastResult.WGR = deck.Init_BSW_WGR;
-			}
-			else
-			{
+				forecastResult.WGR  = deck.Init_BSW_WGR;
+			}else{
 				forecastResult.WGR = fractionalFlow.Get_Fractional_Flow(deck.Rate_Of_Rate_BSW_WGR_3P3C, x1,
-																		x2, deck.Init_BSW_WGR, forecastResult.cumDays, isRateCum, isLinear);
+				x2, deck.Init_BSW_WGR, forecastResult.cumDays, isRateCum, isLinear);
 				if (forecastResult.WGR > deck.Aband_BSW_WGR_3P_3C)
 				{
 					forecastResult.WGR = deck.Aband_BSW_WGR_3P_3C;
@@ -5495,7 +5412,7 @@ void CalculateDeckVariables::GetRates(int &scenario, InputDeckStruct &deck, Fore
 		forecastResult.Oil_rate = forecastResult.Liquid_rate_NotTerminated * (1 - forecastResult.BSW);
 		forecastResult.Oil_rate_NotTerminated = forecastResult.Liquid_rate_NotTerminated * (1 - forecastResult.BSW);
 		forecastResult.Gas_Rate = forecastResult.Oil_rate * forecastResult.GOR;
-
+		
 		if (forecastResult.Water_Rate < 0)
 		{
 			forecastResult.Water_Rate = 0;
@@ -5509,7 +5426,7 @@ void CalculateDeckVariables::GetRates(int &scenario, InputDeckStruct &deck, Fore
 			forecastResult.Oil_rate = 0;
 			forecastResult.Oil_rate_NotTerminated = 0;
 		}
-
+	
 		forecastResult.Crude_Oil_Lossess = (CurrentFacilityData.Crudeoil_Lossess / 100.0) * forecastResult.Oil_rate;
 		forecastResult.Gas_Demand = 0;
 		forecastResult.Gas_Own_Use = 0;
@@ -5519,6 +5436,7 @@ void CalculateDeckVariables::GetRates(int &scenario, InputDeckStruct &deck, Fore
 		{
 			forecastResult.Gas_Flared = (CurrentFacilityData.GasFlared * forecastResult.Gas_Rate) / Gas_Capacity;
 			forecastResult.Gas_Own_Use = (CurrentFacilityData.GasOwnUse * forecastResult.Gas_Rate) / Gas_Capacity;
+	
 		}
 
 		forecastResult.Gas_Demand = forecastResult.Gas_Rate - (forecastResult.Gas_Flared + forecastResult.Gas_Own_Use);
@@ -5527,7 +5445,7 @@ void CalculateDeckVariables::GetRates(int &scenario, InputDeckStruct &deck, Fore
 			forecastResult.Gas_Demand = 0;
 		}
 
-		/* logger = logger +
+		/* logger = logger + 
 		"Gas_Capacity = "  + to_string(Gas_Capacity) + " * " +
 		"CurrentFacilityData.GasFlared  = "  + to_string(CurrentFacilityData.GasFlared) + " * " +
 		"CurrentFacilityData.GasOwnUse = "  + to_string(CurrentFacilityData.GasOwnUse) + " * " +
@@ -5576,11 +5494,11 @@ void CalculateDeckVariables::GetCumProds(int &scenario, InputDeckStruct &deck, F
 
 	Method = 1;
 	double MM = 1000000.0;
-	// double upperbound = DeltaT;
+	//double upperbound = DeltaT;
 	CalculateDeckVariables obj;
 	string logger = "";
 
-	// int interval = 10;
+	//int interval = 10;
 	forecastResult.OptimalSolution = optimalSolution;
 	forecastResult.AllWellsLiquidCapacity = allWellsLiquidCapacity;
 	forecastResult.AllWellsGasCapacity = allWellsGasCapacity;
@@ -5619,6 +5537,7 @@ void CalculateDeckVariables::GetCumProds(int &scenario, InputDeckStruct &deck, F
 		{
 			forecastResult.CutBackUpperBound = 1.0;
 		}
+
 	}
 	else
 	{
@@ -5664,11 +5583,11 @@ void CalculateDeckVariables::WellAbandonmentConditions(int &scenario, InputDeckS
 
 	Method = 1;
 	double MM = 1000000.0;
-	// double upperbound = DeltaT;
+	//double upperbound = DeltaT;
 	CalculateDeckVariables obj;
 	string logger = "";
 
-	// int interval = 10;
+	//int interval = 10;
 	forecastResult.OptimalSolution = optimalSolution;
 	forecastResult.AllWellsLiquidCapacity = allWellsLiquidCapacity;
 	forecastResult.AllWellsGasCapacity = allWellsGasCapacity;
@@ -5704,7 +5623,8 @@ void CalculateDeckVariables::WellAbandonmentConditions(int &scenario, InputDeckS
 			break;
 		}
 
-		/* logger = logger +
+
+		/* logger = logger + 
 		"Liquid_rate = "  + to_string(forecastResult.Liquid_Rate) + " * " +
 		"Oil_rate  = "  + to_string(forecastResult.Oil_rate) + " * " +
 		"Gas_Rate = "  + to_string(forecastResult.Gas_Rate) + " * " +
@@ -5714,7 +5634,7 @@ void CalculateDeckVariables::WellAbandonmentConditions(int &scenario, InputDeckS
 		"BSW = " + to_string(forecastResult.BSW) + " * " +
 		"GOR = " + to_string(forecastResult.GOR) + "\n"; */
 
-		/*
+		/* 
 			Abandon well if there is no reserves
 		} */
 		// if(dURConstrained == true){
@@ -5741,11 +5661,10 @@ void CalculateDeckVariables::WellAbandonmentConditions(int &scenario, InputDeckS
 		// 	}
 		// }
 
-		/*
+		/* 
 			Abandon well if there is liquid rate is less than or equal to abandonment liquid rate
 		} */
-		if (forecastResult.Liquid_rate_NotTerminated <= Ql_Aband)
-		{
+		if (forecastResult.Liquid_rate_NotTerminated <= Ql_Aband){
 
 			forecastResult.IsFlowing = false;
 			forecastResult.Gas_Rate = 0;
@@ -5766,6 +5685,8 @@ void CalculateDeckVariables::WellAbandonmentConditions(int &scenario, InputDeckS
 			return;
 		}
 
+
+			
 		/* //Abandon well if there if GOR is greater than abandonment GOR
 		if (forecastResult.GOR >= GOR_Aband &&
 			GOR_Aband > 0){
@@ -5789,7 +5710,7 @@ void CalculateDeckVariables::WellAbandonmentConditions(int &scenario, InputDeckS
 			return;
 		}
 
-
+ 
 		//Abandon well if there if BSW is greater than abandonment BSW
 		if (forecastResult.BSW >= BSW_Aband && BSW_Aband > 0){
 
@@ -5823,17 +5744,17 @@ void CalculateDeckVariables::WellAbandonmentConditions(int &scenario, InputDeckS
 		double InitialWGR = 0;
 
 		//
-		logger = logger +
-				 "Liquid_rate = " + to_string(forecastResult.Liquid_Rate) + " * " +
-				 "Oil_rate  = " + to_string(forecastResult.Oil_rate) + " * " +
-				 "Gas_Rate = " + to_string(forecastResult.Gas_Rate) + " * " +
-				 "Cum_Oil_Prod = " + to_string(forecastResult.Cum_Oil_Prod) + " * " +
-				 "Cum_Liquid_Prod Old = " + to_string(forecastResult_old.Cum_Liquid_Prod) + " * " +
-				 "URg = " + to_string(forecastResult.URg) + " * " +
-				 "WGR = " + to_string(forecastResult.WGR) + " * " +
-				 "CGR_Aband = " + to_string(deck.Aband_GOR_CGR_1P_1C) + " * " +
-				 "CGR = " + to_string(forecastResult.CGR) + "\n";
-		// std::cout << CurrentDate.day << "/" << CurrentDate.month << "/" << CurrentDate.year << std::endl;
+		logger = logger + 
+		"Liquid_rate = "  + to_string(forecastResult.Liquid_Rate) + " * " +
+		"Oil_rate  = "  + to_string(forecastResult.Oil_rate) + " * " +
+		"Gas_Rate = "  + to_string(forecastResult.Gas_Rate) + " * " +
+		"Cum_Oil_Prod = "  + to_string(forecastResult.Cum_Oil_Prod) + " * " +
+		"Cum_Liquid_Prod Old = " + to_string(forecastResult_old.Cum_Liquid_Prod) + " * " +
+		"URg = " + to_string(forecastResult.URg) + " * " +
+		"WGR = " + to_string(forecastResult.WGR) + " * " +
+		"CGR_Aband = " + to_string(deck.Aband_GOR_CGR_1P_1C) + " * " +
+		"CGR = " + to_string(forecastResult.CGR) + "\n";
+		//std::cout << CurrentDate.day << "/" << CurrentDate.month << "/" << CurrentDate.year << std::endl;
 
 		/* if(deck.Module == "FO12U60T_FO12 U60X_P03"){
 			std::cout << logger;
@@ -5866,7 +5787,7 @@ void CalculateDeckVariables::WellAbandonmentConditions(int &scenario, InputDeckS
 			break;
 		}
 
-		/*
+		/* 
 			Abandon well if there is no reserves
 		} */
 		// if(dURConstrained == true){
@@ -5897,16 +5818,15 @@ void CalculateDeckVariables::WellAbandonmentConditions(int &scenario, InputDeckS
 		// 	}
 		// }
 
-		/*
+		/* 
 			Abandon well if there is gas rate is less than or equal to abandonment gas rate
 		} */
-		if (forecastResult.Gas_Rate_NotTerminated <= Qg_Aband)
-		{
+		if (forecastResult.Gas_Rate_NotTerminated <= Qg_Aband){
 
-			logger = logger +
-					 "Gas_Rate = " + to_string(forecastResult.Gas_Rate) + " * " +
-					 "Gas_Rate_NotTerminated = " + to_string(forecastResult.Gas_Rate_NotTerminated) + " * " +
-					 "Qg_Aband = " + to_string(Qg_Aband) + " * " + "\n";
+			logger = logger + 
+			"Gas_Rate = "  + to_string(forecastResult.Gas_Rate) + " * " +
+			"Gas_Rate_NotTerminated = "  + to_string(forecastResult.Gas_Rate_NotTerminated) + " * " +
+			"Qg_Aband = "  + to_string(Qg_Aband) + " * "  + "\n";
 
 			/* if(deck.Module == "FO12U60T_FO12 U60X_P03"){
 				std::cout << "FO12U60T_FO12 U60X_P03 Well Killed by Qg_Aband " << logger;
@@ -5929,14 +5849,16 @@ void CalculateDeckVariables::WellAbandonmentConditions(int &scenario, InputDeckS
 			forecastResult.Gas_Flared = 0;
 			forecastResult.reasonForTermination = "Terminated by Abandonment Gas Rate";
 			return;
+
 		}
 
-		/*
+
+		/* 
 			Abandon well if there if CGR is less than or equal to abandonment CGR
 		} */
 		// if (forecastResult.CGR <= CGR_Aband && InitialCGR > 0){
 
-		// 	logger = logger +
+		// 	logger = logger + 
 		// 	"CGR = "  + to_string(forecastResult.CGR) + " * " +
 		// 	"InitialCGR = "  + to_string(InitialCGR) + " * " +
 		// 	"CGR_Aband = "  + to_string(CGR_Aband) + " * "  + "\n";
@@ -5965,7 +5887,8 @@ void CalculateDeckVariables::WellAbandonmentConditions(int &scenario, InputDeckS
 
 		// }
 
-		/*
+
+		/* 
 			Abandon well if there if WGR is greater than or equal to abandonment WGR
 		} */
 		// if (forecastResult.WGR >= WGR_Aband && WGR_Aband > 0){
@@ -5995,7 +5918,7 @@ void CalculateDeckVariables::WellAbandonmentConditions(int &scenario, InputDeckS
 		// }
 	}
 
-	/* logger = logger +
+	/* logger = logger + 
 	"Liquid_rate = "  + to_string(forecastResult.Liquid_Rate) + " * " +
 	"Oil_rate  = "  + to_string(forecastResult.Oil_rate) + " * " +
 	"Gas_Rate = "  + to_string(forecastResult.Gas_Rate) + " * " +
@@ -6004,10 +5927,10 @@ void CalculateDeckVariables::WellAbandonmentConditions(int &scenario, InputDeckS
 	"URg = " + to_string(forecastResult.URg) + " * " +
 	"WGR = " + to_string(forecastResult.WGR) + " * " +
 	"CGR_Aband = " + to_string(deck.Aband_GOR_CGR_1P_1C) + " * " +
-	"CGR = " + to_string(forecastResult.CGR) +
+	"CGR = " + to_string(forecastResult.CGR) + 
 	"CurrentDate = " + to_string(CurrentDate.day) + "/" + to_string(CurrentDate.month) + "/"+ to_string(CurrentDate.year) + "/" + "\n"; */
 
-	/* logger = logger +
+	/* logger = logger + 
 	"Gas_Rate = "  + to_string(forecastResult.Gas_Rate) + " * " +
 	"CurrentDate = " + to_string(CurrentDate.day) + "/" + to_string(CurrentDate.month) + "/" + to_string(CurrentDate.year) + "/" + "\n";
 

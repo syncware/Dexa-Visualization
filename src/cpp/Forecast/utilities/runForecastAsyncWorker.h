@@ -131,11 +131,11 @@ private:
 
         string isForecastProfiles = payload.isForecastProfiles;
 
-        vector<string> forecastSolutionSpaces = payload.forecastSolutionSpaces;
-        int nForecastSolutionSpaces = payload.nForecastSolutionSpaces;
+        vector<string> forecastsolutionSpaces = payload.forecastsolutionSpaces;
+        int nForecastsolutionSpaces = payload.nForecastsolutionSpaces;
 
-        vector<bool> forecastSolutionSpacesIsDURConstrained = payload.forecastSolutionSpacesIsDURConstrained;
-        int nForecastSolutionSpacesIsDURConstrained = payload.nForecastSolutionSpacesIsDURConstrained;
+        vector<bool> forecastsolutionSpacesIsDURConstrained = payload.forecastsolutionSpacesIsDURConstrained;
+        int nForecastsolutionSpacesIsDURConstrained = payload.nForecastsolutionSpacesIsDURConstrained;
 
         int idx = 0;
 
@@ -189,19 +189,19 @@ private:
                 vector<vector<ForecastResult>> forecastProfilesList =
 
                     externalForecast.GetUniqueForecastProfiles(forecastProfiles, deckobj.inputdecks);
-                vector<string> uniqueModuleNames =
-                    externalForecast.GetUniqueModuleNames(forecastProfilesList);
+                vector<string> uniquemoduleNames =
+                    externalForecast.GetUniquemoduleNames(forecastProfilesList);
                 wellActivities =
                     externalForecast.GetWellActivities(forecastProfilesList, deckobj.inputdecks,
-                                                       uniqueModuleNames);
+                                                       uniquemoduleNames);
 
                 isForecastProfilesAndDecksMatched =
-                    externalForecast.MatchForecastProfilesAndDecks(uniqueModuleNames,
+                    externalForecast.MatchForecastProfilesAndDecks(uniquemoduleNames,
                                                                    deckobj.inputdecks);
             }
 
             int fSSIndex = 0;
-            int nForecastSolutionSpaces = forecastSolutionSpaces.size();
+            int nForecastsolutionSpaces = forecastsolutionSpaces.size();
             int scenarios = 4;
             Napi::Object inputObjectAll = Napi::Object::New(env);
             Napi::Object inputObjectFSS = Napi::Object::New(env);
@@ -222,11 +222,11 @@ private:
             }
             vector<Prioritization> prioritizations = updatesNodes[0].prioritizations;
 
-            for (fSSIndex = 0; fSSIndex < nForecastSolutionSpaces; fSSIndex++)
+            for (fSSIndex = 0; fSSIndex < nForecastsolutionSpaces; fSSIndex++)
             {
                 Napi::Object inputObject = Napi::Object::New(env);
                 Napi::Object inputObjectYearly = Napi::Object::New(env);
-                calculateDeckVariables.dURConstrained = forecastSolutionSpacesIsDURConstrained[fSSIndex];
+                calculateDeckVariables.dURConstrained = forecastsolutionSpacesIsDURConstrained[fSSIndex];
 
                 for (i = 1; i < scenarios; i++)
                 {
@@ -253,7 +253,7 @@ private:
                     calculateDeckVariables.FacilityTables_Actual = deckobj.FacilityTables_Actual;
                     calculateDeckVariables.isDeferred = false;
 
-                    deckobj.runParameter.forecastCase = forecastSolutionSpaces[fSSIndex];
+                    deckobj.runParameter.forecastCase = forecastsolutionSpaces[fSSIndex];
 
                     if (deckobj.runParameter.forecastCase == potential)
                     {
@@ -297,10 +297,10 @@ private:
                     string scenarioName = to_string(scenario) + "P_" + to_string(scenario) + "C";
                     inputObject.Set(Napi::String::New(env, scenarioName), reportJSON.FacilitiesObject);
 
-                    std::cout << "Scenario created for " << scenarioName << forecastSolutionSpaces[fSSIndex] << '\n';
+                    std::cout << "Scenario created for " << scenarioName << forecastsolutionSpaces[fSSIndex] << '\n';
                     //
                 }
-                inputObjectFSS.Set(Napi::String::New(env, forecastSolutionSpaces[fSSIndex]), inputObject);
+                inputObjectFSS.Set(Napi::String::New(env, forecastsolutionSpaces[fSSIndex]), inputObject);
             }
             inputObjectAll.Set(Napi::String::New(env, "monthlyReport"), inputObjectFSS);
             std::cout << "monthlyReport created\n";

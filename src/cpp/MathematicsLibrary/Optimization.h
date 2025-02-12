@@ -1,5 +1,6 @@
 #pragma once
 
+
 #include <iostream>
 #include <fstream>
 #include <stdio.h>
@@ -17,58 +18,46 @@ using namespace std;
 
 class Optimization
 {
-private:
-    Simplex simplex;
-    MatrixOperations matrixOperations;
-
-public:
-    Optimization();
-    ~Optimization();
-    bool Functionfound(double &gNorm, double &error1);
-    vector<double> ProjectionFunction(vector<double> &MinVal, vector<double> &MaxVal,
-                                      vector<double> &regparam);
-    vector<vector<double>> JacMthd(function<vector<double>(vector<double>)> f, vector<double> &x);
-    LMOptData LM_Method(function<vector<double>(vector<double>)> f, LMOptData &LMOptData3);
+    private:
+        Simplex simplex;
+        MatrixOperations matrixOperations;
+    public:
+        Optimization();
+        ~Optimization();
+        bool Functionfound(double& gNorm, double& error1);
+        vector<double> ProjectionFunction(vector<double>& MinVal, vector<double>& MaxVal,
+        vector<double>& regparam);
+        vector<vector<double>> JacMthd(function<vector<double>(vector<double>)> f, vector<double>& x);
+        LMOptData LM_Method(function<vector<double>(vector<double>)> f, LMOptData& LMOptData3);
 };
 
-Optimization::Optimization()
-{
+Optimization::Optimization(){
+
 }
 
-Optimization::~Optimization()
-{
+Optimization::~Optimization(){
+
 }
 
-bool Optimization::Functionfound(double &gNorm, double &error1)
-{
-    if (gNorm <= error1)
-    {
+bool Optimization::Functionfound(double& gNorm, double& error1){
+    if(gNorm <= error1){
         return true;
-    }
-    else
-    {
+    }else{
         return false;
     }
 }
 
-vector<double> Optimization::ProjectionFunction(vector<double> &MinVal, vector<double> &MaxVal,
-                                                vector<double> &regparam)
-{
-
+ vector<double> Optimization::ProjectionFunction(vector<double>& MinVal, vector<double>& MaxVal,
+        vector<double>& regparam){
+    
     int i, nrow = regparam.size();
     vector<double> pvec = matrixOperations.createVector(nrow);
-    for (i = 0; i < nrow; i++)
-    {
-        if (regparam[i] < MinVal[i])
-        {
+    for(i = 0; i < nrow; i++){
+        if(regparam[i] < MinVal[i]){
             pvec[i] = MinVal[i];
-        }
-        else if (regparam[i] >= MinVal[i] && regparam[i] <= MaxVal[i])
-        {
+        }else if (regparam[i] >= MinVal[i] && regparam[i] <= MaxVal[i]) {
             pvec[i] = regparam[i];
-        }
-        else
-        {
+        }else{
             pvec[i] = MaxVal[i];
         }
     }
@@ -76,16 +65,13 @@ vector<double> Optimization::ProjectionFunction(vector<double> &MinVal, vector<d
     return pvec;
 }
 
-vector<vector<double>> Optimization::JacMthd(function<vector<double>(vector<double>)> f, vector<double> &x)
-{
+vector<vector<double>> Optimization::JacMthd(function<vector<double>(vector<double>)> f, vector<double>& x){
     int j, i;
-    double decrement = pow(10, 6), scalar = 0;
+    double decrement = pow(10,6), scalar  = 0;
     int nCols = x.size();
     vector<double> xnew = matrixOperations.createVector(nCols);
-    for (j = 0; j < nCols; j++)
-    {
-        if (x[j] == 0)
-        {
+    for(j = 0; j < nCols; j++){
+        if(x[j] == 0){
             x[j] = pow(10, -8);
         }
     }
@@ -94,13 +80,10 @@ vector<vector<double>> Optimization::JacMthd(function<vector<double>(vector<doub
     int nRows = diff2.size();
     vector<vector<double>> ForwardFunc = matrixOperations.createMatrix(nRows, nCols);
 
-    for (j = 0; j < nCols; j++)
-    {
-        for (i = 0; i < nCols; i++)
-        {
+    for(j = 0; j < nCols; j++){
+        for(i = 0; i < nCols; i++){
             xnew[i] = x[i];
-            if (i == j)
-            {
+            if(i == j){
                 xnew[i] = x[i] + x[i] / decrement;
             }
         }
@@ -108,11 +91,9 @@ vector<vector<double>> Optimization::JacMthd(function<vector<double>(vector<doub
         diff2 = f(xnew);
         vector<vector<double>> objFunc1 = matrixOperations.Vector2Matrix(diff2);
 
-        for (i = 0; i < nCols; i++)
-        {
+        for(i = 0; i < nCols; i++){
             xnew[i] = x[i];
-            if (i == j)
-            {
+            if(i == j){
                 xnew[i] = x[i] - x[i] / decrement;
             }
         }
@@ -123,8 +104,7 @@ vector<vector<double>> Optimization::JacMthd(function<vector<double>(vector<doub
         scalar = 1 / (2 * (x[j] / decrement));
         vector<vector<double>> ObjFunc = matrixOperations.ScalarMatrixMultiplication(scalar, DerivativeNumerator);
 
-        for (i = 0; i < nRows; i++)
-        {
+        for(i = 0; i < nRows; i++){
             ForwardFunc[i][j] = ObjFunc[i][0];
         }
     }
@@ -132,20 +112,17 @@ vector<vector<double>> Optimization::JacMthd(function<vector<double>(vector<doub
     return ForwardFunc;
 }
 
-LMOptData Optimization::LM_Method(function<vector<double>(vector<double>)> f, LMOptData &LMOptData3)
-{
+LMOptData Optimization::LM_Method(function<vector<double>(vector<double>)> f, LMOptData& LMOptData3){
     LMOptData LMOptData2 = LMOptData3;
-    double Tolerance1 = LMOptData2.Tolerance;
-    double Tolerance2 = Tolerance1 * pow(10, -12);
-    int MaxIter = LMOptData2.MaxIter;
-    double Gamma = LMOptData2.LM_Gamma;
+    double Tolerance1 = LMOptData2.Tolerance; double Tolerance2 = Tolerance1 * pow(10, -12);
+    int MaxIter = LMOptData2.MaxIter; double Gamma = LMOptData2.LM_Gamma;
     vector<double> regparamsMax = LMOptData2.regparamsMax;
     vector<double> regparamsMin = LMOptData2.regparamsMin;
     bool IsConstrained = LMOptData2.IsConstrained;
     vector<double> x = LMOptData2.InitialGuess;
     int iteration = 0;
 
-    vector<double> xx = matrixOperations.createVector(2);
+    vector<double> xx =matrixOperations.createVector(2);
     double v = 2;
     vector<vector<double>> Jac = JacMthd(f, x);
     vector<vector<double>> JacT = matrixOperations.MatTranspose(Jac);
@@ -165,30 +142,25 @@ LMOptData Optimization::LM_Method(function<vector<double>(vector<double>)> f, LM
     vector<vector<double>> Lamdahlmg, hlTLamdahlmg, diffnew;
     double Normhlm, xNorm, Denomenator, Fx, Fxnew, Numerator, GainRatio, xxmax;
     vector<double> xnew, diff2new;
-    do
-    {
+    do{
 
         iteration = iteration + 1;
-
+   
         IdentityMatrix = matrixOperations.unitmatrix(a);
         LamdaIDMatrix = matrixOperations.ScalarMatrixMultiplication(Lamda, IdentityMatrix);
         sum = matrixOperations.MatAdd(a, LamdaIDMatrix);
-        // invsum = MatrixOperations.LUDecompositionInverse(sum)
+        //invsum = MatrixOperations.LUDecompositionInverse(sum)
         hlm = matrixOperations.LU_Decomposition(sum, G);
         Normhlm = matrixOperations.norm(hlm);
         xNorm = matrixOperations.Vectornorm(x);
-        if (Normhlm <= (Tolerance2 * (xNorm + Tolerance2)))
-        {
+        if(Normhlm <= (Tolerance2 * (xNorm + Tolerance2))){
             found = true;
             break;
-        }
-        else
-        {
+        }else{
 
             xnew = matrixOperations.Mat2Vec(matrixOperations.VecMatAdd(hlm, x));
-            if (IsConstrained == true)
-            {
-                xnew = ProjectionFunction(regparamsMin, regparamsMax, xnew);
+            if (IsConstrained == true){
+                 xnew = ProjectionFunction(regparamsMin, regparamsMax, xnew);
             }
             Lamdahlm = matrixOperations.ScalarMatrixMultiplication(Lamda, hlm);
             hlmT = matrixOperations.MatTranspose(hlm);
@@ -199,14 +171,13 @@ LMOptData Optimization::LM_Method(function<vector<double>(vector<double>)> f, LM
             diff = matrixOperations.Vector2Matrix(diff2);
             diff2new = f(xnew);
             diffnew = matrixOperations.Vector2Matrix(diff2new);
-            Fx = 0.5 * (pow(matrixOperations.SumofSquares(diff), 0.5));
+            Fx = 0.5 * (pow(matrixOperations.SumofSquares(diff),0.5));
             Fxnew = 0.5 * (pow(matrixOperations.SumofSquares(diffnew), 0.5));
             Numerator = Fx - Fxnew;
             GainRatio = Numerator / Denomenator;
-            if (GainRatio > 0)
-            {
+            if(GainRatio > 0){
                 x = matrixOperations.CopyVector(xnew);
-                Jac = JacMthd(f, x);
+                Jac = JacMthd(f,x);
                 JacT = matrixOperations.MatTranspose(Jac);
                 a = matrixOperations.MatMult(JacT, Jac);
                 diff2 = f(x);
@@ -220,23 +191,21 @@ LMOptData Optimization::LM_Method(function<vector<double>(vector<double>)> f, LM
                 xxmax = matrixOperations.VectorMaximum(xx);
                 Lamda = Lamda * xxmax;
                 v = 2.0;
-            }
-            else
-            {
+            }else{
                 Lamda = Lamda * v;
                 v = 2 * v;
             }
         }
-
-        if (iteration >= MaxIter)
-        {
+        
+        if(iteration >= MaxIter){
             break;
         }
 
-    } while (found == false);
+   }while(found == false);
 
-    LMOptData2.iterations = iteration;
-    LMOptData2.BestFitCoefficients = x;
-    LMOptData2.errorTolerance = Normhlm;
-    return LMOptData2;
+   LMOptData2.iterations = iteration;
+   LMOptData2.BestFitCoefficients = x;
+   LMOptData2.errorTolerance = Normhlm;
+   return LMOptData2;
+
 }

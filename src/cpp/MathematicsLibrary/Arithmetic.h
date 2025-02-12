@@ -12,52 +12,52 @@
 
 using namespace std;
 
-class Arithmetic
+class  Arithmetic
 {
 private:
+
 public:
-    Arithmetic();
-    double min(vector<double> &values);
-    double max(vector<double> &values);
-    ~Arithmetic();
+	Arithmetic();
+    double min(vector<double>& values);
+    double max(vector<double>& values);
+	~Arithmetic();
+
 };
 
 Arithmetic::Arithmetic()
 {
+
 }
 
 Arithmetic::~Arithmetic()
 {
+
 }
 
-double Arithmetic::min(vector<double> &values)
+double Arithmetic::min(vector<double>& values)
 {
     double x = 0;
     int i = 0, length = values.size();
     x = values[0];
-    for (i = 0; i < length; i++)
-    {
-        if (values[i] < x)
-        {
+    for(i = 0; i < length; i++){
+        if(values[i] < x){
             x = values[i];
         }
     }
-
+   
     return x;
 }
 
-double Arithmetic::max(vector<double> &values)
+double Arithmetic::max(vector<double>& values)
 {
     double x = 0;
     int i = 0, length = values.size();
     x = values[0];
-    for (i = 0; i < length; i++)
-    {
-        if (values[i] > x)
-        {
+    for(i = 0; i < length; i++){
+        if(values[i] > x){
             x = values[i];
         }
     }
-
+   
     return x;
 }

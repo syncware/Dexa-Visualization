@@ -31,9 +31,9 @@
 #include "ToJSON2.h"
 #include "../JsonMapping/napiToJson.h"
 #include "../JsonMapping/person.h"
-#include "../JsonMapping/responseChatData.h"
+#include "../JsonMapping/responseChartData.h"
 #include "../JsonMapping/forecastResultsByModule.h"
-#include "../JsonMapping/chatInputPayload.h"
+#include "../JsonMapping/chartInputPayload.h"
 // #include "../JsonMapping/payload.h"
 
 using namespace std;
@@ -54,22 +54,22 @@ public:
     ~AllWellsYearlyResultNewAsyncT();
     json Plot(const json &jsonData);
     json Plot2(const json &jsonData);
-    json PlotChart(const json &forecastResultsJsonData, const json &chatInputJsonData);
+    json PlotChart(const json &forecastResultsJsonData, const json &chartInputJsonData);
     vector<string> split(const string &str, const string &delimiter);
-    vector<string> GetScenarioNames(const vector<string> &selectedModulePaths);
-    vector<string> GetFacilityNames(const vector<string> &selectedModulePaths);
+    vector<string> GetscenarioNames(const vector<string> &selectedModulePaths);
+    vector<string> GetfacilityNames(const vector<string> &selectedModulePaths);
     vector<string> split(const string &str);
     vector<ForecastResult> getForecastResult(const string &table);
     unordered_map<string, unordered_map<string, ModuleResultMonthly>>
     GetForecastResultsByScenario(
         const vector<ForecastResultsByModule> &forecastModulesCompleteObject,
         const string &scenarioName,
-        const string &SolutionSpace,
+        const string &solutionSpace,
         const vector<string> &facilityNames);
     vector<ModuleResultMonthly> GetModulesForecastResultsByScenario(
         const vector<ForecastResultsByModule> &forecastModulesCompleteObject,
         const string &scenarioName,
-        const string &SolutionSpace,
+        const string &solutionSpace,
         const vector<string> &facilityNames);
     map<string, map<string, map<string, vector<YObj>>>> chartDataByModulesOrAggregate(
         const vector<string> &selectedModulePaths,
@@ -106,7 +106,7 @@ public:
     GetModulesForecastResultsByFacility(
         const vector<ForecastResultsByModule> &forecastModulesCompleteObject,
         const string &scenarioName,
-        const string &SolutionSpace,
+        const string &solutionSpace,
         const vector<string> &facilityNames);
 };
 
@@ -172,11 +172,11 @@ json AllWellsYearlyResultNewAsyncT::Plot2(const json &jsonData)
 //     isByYear, isForChart);
 //     map<string, map<string, string>> resultsToMap =
 //     reportJSON2.GetForecastOutputAsJson(results);
-//     ResponseChatData responseChatData;
+//     ResponseChartData responseChartData;
 
-//     responseChatData.response = resultsToMap;
+//     responseChartData.response = resultsToMap;
 
-//     json jsonResponseData = to_json(responseChatData);
+//     json jsonResponseData = to_json(responseChartData);
 
 //     return jsonResponseData;
 // }
@@ -198,11 +198,11 @@ json AllWellsYearlyResultNewAsyncT::Plot(const json &jsonData)
                                                                                               isByYear, isForChart);
     map<string, map<string, string>> resultsToMap =
         reportJSON2.GetForecastOutputAsJson(results);
-    ResponseChatData responseChatData;
+    ResponseChartData responseChartData;
 
-    responseChatData.response = resultsToMap;
+    responseChartData.response = resultsToMap;
 
-    json jsonResponseData = to_json(responseChatData);
+    json jsonResponseData = to_json(responseChartData);
 
     return jsonResponseData;
 }
@@ -258,11 +258,11 @@ vector<map<string, string>> AllWellsYearlyResultNewAsyncT::GetYearlyForcastResul
         //std::cout << "---" << std::endl;
     } */
 
-    // ResponseChatData responseChatData;
+    // ResponseChartData responseChartData;
 
-    /*  responseChatData.response = resultsToMap;
+    /*  responseChartData.response = resultsToMap;
 
-     json jsonResponseData = to_json(responseChatData); */
+     json jsonResponseData = to_json(responseChartData); */
 
     return vectorOfMaps;
 }
@@ -281,7 +281,7 @@ vector<map<string, string>> AllWellsYearlyResultNewAsyncT::GetYearlyForcastResul
 } */
 
 // Function to get unique scenario names from the selected module paths
-vector<string> AllWellsYearlyResultNewAsyncT::GetScenarioNames(const vector<string> &selectedModulePaths)
+vector<string> AllWellsYearlyResultNewAsyncT::GetscenarioNames(const vector<string> &selectedModulePaths)
 {
     vector<string> scenarioNames;
 
@@ -304,7 +304,7 @@ vector<string> AllWellsYearlyResultNewAsyncT::GetScenarioNames(const vector<stri
 }
 
 // Function to get unique facility names from the selected module paths
-vector<string> AllWellsYearlyResultNewAsyncT::GetFacilityNames(
+vector<string> AllWellsYearlyResultNewAsyncT::GetfacilityNames(
     const vector<string> &selectedModulePaths)
 {
     vector<string> facilityNames;
@@ -392,7 +392,7 @@ vector<ForecastResult> AllWellsYearlyResultNewAsyncT::getForecastResult(const st
             result.TRANCHE = columns[colIndx++];
             result.Asset_Team = columns[colIndx++];
             result.Flow_station = columns[colIndx++];
-            result.ModuleName = columns[colIndx++];
+            result.moduleName = columns[colIndx++];
             result.Day = stoi(columns[colIndx++]);
             result.Month = stoi(columns[colIndx++]);
             result.Year = stoi(columns[colIndx++]);
@@ -452,29 +452,29 @@ vector<ModuleResultMonthly>
 AllWellsYearlyResultNewAsyncT::GetModulesForecastResultsByScenario(
     const vector<ForecastResultsByModule> &forecastModulesCompleteObject,
     const string &scenarioName,
-    const string &SolutionSpace,
+    const string &solutionSpace,
     const vector<string> &facilityNames)
 {
-    // Filter forecastModulesCompleteObject by ScenarioName and SolutionSpace
+    // Filter forecastModulesCompleteObject by scenarioName and solutionSpace
     vector<ForecastResultsByModule> forecastModulesPerScenario;
     copy_if(forecastModulesCompleteObject.begin(), forecastModulesCompleteObject.end(),
             back_inserter(forecastModulesPerScenario),
-            [&scenarioName, &SolutionSpace](const ForecastResultsByModule &module)
+            [&scenarioName, &solutionSpace](const ForecastResultsByModule &module)
             {
-                return module.ScenarioName == scenarioName && module.SolutionSpace == SolutionSpace;
+                return module.scenarioName == scenarioName && module.solutionSpace == solutionSpace;
             });
 
     vector<ModuleResultMonthly> modulesResult;
 
     for (const auto &facility : facilityNames)
     {
-        // Filter forecastModulesPerScenario by FacilityName
+        // Filter forecastModulesPerScenario by facilityName
         vector<ForecastResultsByModule> forecastModulesPerFacility;
         copy_if(forecastModulesPerScenario.begin(), forecastModulesPerScenario.end(),
                 back_inserter(forecastModulesPerFacility),
                 [&facility](const ForecastResultsByModule &module)
                 {
-                    return module.FacilityName == facility;
+                    return module.facilityName == facility;
                 });
 
         for (const auto &module : forecastModulesPerFacility)
@@ -494,28 +494,28 @@ map<string, vector<ModuleResultMonthly>>
 AllWellsYearlyResultNewAsyncT::GetModulesForecastResultsByFacility(
     const vector<ForecastResultsByModule> &forecastModulesCompleteObject,
     const string &scenarioName,
-    const string &SolutionSpace,
+    const string &solutionSpace,
     const vector<string> &facilityNames)
 {
-    // Filter forecastModulesCompleteObject by ScenarioName and SolutionSpace
+    // Filter forecastModulesCompleteObject by scenarioName and solutionSpace
     vector<ForecastResultsByModule> forecastModulesPerScenario;
     copy_if(forecastModulesCompleteObject.begin(), forecastModulesCompleteObject.end(),
             back_inserter(forecastModulesPerScenario),
-            [&scenarioName, &SolutionSpace](const ForecastResultsByModule &module)
+            [&scenarioName, &solutionSpace](const ForecastResultsByModule &module)
             {
-                return module.ScenarioName == scenarioName && module.SolutionSpace == SolutionSpace;
+                return module.scenarioName == scenarioName && module.solutionSpace == solutionSpace;
             });
 
     map<string, vector<ModuleResultMonthly>> modulesResultByFacility;
     for (const auto &facility : facilityNames)
     {
-        // Filter forecastModulesPerScenario by FacilityName
+        // Filter forecastModulesPerScenario by facilityName
         vector<ForecastResultsByModule> forecastModulesPerFacility;
         copy_if(forecastModulesPerScenario.begin(), forecastModulesPerScenario.end(),
                 back_inserter(forecastModulesPerFacility),
                 [&facility](const ForecastResultsByModule &module)
                 {
-                    return module.FacilityName == facility;
+                    return module.facilityName == facility;
                 });
 
         vector<ModuleResultMonthly> modulesResult;
@@ -540,29 +540,29 @@ unordered_map<string, unordered_map<string, ModuleResultMonthly>>
 AllWellsYearlyResultNewAsyncT::GetForecastResultsByScenario(
     const vector<ForecastResultsByModule> &forecastModulesCompleteObject,
     const string &scenarioName,
-    const string &SolutionSpace,
+    const string &solutionSpace,
     const vector<string> &facilityNames)
 {
-    // Filter forecastModulesCompleteObject by ScenarioName and SolutionSpace
+    // Filter forecastModulesCompleteObject by scenarioName and solutionSpace
     vector<ForecastResultsByModule> forecastModulesPerScenario;
     copy_if(forecastModulesCompleteObject.begin(), forecastModulesCompleteObject.end(),
             back_inserter(forecastModulesPerScenario),
-            [&scenarioName, &SolutionSpace](const ForecastResultsByModule &module)
+            [&scenarioName, &solutionSpace](const ForecastResultsByModule &module)
             {
-                return module.ScenarioName == scenarioName && module.SolutionSpace == SolutionSpace;
+                return module.scenarioName == scenarioName && module.solutionSpace == solutionSpace;
             });
 
     unordered_map<string, unordered_map<string, ModuleResultMonthly>> facilitiesMonthly;
 
     for (const auto &facility : facilityNames)
     {
-        // Filter forecastModulesPerScenario by FacilityName
+        // Filter forecastModulesPerScenario by facilityName
         vector<ForecastResultsByModule> forecastModulesPerFacility;
         copy_if(forecastModulesPerScenario.begin(), forecastModulesPerScenario.end(),
                 back_inserter(forecastModulesPerFacility),
                 [&facility](const ForecastResultsByModule &module)
                 {
-                    return module.FacilityName == facility;
+                    return module.facilityName == facility;
                 });
 
         unordered_map<string, ModuleResultMonthly> wellsMonthly;
@@ -573,7 +573,7 @@ AllWellsYearlyResultNewAsyncT::GetForecastResultsByScenario(
             vector<ForecastResult> forecastResults = getForecastResult(module.forecastResults);
 
             ModuleResultMonthly moduleResultMonthly = {forecastResults};
-            wellsMonthly[module.ModuleName] = moduleResultMonthly;
+            wellsMonthly[module.moduleName] = moduleResultMonthly;
         }
 
         facilitiesMonthly[facility] = wellsMonthly;
@@ -665,8 +665,8 @@ AllWellsYearlyResultNewAsyncT::chartDataByModulesOrAggregate_Obsolete(
     const string &forecastResultsId,
     bool shouldAggregate)
 {
-    vector<string> scenarioNames = GetScenarioNames(selectedModulePaths);
-    vector<string> facilityNames = GetFacilityNames(selectedModulePaths);
+    vector<string> scenarioNames = GetscenarioNames(selectedModulePaths);
+    vector<string> facilityNames = GetfacilityNames(selectedModulePaths);
     // map<string, map<string, map<string, vector<ForecastResult>>>> solutionCase_ForecastResult;
     map<string, map<string, map<string, ModuleResultMonthly>>> solutionCase_ForecastResult;
 
@@ -674,22 +674,22 @@ AllWellsYearlyResultNewAsyncT::chartDataByModulesOrAggregate_Obsolete(
     // unordered_map<string, unordered_map<string, ModuleResultMonthly>>
 
     // Processing forecast results per scenario and solution space
-    for (const auto &forecastSolutionSpaceName : forecastSolutionSpaceNames)
+    for (const auto &forecastsolutionSpaceName : forecastSolutionSpaceNames)
     {
         for (const auto &_scenarioName : scenarioNames)
         {
-            string case_scenario_Name = (forecastSolutionSpaceName + _scenarioName);
+            string case_scenario_Name = (forecastsolutionSpaceName + _scenarioName);
             transform(case_scenario_Name.begin(), case_scenario_Name.end(), case_scenario_Name.begin(), ::toupper);
 
             auto iforecastResult = GetForecastResultsByScenario(
-                forecastResultsByModule, _scenarioName, forecastSolutionSpaceName, facilityNames);
+                forecastResultsByModule, _scenarioName, forecastsolutionSpaceName, facilityNames);
 
             solutionCase_ForecastResult[case_scenario_Name] = convertToOrdered(iforecastResult);
         }
     }
 
     map<string, std::vector<ModuleResultMonthly>> lstWellsObject;
-    for (const auto &forecastSolutionSpaceName : forecastSolutionSpaceNames)
+    for (const auto &forecastsolutionSpaceName : forecastSolutionSpaceNames)
     {
         vector<ModuleResultMonthly> lstWells;
 
@@ -699,7 +699,7 @@ AllWellsYearlyResultNewAsyncT::chartDataByModulesOrAggregate_Obsolete(
             string scenario = parts[0];
             string station = parts[1];
             string moduleName = parts[2];
-            string case_senario_name = forecastSolutionSpaceName + scenario;
+            string case_senario_name = forecastsolutionSpaceName + scenario;
 
             transform(case_senario_name.begin(), case_senario_name.end(), case_senario_name.begin(), ::toupper);
 
@@ -714,7 +714,7 @@ AllWellsYearlyResultNewAsyncT::chartDataByModulesOrAggregate_Obsolete(
         }
         if (!lstWells.empty())
         {
-            lstWellsObject[forecastSolutionSpaceName] = lstWells;
+            lstWellsObject[forecastsolutionSpaceName] = lstWells;
         }
     }
 
@@ -763,7 +763,7 @@ AllWellsYearlyResultNewAsyncT::chartDataByModulesOrAggregate_Obsolete(
                 {
                     const auto &rowData = resultWells[i];
                     uniqueId = rowData.uniqueId;
-                    moduleN = rowData.ModuleName;
+                    moduleN = rowData.moduleName;
                     y.push_back(rowData.getVariableByName(variable));
                     string date = to_string(rowData.Day) + "/" + to_string(rowData.Month) + "/" + to_string(rowData.Year);
                     x.push_back(date);
@@ -836,23 +836,23 @@ AllWellsYearlyResultNewAsyncT::chartDataByModulesOrAggregate(
     const string &forecastResultsId,
     bool shouldAggregate)
 {
-    vector<string> scenarioNames = GetScenarioNames(selectedModulePaths);
-    vector<string> facilityNames = GetFacilityNames(selectedModulePaths);
+    vector<string> scenarioNames = GetscenarioNames(selectedModulePaths);
+    vector<string> facilityNames = GetfacilityNames(selectedModulePaths);
     map<string, std::vector<ModuleResultMonthly>> lstWellsObject;
 
     // Processing forecast results per scenario and solution space
-    for (const auto &forecastSolutionSpaceName : forecastSolutionSpaceNames)
+    for (const auto &forecastsolutionSpaceName : forecastSolutionSpaceNames)
     {
         for (const auto &_scenarioName : scenarioNames)
         {
-            string case_scenario_Name = (forecastSolutionSpaceName + _scenarioName);
+            string case_scenario_Name = (forecastsolutionSpaceName + _scenarioName);
             transform(case_scenario_Name.begin(), case_scenario_Name.end(), case_scenario_Name.begin(), ::toupper);
 
             lstWellsObject[case_scenario_Name] = GetModulesForecastResultsByScenario(
-                forecastResultsByModule, _scenarioName, forecastSolutionSpaceName, facilityNames);
+                forecastResultsByModule, _scenarioName, forecastsolutionSpaceName, facilityNames);
 
             // auto iforecastResult = GetModulesForecastResultsByScenario(
-            //     forecastResultsByModule, _scenarioName, forecastSolutionSpaceName, facilityNames);
+            //     forecastResultsByModule, _scenarioName, forecastsolutionSpaceName, facilityNames);
 
             //     lstWellsObject[case_scenario_Name] = iforecastResult;
 
@@ -909,7 +909,7 @@ AllWellsYearlyResultNewAsyncT::chartDataByModulesOrAggregate(
                 {
                     const auto &rowData = resultWells[i];
                     uniqueId = rowData.uniqueId;
-                    moduleN = rowData.ModuleName;
+                    moduleN = rowData.moduleName;
                     y.push_back(rowData.getVariableByName(variable));
                     string date = to_string(rowData.Day) + "/" + to_string(rowData.Month) + "/" + to_string(rowData.Year);
                     x.push_back(date);
@@ -1043,25 +1043,25 @@ AllWellsYearlyResultNewAsyncT::chartDataByModulesOrAggregate2(
     return aggregatedScenarioObjects;
 }
 
-json AllWellsYearlyResultNewAsyncT::PlotChart(const json &forecastResultsJsonData, const json &chatInputJsonData)
+json AllWellsYearlyResultNewAsyncT::PlotChart(const json &forecastResultsJsonData, const json &chartInputJsonData)
 {
 
     std::vector<ForecastResultsByModule> forecastResultsByModule =
         parseForecastResults(forecastResultsJsonData);
-    ChatInputPayload chatInputPayload = chatInputPayload_to_json(chatInputJsonData);
+    ChartInputPayload chartInputPayload = chartInputPayload_to_json(chartInputJsonData);
 
-    vector<string> selectedModulePaths = chatInputPayload.selectedModulePaths;
-    vector<string> selectedVariables = chatInputPayload.selectedVariables;
-    bool isMonthly = chatInputPayload.isMonthly;
-    vector<string> forecastSolutionSpaceNames = chatInputPayload.forecastSolutionSpaces;
-    string forecastResultsId = chatInputPayload.forecastResultsIds[0];
-    bool shouldAggregate = chatInputPayload.shouldAggregate;
+    vector<string> selectedModulePaths = chartInputPayload.selectedModulePaths;
+    vector<string> selectedVariables = chartInputPayload.selectedVariables;
+    bool isMonthly = chartInputPayload.isMonthly;
+    vector<string> forecastSolutionSpaceNames = chartInputPayload.forecastsolutionSpaces;
+    string forecastResultsId = chartInputPayload.forecastResultsIds[0];
+    bool shouldAggregate = chartInputPayload.shouldAggregate;
 
     map<string, map<string, map<string, vector<YObj>>>> _scenarioObjects;
 
-    json jsonChatDataOutput;
+    json jsonChartDataOutput;
 
-    if (chatInputPayload.shouldAggregate == false)
+    if (chartInputPayload.shouldAggregate == false)
     {
         _scenarioObjects =
             chartDataByModulesOrAggregate(
@@ -1090,7 +1090,7 @@ json AllWellsYearlyResultNewAsyncT::PlotChart(const json &forecastResultsJsonDat
                 }
                 level1Json[level2.first] = level2Json;
             }
-            jsonChatDataOutput[level1.first] = level1Json;
+            jsonChartDataOutput[level1.first] = level1Json;
         }
     }
     else
@@ -1121,9 +1121,9 @@ json AllWellsYearlyResultNewAsyncT::PlotChart(const json &forecastResultsJsonDat
                 }
                 level1Json[level2.first] = level2Json;
             }
-            jsonChatDataOutput[level1.first] = level1Json;
+            jsonChartDataOutput[level1.first] = level1Json;
         }
     }
 
-    return jsonChatDataOutput;
+    return jsonChartDataOutput;
 }

@@ -219,14 +219,14 @@ forecastResultsRouter.get(
   async (req: Request, res: Response) => {
     //================To be taken care of by Sir Giddy on the frontend==========================//
 
-    const forecastSolutionSpaces = [
+    const forecastsolutionSpaces = [
       'potential',
       'deliverability',
       'availability',
       'offtake',
     ];
 
-    const forecastSolutionSpacesIsDURConstrained = [false, false, false, true];
+    const forecastsolutionSpacesIsDURConstrained = [false, false, false, true];
 
     //=====================================================================================//
 
@@ -509,7 +509,7 @@ forecastResultsRouter.get(
         );
         forecastProfiles.inputDeckData =
           validateProfiles.forecastProfiles as ForecastProfileEntity[];
-        if (!validateProfiles.checkModuleNames) {
+        if (!validateProfiles.checkmoduleNames) {
           throw new BadRequestError(
             'Forecast profiles module names do not match with forecast input deck module names.'
           );
@@ -631,11 +631,11 @@ forecastResultsRouter.get(
         nGasOwnUse: gasOwnUse.length,
         flaredGases,
         nFlaredGases: flaredGases.length,
-        forecastSolutionSpaces,
-        nForecastSolutionSpaces: forecastSolutionSpaces.length,
-        forecastSolutionSpacesIsDURConstrained,
-        nForecastSolutionSpacesIsDURConstrained:
-          forecastSolutionSpacesIsDURConstrained.length,
+        forecastsolutionSpaces,
+        nForecastsolutionSpaces: forecastsolutionSpaces.length,
+        forecastsolutionSpacesIsDURConstrained,
+        nForecastsolutionSpacesIsDURConstrained:
+          forecastsolutionSpacesIsDURConstrained.length,
       };
 
       var payload = {
@@ -858,7 +858,7 @@ forecastResultsRouter.post(
     const selectedModulePaths = req.body.selectedModulePaths;
     const selectedVariables = req.body.selectedVariables;
     const shouldAggregate = req.body.shouldAggregate;
-    const forecastSolutionSpaces = req.body.forecastSolutionSpaces;
+    const forecastsolutionSpaces = req.body.forecastsolutionSpaces;
     const isMonthly = false;
     const forecastResultsId = forecastResultsIds[0];
 
@@ -899,7 +899,7 @@ forecastResultsRouter.post(
             selectedModulePaths,
             selectedVariables,
             isMonthly,
-            forecastSolutionSpaces,
+            forecastsolutionSpaces,
             forecastResultsIds,
             shouldAggregate,
           },

@@ -12,28 +12,32 @@
 
 using namespace std;
 
-class Interpolation
+class  Interpolation
 {
 private:
+
 public:
-    Interpolation();
-    double LinearInterpolation(vector<double> &Xs, vector<double> &Ys, double &X);
-    double LinearInterpolation(double &X1, double &X2, double &Y1, double &Y2, double &X);
-    ~Interpolation();
+	Interpolation();
+    double LinearInterpolation(vector<double>& Xs, vector<double>& Ys, double& X);
+    double LinearInterpolation(double& X1, double& X2, double& Y1, double& Y2, double& X);
+	~Interpolation();
+
 };
 
 Interpolation::Interpolation()
 {
+
 }
 
 Interpolation::~Interpolation()
 {
+
 }
 
-double Interpolation::LinearInterpolation(double &X1, double &X2, double &Y1, double &Y2, double &X)
+double Interpolation::LinearInterpolation(double& X1, double& X2, double& Y1, double& Y2, double& X)
 {
     double denom = X2 - X1;
-    if (denom == 0)
+    if(denom == 0)
     {
         return Y2;
     }
@@ -47,13 +51,12 @@ double Interpolation::LinearInterpolation(double &X1, double &X2, double &Y1, do
     return Y;
 }
 
-double Interpolation::LinearInterpolation(vector<double> &Xs, vector<double> &Ys, double &X)
+double Interpolation::LinearInterpolation(vector<double>& Xs, vector<double>& Ys, double& X)
 {
-    int i = 0, ii = 0;
-    bool check = false;
+    int i = 0, ii = 0; bool check = false;
     double Y = Ys[0];
     int XsCount = Xs.size();
-    // std::cout << "XsCount " << XsCount << std::endl;
+   // std::cout << "XsCount " << XsCount << std::endl;
 
     for (i = 1; i < XsCount; i++)
     {
@@ -61,7 +64,7 @@ double Interpolation::LinearInterpolation(vector<double> &Xs, vector<double> &Ys
         {
             ii = i;
             check = true;
-            // std::cout << "ii " << ii << std::endl;
+           // std::cout << "ii " << ii << std::endl;
             break;
         }
     }
@@ -69,12 +72,12 @@ double Interpolation::LinearInterpolation(vector<double> &Xs, vector<double> &Ys
     if (check == true)
     {
         Y = LinearInterpolation(Xs[ii - 1], Xs[ii], Ys[ii - 1], Ys[ii], X);
-        /*
+        /* 
         double m = (Ys[ii] - Ys[ii - 1]) / (Xs[ii] - Xs[ii - 1]);
         double c = Ys[ii - 1];
         double x = X - Xs[ii - 1];
 
-        Y = m * x + c;
+        Y = m * x + c; 
         */
     }
 

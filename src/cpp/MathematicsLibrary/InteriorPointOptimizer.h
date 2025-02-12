@@ -4,21 +4,19 @@
 
 using namespace std;
 
-// const double EPSILON = 1e-9; // Tolerance for convergence
+//const double EPSILON = 1e-9; // Tolerance for convergence
 const double ALPHA = 0.1; // Step size factor
 
-class InteriorPointOptimizer
-{
+class InteriorPointOptimizer {
 private:
     vector<vector<double>> A; // Coefficients of constraints
-    vector<double> b;         // Right-hand side of constraints
-    vector<double> c;         // Coefficients of the objective function
-    int m, n;                 // Number of constraints (m) and variables (n)
-    double mu;                // Barrier parameter
+    vector<double> b; // Right-hand side of constraints
+    vector<double> c; // Coefficients of the objective function
+    int m, n; // Number of constraints (m) and variables (n)
+    double mu; // Barrier parameter
 
 public:
-    InteriorPointOptimizer(const vector<vector<double>> &constraints, const vector<double> &rhs, const vector<double> &objective)
-    {
+    InteriorPointOptimizer(const vector<vector<double>>& constraints, const vector<double>& rhs, const vector<double>& objective) {
         A = constraints;
         b = rhs;
         c = objective;
@@ -28,10 +26,8 @@ public:
     }
 
     // Check if all elements of a vector are non-negative
-    bool nonNegative(const vector<double> &x)
-    {
-        for (double xi : x)
-        {
+    bool nonNegative(const vector<double>& x) {
+        for (double xi : x) {
             if (xi < -EPSILON) // Assuming negative values are numerical errors
                 return false;
         }
@@ -39,16 +35,14 @@ public:
     }
 
     // Compute the affine scaling direction
-    vector<double> computeDirection(const vector<double> &x, const vector<double> &s, const vector<double> &y)
-    {
+    vector<double> computeDirection(const vector<double>& x, const vector<double>& s, const vector<double>& y) {
         vector<double> dx(n);
         vector<double> ds(m);
         vector<double> dy(m);
         vector<double> r(m);
 
         // Calculate residuals
-        for (int i = 0; i < m; ++i)
-        {
+        for (int i = 0; i < m; ++i) {
             r[i] = b[i];
             for (int j = 0; j < n; ++j)
                 r[i] -= A[i][j] * x[j];
@@ -56,8 +50,7 @@ public:
         }
 
         // Compute direction components
-        for (int j = 0; j < n; ++j)
-        {
+        for (int j = 0; j < n; ++j) {
             dx[j] = c[j];
             for (int i = 0; i < m; ++i)
                 dx[j] -= A[i][j] * y[i];
@@ -65,8 +58,7 @@ public:
                 dx[j] -= A[i][j] * s[i] / x[j];
         }
 
-        for (int i = 0; i < m; ++i)
-        {
+        for (int i = 0; i < m; ++i) {
             ds[i] = mu / x[i] - s[i] / x[i];
             dy[i] = -r[i];
         }
@@ -80,8 +72,7 @@ public:
     }
 
     // Update the variables with the computed step
-    void updateVariables(vector<double> &x, vector<double> &s, vector<double> &y, const vector<double> &direction, double alpha)
-    {
+    void updateVariables(vector<double>& x, vector<double>& s, vector<double>& y, const vector<double>& direction, double alpha) {
         vector<double> dx(direction.begin(), direction.begin() + n);
         vector<double> ds(direction.begin() + n, direction.begin() + n + m);
         vector<double> dy(direction.begin() + n + m, direction.end());
@@ -95,13 +86,11 @@ public:
     }
 
     // Compute the step size using a backtracking line search
-    double computeStepSize(const vector<double> &x, const vector<double> &s, const vector<double> &direction)
-    {
+    double computeStepSize(const vector<double>& x, const vector<double>& s, const vector<double>& direction) {
         double alpha = 1.0;
         double beta = 0.5;
 
-        while (!nonNegative(x) || !nonNegative(s))
-        {
+        while (!nonNegative(x) || !nonNegative(s)) {
             alpha *= beta;
             vector<double> newX(x);
             vector<double> newS(s);
@@ -109,8 +98,7 @@ public:
                 newX[i] = x[i] + alpha * direction[i];
             for (int i = 0; i < m; ++i)
                 newS[i] = s[i] + alpha * direction[n + i];
-            if (!nonNegative(newX) || !nonNegative(newS))
-            {
+            if (!nonNegative(newX) || !nonNegative(newS)) {
                 if (alpha < EPSILON) // Step size too small, unable to proceed
                     break;
             }
@@ -119,14 +107,12 @@ public:
     }
 
     // Solve the linear programming problem using interior point method
-    vector<double> solve()
-    {
+    vector<double> solve() {
         vector<double> x(n, 1.0); // Initial feasible solution
         vector<double> s(m, 1.0); // Initial slack variables
         vector<double> y(m, 0.0); // Initial dual variables
 
-        while (true)
-        {
+        while (true) {
             // Compute direction
             vector<double> direction = computeDirection(x, s, y);
 

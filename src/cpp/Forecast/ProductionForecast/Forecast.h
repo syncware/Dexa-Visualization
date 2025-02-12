@@ -190,7 +190,7 @@ typedef struct _ForecastResult
         throw std::invalid_argument("Invalid variable name");
     }
 
-    void InitailizeData()
+    void InitializeData()
     {
         deltaDay = 0;
         cumDays = 0;
@@ -262,7 +262,7 @@ typedef struct _ForecastResult
         Liquid_rate_NotTerminated = 0;
     }
 
-    void InitailizeData2()
+    void InitializeData2()
     {
         oilRateAbandonment = 0;
         gasRateAbandonment = 0;
@@ -335,7 +335,7 @@ typedef struct ForecastResultForChart
     int Month;
     int Year;
 
-    void InitailizeData()
+    void InitializeData()
     {
         Day = 0;
         Month = 0;
@@ -628,7 +628,7 @@ typedef struct _MBALForecastModel
     double cumWaterProduced;
     int numberOfWells;
 
-    void InitailizeData()
+    void InitializeData()
     {
         uniqueId = "";
         time = "";
@@ -711,7 +711,7 @@ typedef struct _PrioritizationModel
     vector<double> ParameterWeights;
 } PrioritizationModel;
 
-typedef struct _Priotization
+typedef struct _Prioritization
 {
     string targetFluid;
     string methodOfPrioritization;
@@ -724,7 +724,7 @@ typedef struct _Priotization
     PrioritizationModel prioritizationModel;
     string ochestrationVariable;
     string ochestrationMethod;
-} Priotization;
+} Prioritization;
 
 typedef struct _WellPrioritizationModel
 {
@@ -768,7 +768,7 @@ typedef struct _MBALVariableHeaders
     string cumWaterProduced;
     string numberOfWells;
 
-    void InitailizeData()
+    void InitializeData()
     {
         time = "Time";
         status = "Status";
@@ -889,7 +889,7 @@ typedef struct _FacilityInEquipementConnection
     vector<string> toNodes;
     string equipmentType;
 
-    void InitailizeData()
+    void InitializeData()
     {
         equityPercentage = 100.0;
     }
@@ -916,7 +916,7 @@ typedef struct _Node
     string nodeName;
     vector<FacilityInEquipementConnection> equipmentInEquipementConnections;
     vector<FacilityStructExternal> equipmentDataInEquipementConnections;
-    vector<Priotization> priotizations;
+    vector<Prioritization> priotizations;
 } Node;
 
 typedef struct _FacilityThreadParams
@@ -930,7 +930,7 @@ typedef struct _FacilityThreadParams
     vector<string> FaclitiesNames;
     vector<WellReroute> routedWells;
     string forecastCase;
-    vector<vector<Priotization>> priotizationsFacilities;
+    vector<vector<Prioritization>> priotizationsFacilities;
     vector<Node> updatesNodes;
 } FacilityThreadParams;
 
@@ -965,10 +965,10 @@ typedef struct _Payload
     int nGasOwnUse;
     vector<FacilityStructExternal> flaredGases;
     int nFlaredGases;
-    vector<string> forecastSolutionSpaces;
-    int nForecastSolutionSpaces;
-    vector<bool> forecastSolutionSpacesIsDURConstrained;
-    int nForecastSolutionSpacesIsDURConstrained;
+    vector<string> forecastsolutionSpaces;
+    int nForecastsolutionSpaces;
+    vector<bool> forecastsolutionSpacesIsDURConstrained;
+    int nForecastsolutionSpacesIsDURConstrained;
     vector<ForecastResult> forecastProfiles;
     int nForecastProfiles;
     int nDecks;
@@ -980,9 +980,9 @@ typedef struct _Payload
     vector<ShutInOpenUp> wellShutInOpenUpDecks;
     int nWellShutInOpenUpDecks;
     RunParameter runparameters;
-    Priotization prioritization;
-    vector<Priotization> nodalPriotizations;
-    int nNodalPriotizations;
+    Prioritization prioritization;
+    vector<Prioritization> nodalPrioritizations;
+    int nNodalPrioritizations;
     vector<InputDeckStruct> productionPrioritization;
     int nProductionPrioritization;
     vector<string> scenarios;
@@ -1015,10 +1015,10 @@ typedef struct _ResponseData
     map<string, map<string, map<string, map<string, map<string, string>>>>> monthlyReport;
 } ResponseData;
 
-typedef struct _ResponseChatData
+typedef struct _ResponseChartData
 {
     map<string, map<string, string>> response;
-} ResponseChatData;
+} ResponseChartData;
 
 typedef struct _MonthlyReport
 {
@@ -1077,7 +1077,7 @@ typedef struct _ChartInputPayload
     vector<string> selectedModulePaths;
     vector<string> selectedVariables;
     bool shouldAggregate;
-    vector<string> forecastSolutionSpaces;
+    vector<string> forecastsolutionSpaces;
     bool isMonthly;
 } ChartInputPayload;
 

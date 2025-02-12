@@ -46,7 +46,7 @@ public:
 	void GetForecastWellMonthOutput(int &k, int &j, int &scenario,
 									string &table, vector<ForecastResult> &resultsWellNew);
 	void GetForecastWellYearlyOutput(string &tableYearly, vector<ForecastResult> &resultsWellNew,
-									 vector<Date> &datesNew, string &ModuleName, string &FacilityName, int &scenario);
+									 vector<Date> &datesNew, string &moduleName, string &facilityName, int &scenario);
 
 	FacilityStructExternal GetMinimumSelectedEquipmentsGasOwnUseByDate(vector<FacilityStructExternal> &gasOwnUse, vector<string> &selectedEquipments, Date date);
 	FacilityStructExternal GetMinimumSelectedEquipmentsGasFlaredByDate(vector<FacilityStructExternal> &gasFlared, vector<string> &selectedEquipments, Date date);
@@ -101,7 +101,7 @@ public:
 																				 vector<Date> &dateTimes);
 	void GetForecastResultsByScenario(
 		ResponseData responseData,
-		string scenarioName, string SolutionSpace, vector<string> facilityNames);
+		string scenarioName, string solutionSpace, vector<string> facilityNames);
 	map<string, string> GetForecastOutputAsJson(vector<ForecastResult> &results);
 	map<string, map<string, string>> GetForecastOutputAsJson(vector<vector<ForecastResult>> &results);
 	vector<FacilityInEquipementConnection> LastNodeGasConsumers(Node &lastNode);
@@ -175,13 +175,13 @@ map<string, map<string, string>> ReportJSON2::GetForecastOutputAsJson(vector<vec
 }
 
 void ReportJSON2::GetForecastResultsByScenario(ResponseData responseData,
-											   string scenarioName, string SolutionSpace, vector<string> facilityNames)
+											   string scenarioName, string solutionSpace, vector<string> facilityNames)
 {
 
 	for (const auto &outer1 : responseData.monthlyReport)
 	{
 		const string &solutionSpace = outer1.first;
-		if (solutionSpace == SolutionSpace)
+		if (solutionSpace == solutionSpace)
 		{
 			for (const auto &outer2 : outer1.second)
 			{
@@ -220,8 +220,6 @@ map<string, map<string, map<string, string>>> ReportJSON2::GetForecastOutputAllF
 	map<string, map<string, map<string, string>>> FacilitiesObject;
 	for (facilityIndex = 0; facilityIndex < nFacilities; facilityIndex++)
 	{
-		facilityWellsIndicies[j][facilityIndex].Facility;
-
 		int nWells = facilityWellsIndicies[j][facilityIndex].WellNames.size();
 		map<string, map<string, string>> decksPerFacility;
 		for (wellIndex = 0; wellIndex < nWells; wellIndex++)
@@ -1597,12 +1595,12 @@ double ReportJSON2::GetTotalFacilitiesGasCapacitiesPerGasConsumer(
 	double totalGasCapacity = 0;
 	vector<FacilityStructExternal> equipmentDataInEquipementConnections = firstNode.equipmentDataInEquipementConnections;
 	int nEquipmentDataInEquipementConnections = equipmentDataInEquipementConnections.size();
-	int nFacilityNamesPerGasConsumer = facilityNamesPerGasConsumer.size();
+	int nfacilityNamesPerGasConsumer = facilityNamesPerGasConsumer.size();
 	int i = 0, j = 0;
 
 	for (i = 0; i < nEquipmentDataInEquipementConnections; i++)
 	{
-		for (j = 0; j < nFacilityNamesPerGasConsumer; j++)
+		for (j = 0; j < nfacilityNamesPerGasConsumer; j++)
 		{
 			if (facilityNamesPerGasConsumer[j] == equipmentDataInEquipementConnections[i].Primary_Facility)
 			{
@@ -1630,12 +1628,12 @@ vector<FacilityStructExternal> ReportJSON2::GetFacilitiesGasDemandPerGasConsumer
 
 	vector<FacilityStructExternal> equipmentDataInEquipementConnections = firstNode.equipmentDataInEquipementConnections;
 	int nEquipmentDataInEquipementConnections = equipmentDataInEquipementConnections.size();
-	int nFacilityNamesPerGasConsumer = facilityNamesPerGasConsumer.size();
+	int nfacilityNamesPerGasConsumer = facilityNamesPerGasConsumer.size();
 	int i = 0, j = 0;
 
 	for (i = 0; i < nEquipmentDataInEquipementConnections; i++)
 	{
-		for (j = 0; j < nFacilityNamesPerGasConsumer; j++)
+		for (j = 0; j < nfacilityNamesPerGasConsumer; j++)
 		{
 			if (facilityNamesPerGasConsumer[j] == equipmentDataInEquipementConnections[i].Primary_Facility)
 			{
@@ -2223,7 +2221,7 @@ vector<WellSchedule> ReportJSON2::SortWellSchedules(vector<WellSchedule> &wellSc
 }
 
 void ReportJSON2::GetForecastWellYearlyOutput(string &tableYearly, vector<ForecastResult> &resultsWellNew,
-											  vector<Date> &datesNew, string &ModuleName, string &FacilityName, int &scenario)
+											  vector<Date> &datesNew, string &moduleName, string &facilityName, int &scenario)
 {
 	bool isForChart = false;
 	bool isByYear = !isMonthly;
@@ -2247,8 +2245,8 @@ void ReportJSON2::GetForecastWellYearlyOutput(string &tableYearly, vector<Foreca
 			}
 
 			tableYearly = tableYearly + GetRow(resultsWellYearly[ii], scenario, ii, isLastRow);
-			ModuleName = resultsWellYearly[ii].ModuleName;
-			FacilityName = resultsWellYearly[ii].Flow_station;
+			moduleName = resultsWellYearly[ii].moduleName;
+			facilityName = resultsWellYearly[ii].Flow_station;
 		}
 	}
 }
@@ -2291,7 +2289,7 @@ string ReportJSON2::GetRow(ForecastResult &r, int &scenario, int &ii, bool &isLa
 	string columnDelimeter = "@#$%";
 	string rowDelimeter = "@#*$%";
 
-	std::string uniqueId = r.ModuleName + r.Flow_station + to_string(scenario) + "P" + to_string(scenario) + "C" + to_string(ii);
+	std::string uniqueId = r.moduleName + r.Flow_station + to_string(scenario) + "P" + to_string(scenario) + "C" + to_string(ii);
 
 	double oilRate = 0, condensateRate = 0;
 	oilRate = r.Oil_rate;
@@ -2320,7 +2318,7 @@ string ReportJSON2::GetRow(ForecastResult &r, int &scenario, int &ii, bool &isLa
 	}
 
 	// isLastRow
-	row = uniqueId + columnDelimeter + r.Version_Name + columnDelimeter + r.Field + columnDelimeter + r.Reservoir + columnDelimeter + r.Drainage_Point + columnDelimeter + r.Production_String + columnDelimeter + r.TRANCHE + columnDelimeter + r.Asset_Team + columnDelimeter + r.Flow_station + columnDelimeter + r.ModuleName + columnDelimeter + std::to_string(r.Day) + columnDelimeter + std::to_string(r.Month) + columnDelimeter + std::to_string(r.Year) + columnDelimeter + std::to_string(oilRate) + columnDelimeter + std::to_string(r.Gas_Rate) + columnDelimeter + std::to_string(r.Water_Rate) + columnDelimeter + std::to_string(liquid) + columnDelimeter + std::to_string(r.Cum_Oil_Prod) + columnDelimeter + std::to_string(r.Cum_Gas_Prod) + columnDelimeter + std::to_string(r.Cum_Water_Prod) + columnDelimeter + std::to_string(r.GOR) + columnDelimeter + std::to_string(r.BSW) + columnDelimeter + std::to_string(r.CGR) + columnDelimeter + std::to_string(r.WGR) + columnDelimeter + std::to_string(r.CutBack) + columnDelimeter + r.HyrocarbonStream + columnDelimeter + r.hydrocarbonType + columnDelimeter + r.terminal + columnDelimeter + std::to_string(r.URo) + columnDelimeter + std::to_string(r.URg) + columnDelimeter + std::to_string(r.Gas_Own_Use) + columnDelimeter + std::to_string(r.Gas_Demand) + columnDelimeter + std::to_string(r.Gas_Flared) + columnDelimeter + std::to_string(r.Crude_Oil_Lossess) + columnDelimeter + std::to_string(r.CutBack) + columnDelimeter + r.projectCode + columnDelimeter + r.projectName + columnDelimeter + std::to_string(0) + columnDelimeter + std::to_string(r.OptimalSolution) + columnDelimeter + std::to_string(r.AllWellsLiquidCapacity) + columnDelimeter + std::to_string(r.AllWellsGasCapacity) + columnDelimeter + r.resourceClass + columnDelimeter + std::to_string(condensateRate) + columnDelimeter + r.reasonForTermination + columnDelimeter + lastrow;
+	row = uniqueId + columnDelimeter + r.Version_Name + columnDelimeter + r.Field + columnDelimeter + r.Reservoir + columnDelimeter + r.Drainage_Point + columnDelimeter + r.Production_String + columnDelimeter + r.TRANCHE + columnDelimeter + r.Asset_Team + columnDelimeter + r.Flow_station + columnDelimeter + r.moduleName + columnDelimeter + std::to_string(r.Day) + columnDelimeter + std::to_string(r.Month) + columnDelimeter + std::to_string(r.Year) + columnDelimeter + std::to_string(oilRate) + columnDelimeter + std::to_string(r.Gas_Rate) + columnDelimeter + std::to_string(r.Water_Rate) + columnDelimeter + std::to_string(liquid) + columnDelimeter + std::to_string(r.Cum_Oil_Prod) + columnDelimeter + std::to_string(r.Cum_Gas_Prod) + columnDelimeter + std::to_string(r.Cum_Water_Prod) + columnDelimeter + std::to_string(r.GOR) + columnDelimeter + std::to_string(r.BSW) + columnDelimeter + std::to_string(r.CGR) + columnDelimeter + std::to_string(r.WGR) + columnDelimeter + std::to_string(r.CutBack) + columnDelimeter + r.HyrocarbonStream + columnDelimeter + r.hydrocarbonType + columnDelimeter + r.terminal + columnDelimeter + std::to_string(r.URo) + columnDelimeter + std::to_string(r.URg) + columnDelimeter + std::to_string(r.Gas_Own_Use) + columnDelimeter + std::to_string(r.Gas_Demand) + columnDelimeter + std::to_string(r.Gas_Flared) + columnDelimeter + std::to_string(r.Crude_Oil_Lossess) + columnDelimeter + std::to_string(r.CutBack) + columnDelimeter + r.projectCode + columnDelimeter + r.projectName + columnDelimeter + std::to_string(0) + columnDelimeter + std::to_string(r.OptimalSolution) + columnDelimeter + std::to_string(r.AllWellsLiquidCapacity) + columnDelimeter + std::to_string(r.AllWellsGasCapacity) + columnDelimeter + r.resourceClass + columnDelimeter + std::to_string(condensateRate) + columnDelimeter + r.reasonForTermination + columnDelimeter + lastrow;
 
 	return row;
 }
@@ -2333,7 +2331,7 @@ string ReportJSON2::GetRow(ForecastResult &r, int &scenario, int &ii, vector<Dat
 	string rowDelimeter = "@#*$%";
 	int days = dateCreation.DateDiff_TotalDays(dateTimes[ii], dateTimes[0]);
 
-	std::string uniqueId = r.ModuleName + r.Flow_station + to_string(scenario) + "P" + to_string(scenario) + "C" + to_string(ii);
+	std::string uniqueId = r.moduleName + r.Flow_station + to_string(scenario) + "P" + to_string(scenario) + "C" + to_string(ii);
 
 	double oilRate = 0, condensateRate = 0;
 	if (r.HyrocarbonStream == "oil")
@@ -2376,7 +2374,7 @@ string ReportJSON2::GetRow(ForecastResult &r, int &scenario, int &ii, vector<Dat
 	string lastrow = std::to_string(r.DeclineRate) + rowDelimeter;
 
 	// isLastRow
-	row = uniqueId + columnDelimeter + r.Version_Name + columnDelimeter + r.Field + columnDelimeter + r.Reservoir + columnDelimeter + r.Drainage_Point + columnDelimeter + r.Production_String + columnDelimeter + r.TRANCHE + columnDelimeter + r.Asset_Team + columnDelimeter + r.Flow_station + columnDelimeter + r.ModuleName + columnDelimeter + std::to_string(r.Day) + columnDelimeter + std::to_string(r.Month) + columnDelimeter + std::to_string(r.Year) + columnDelimeter + std::to_string(oilRate) + columnDelimeter + std::to_string(r.Gas_Rate) + columnDelimeter + std::to_string(r.Water_Rate) + columnDelimeter + std::to_string(liquid) + columnDelimeter + std::to_string(r.Cum_Oil_Prod) + columnDelimeter + std::to_string(r.Cum_Gas_Prod) + columnDelimeter + std::to_string(r.Cum_Water_Prod) + columnDelimeter + std::to_string(r.GOR) + columnDelimeter + std::to_string(r.BSW) + columnDelimeter + std::to_string(r.CGR) + columnDelimeter + std::to_string(r.WGR) + columnDelimeter + std::to_string(r.CutBack) + columnDelimeter + r.HyrocarbonStream + columnDelimeter + r.hydrocarbonType + columnDelimeter + r.terminal + columnDelimeter + std::to_string(r.URo) + columnDelimeter + std::to_string(r.URg) + columnDelimeter + std::to_string(r.Gas_Own_Use) + columnDelimeter + std::to_string(r.Gas_Demand) + columnDelimeter + std::to_string(r.Gas_Flared) + columnDelimeter + std::to_string(r.Crude_Oil_Lossess) + columnDelimeter + std::to_string(r.CutBack) + columnDelimeter + r.projectCode + columnDelimeter + r.projectName + columnDelimeter + std::to_string(days) + columnDelimeter + std::to_string(r.OptimalSolution) + columnDelimeter + std::to_string(r.AllWellsLiquidCapacity) + columnDelimeter + std::to_string(r.AllWellsGasCapacity) + columnDelimeter + r.resourceClass + columnDelimeter + std::to_string(condensateRate) + columnDelimeter + r.reasonForTermination + columnDelimeter + lastrow;
+	row = uniqueId + columnDelimeter + r.Version_Name + columnDelimeter + r.Field + columnDelimeter + r.Reservoir + columnDelimeter + r.Drainage_Point + columnDelimeter + r.Production_String + columnDelimeter + r.TRANCHE + columnDelimeter + r.Asset_Team + columnDelimeter + r.Flow_station + columnDelimeter + r.moduleName + columnDelimeter + std::to_string(r.Day) + columnDelimeter + std::to_string(r.Month) + columnDelimeter + std::to_string(r.Year) + columnDelimeter + std::to_string(oilRate) + columnDelimeter + std::to_string(r.Gas_Rate) + columnDelimeter + std::to_string(r.Water_Rate) + columnDelimeter + std::to_string(liquid) + columnDelimeter + std::to_string(r.Cum_Oil_Prod) + columnDelimeter + std::to_string(r.Cum_Gas_Prod) + columnDelimeter + std::to_string(r.Cum_Water_Prod) + columnDelimeter + std::to_string(r.GOR) + columnDelimeter + std::to_string(r.BSW) + columnDelimeter + std::to_string(r.CGR) + columnDelimeter + std::to_string(r.WGR) + columnDelimeter + std::to_string(r.CutBack) + columnDelimeter + r.HyrocarbonStream + columnDelimeter + r.hydrocarbonType + columnDelimeter + r.terminal + columnDelimeter + std::to_string(r.URo) + columnDelimeter + std::to_string(r.URg) + columnDelimeter + std::to_string(r.Gas_Own_Use) + columnDelimeter + std::to_string(r.Gas_Demand) + columnDelimeter + std::to_string(r.Gas_Flared) + columnDelimeter + std::to_string(r.Crude_Oil_Lossess) + columnDelimeter + std::to_string(r.CutBack) + columnDelimeter + r.projectCode + columnDelimeter + r.projectName + columnDelimeter + std::to_string(days) + columnDelimeter + std::to_string(r.OptimalSolution) + columnDelimeter + std::to_string(r.AllWellsLiquidCapacity) + columnDelimeter + std::to_string(r.AllWellsGasCapacity) + columnDelimeter + r.resourceClass + columnDelimeter + std::to_string(condensateRate) + columnDelimeter + r.reasonForTermination + columnDelimeter + lastrow;
 
 	return row;
 }

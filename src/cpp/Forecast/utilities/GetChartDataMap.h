@@ -17,7 +17,6 @@
 #include <numeric>
 #include <iterator>
 #include <ctime>
-#include "../../nlohmann/json.hpp"
 #include "../../MathematicsLibrary/MainSimplex.h"
 #include "../../MathematicsLibrary/Integration.h"
 #include "../ProductionForecast/Inputdeck.h"
@@ -31,9 +30,10 @@
 #include "ToJSON2.h"
 #include "../JsonMapping/napiToJson.h"
 #include "../JsonMapping/person.h"
-#include "../JsonMapping/responseChatData.h"
+#include "../JsonMapping/responseChartData.h"
 #include "../JsonMapping/forecastResultsByModule.h"
 #include "../JsonMapping/chartInputPayload.h"
+#include "../../nlohmann/json.hpp"
 
 using namespace std;
 using namespace std::placeholders;
@@ -55,7 +55,23 @@ public:
     ~AllWellsYearlyResultNewAsyncT();
 
     vector<string> split(const string &str, const string &delimiter);
+    vector<string> getscenarioNames(const vector<string> &selectedModulePaths);
+    vector<string> getfacilityNames(const vector<string> &selectedModulePaths);
     vector<string> split(const string &str);
+    vector<ForecastResult> getForecastResult(const string &table);
+
+    unordered_map<string, unordered_map<string, ModuleResultMonthly>>
+    getForecastResultsByScenario(
+        const vector<ForecastResultsByModule> &forecastModulesCompleteObject,
+        const string &scenarioName,
+        const string &solutionSpace,
+        const vector<string> &facilityNames);
+
+    vector<ModuleResultMonthly> getModulesForecastResultsByScenario(
+        const vector<ForecastResultsByModule> &forecastModulesCompleteObject,
+        const string &scenarioName,
+        const string &solutionSpace,
+        const vector<string> &facilityNames);
 
     map<string, map<string, map<string, vector<YObj>>>> chartDataByModulesOrAggregate(
         const vector<string> &selectedModulePaths,
@@ -65,6 +81,41 @@ public:
         const vector<ForecastResultsByModule> &forecastResultsByModule,
         const string &forecastResultsId,
         bool shouldAggregate);
+
+    map<string, map<string, ModuleResultMonthly>> convertToOrdered(
+        const unordered_map<string, unordered_map<string, ModuleResultMonthly>> &unorderedMap);
+
+    vector<map<string, string>> getYearlyForcastResultModulesNewAsync(
+        vector<ModuleResultMonthly> wells,
+        bool &isByYear,
+        bool &isForChart,
+        int &nWells);
+
+    map<string, map<string, map<string, YObj>>> chartDataByModulesOrAggregate2(
+        const string &forecastResultsId,
+        map<string, map<string, map<string, vector<YObj>>>> _scenarioObjects);
+
+    map<string, vector<ModuleResultMonthly>>
+    getModulesForecastResultsByFacility(
+        const vector<ForecastResultsByModule> &forecastModulesCompleteObject,
+        const string &scenarioName,
+        const string &solutionSpace,
+        const vector<string> &facilityNames);
+
+    map<string, map<string, map<string, map<string, map<string, std::vector<any>>>>>>
+    chartDataByModulesOrAggregateNew(
+        const vector<string> &selectedModulePaths,
+        const vector<string> &selectedVariables,
+        bool isMonthly,
+        const vector<string> &forecastSolutionSpaceNames,
+        const vector<ForecastResultsByModule> &forecastResultsByModule,
+        const vector<string> &forecastResultsIds,
+        bool shouldAggregate);
+
+    vector<ForecastResult> getResultsTableForForecastModule(
+        const string &forecastModuleResultsString,
+        string columnDelimeter,
+        string rowDelimeter);
 };
 
 AllWellsYearlyResultNewAsyncT::AllWellsYearlyResultNewAsyncT()
@@ -301,7 +352,7 @@ vector<ForecastResult> AllWellsYearlyResultNewAsyncT::getResultsTableForForecast
  * Main Functions
  */
 /** NEWWWWWWWW */
-map<string, map<string, map<string, vector<YObj>>>>
+map<string, map<string, map<string, map<string, map<string, std::vector<any>>>>>>
 AllWellsYearlyResultNewAsyncT::chartDataByModulesOrAggregateNew(
     const vector<string> &selectedModulePaths,
     const vector<string> &selectedVariables,
@@ -339,13 +390,13 @@ AllWellsYearlyResultNewAsyncT::chartDataByModulesOrAggregateNew(
      *    }
      * }
      */
-    map<string, map<string, map<string, map<string, std::vector<float>>>>> chartDataResultMap;
+    map<string, map<string, map<string, map<string, map<string, std::vector<any>>>>>> chartDataResultMap;
     string selectedVariable = selectedVariables[0];
 
     // Get Chart Data Map
     for (const auto &forecastResultsId : forecastResultsIds)
     {
-        for (const auto &forecastSolutionSpace : forecastSolutionSpaceNames)
+        for (const auto &forecastsolutionSpace : forecastSolutionSpaceNames)
         {
             for (const auto &modulePath : selectedModulePaths)
             {
@@ -353,34 +404,37 @@ AllWellsYearlyResultNewAsyncT::chartDataByModulesOrAggregateNew(
                 string forecastCase = modulePathParts[0];
                 string facilityName = modulePathParts[1];
                 string moduleName = modulePathParts[2];
-                string reconstructedModulePath = forecastSolutionSpace + "/" + forecastCase + "/" + facilityName + "/" + moduleName;
+                string reconstructedModulePath = forecastsolutionSpace + "/" + forecastCase + "/" + facilityName + "/" + moduleName;
 
                 for (const auto &resultsModule : forecastResultsByModule)
                 {
                     if (resultsModule.forecastResultsId == forecastResultsId && resultsModule.moduleKey == reconstructedModulePath)
                     {
-                        ForecastResultsByModule forecastResultsForModule = resultsModule.forecastResults;
+                        string forecastResultsForModule = resultsModule.forecastResults;
                         vector<ForecastResult> forecastResultsTableForModule = getResultsTableForForecastModule(modulePath, columnDelimeter, rowDelimeter);
 
                         // X Series
                         std::vector<std::string> dateData;
-                        for (const auto& resultRow : forecastResultsTableForModule) {
-                            string day = resultRow["Day"];
-                            string month = resultRow["Month"];
-                            string year = resultRow["Year"];
+                        for (const auto &resultRow : forecastResultsTableForModule)
+                        {
+                            int day = resultRow.Day;
+                            int month = resultRow.Month;
+                            int year = resultRow.Year;
+
                             string date = to_string(day) + "/" + to_string(month) + "/" + to_string(year);
                             dateData.push_back(date);
                         }
 
                         // Y series
-                        std::vector<double> fieldData;
-                        for (const auto& resultRow : forecastResultsTableForModule) {
-                            fieldData.push_back(resultRow[selectedVariable]);
+                        std::vector<any> fieldData;
+                        for (const auto &resultRow : forecastResultsTableForModule)
+                        {
+                            fieldData.push_back(resultRow.getVariableByName(selectedVariable));
                         }
 
                         // Construct map
-                        chartDataResultMap[forecastResultsId][forecastCase][forecastSolutionSpace][selectedVariable]["x"] = dateData;
-                        chartDataResultMap[forecastResultsId][forecastCase][forecastSolutionSpace][selectedVariable]["y"] = fieldData;
+                        chartDataResultMap[forecastResultsId][forecastCase][forecastsolutionSpace][selectedVariable]["x"].push_back(dateData);
+                        chartDataResultMap[forecastResultsId][forecastCase][forecastsolutionSpace][selectedVariable]["y"].push_back(fieldData);
 
                         break;
                     }

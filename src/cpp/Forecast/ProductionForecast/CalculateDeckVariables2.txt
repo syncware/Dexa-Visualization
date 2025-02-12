@@ -166,8 +166,8 @@ public:
 	void GetActiveRate(int &scenario, InputDeckStruct &deck,
 					   ForecastResult &forecastResult, ForecastResult &forecastResult_old,
 					   ForecastResult &externalResult);
-	bool CheckWellFacility(vector<WellFacilityData> WellFacilityDataList, string ModuleName, string FacilityName);
-	tuple<bool, int> CheckWellFacilityAndGetIndex(vector<WellFacilityData> WellFacilityDataList, string ModuleName);
+	bool CheckWellFacility(vector<WellFacilityData> WellFacilityDataList, string moduleName, string facilityName);
+	tuple<bool, int> CheckWellFacilityAndGetIndex(vector<WellFacilityData> WellFacilityDataList, string moduleName);
 	bool GetIsWellFlowing(bool &isOilTerminated, bool &isGasTerminated, bool &isWaterterminated);
 	void GetFacilityFlowRates(vector<Node> &updatesNodes);
 	void GetDownStreamNodesFlux(vector<Node> &updatesNodes, int &activeNodeIndex);
@@ -392,15 +392,15 @@ bool CalculateDeckVariables2::GetIsWellFlowing(bool &isOilTerminated, bool &isGa
 	return isWellFlowing;
 }
 
-bool CalculateDeckVariables2::CheckWellFacility(vector<WellFacilityData> WellFacilityDataList, string ModuleName, string FacilityName)
+bool CalculateDeckVariables2::CheckWellFacility(vector<WellFacilityData> WellFacilityDataList, string moduleName, string facilityName)
 {
 	bool check = false;
 	int i = 0;
 	int n = WellFacilityDataList.size();
 	for (i = 0; i < n; i++)
 	{
-		if (WellFacilityDataList[i].Flow_station == FacilityName &&
-			WellFacilityDataList[i].ModuleName == ModuleName)
+		if (WellFacilityDataList[i].Flow_station == facilityName &&
+			WellFacilityDataList[i].moduleName == moduleName)
 		{
 			check = true;
 			break;
@@ -409,7 +409,7 @@ bool CalculateDeckVariables2::CheckWellFacility(vector<WellFacilityData> WellFac
 	return check;
 }
 
-tuple<bool, int> CalculateDeckVariables2::CheckWellFacilityAndGetIndex(vector<WellFacilityData> WellFacilityDataList, string ModuleName)
+tuple<bool, int> CalculateDeckVariables2::CheckWellFacilityAndGetIndex(vector<WellFacilityData> WellFacilityDataList, string moduleName)
 {
 	bool check = false;
 	int i = 0;
@@ -417,7 +417,7 @@ tuple<bool, int> CalculateDeckVariables2::CheckWellFacilityAndGetIndex(vector<We
 	int index = -1;
 	for (i = 0; i < n; i++)
 	{
-		if (WellFacilityDataList[i].ModuleName == ModuleName)
+		if (WellFacilityDataList[i].moduleName == moduleName)
 		{
 			index = i;
 			check = true;
@@ -922,7 +922,7 @@ void CalculateDeckVariables2::GetDeckVariables(vector<vector<vector<InputDeckStr
 				result.HyrocarbonStream = deck.Hydrocarbon_Stream;
 				result.hydrocarbonType = deck.hydrocarbonType;
 				result.terminal = deck.terminal;
-				result.ModuleName = deck.Module;
+				result.moduleName = deck.Module;
 				result.Version_Name = deck.Version_Name;
 				result.Field = deck.Field;
 				result.Reservoir = deck.Reservoir;
@@ -971,7 +971,7 @@ void CalculateDeckVariables2::GetDeckVariables(vector<vector<vector<InputDeckStr
                             result.HyrocarbonStream = deck.Hydrocarbon_Stream;
 							result.hydrocarbonType = deck.hydrocarbonType;
 							result.terminal = deck.terminal;
-							result.ModuleName = deck.Module;
+							result.moduleName = deck.Module;
 							result.Version_Name = deck.Version_Name;
 							result.Field = deck.Field;
 							result.Reservoir = deck.Reservoir;
@@ -1022,7 +1022,7 @@ void CalculateDeckVariables2::GetDeckVariables(vector<vector<vector<InputDeckStr
 							result.HyrocarbonStream = deck.Hydrocarbon_Stream;
 							result.hydrocarbonType = deck.hydrocarbonType;
 							result.terminal = deck.terminal;
-							result.ModuleName = deck.Module;
+							result.moduleName = deck.Module;
 							result.Version_Name = deck.Version_Name;
 							result.Field = deck.Field;
 							result.Reservoir = deck.Reservoir;
@@ -1080,7 +1080,7 @@ void CalculateDeckVariables2::GetDeckVariables(vector<vector<vector<InputDeckStr
 							result.HyrocarbonStream = deck.Hydrocarbon_Stream;
 							result.hydrocarbonType = deck.hydrocarbonType;
 							result.terminal = deck.terminal;
-							result.ModuleName = deck.Module;
+							result.moduleName = deck.Module;
 							result.Version_Name = deck.Version_Name;
 							result.Field = deck.Field;
 							result.Reservoir = deck.Reservoir;
@@ -1132,7 +1132,7 @@ void CalculateDeckVariables2::GetDeckVariables(vector<vector<vector<InputDeckStr
 							result.HyrocarbonStream = deck.Hydrocarbon_Stream;
 							result.hydrocarbonType = deck.hydrocarbonType;
 							result.terminal = deck.terminal;
-							result.ModuleName = deck.Module;
+							result.moduleName = deck.Module;
 							result.Version_Name = deck.Version_Name;
 							result.Field = deck.Field;
 							result.Reservoir = deck.Reservoir;
@@ -1189,7 +1189,7 @@ void CalculateDeckVariables2::GetDeckVariables(vector<vector<vector<InputDeckStr
 							result.HyrocarbonStream = deck.Hydrocarbon_Stream;
 							result.hydrocarbonType = deck.hydrocarbonType;
 							result.terminal = deck.terminal;
-							result.ModuleName = deck.Module;
+							result.moduleName = deck.Module;
 							result.Version_Name = deck.Version_Name;
 							result.Field = deck.Field;
 							result.Reservoir = deck.Reservoir;
@@ -1235,7 +1235,7 @@ void CalculateDeckVariables2::GetDeckVariables(vector<vector<vector<InputDeckStr
 								results[i-1][j][k].URg = result.URg;
 							}
 
-							//std::cout << "Module Name: " << result.ModuleName << std::endl;
+							//std::cout << "Module Name: " << result.moduleName << std::endl;
 							//std::cout << "Start Date: " << result.startDay << "/"  << result.startMonth << "/"  << result.StartYear  << std::endl;
 						}
 						else
@@ -1243,7 +1243,7 @@ void CalculateDeckVariables2::GetDeckVariables(vector<vector<vector<InputDeckStr
 							result.HyrocarbonStream = deck.Hydrocarbon_Stream;
 							result.hydrocarbonType = deck.hydrocarbonType;
 							result.terminal = deck.terminal;
-							result.ModuleName = deck.Module;
+							result.moduleName = deck.Module;
 							result.Version_Name = deck.Version_Name;
 							result.Field = deck.Field;
 							result.Reservoir = deck.Reservoir;
@@ -1288,7 +1288,7 @@ void CalculateDeckVariables2::GetDeckVariables(vector<vector<vector<InputDeckStr
 								results[i-1][j][k].URg = result.URg;
 							}
 
-							//std::cout << "Module Name: " << result.ModuleName << std::endl;
+							//std::cout << "Module Name: " << result.moduleName << std::endl;
 							//std::cout << "Start Date: " << result.startDay << "/"  << result.startMonth << "/"  << result.StartYear  << std::endl;
 						}
 
@@ -1348,7 +1348,7 @@ void CalculateDeckVariables2::GetDeckVariables(vector<vector<vector<InputDeckStr
 						int facilityCounter2 = 0;
 						for (int ik = 0; ik < prioritizationsFacilities[i].size(); ik++)
 						{
-							if (Facility[0].Flow_station == prioritizationsFacilities[i][ik].FacilityName)
+							if (Facility[0].Flow_station == prioritizationsFacilities[i][ik].facilityName)
 							{
 								facilityCounter2 = ik;
 								break;
@@ -1524,7 +1524,7 @@ void CalculateDeckVariables2::GetDeckVariables(vector<InputDeckStruct> &facility
 				} */
 				if (dateCreation.IsMaximumDate(dates[dateIndex], deck.Date_1P_1C) || dateCreation.EqualTo2(dates[dateIndex], deck.Date_1P_1C, isMonthly)) // Start Forecast for the well
 				{
-					forecastResult.ModuleName = deck.Module;
+					forecastResult.moduleName = deck.Module;
 					forecastResult.HyrocarbonStream = deck.Hydrocarbon_Stream;
 					forecastResult.hydrocarbonType = deck.hydrocarbonType;
 					forecastResult.terminal = deck.terminal;
@@ -1582,12 +1582,12 @@ void CalculateDeckVariables2::GetDeckVariables(vector<InputDeckStruct> &facility
 								deck.isGasTerminated == true ||
 								deck.isWaterTerminated == true)
 							{
-								bool chk = CheckWellFacility(WellFacilityDataList, forecastResult.ModuleName, forecastResult.Flow_station);
+								bool chk = CheckWellFacility(WellFacilityDataList, forecastResult.moduleName, forecastResult.Flow_station);
 								if (chk == false)
 								{
 									WellFacilityData wellFacilityData;
 									wellFacilityData.Flow_station = forecastResult.Flow_station;
-									wellFacilityData.ModuleName = forecastResult.ModuleName;
+									wellFacilityData.moduleName = forecastResult.moduleName;
 									wellFacilityData.Rate = forecastResult.Liquid_Rate;
 									wellFacilityData.UR = forecastResult_old.URo;
 									wellFacilityData.CumProd = forecastResult_old.Cum_Liquid_Prod;
@@ -1603,7 +1603,7 @@ void CalculateDeckVariables2::GetDeckVariables(vector<InputDeckStruct> &facility
 											int ij = 0, ik = 0;
 											for (ij = 0; ij < nWells; ij++)
 											{
-												if (results[dateIndex][i][ij].ModuleName == forecastResult.ModuleName)
+												if (results[dateIndex][i][ij].moduleName == forecastResult.moduleName)
 												{
 													if (dateCreation.IsMaximumDate(dates[dateIndex], decks_i[ij].Date_1P_1C) ||
 														dateCreation.EqualTo2(dates[dateIndex], decks_i[ij].Date_1P_1C, isMonthly))
@@ -1662,12 +1662,12 @@ void CalculateDeckVariables2::GetDeckVariables(vector<InputDeckStruct> &facility
 								deck.isGasTerminated == true ||
 								deck.isWaterTerminated == true)
 							{
-								bool chk = CheckWellFacility(WellFacilityDataList, forecastResult.ModuleName, forecastResult.Flow_station);
+								bool chk = CheckWellFacility(WellFacilityDataList, forecastResult.moduleName, forecastResult.Flow_station);
 								if (chk == false)
 								{
 									WellFacilityData wellFacilityData;
 									wellFacilityData.Flow_station = forecastResult.Flow_station;
-									wellFacilityData.ModuleName = forecastResult.ModuleName;
+									wellFacilityData.moduleName = forecastResult.moduleName;
 									wellFacilityData.Rate = forecastResult.Gas_Rate;
 									wellFacilityData.UR = forecastResult_old.URg;
 									wellFacilityData.CumProd = forecastResult_old.Cum_Gas_Prod;
@@ -1683,7 +1683,7 @@ void CalculateDeckVariables2::GetDeckVariables(vector<InputDeckStruct> &facility
 											int ij = 0, ik = 0;
 											for (ij = 0; ij < nWells; ij++)
 											{
-												if (results[dateIndex][i][ij].ModuleName == forecastResult.ModuleName)
+												if (results[dateIndex][i][ij].moduleName == forecastResult.moduleName)
 												{
 													if (dateCreation.IsMaximumDate(dates[dateIndex], decks_i[ij].Date_1P_1C) ||
 														dateCreation.EqualTo2(dates[dateIndex], decks_i[ij].Date_1P_1C, isMonthly))
@@ -1740,7 +1740,7 @@ void CalculateDeckVariables2::GetDeckVariables(vector<InputDeckStruct> &facility
 			case 2:
 				if (dateCreation.IsMaximumDate(dates[dateIndex], deck.Date_2P_2C) || dateCreation.EqualTo2(dates[dateIndex], deck.Date_2P_2C, isMonthly)) // Start Forecast for the well
 				{
-					forecastResult.ModuleName = deck.Module;
+					forecastResult.moduleName = deck.Module;
 					forecastResult.HyrocarbonStream = deck.Hydrocarbon_Stream;
 					forecastResult.hydrocarbonType = deck.hydrocarbonType;
 					forecastResult.terminal = deck.terminal;
@@ -1795,12 +1795,12 @@ void CalculateDeckVariables2::GetDeckVariables(vector<InputDeckStruct> &facility
 								deck.isGasTerminated == true ||
 								deck.isWaterTerminated == true)
 							{
-								bool chk = CheckWellFacility(WellFacilityDataList, forecastResult.ModuleName, forecastResult.Flow_station);
+								bool chk = CheckWellFacility(WellFacilityDataList, forecastResult.moduleName, forecastResult.Flow_station);
 								if (chk == false)
 								{
 									WellFacilityData wellFacilityData;
 									wellFacilityData.Flow_station = forecastResult.Flow_station;
-									wellFacilityData.ModuleName = forecastResult.ModuleName;
+									wellFacilityData.moduleName = forecastResult.moduleName;
 									wellFacilityData.Rate = forecastResult.Liquid_Rate;
 									wellFacilityData.UR = forecastResult_old.URo;
 									wellFacilityData.CumProd = forecastResult_old.Cum_Liquid_Prod;
@@ -1816,7 +1816,7 @@ void CalculateDeckVariables2::GetDeckVariables(vector<InputDeckStruct> &facility
 											int ij = 0, ik = 0;
 											for (ij = 0; ij < nWells; ij++)
 											{
-												if (results[dateIndex][i][ij].ModuleName == forecastResult.ModuleName)
+												if (results[dateIndex][i][ij].moduleName == forecastResult.moduleName)
 												{
 													if (dateCreation.IsMaximumDate(dates[dateIndex], decks_i[ij].Date_2P_2C) ||
 														dateCreation.EqualTo2(dates[dateIndex], decks_i[ij].Date_2P_2C, isMonthly))
@@ -1872,12 +1872,12 @@ void CalculateDeckVariables2::GetDeckVariables(vector<InputDeckStruct> &facility
 								deck.isGasTerminated == true ||
 								deck.isWaterTerminated == true)
 							{
-								bool chk = CheckWellFacility(WellFacilityDataList, forecastResult.ModuleName, forecastResult.Flow_station);
+								bool chk = CheckWellFacility(WellFacilityDataList, forecastResult.moduleName, forecastResult.Flow_station);
 								if (chk == false)
 								{
 									WellFacilityData wellFacilityData;
 									wellFacilityData.Flow_station = forecastResult.Flow_station;
-									wellFacilityData.ModuleName = forecastResult.ModuleName;
+									wellFacilityData.moduleName = forecastResult.moduleName;
 									wellFacilityData.Rate = forecastResult.Gas_Rate;
 									wellFacilityData.UR = forecastResult_old.URg;
 									wellFacilityData.CumProd = forecastResult_old.Cum_Gas_Prod;
@@ -1893,7 +1893,7 @@ void CalculateDeckVariables2::GetDeckVariables(vector<InputDeckStruct> &facility
 											int ij = 0, ik = 0;
 											for (ij = 0; ij < nWells; ij++)
 											{
-												if (results[dateIndex][i][ij].ModuleName == forecastResult.ModuleName)
+												if (results[dateIndex][i][ij].moduleName == forecastResult.moduleName)
 												{
 													if (dateCreation.IsMaximumDate(dates[dateIndex], decks_i[ij].Date_2P_2C) ||
 														dateCreation.EqualTo2(dates[dateIndex], decks_i[ij].Date_2P_2C, isMonthly))
@@ -1949,7 +1949,7 @@ void CalculateDeckVariables2::GetDeckVariables(vector<InputDeckStruct> &facility
 			case 3:
 				if (dateCreation.IsMaximumDate(dates[dateIndex], deck.Date_3P_3C) || dateCreation.EqualTo2(dates[dateIndex], deck.Date_3P_3C, isMonthly)) // Start Forecast for the well
 				{
-					forecastResult.ModuleName = deck.Module;
+					forecastResult.moduleName = deck.Module;
 					forecastResult.HyrocarbonStream = deck.Hydrocarbon_Stream;
 					forecastResult.hydrocarbonType = deck.hydrocarbonType;
 					forecastResult.terminal = deck.terminal;
@@ -1999,12 +1999,12 @@ void CalculateDeckVariables2::GetDeckVariables(vector<InputDeckStruct> &facility
 								deck.isGasTerminated == true ||
 								deck.isWaterTerminated == true)
 							{
-								bool chk = CheckWellFacility(WellFacilityDataList, forecastResult.ModuleName, forecastResult.Flow_station);
+								bool chk = CheckWellFacility(WellFacilityDataList, forecastResult.moduleName, forecastResult.Flow_station);
 								if (chk == false)
 								{
 									WellFacilityData wellFacilityData;
 									wellFacilityData.Flow_station = forecastResult.Flow_station;
-									wellFacilityData.ModuleName = forecastResult.ModuleName;
+									wellFacilityData.moduleName = forecastResult.moduleName;
 									wellFacilityData.Rate = forecastResult.Liquid_Rate;
 									wellFacilityData.UR = forecastResult_old.URo;
 									wellFacilityData.CumProd = forecastResult_old.Cum_Liquid_Prod;
@@ -2020,7 +2020,7 @@ void CalculateDeckVariables2::GetDeckVariables(vector<InputDeckStruct> &facility
 											int ij = 0, ik = 0;
 											for (ij = 0; ij < nWells; ij++)
 											{
-												if (results[dateIndex][i][ij].ModuleName == forecastResult.ModuleName)
+												if (results[dateIndex][i][ij].moduleName == forecastResult.moduleName)
 												{
 													if (dateCreation.IsMaximumDate(dates[dateIndex], decks_i[ij].Date_3P_3C) ||
 														dateCreation.EqualTo2(dates[dateIndex], decks_i[ij].Date_3P_3C, isMonthly))
@@ -2076,12 +2076,12 @@ void CalculateDeckVariables2::GetDeckVariables(vector<InputDeckStruct> &facility
 								deck.isGasTerminated == true ||
 								deck.isWaterTerminated == true)
 							{
-								bool chk = CheckWellFacility(WellFacilityDataList, forecastResult.ModuleName, forecastResult.Flow_station);
+								bool chk = CheckWellFacility(WellFacilityDataList, forecastResult.moduleName, forecastResult.Flow_station);
 								if (chk == false)
 								{
 									WellFacilityData wellFacilityData;
 									wellFacilityData.Flow_station = forecastResult.Flow_station;
-									wellFacilityData.ModuleName = forecastResult.ModuleName;
+									wellFacilityData.moduleName = forecastResult.moduleName;
 									wellFacilityData.Rate = forecastResult.Gas_Rate;
 									wellFacilityData.UR = forecastResult_old.URg;
 									wellFacilityData.CumProd = forecastResult_old.Cum_Gas_Prod;
@@ -2097,7 +2097,7 @@ void CalculateDeckVariables2::GetDeckVariables(vector<InputDeckStruct> &facility
 											int ij = 0, ik = 0;
 											for (ij = 0; ij < nWells; ij++)
 											{
-												if (results[dateIndex][i][ij].ModuleName == forecastResult.ModuleName)
+												if (results[dateIndex][i][ij].moduleName == forecastResult.moduleName)
 												{
 													if (dateCreation.IsMaximumDate(dates[dateIndex], decks_i[ij].Date_3P_3C) ||
 														dateCreation.EqualTo2(dates[dateIndex], decks_i[ij].Date_3P_3C, isMonthly))
@@ -2162,7 +2162,7 @@ void CalculateDeckVariables2::GetDeckVariables(vector<InputDeckStruct> &facility
 
 		int nth = OptimizedWells.size();
 
-		/* if(prioritizationFacility.FacilityName == "REO_GP2"){
+		/* if(prioritizationFacility.facilityName == "REO_GP2"){
 			double cg = 0;
 		} */
 
@@ -2315,7 +2315,7 @@ void CalculateDeckVariables2::GetDeckVariables(vector<InputDeckStruct> &facility
 			}
 		}
 
-		if(prioritizationFacility.FacilityName == "REO_GP2"){
+		if(prioritizationFacility.facilityName == "REO_GP2"){
 			double cg = 0;
 		}
 	}
@@ -3884,7 +3884,7 @@ void CalculateDeckVariables2::SetCutRatesBackValues(int &facilityCounter, int &t
 
 	if (results[timeStepCounter][facilityCounter][i].IsFlowing == true)
 	{
-		if (deck.Module == results[timeStepCounter][facilityCounter][i].ModuleName)
+		if (deck.Module == results[timeStepCounter][facilityCounter][i].moduleName)
 		{
 			results[timeStepCounter][facilityCounter][i].CutBack = onStreamWellCutBack;
 
@@ -4004,7 +4004,7 @@ void CalculateDeckVariables2::SetCutRatesBackValues(int &facilityCounter, int &t
 	
 	if (results[timeStepCounter][facilityCounter][i].IsFlowing == true)
 	{
-		if (deck.Module == results[timeStepCounter][facilityCounter][i].ModuleName)
+		if (deck.Module == results[timeStepCounter][facilityCounter][i].moduleName)
 		{
 			results[timeStepCounter][facilityCounter][i].Oil_rate =
 				results[timeStepCounter][facilityCounter][i].Oil_rate * liquidCutBack;
@@ -4811,7 +4811,7 @@ void CalculateDeckVariables2::GetVariables(int &scenario, InputDeckStruct &deck,
 		if (isAfterOptimization == false)
 		{
 
-			WellActivityResult wellActivityResult = externalForecast.GetWellActivityResult(WellActivities, forecastResult_old.ModuleName);
+			WellActivityResult wellActivityResult = externalForecast.GetWellActivityResult(WellActivities, forecastResult_old.moduleName);
 			int cumProductionIndex = externalForecast.GetCumProductionIndex(externalCurrentCumProd,
 																			wellActivityResult, deck.Hydrocarbon_Stream);
 			ForecastResult fResult = externalForecast.GetForecastResult(cumProductionIndex,
@@ -4834,7 +4834,7 @@ void CalculateDeckVariables2::GetVariables(int &scenario, InputDeckStruct &deck,
 			if (deck.Hydrocarbon_Stream == oil)
 			{
 				GetActiveCumProd(scenario, deck, forecastResult, forecastResult_old);
-				WellActivityResult wellActivityResult = externalForecast.GetWellActivityResult(WellActivities, forecastResult_old.ModuleName);
+				WellActivityResult wellActivityResult = externalForecast.GetWellActivityResult(WellActivities, forecastResult_old.moduleName);
 				int cumProductionIndex = externalForecast.GetCumProductionIndex(forecastResult.Cum_Oil_Prod,
 																				wellActivityResult, deck.Hydrocarbon_Stream);
 				ForecastResult fResult = externalForecast.GetForecastResult(cumProductionIndex,
@@ -4845,7 +4845,7 @@ void CalculateDeckVariables2::GetVariables(int &scenario, InputDeckStruct &deck,
 			else
 			{
 				GetActiveCumProd(scenario, deck, forecastResult, forecastResult_old);
-				WellActivityResult wellActivityResult = externalForecast.GetWellActivityResult(WellActivities, forecastResult_old.ModuleName);
+				WellActivityResult wellActivityResult = externalForecast.GetWellActivityResult(WellActivities, forecastResult_old.moduleName);
 				int cumProductionIndex = externalForecast.GetCumProductionIndex(forecastResult.Cum_Gas_Prod,
 																				wellActivityResult, deck.Hydrocarbon_Stream);
 				ForecastResult fResult = externalForecast.GetForecastResult(cumProductionIndex,

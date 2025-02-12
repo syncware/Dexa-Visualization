@@ -19,14 +19,14 @@ export function ValidateForecastProfiles(
     }
   }
 
-  let _forecastProfilesModuleNames = forecastProfiles
+  let _forecastProfilesmoduleNames = forecastProfiles
     .map((x) => x.moduleName)
     .filter(onlyUnique);
 
   const uniqueForecastProfiles = [] as ForecastProfileEntity[];
-  for (const _forecastProfilesModuleName of _forecastProfilesModuleNames) {
+  for (const _forecastProfilesmoduleName of _forecastProfilesmoduleNames) {
     for (const forecastProfile of forecastProfiles) {
-      if (_forecastProfilesModuleName == forecastProfile.moduleName) {
+      if (_forecastProfilesmoduleName == forecastProfile.moduleName) {
         uniqueForecastProfiles.push(forecastProfile);
         break;
       }
@@ -34,9 +34,9 @@ export function ValidateForecastProfiles(
   }
 
   let count = 0;
-  for (const _forecastProfilesModuleName of _forecastProfilesModuleNames) {
+  for (const _forecastProfilesmoduleName of _forecastProfilesmoduleNames) {
     for (const _forecastDeckName of _forecastDeckNames) {
-      if (_forecastProfilesModuleName == _forecastDeckName) {
+      if (_forecastProfilesmoduleName == _forecastDeckName) {
         count++;
         break;
       }
@@ -56,11 +56,11 @@ export function ValidateForecastProfiles(
     }
   }
 
-  const checkModuleNames = count === _forecastProfilesModuleNames.length;
+  const checkmoduleNames = count === _forecastProfilesmoduleNames.length;
   const checkHydrocarbonStreams = count2 === uniqueForecastProfiles.length;
 
   return {
-    checkModuleNames,
+    checkmoduleNames,
     checkHydrocarbonStreams,
     forecastProfiles,
   } as any;

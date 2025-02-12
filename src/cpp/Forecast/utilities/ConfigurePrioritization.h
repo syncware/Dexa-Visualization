@@ -64,7 +64,7 @@ vector<Prioritization> ConfigurePrioritization::SetUpDefaultPrioritization(vecto
 
     prioritization.ToDate = stopDate;
 
-    prioritization.FacilityName = FacilityTable[i].Primary_Facility;
+    prioritization.facilityName = FacilityTable[i].Primary_Facility;
     prioritization.typeOfPrioritization = wellPrioritization;
     prioritization.methodOfPrioritization = sequential;
     if (FacilityTable[i].equipmentType == gas_plant)
@@ -345,7 +345,7 @@ vector<Prioritization> ConfigurePrioritization::SetUpPrioritization(vector<Facil
       {
         string actualTypeOfPrioritization = nodalPrioritizations[j].typeOfPrioritization;
 
-        if (prioritizations[i].FacilityName == nodalPrioritizations[j].FacilityName)
+        if (prioritizations[i].facilityName == nodalPrioritizations[j].facilityName)
         {
           if (nodalPrioritizations[j].typeOfPrioritization == wellPrioritization)
           {
