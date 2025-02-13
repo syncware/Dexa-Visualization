@@ -546,7 +546,7 @@ int DateCreation::DateDiff_TotalDays(Date& d1, Date& d2)
     date1.tm_mon = d2.month - 1;    // Month (0 - 11)
     date1.tm_mday = d2.day;  // Day of the month (1 - 31)
 
-    std::tm date2 = {0}; // Initialize with all fields set to 0
+    std::tm date2 = {}; // Initialize with all fields set to 0
     date2.tm_year = d1.year - 1900; // Year since 1900 (2024 - 1900)
     date2.tm_mon = d1.month - 1;    // Month (0 - 11)
     date2.tm_mday = d1.day;  // Day of the month (1 - 31)

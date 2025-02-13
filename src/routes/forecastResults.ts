@@ -219,7 +219,7 @@ forecastResultsRouter.get(
   async (req: Request, res: Response) => {
     //================To be taken care of by Sir Giddy on the frontend==========================//
 
-    const forecastsolutionSpaces = [
+    const forecastSolutionSpaces = [
       'potential',
       'deliverability',
       'availability',
@@ -631,8 +631,8 @@ forecastResultsRouter.get(
         nGasOwnUse: gasOwnUse.length,
         flaredGases,
         nFlaredGases: flaredGases.length,
-        forecastsolutionSpaces,
-        nForecastsolutionSpaces: forecastsolutionSpaces.length,
+        forecastSolutionSpaces,
+        nForecastsolutionSpaces: forecastSolutionSpaces.length,
         forecastsolutionSpacesIsDURConstrained,
         nForecastsolutionSpacesIsDURConstrained:
           forecastsolutionSpacesIsDURConstrained.length,
@@ -858,7 +858,7 @@ forecastResultsRouter.post(
     const selectedModulePaths = req.body.selectedModulePaths;
     const selectedVariables = req.body.selectedVariables;
     const shouldAggregate = req.body.shouldAggregate;
-    const forecastsolutionSpaces = req.body.forecastsolutionSpaces;
+    const forecastSolutionSpaces = req.body.forecastSolutionSpaces;
     const isMonthly = false;
     const forecastResultsId = forecastResultsIds[0];
 
@@ -899,7 +899,7 @@ forecastResultsRouter.post(
             selectedModulePaths,
             selectedVariables,
             isMonthly,
-            forecastsolutionSpaces,
+            forecastSolutionSpaces,
             forecastResultsIds,
             shouldAggregate,
           },

@@ -127,7 +127,7 @@ export async function importForecastResults() {
   );
   const parentDirectoryPath = path.resolve(__dirname, pathname);
 
-  const forecastsolutionSpaces = [
+  const forecastSolutionSpaces = [
     'potential',
     'deliverability',
     'availability',
@@ -141,8 +141,8 @@ export async function importForecastResults() {
     ii = 0;
   let inputObjectAll = {} as any;
   let inputObjectFSS = {} as any;
-  for (i = 0; i < forecastsolutionSpaces.length; i++) {
-    let forecastCase = forecastsolutionSpaces[i];
+  for (i = 0; i < forecastSolutionSpaces.length; i++) {
+    let forecastCase = forecastSolutionSpaces[i];
     j = 0;
     let inputObject = {} as any;
     for (j = 0; j < scenariosKeys.length; j++) {
@@ -172,7 +172,7 @@ export async function importForecastResults() {
       let scenarioName = scenariosKeys[j];
       inputObject[scenarioName] = FacilitiesObject;
     }
-    inputObjectFSS[forecastsolutionSpaces[i]] = inputObject;
+    inputObjectFSS[forecastSolutionSpaces[i]] = inputObject;
   }
 
   inputObjectAll['monthlyReport'] = inputObjectFSS;

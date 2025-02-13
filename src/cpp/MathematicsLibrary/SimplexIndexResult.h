@@ -5,8 +5,8 @@
 #include <stdio.h>
 #include <string>
 #include <vector>
-#include <iomanip>
 #include <tuple>
+#include <iomanip>
 #include "Enums.h"
 
 using namespace std;

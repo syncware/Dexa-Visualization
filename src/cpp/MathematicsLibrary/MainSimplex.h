@@ -362,7 +362,7 @@ int MainSimplex::getVariableNameRowIndex(string &variableName)
         return -1;
     }
 
-    delete tab2;
+    delete[] tab2;
 
     return 0;
 }

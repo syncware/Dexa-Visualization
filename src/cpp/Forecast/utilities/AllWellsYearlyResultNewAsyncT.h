@@ -1053,7 +1053,7 @@ json AllWellsYearlyResultNewAsyncT::PlotChart(const json &forecastResultsJsonDat
     vector<string> selectedModulePaths = chartInputPayload.selectedModulePaths;
     vector<string> selectedVariables = chartInputPayload.selectedVariables;
     bool isMonthly = chartInputPayload.isMonthly;
-    vector<string> forecastSolutionSpaceNames = chartInputPayload.forecastsolutionSpaces;
+    vector<string> forecastSolutionSpaceNames = chartInputPayload.forecastSolutionSpaces;
     string forecastResultsId = chartInputPayload.forecastResultsIds[0];
     bool shouldAggregate = chartInputPayload.shouldAggregate;
 

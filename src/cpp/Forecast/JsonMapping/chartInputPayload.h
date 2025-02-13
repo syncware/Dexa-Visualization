@@ -10,16 +10,8 @@
 #include <functional>
 #include <exception>
 #include <tuple>
-#include "../ProductionForecast/Decline_Curve_Analysis.h"
-#include "../../MathematicsLibrary/Integration.h"
-#include "../ProductionForecast/FractionalFlow.h"
-#include "../ProductionForecast/DateCreation.h"
-#include "../../MathematicsLibrary/MainSimplex.h"
-#include "../../MathematicsLibrary/Arithmetic.h"
-#include "../../MathematicsLibrary/Interpolation.h"
-#include "../ProductionForecast/dataPivoting.h"
-#include "../ProductionForecast/Forecast.h"
 #include "../../nlohmann/json.hpp"
+#include "../ProductionForecast/Forecast.h"
 
 using namespace std;
 using json = nlohmann::json;
@@ -58,12 +50,12 @@ ChartInputPayload chartInputPayload_to_json(const json &j)
     payload.shouldAggregate = j.at("shouldAggregate").get<bool>();
 
     i = -1;
-    for (const auto &item : j.at("forecastsolutionSpaces"))
+    for (const auto &item : j.at("forecastSolutionSpaces"))
     {
         i++;
         string newItem;
         from_json(item, newItem);
-        payload.forecastsolutionSpaces.push_back(newItem);
+        payload.forecastSolutionSpaces.push_back(newItem);
     }
     payload.isMonthly = j.at("isMonthly").get<bool>();
 

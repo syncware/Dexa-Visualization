@@ -114,7 +114,7 @@ json RunForecastAsyncWorkerModifiedTest::RunForecast(const json &jsonData)
 
     string isForecastProfiles = payload.isForecastProfiles;
 
-    vector<string> forecastsolutionSpaces = payload.forecastsolutionSpaces;
+    vector<string> forecastSolutionSpaces = payload.forecastSolutionSpaces;
     int nForecastsolutionSpaces = payload.nForecastsolutionSpaces;
 
     vector<bool> forecastsolutionSpacesIsDURConstrained = payload.forecastsolutionSpacesIsDURConstrained;
@@ -197,7 +197,7 @@ json RunForecastAsyncWorkerModifiedTest::RunForecast(const json &jsonData)
         }
 
         int fSSIndex = 0;
-        int nForecastsolutionSpaces = forecastsolutionSpaces.size();
+        int nForecastsolutionSpaces = forecastSolutionSpaces.size();
         int scenarios = 3;
         vector<WellSchedule> wellSchedules = reportJSON2.GetWellSchedulesSheetData(deckobj.wellRerouteDecks,
                                                                                    deckobj.wellRampUpDecks, deckobj.wellShutInOpenUpDecks, StopDate);
@@ -242,7 +242,7 @@ json RunForecastAsyncWorkerModifiedTest::RunForecast(const json &jsonData)
                 calculateDeckVariables.FacilityTables_Actual = deckobj.FacilityTables_Actual;
                 calculateDeckVariables.isDeferred = false;
 
-                deckobj.runParameter.forecastCase = forecastsolutionSpaces[fSSIndex];
+                deckobj.runParameter.forecastCase = forecastSolutionSpaces[fSSIndex];
 
                 if (deckobj.runParameter.forecastCase == potential)
                 {
@@ -283,7 +283,7 @@ json RunForecastAsyncWorkerModifiedTest::RunForecast(const json &jsonData)
                 string scenarioName = to_string(scenario) + "P_" + to_string(scenario) + "C";
                 scenariosResult[scenarioName] = FacilitiesObject;
             }
-            forecastsolutionSpacesResults[forecastsolutionSpaces[fSSIndex]] = scenariosResult;
+            forecastsolutionSpacesResults[forecastSolutionSpaces[fSSIndex]] = scenariosResult;
         }
     }
 

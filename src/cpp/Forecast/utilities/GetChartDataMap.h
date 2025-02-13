@@ -1,5 +1,6 @@
 #pragma once
 
+#include <any>
 #include <thread>
 #include <iostream>
 #include <fstream>
@@ -17,23 +18,7 @@
 #include <numeric>
 #include <iterator>
 #include <ctime>
-#include "../../MathematicsLibrary/MainSimplex.h"
-#include "../../MathematicsLibrary/Integration.h"
-#include "../ProductionForecast/Inputdeck.h"
-#include "../ProductionForecast/Forecast.h"
-#include "../ProductionForecast/DateCreation.h"
-#include "../ProductionForecast/CalculateDeckVariables.h"
-#include "../ProductionForecast/dataPivoting.h"
-#include "../../MathematicsLibrary/Interception.h"
-#include "../ProductionForecast/ExternalForecast.h"
-#include "ConfigurePrioritization.h"
-#include "ToJSON2.h"
-#include "../JsonMapping/napiToJson.h"
-#include "../JsonMapping/person.h"
-#include "../JsonMapping/responseChartData.h"
-#include "../JsonMapping/forecastResultsByModule.h"
 #include "../JsonMapping/chartInputPayload.h"
-#include "../../nlohmann/json.hpp"
 
 using namespace std;
 using namespace std::placeholders;
@@ -42,10 +27,6 @@ using json = nlohmann::json;
 class AllWellsYearlyResultNewAsyncT
 {
 private:
-    Inputdeck deckobj;
-    ExternalForecast externalForecast;
-    ConfigurePrioritization configurePrioritization;
-    ReportJSON2 reportJSON2;
     string delimeter = "@#$%";
     string columnDelimeter = "@#$%";
     string rowDelimeter = "@#*$%";
@@ -102,7 +83,7 @@ public:
         const string &solutionSpace,
         const vector<string> &facilityNames);
 
-    map<string, map<string, map<string, map<string, map<string, std::vector<any>>>>>>
+    map<string, map<string, map<string, map<string, map<string, std::vector<std::any>>>>>>
     chartDataByModulesOrAggregateNew(
         const vector<string> &selectedModulePaths,
         const vector<string> &selectedVariables,

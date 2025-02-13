@@ -131,7 +131,7 @@ private:
 
         string isForecastProfiles = payload.isForecastProfiles;
 
-        vector<string> forecastsolutionSpaces = payload.forecastsolutionSpaces;
+        vector<string> forecastSolutionSpaces = payload.forecastSolutionSpaces;
         int nForecastsolutionSpaces = payload.nForecastsolutionSpaces;
 
         vector<bool> forecastsolutionSpacesIsDURConstrained = payload.forecastsolutionSpacesIsDURConstrained;
@@ -201,7 +201,7 @@ private:
             }
 
             int fSSIndex = 0;
-            int nForecastsolutionSpaces = forecastsolutionSpaces.size();
+            int nForecastsolutionSpaces = forecastSolutionSpaces.size();
             int scenarios = 4;
             Napi::Object inputObjectAll = Napi::Object::New(env);
             Napi::Object inputObjectFSS = Napi::Object::New(env);
@@ -253,7 +253,7 @@ private:
                     calculateDeckVariables.FacilityTables_Actual = deckobj.FacilityTables_Actual;
                     calculateDeckVariables.isDeferred = false;
 
-                    deckobj.runParameter.forecastCase = forecastsolutionSpaces[fSSIndex];
+                    deckobj.runParameter.forecastCase = forecastSolutionSpaces[fSSIndex];
 
                     if (deckobj.runParameter.forecastCase == potential)
                     {
@@ -297,10 +297,10 @@ private:
                     string scenarioName = to_string(scenario) + "P_" + to_string(scenario) + "C";
                     inputObject.Set(Napi::String::New(env, scenarioName), reportJSON.FacilitiesObject);
 
-                    std::cout << "Scenario created for " << scenarioName << forecastsolutionSpaces[fSSIndex] << '\n';
+                    std::cout << "Scenario created for " << scenarioName << forecastSolutionSpaces[fSSIndex] << '\n';
                     //
                 }
-                inputObjectFSS.Set(Napi::String::New(env, forecastsolutionSpaces[fSSIndex]), inputObject);
+                inputObjectFSS.Set(Napi::String::New(env, forecastSolutionSpaces[fSSIndex]), inputObject);
             }
             inputObjectAll.Set(Napi::String::New(env, "monthlyReport"), inputObjectFSS);
             std::cout << "monthlyReport created\n";

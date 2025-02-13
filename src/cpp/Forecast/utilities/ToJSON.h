@@ -293,11 +293,11 @@ ChartInputPayload ReportJSON::ConvertToChartInputPayload(const Napi::Object &obj
 	// Convert shouldAggregate
 	payload.shouldAggregate = obj.Get("shouldAggregate").As<Napi::Boolean>();
 
-	// Convert forecastsolutionSpaces
-	Napi::Array forecastsolutionSpacesArray = obj.Get("forecastsolutionSpaces").As<Napi::Array>();
+	// Convert forecastSolutionSpaces
+	Napi::Array forecastsolutionSpacesArray = obj.Get("forecastSolutionSpaces").As<Napi::Array>();
 	for (size_t i = 0; i < forecastsolutionSpacesArray.Length(); i++)
 	{
-		payload.forecastsolutionSpaces.push_back(forecastsolutionSpacesArray.Get(i).As<Napi::String>());
+		payload.forecastSolutionSpaces.push_back(forecastsolutionSpacesArray.Get(i).As<Napi::String>());
 	}
 
 	return payload;
@@ -344,7 +344,7 @@ Napi::Object ReportJSON::PlotChartAsync(Napi::Env env,
 	vector<string> selectedModulePaths = chartInputPayload.selectedModulePaths;
 	vector<string> selectedVariables = chartInputPayload.selectedVariables;
 	bool isMonthly = false;
-	vector<string> forecastSolutionSpaceNames = chartInputPayload.forecastsolutionSpaces;
+	vector<string> forecastSolutionSpaceNames = chartInputPayload.forecastSolutionSpaces;
 	string forecastResultsId = chartInputPayload.forecastResultsIds[0];
 	bool shouldAggregate = chartInputPayload.shouldAggregate;
 
@@ -731,16 +731,16 @@ vector<string> ReportJSON::GetForecastsolutionSpaces(Napi::Array &wrappedForecas
 													 int nForecastsolutionSpaces, Napi::Env &env)
 {
 
-	vector<string> forecastsolutionSpaces;
+	vector<string> forecastSolutionSpaces;
 
 	for (int i = 0; i < nForecastsolutionSpaces; i++)
 	{
 		string forecastsolutionSpace = ((Napi::Value)wrappedForecastsolutionSpaces[i]).As<Napi::String>();
 		inputdeck.ToLower(forecastsolutionSpace);
-		forecastsolutionSpaces.push_back(forecastsolutionSpace);
+		forecastSolutionSpaces.push_back(forecastsolutionSpace);
 	}
 
-	return forecastsolutionSpaces;
+	return forecastSolutionSpaces;
 }
 
 vector<bool> ReportJSON::GetForecastsolutionSpacesIsDURConstrained(Napi::Array &wrappedForecastsolutionSpacesIsDURConstrained,

@@ -52,7 +52,7 @@ typedef enum ForecastProfileEnum
     Default,
     MBAL,
     ECLIPSE
-};
+} ForecastProfileEnum;
 
 typedef struct _InterpParams
 {
@@ -965,7 +965,7 @@ typedef struct _Payload
     int nGasOwnUse;
     vector<FacilityStructExternal> flaredGases;
     int nFlaredGases;
-    vector<string> forecastsolutionSpaces;
+    vector<string> forecastSolutionSpaces;
     int nForecastsolutionSpaces;
     vector<bool> forecastsolutionSpacesIsDURConstrained;
     int nForecastsolutionSpacesIsDURConstrained;
@@ -1077,7 +1077,7 @@ typedef struct _ChartInputPayload
     vector<string> selectedModulePaths;
     vector<string> selectedVariables;
     bool shouldAggregate;
-    vector<string> forecastsolutionSpaces;
+    vector<string> forecastSolutionSpaces;
     bool isMonthly;
 } ChartInputPayload;
 
