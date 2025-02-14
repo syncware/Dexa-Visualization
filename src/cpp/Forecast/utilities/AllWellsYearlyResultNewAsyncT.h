@@ -674,22 +674,22 @@ AllWellsYearlyResultNewAsyncT::chartDataByModulesOrAggregate_Obsolete(
     // unordered_map<string, unordered_map<string, ModuleResultMonthly>>
 
     // Processing forecast results per scenario and solution space
-    for (const auto &forecastsolutionSpaceName : forecastSolutionSpaceNames)
+    for (const auto &forecastSolutionSpaceName : forecastSolutionSpaceNames)
     {
         for (const auto &_scenarioName : scenarioNames)
         {
-            string case_scenario_Name = (forecastsolutionSpaceName + _scenarioName);
+            string case_scenario_Name = (forecastSolutionSpaceName + _scenarioName);
             transform(case_scenario_Name.begin(), case_scenario_Name.end(), case_scenario_Name.begin(), ::toupper);
 
             auto iforecastResult = GetForecastResultsByScenario(
-                forecastResultsByModule, _scenarioName, forecastsolutionSpaceName, facilityNames);
+                forecastResultsByModule, _scenarioName, forecastSolutionSpaceName, facilityNames);
 
             solutionCase_ForecastResult[case_scenario_Name] = convertToOrdered(iforecastResult);
         }
     }
 
     map<string, std::vector<ModuleResultMonthly>> lstWellsObject;
-    for (const auto &forecastsolutionSpaceName : forecastSolutionSpaceNames)
+    for (const auto &forecastSolutionSpaceName : forecastSolutionSpaceNames)
     {
         vector<ModuleResultMonthly> lstWells;
 
@@ -699,7 +699,7 @@ AllWellsYearlyResultNewAsyncT::chartDataByModulesOrAggregate_Obsolete(
             string scenario = parts[0];
             string station = parts[1];
             string moduleName = parts[2];
-            string case_senario_name = forecastsolutionSpaceName + scenario;
+            string case_senario_name = forecastSolutionSpaceName + scenario;
 
             transform(case_senario_name.begin(), case_senario_name.end(), case_senario_name.begin(), ::toupper);
 
@@ -714,7 +714,7 @@ AllWellsYearlyResultNewAsyncT::chartDataByModulesOrAggregate_Obsolete(
         }
         if (!lstWells.empty())
         {
-            lstWellsObject[forecastsolutionSpaceName] = lstWells;
+            lstWellsObject[forecastSolutionSpaceName] = lstWells;
         }
     }
 
@@ -841,18 +841,18 @@ AllWellsYearlyResultNewAsyncT::chartDataByModulesOrAggregate(
     map<string, std::vector<ModuleResultMonthly>> lstWellsObject;
 
     // Processing forecast results per scenario and solution space
-    for (const auto &forecastsolutionSpaceName : forecastSolutionSpaceNames)
+    for (const auto &forecastSolutionSpaceName : forecastSolutionSpaceNames)
     {
         for (const auto &_scenarioName : scenarioNames)
         {
-            string case_scenario_Name = (forecastsolutionSpaceName + _scenarioName);
+            string case_scenario_Name = (forecastSolutionSpaceName + _scenarioName);
             transform(case_scenario_Name.begin(), case_scenario_Name.end(), case_scenario_Name.begin(), ::toupper);
 
             lstWellsObject[case_scenario_Name] = GetModulesForecastResultsByScenario(
-                forecastResultsByModule, _scenarioName, forecastsolutionSpaceName, facilityNames);
+                forecastResultsByModule, _scenarioName, forecastSolutionSpaceName, facilityNames);
 
             // auto iforecastResult = GetModulesForecastResultsByScenario(
-            //     forecastResultsByModule, _scenarioName, forecastsolutionSpaceName, facilityNames);
+            //     forecastResultsByModule, _scenarioName, forecastSolutionSpaceName, facilityNames);
 
             //     lstWellsObject[case_scenario_Name] = iforecastResult;
 

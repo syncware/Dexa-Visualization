@@ -967,7 +967,7 @@ typedef struct _Payload
     int nFlaredGases;
     vector<string> forecastSolutionSpaces;
     int nForecastsolutionSpaces;
-    vector<bool> forecastsolutionSpacesIsDURConstrained;
+    vector<bool> forecastSolutionSpacesIsDURConstrained;
     int nForecastsolutionSpacesIsDURConstrained;
     vector<ForecastResult> forecastProfiles;
     int nForecastProfiles;
@@ -1065,6 +1065,21 @@ typedef struct _ForecastResultsByModule
     string forecastResults;
     string forecastInputId;
 } ForecastResultsByModule;
+
+// Overload the << operator for ForecastResultsByModule
+ostream& operator<<(ostream& os, const ForecastResultsByModule& results) {
+    os << "ForecastResultsByModule {"
+       << "\n  forecastResultsId: " << results.forecastResultsId
+       << "\n  moduleName: " << results.moduleName
+       << "\n  facilityName: " << results.facilityName
+       << "\n  scenarioName: " << results.scenarioName
+       << "\n  moduleKey: " << results.moduleKey
+       << "\n  solutionSpace: " << results.solutionSpace
+       << "\n  forecastResults: " << results.forecastResults
+       << "\n  forecastInputId: " << results.forecastInputId
+       << "\n}";
+    return os;
+}
 
 typedef struct _ForecastResultsPayload
 {

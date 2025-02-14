@@ -66,18 +66,18 @@ export async function chartDataByModulesOrAggregate(
   const solutionCase_ForecastResult = {} as any;
 
   for (let index2 = 0; index2 < forecastSolutionSpaceNames.length; index2++) {
-    const forecastsolutionSpaceName = forecastSolutionSpaceNames[index2];
+    const forecastSolutionSpaceName = forecastSolutionSpaceNames[index2];
     for (let index = 0; index < scenarioNames.length; index++) {
       const _scenarioName = scenarioNames[index];
 
       const case_scenario_Name = (
-        forecastsolutionSpaceName + _scenarioName
+        forecastSolutionSpaceName + _scenarioName
       ).toUpperCase();
 
       const iforecastResult = GetForecastResultsByScenario(
         forecastResultsByModule,
         _scenarioName,
-        forecastsolutionSpaceName,
+        forecastSolutionSpaceName,
         facilityNames
       );
       solutionCase_ForecastResult[case_scenario_Name] = iforecastResult;
@@ -85,14 +85,14 @@ export async function chartDataByModulesOrAggregate(
   }
 
   const lstWellsObject = {} as any;
-  for (const forecastsolutionSpaceName of forecastSolutionSpaceNames) {
+  for (const forecastSolutionSpaceName of forecastSolutionSpaceNames) {
     const lstWells = [];
     for (const path of selectedModulePaths) {
       const parts = path.split(delimeter);
       const scenario = parts[0] as string;
       const station = parts[1];
       const moduleName = parts[2];
-      const case_senario_name = forecastsolutionSpaceName + scenario;
+      const case_senario_name = forecastSolutionSpaceName + scenario;
       const scenarioResult =
         solutionCase_ForecastResult[case_senario_name.toUpperCase()];
       const facilitiesResult = scenarioResult[station];
@@ -102,7 +102,7 @@ export async function chartDataByModulesOrAggregate(
         lstWells.push(moduleNameResult);
       }
     }
-    lstWellsObject[forecastsolutionSpaceName] = lstWells;
+    lstWellsObject[forecastSolutionSpaceName] = lstWells;
   }
 
   const results_OutputObject = {} as any;
@@ -321,7 +321,7 @@ export async function chartDataByModulesOrAggregate2(
   ];
 
   for (let index2 = 0; index2 < forecastSolutionSpaceNames.length; index2++) {
-    const forecastsolutionSpaceName = forecastSolutionSpaceNames[index2];
+    const forecastSolutionSpaceName = forecastSolutionSpaceNames[index2];
     let scenarios = {} as any;
     for (let index = 0; index < scenarioNames.length; index++) {
       const _scenarioName = scenarioNames[index];
@@ -329,12 +329,12 @@ export async function chartDataByModulesOrAggregate2(
       const iforecastResult = GetForecastResultsByScenario2(
         forecastResultsByModule,
         _scenarioName,
-        forecastsolutionSpaceName,
+        forecastSolutionSpaceName,
         facilityNames
       );
       scenarios[_scenarioName] = iforecastResult;
     }
-    solutionCase_ForecastResult[forecastsolutionSpaceName] = { ...scenarios };
+    solutionCase_ForecastResult[forecastSolutionSpaceName] = { ...scenarios };
   }
 
   return solutionCase_ForecastResult;

@@ -134,7 +134,7 @@ private:
         vector<string> forecastSolutionSpaces = payload.forecastSolutionSpaces;
         int nForecastsolutionSpaces = payload.nForecastsolutionSpaces;
 
-        vector<bool> forecastsolutionSpacesIsDURConstrained = payload.forecastsolutionSpacesIsDURConstrained;
+        vector<bool> forecastSolutionSpacesIsDURConstrained = payload.forecastSolutionSpacesIsDURConstrained;
         int nForecastsolutionSpacesIsDURConstrained = payload.nForecastsolutionSpacesIsDURConstrained;
 
         int idx = 0;
@@ -226,7 +226,7 @@ private:
             {
                 Napi::Object inputObject = Napi::Object::New(env);
                 Napi::Object inputObjectYearly = Napi::Object::New(env);
-                calculateDeckVariables.dURConstrained = forecastsolutionSpacesIsDURConstrained[fSSIndex];
+                calculateDeckVariables.dURConstrained = forecastSolutionSpacesIsDURConstrained[fSSIndex];
 
                 for (i = 1; i < scenarios; i++)
                 {

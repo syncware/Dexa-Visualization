@@ -17,11 +17,11 @@ export function GetForecastTreeview(forecastResultsByModule: any): any {
   const treeModelList: Object[] = [];
   const delimeter = '@#$%';
 
-  const forecastsolutionSpacesNames = Object.keys(forecastResultsByModule);
-  const forecastsolutionSpace_Potential =
-    forecastResultsByModule[forecastsolutionSpacesNames[0]];
-  const _scenarioObjectNames = Object.keys(forecastsolutionSpace_Potential);
-  const scenarios = forecastsolutionSpace_Potential;
+  const forecastSolutionSpacesNames = Object.keys(forecastResultsByModule);
+  const forecastSolutionSpace_Potential =
+    forecastResultsByModule[forecastSolutionSpacesNames[0]];
+  const _scenarioObjectNames = Object.keys(forecastSolutionSpace_Potential);
+  const scenarios = forecastSolutionSpace_Potential;
   const facilities = Object.keys(scenarios[_scenarioObjectNames[0]]) as any;
   const facilityCount = facilities.length;
 

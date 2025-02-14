@@ -294,10 +294,10 @@ ChartInputPayload ReportJSON::ConvertToChartInputPayload(const Napi::Object &obj
 	payload.shouldAggregate = obj.Get("shouldAggregate").As<Napi::Boolean>();
 
 	// Convert forecastSolutionSpaces
-	Napi::Array forecastsolutionSpacesArray = obj.Get("forecastSolutionSpaces").As<Napi::Array>();
-	for (size_t i = 0; i < forecastsolutionSpacesArray.Length(); i++)
+	Napi::Array forecastSolutionSpacesArray = obj.Get("forecastSolutionSpaces").As<Napi::Array>();
+	for (size_t i = 0; i < forecastSolutionSpacesArray.Length(); i++)
 	{
-		payload.forecastSolutionSpaces.push_back(forecastsolutionSpacesArray.Get(i).As<Napi::String>());
+		payload.forecastSolutionSpaces.push_back(forecastSolutionSpacesArray.Get(i).As<Napi::String>());
 	}
 
 	return payload;
@@ -735,9 +735,9 @@ vector<string> ReportJSON::GetForecastsolutionSpaces(Napi::Array &wrappedForecas
 
 	for (int i = 0; i < nForecastsolutionSpaces; i++)
 	{
-		string forecastsolutionSpace = ((Napi::Value)wrappedForecastsolutionSpaces[i]).As<Napi::String>();
-		inputdeck.ToLower(forecastsolutionSpace);
-		forecastSolutionSpaces.push_back(forecastsolutionSpace);
+		string forecastSolutionSpace = ((Napi::Value)wrappedForecastsolutionSpaces[i]).As<Napi::String>();
+		inputdeck.ToLower(forecastSolutionSpace);
+		forecastSolutionSpaces.push_back(forecastSolutionSpace);
 	}
 
 	return forecastSolutionSpaces;
@@ -747,15 +747,15 @@ vector<bool> ReportJSON::GetForecastsolutionSpacesIsDURConstrained(Napi::Array &
 																   int nForecastsolutionSpacesIsDURConstrained, Napi::Env &env)
 {
 
-	vector<bool> forecastsolutionSpacesIsDURConstrained;
+	vector<bool> forecastSolutionSpacesIsDURConstrained;
 
 	for (int i = 0; i < nForecastsolutionSpacesIsDURConstrained; i++)
 	{
-		bool forecastsolutionSpaceIsDURConstrained = ((Napi::Value)wrappedForecastsolutionSpacesIsDURConstrained[i]).As<Napi::Boolean>();
-		forecastsolutionSpacesIsDURConstrained.push_back(forecastsolutionSpaceIsDURConstrained);
+		bool forecastSolutionSpaceIsDURConstrained = ((Napi::Value)wrappedForecastsolutionSpacesIsDURConstrained[i]).As<Napi::Boolean>();
+		forecastSolutionSpacesIsDURConstrained.push_back(forecastSolutionSpaceIsDURConstrained);
 	}
 
-	return forecastsolutionSpacesIsDURConstrained;
+	return forecastSolutionSpacesIsDURConstrained;
 }
 
 vector<InternalExternalEquipmentName> ReportJSON::GetInternalExternalEquipmentNames(Napi::Array &wrappedDecks,

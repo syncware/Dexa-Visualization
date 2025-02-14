@@ -61,7 +61,7 @@ void from_json(const json &j, Payload &payload)
     j.at("nFlaredGases").get_to(payload.nFlaredGases);
     j.at("forecastSolutionSpaces").get_to(payload.forecastSolutionSpaces);
     j.at("nForecastsolutionSpaces").get_to(payload.nForecastsolutionSpaces);
-    j.at("forecastsolutionSpacesIsDURConstrained").get_to(payload.forecastsolutionSpacesIsDURConstrained);
+    j.at("forecastSolutionSpacesIsDURConstrained").get_to(payload.forecastSolutionSpacesIsDURConstrained);
     j.at("nForecastsolutionSpacesIsDURConstrained").get_to(payload.nForecastsolutionSpacesIsDURConstrained);
 
     for (const auto &item : j.at("deferments"))

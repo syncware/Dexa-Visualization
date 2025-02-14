@@ -117,7 +117,7 @@ json RunForecastAsyncWorkerModifiedTest::RunForecast(const json &jsonData)
     vector<string> forecastSolutionSpaces = payload.forecastSolutionSpaces;
     int nForecastsolutionSpaces = payload.nForecastsolutionSpaces;
 
-    vector<bool> forecastsolutionSpacesIsDURConstrained = payload.forecastsolutionSpacesIsDURConstrained;
+    vector<bool> forecastSolutionSpacesIsDURConstrained = payload.forecastSolutionSpacesIsDURConstrained;
     int nForecastsolutionSpacesIsDURConstrained = payload.nForecastsolutionSpacesIsDURConstrained;
 
     DateCreation dateCreation;
@@ -176,7 +176,7 @@ json RunForecastAsyncWorkerModifiedTest::RunForecast(const json &jsonData)
     deckobj.InitilizeModules();
 
     int i = 0;
-    map<string, map<string, map<string, map<string, map<string, string>>>>> forecastsolutionSpacesResults;
+    map<string, map<string, map<string, map<string, map<string, string>>>>> forecastSolutionSpacesResults;
     if (nth > 0)
     {
         vector<WellActivityResult> wellActivities;
@@ -218,7 +218,7 @@ json RunForecastAsyncWorkerModifiedTest::RunForecast(const json &jsonData)
 
         for (fSSIndex = 0; fSSIndex < nForecastsolutionSpaces; fSSIndex++)
         {
-            calculateDeckVariables.dURConstrained = forecastsolutionSpacesIsDURConstrained[fSSIndex];
+            calculateDeckVariables.dURConstrained = forecastSolutionSpacesIsDURConstrained[fSSIndex];
             map<string, map<string, map<string, map<string, string>>>> scenariosResult;
             for (i = 2; i < scenarios; i++)
             {
@@ -283,11 +283,11 @@ json RunForecastAsyncWorkerModifiedTest::RunForecast(const json &jsonData)
                 string scenarioName = to_string(scenario) + "P_" + to_string(scenario) + "C";
                 scenariosResult[scenarioName] = FacilitiesObject;
             }
-            forecastsolutionSpacesResults[forecastSolutionSpaces[fSSIndex]] = scenariosResult;
+            forecastSolutionSpacesResults[forecastSolutionSpaces[fSSIndex]] = scenariosResult;
         }
     }
 
-    responseData.monthlyReport = forecastsolutionSpacesResults;
+    responseData.monthlyReport = forecastSolutionSpacesResults;
 
     json jsonResponseData = to_json(responseData);
 

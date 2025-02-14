@@ -226,7 +226,7 @@ forecastResultsRouter.get(
       'offtake',
     ];
 
-    const forecastsolutionSpacesIsDURConstrained = [false, false, false, true];
+    const forecastSolutionSpacesIsDURConstrained = [false, false, false, true];
 
     //=====================================================================================//
 
@@ -633,9 +633,9 @@ forecastResultsRouter.get(
         nFlaredGases: flaredGases.length,
         forecastSolutionSpaces,
         nForecastsolutionSpaces: forecastSolutionSpaces.length,
-        forecastsolutionSpacesIsDURConstrained,
+        forecastSolutionSpacesIsDURConstrained,
         nForecastsolutionSpacesIsDURConstrained:
-          forecastsolutionSpacesIsDURConstrained.length,
+          forecastSolutionSpacesIsDURConstrained.length,
       };
 
       var payload = {

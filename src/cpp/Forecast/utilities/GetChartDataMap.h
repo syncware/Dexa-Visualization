@@ -1,6 +1,7 @@
 #pragma once
 
 #include <any>
+#include <variant>
 #include <thread>
 #include <iostream>
 #include <fstream>
@@ -23,6 +24,7 @@
 using namespace std;
 using namespace std::placeholders;
 using json = nlohmann::json;
+using ChartDataResultMapType = map<string, map<string, map<string, map<string, map<string, std::vector<std::string>>>>>>;
 
 class AllWellsYearlyResultNewAsyncT
 {
@@ -38,7 +40,6 @@ public:
     vector<string> split(const string &str, const string &delimiter);
     vector<string> getscenarioNames(const vector<string> &selectedModulePaths);
     vector<string> getfacilityNames(const vector<string> &selectedModulePaths);
-    vector<string> split(const string &str);
     vector<ForecastResult> getForecastResult(const string &table);
 
     unordered_map<string, unordered_map<string, ModuleResultMonthly>>
@@ -83,7 +84,7 @@ public:
         const string &solutionSpace,
         const vector<string> &facilityNames);
 
-    map<string, map<string, map<string, map<string, map<string, std::vector<std::any>>>>>>
+    ChartDataResultMapType
     chartDataByModulesOrAggregateNew(
         const vector<string> &selectedModulePaths,
         const vector<string> &selectedVariables,
@@ -97,6 +98,9 @@ public:
         const string &forecastModuleResultsString,
         string columnDelimeter,
         string rowDelimeter);
+
+    void printVector(const std::vector<std::string>& vec);
+    void printVar(const std::string& var);
 };
 
 AllWellsYearlyResultNewAsyncT::AllWellsYearlyResultNewAsyncT()
@@ -110,23 +114,6 @@ AllWellsYearlyResultNewAsyncT::~AllWellsYearlyResultNewAsyncT()
 /**
  * Helper functions
  */
-vector<string> AllWellsYearlyResultNewAsyncT::split(const string &str)
-{
-    vector<string> tokens;
-    size_t start = 0;
-    size_t end = str.find(delimeter);
-
-    while (end != std::string::npos)
-    {
-        tokens.push_back(str.substr(start, end - start));
-        start = end + delimeter.length();
-        end = str.find(delimeter, start);
-    }
-
-    tokens.push_back(str.substr(start, end));
-    return tokens;
-}
-
 vector<string> AllWellsYearlyResultNewAsyncT::split(const string &str, const string &delimiter)
 {
     vector<string> tokens;
@@ -165,14 +152,35 @@ vector<ForecastResult> AllWellsYearlyResultNewAsyncT::getResultsTableForForecast
     vector<ForecastResult> actualTable;
     vector<std::string> rows = split(forecastModuleResultsString, rowDelimeter);
 
+    // Loop through the vector and print each element
+    // std::cout << "Level E1" << std::endl; // Print a newline
+    // for (const std::string &row : rows)
+    // {
+    //     std::cout << "Row: " << row << std::endl;
+    //     std::cout << std::endl;
+    //     std::cout << std::endl;
+    // }
+    // std::cout << "Level E2" << std::endl; // Print a newline
+
     int idx = -1;
     int nrow = rows.size() - 1;
 
     for (idx = 0; idx < nrow; idx++)
     {
+        // std::cout << "Level E3" << std::endl; // Print a newline
         string row = rows[idx];
+        // std::cout << row << std::endl; // Print a newline
         ForecastResult result;
         vector<string> columns = split(row, columnDelimeter);
+
+        // Loop through the vector and print each element
+        // std::cout << "Level E4" << std::endl; // Print a newline
+        // for (const std::string &col : columns)
+        // {
+        //     std::cout << col << " ";
+        // }
+        // std::cout << "Level E5" << std::endl; // Print a newline
+
         int colIndx = -1; // size_t
         try
         {
@@ -313,7 +321,7 @@ vector<ForecastResult> AllWellsYearlyResultNewAsyncT::getResultsTableForForecast
         }
         catch (const std::exception &e)
         {
-            std::cout << "error occured" << std::endl;
+            std::cout << "error occured" << e.what() << std::endl;
         }
 
         actualTable.push_back(result);
@@ -329,11 +337,12 @@ vector<ForecastResult> AllWellsYearlyResultNewAsyncT::getResultsTableForForecast
     return actualTable;
 }
 
+
 /**
  * Main Functions
  */
 /** NEWWWWWWWW */
-map<string, map<string, map<string, map<string, map<string, std::vector<any>>>>>>
+ChartDataResultMapType
 AllWellsYearlyResultNewAsyncT::chartDataByModulesOrAggregateNew(
     const vector<string> &selectedModulePaths,
     const vector<string> &selectedVariables,
@@ -371,28 +380,45 @@ AllWellsYearlyResultNewAsyncT::chartDataByModulesOrAggregateNew(
      *    }
      * }
      */
-    map<string, map<string, map<string, map<string, map<string, std::vector<any>>>>>> chartDataResultMap;
+    ChartDataResultMapType chartDataResultMap;
     string selectedVariable = selectedVariables[0];
+
+    std::cout << "Level A" << std::endl;
 
     // Get Chart Data Map
     for (const auto &forecastResultsId : forecastResultsIds)
     {
-        for (const auto &forecastsolutionSpace : forecastSolutionSpaceNames)
+        std::cout << "Level B" << std::endl;
+        for (const auto &forecastSolutionSpace : forecastSolutionSpaceNames)
         {
+            std::cout << "Level C" << std::endl;
             for (const auto &modulePath : selectedModulePaths)
             {
-                vector<std::string> modulePathParts = split(modulePath, rowDelimeter);
+                vector<std::string> modulePathParts = split(modulePath, columnDelimeter);
                 string forecastCase = modulePathParts[0];
                 string facilityName = modulePathParts[1];
                 string moduleName = modulePathParts[2];
-                string reconstructedModulePath = forecastsolutionSpace + "/" + forecastCase + "/" + facilityName + "/" + moduleName;
+                string reconstructedModulePath = forecastSolutionSpace + "/" + forecastCase + "/" + facilityName + "/" + moduleName;
 
-                for (const auto &resultsModule : forecastResultsByModule)
+                // std::cout << "Level D" << std::endl;
+                // std::cout << "forecastCase: " << forecastCase << std::endl;
+                // std::cout << "facilityName: " << facilityName << std::endl;
+                // std::cout << "modulePath: " << modulePath << std::endl;
+                // std::cout << "moduleName: " << moduleName << std::endl;
+                // std::cout << "forecastResultsId: " << forecastResultsId << std::endl;
+                // std::cout << "reconstructedModulePath: " << reconstructedModulePath << std::endl;
+
+                for (const auto resultsModule : forecastResultsByModule)
                 {
+                    std::cout << "Level E" << std::endl;
+                    // std::cout << "resultsModule.moduleKey: " << resultsModule.moduleKey << "reconstructedModulePath: " << reconstructedModulePath << std::endl;
                     if (resultsModule.forecastResultsId == forecastResultsId && resultsModule.moduleKey == reconstructedModulePath)
                     {
+                        std::cout << "Level F" << std::endl;
+
                         string forecastResultsForModule = resultsModule.forecastResults;
-                        vector<ForecastResult> forecastResultsTableForModule = getResultsTableForForecastModule(modulePath, columnDelimeter, rowDelimeter);
+                        // std::cout << "forecastResultsForModule" << forecastResultsForModule << std::endl;
+                        vector<ForecastResult> forecastResultsTableForModule = getResultsTableForForecastModule(forecastResultsForModule, columnDelimeter, rowDelimeter);
 
                         // X Series
                         std::vector<std::string> dateData;
@@ -402,20 +428,36 @@ AllWellsYearlyResultNewAsyncT::chartDataByModulesOrAggregateNew(
                             int month = resultRow.Month;
                             int year = resultRow.Year;
 
+                            // std::cout << "Day: " << day << std::endl;
+                            // std::cout << "Month: " << month << std::endl;
+                            // std::cout << "Year: " << year << std::endl;
+
                             string date = to_string(day) + "/" + to_string(month) + "/" + to_string(year);
+                            // std::cout << "Date: " << date << std::endl;
                             dateData.push_back(date);
                         }
 
                         // Y series
-                        std::vector<any> fieldData;
+                        std::vector<std::string> fieldData;
                         for (const auto &resultRow : forecastResultsTableForModule)
                         {
-                            fieldData.push_back(resultRow.getVariableByName(selectedVariable));
+                            double selectedVariableValue = resultRow.getVariableByName(selectedVariable);
+                            // std::cout << selectedVariable << ": " << selectedVariableValue << std::endl;
+                            fieldData.push_back(std::to_string(selectedVariableValue));
+                        }
+                        
+                        // DEBUG
+                        for (const auto &val : fieldData)
+                        {
+                            std::cout << selectedVariable << ": " << val << std::endl;
+                            // std::cout << "Date: " << val << std::endl;
                         }
 
                         // Construct map
-                        chartDataResultMap[forecastResultsId][forecastCase][forecastsolutionSpace][selectedVariable]["x"].push_back(dateData);
-                        chartDataResultMap[forecastResultsId][forecastCase][forecastsolutionSpace][selectedVariable]["y"].push_back(fieldData);
+                        chartDataResultMap[forecastResultsId][forecastCase][forecastSolutionSpace][selectedVariable]["x"] = dateData;
+                        chartDataResultMap[forecastResultsId][forecastCase][forecastSolutionSpace][selectedVariable]["y"] = fieldData;
+
+                        // printVector(dateData);
 
                         break;
                     }

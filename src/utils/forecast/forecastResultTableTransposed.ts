@@ -394,9 +394,9 @@ const getModuleResults = (
   scenarioIndex: number,
   solutionSpaceIndex: number
 ) => {
-  const forecastsolutionSpacesNames = Object.keys(monthlyReport);
+  const forecastSolutionSpacesNames = Object.keys(monthlyReport);
   const firstsolutionSpace =
-    monthlyReport[forecastsolutionSpacesNames[solutionSpaceIndex]];
+    monthlyReport[forecastSolutionSpacesNames[solutionSpaceIndex]];
   const scenarioNames = Object.keys(firstsolutionSpace);
   const facilities = firstsolutionSpace[scenarioNames[scenarioIndex]];
   const facilitiesNames = Object.keys(facilities);
@@ -407,8 +407,8 @@ const getModuleResults = (
 };
 
 const getmoduleNames = (monthlyReport: any, facilityIndex: number) => {
-  const forecastsolutionSpacesNames = Object.keys(monthlyReport);
-  const firstsolutionSpace = monthlyReport[forecastsolutionSpacesNames[0]];
+  const forecastSolutionSpacesNames = Object.keys(monthlyReport);
+  const firstsolutionSpace = monthlyReport[forecastSolutionSpacesNames[0]];
   const scenarioNames = Object.keys(firstsolutionSpace);
   const facilities = firstsolutionSpace[scenarioNames[0]];
   const facilitiesNames = Object.keys(facilities);
@@ -442,7 +442,7 @@ export const getTransposedForecastReport = async (
   forecastResultsByForecastId: any[],
   isMonthly: boolean
 ) => {
-  const forecastsolutionSpacesNames = getsolutionSpaces(
+  const forecastSolutionSpacesNames = getsolutionSpaces(
     forecastResultsByForecastId,
     'solutionSpace'
   );
@@ -457,21 +457,21 @@ export const getTransposedForecastReport = async (
   const monthlyReport = await GetStructuredForecastResultsByForecastId(
     forecastResultsByForecastId,
     scenarioNames,
-    forecastsolutionSpacesNames,
+    forecastSolutionSpacesNames,
     facilitiesNames,
     isMonthly
   );
   const scenarios = {} as any;
   for (let i = 0; i < scenarioNames.length; i++) {
     const wells = tabulateWellsSameDirectory(
-      forecastsolutionSpacesNames,
+      forecastSolutionSpacesNames,
       facilitiesNames,
       monthlyReport,
       i
     );
     const table = createAllForecastResultsTable(
       wells,
-      forecastsolutionSpacesNames,
+      forecastSolutionSpacesNames,
       scenarioNames[i],
       isMonthly
     );
